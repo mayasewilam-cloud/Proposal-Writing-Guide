@@ -1,0 +1,24 @@
+{
+  "student_id": "ST-2026-01",
+  "student_name": "Sara Ahmed",
+  "title": "Targeted CAR-T Cell Immunotherapy for Solid Tumor Microenvironments",
+  "modality": "Cellular Expression",
+  "chassis": "Human Primary T Cells",
+  "tool": "Second-Generation CAR-T (scFv-4-1BB-CD3zeta)",
+  "target": "Solid Tumor Stroma Antigens",
+  "abstract": "Solid tumors exhibit profound immunosuppression that limits conventional CAR-T persistence. This proposal designs logic-gated synthetic circuits to enhance T-cell cytotoxicity against solid malignancies.",
+  "aims": {
+    "aim1": "Construct logic-gated CAR expression vectors with inducible costimulation.",
+    "aim2": "Evaluate tumor penetration and cytotoxicity in 3D spheroid models.",
+    "aim3": "Benchmark against wild-type non-transduced T cells in triplicates."
+  },
+  "methodology": "Primary human T cells will be transduced via lentiviral vectors and expanded with IL-2. Cytotoxicity will be quantified using flow cytometry and real-time impedance assays.",
+  "references": "1. June, C. H. et al. (Science 2018). CAR T cell immunotherapy.",
+  "updated_at": "2026-09-30T22:44:30.158087",
+  "updated_at_readable": "Sep 30, 2026 - 22:44",
+  "summary": {
+    "completed_nodes": 5,
+    "completion_percentage": 50,
+    "word_count": 81
+  }
+}

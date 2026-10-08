@@ -1,0 +1,24 @@
+{
+  "student_id": "ST-2026-03",
+  "student_name": "Nourhan Mostafa",
+  "title": "Microalgal Biofuel Optimization via CRISPR-Mediated Metabolic Flux Redirection",
+  "modality": "Cellular Expression",
+  "chassis": "Chlamydomonas reinhardtii",
+  "tool": "CRISPR-Cas9 Ribonucleoprotein (RNP)",
+  "target": "Starch Branching Enzyme Knockout for Lipid Accumulation",
+  "abstract": "Diverting photosynthetic carbon from starch to neutral lipid synthesis enhances microalgal biodiesel yields. This study employs DNA-free CRISPR RNPs to target starch synthases without foreign transgene integration.",
+  "aims": {
+    "aim1": "Deliver Cas9-crRNA RNPs targeting STA6 via electroporation.",
+    "aim2": "Screen knockout mutants using iodine staining and PCR.",
+    "aim3": "Quantify triacylglycerol (TAG) accumulation via Nile Red fluorescence."
+  },
+  "methodology": "C. reinhardtii cells will be electroporated with pre-assembled Cas9-gRNA complexes. Neutral lipid production will be measured in nitrogen-depleted culture against parental CC-125.",
+  "references": "1. Jinkerson, R. E. et al. (Nat Plants 2018). Microalgal biofuels and genome editing.",
+  "updated_at": "2026-09-30T22:44:30.169051",
+  "updated_at_readable": "Sep 30, 2026 - 22:44",
+  "summary": {
+    "completed_nodes": 5,
+    "completion_percentage": 50,
+    "word_count": 80
+  }
+}

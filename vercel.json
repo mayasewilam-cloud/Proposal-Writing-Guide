@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/studio.css",
+      "dest": "/static/studio.css"
+    },
+    {
+      "src": "/studio.js",
+      "dest": "/static/studio.js"
+    },
+    {
+      "src": "/faculty_cohort.js",
+      "dest": "/static/faculty_cohort.js"
+    },
+    {
+      "src": "/student_team_workspace.js",
+      "dest": "/static/student_team_workspace.js"
+    },
+    {
+      "src": "/agent_bridge.js",
+      "dest": "/static/agent_bridge.js"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/static/favicon.ico"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/static/favicon.svg"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
+}

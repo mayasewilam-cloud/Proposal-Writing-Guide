@@ -1,0 +1,78 @@
+{
+  "13989": {
+    "student_id": "13989",
+    "student_name": "Maya Abdelrazek",
+    "password_hash": "pbkdf2:sha256:1000000$6zP9pWnASb48MwRk$403c4bb9f7ab4d5313226c8fb59a99ded6407655b64133402df9c2e19ff92dae",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 05, 2026 - 20:13",
+    "role": "student"
+  },
+  "ST-2026-01": {
+    "student_id": "ST-2026-01",
+    "student_name": "Sara Ahmed & Team BioDetect",
+    "password_hash": "pbkdf2:sha256:1000000$RTKudf8FRGGnLpvx$cabcaace1b6bab95c9890fc3cfa230d88f010edba0d6bd3c8ec8190d581ebf21",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 17:27",
+    "role": "student"
+  },
+  "20230001": {
+    "student_id": "20230001",
+    "student_name": "Ahmed Ali",
+    "password_hash": "pbkdf2:sha256:1000000$crxD4yTqYInE6i5O$9156607e7045b51c8e0866f123e0ee950da5ea8fd5fbc55b5495c427d23f0421",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 14:09",
+    "role": "student",
+    "lab_group": "L3",
+    "semester": "Fall 2026",
+    "course_id": "BT_301",
+    "email": "ahmed.ali@student.edu.eg"
+  },
+  "20230002": {
+    "student_id": "20230002",
+    "student_name": "Sara Mohamed",
+    "password_hash": "pbkdf2:sha256:1000000$udFmezvBV91CEOAO$ebaeb8cc0ffb56bd4a0ce33c4d3a331faae4b8622ae215d200035300da2a3e62",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 14:08",
+    "role": "student"
+  },
+  "20230003": {
+    "student_id": "20230003",
+    "student_name": "Mariam Hassan",
+    "password_hash": "pbkdf2:sha256:1000000$wEklZZZA7ZL5Mpq2$9c4fe30a35750b3406bc6d45b137b192319b98641a9125041d5d60635fbbc84f",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230004": {
+    "student_id": "20230004",
+    "student_name": "Karim Adel",
+    "password_hash": "pbkdf2:sha256:1000000$FI8REJYw5KKcHf5l$2b109be7b9138303a4f3c77a8355fc6339985f1182005e7dbabae24d8e940290",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230005": {
+    "student_id": "20230005",
+    "student_name": "Omar Khaled",
+    "password_hash": "pbkdf2:sha256:1000000$g147hpolCdqEcqmk$eb64779d35e4e6b22dcd77ea2c4d38dec013071572314d1a7acfef84b0c1b1a8",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230006": {
+    "student_id": "20230006",
+    "student_name": "Nour Hany",
+    "password_hash": "pbkdf2:sha256:1000000$HeGnGXXkmWb597Xp$ffaa6408dac5ac17b80b904dc17ed519f1c0b83a3efda19cd5fe6b2cabd92c88",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230007": {
+    "student_id": "20230007",
+    "student_name": "Youssef Tarek",
+    "password_hash": "pbkdf2:sha256:1000000$18VSjJKaQ4q0omc7$969c298ee8cb85e00bf1e2150a6af1d8d77532e0931f817f2e6e11e6ff4a5fe4",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 14:09",
+    "role": "student"
+  }
+}

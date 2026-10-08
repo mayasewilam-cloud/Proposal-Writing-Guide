@@ -1,0 +1,258 @@
+{
+  "semesters": [
+    "Fall 2026",
+    "Spring 2026",
+    "Spring 2027"
+  ],
+  "active_semester": "Fall 2026",
+  "active_course_id": "BT_301",
+  "pis": {
+    "PI-RANIA": {
+      "pi_id": "PI-RANIA",
+      "name": "Dr. Rania Hassan",
+      "title": "Associate Professor of Molecular Diagnostics",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "r.hassan@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-AHMED": {
+      "pi_id": "PI-AHMED",
+      "name": "Dr. Ahmed Hassan",
+      "title": "Professor of Pharmaceutical & Plant Biotechnology",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "a.hassan@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-TARIK": {
+      "pi_id": "PI-TARIK",
+      "name": "Dr. Tarek El-Sayed",
+      "title": "Professor of Synthetic & Industrial Biology",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "t.elsayed@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-TAREK": {
+      "pi_id": "PI-TAREK",
+      "name": "Dr. Tarek Mansour",
+      "title": "Professor of Synthetic & Industrial Biology",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "t.mansour@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-MONA": {
+      "pi_id": "PI-MONA",
+      "name": "Dr. Mona Abdelrahman",
+      "title": "Associate Professor of Microbial Genomics",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "m.abdelrahman@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-NADIA": {
+      "pi_id": "PI-NADIA",
+      "name": "Dr. Nadia El-Sayed",
+      "title": "Assistant Professor of Nanobiotechnology",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "n.elsayed@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    },
+    "PI-KARIM": {
+      "pi_id": "PI-KARIM",
+      "name": "Dr. Karim Fawzy",
+      "title": "Lecturer of Environmental & Agricultural Biotech",
+      "department": "Biotechnology & Genetic Engineering",
+      "email": "k.fawzy@nu.edu.eg",
+      "passcode_hash": "pbkdf2:sha256:1000000$yWxJnbWErx8xSxgu$d5152d799ce921da591bde32583d36f70dc142a960d6bfecd6c50cfe4e3fa994",
+      "role": "pi",
+      "active": true
+    }
+  },
+  "students": {
+    "13989": {
+      "student_id": "13989",
+      "student_name": "Maya Abdelrazek",
+      "email": "m.abdelrazek@nu.edu.eg",
+      "lab_group": "L1",
+      "team_id": "L1-T1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230001": {
+      "student_id": "20230001",
+      "student_name": "Ahmed Ali",
+      "email": "ahmed.ali@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "L1-T1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230002": {
+      "student_id": "20230002",
+      "student_name": "Sara Mohamed",
+      "email": "sara.mohamed@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "L1-T1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230003": {
+      "student_id": "20230003",
+      "student_name": "Mariam Hassan",
+      "email": "mariam.hassan@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "L1-T2",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230004": {
+      "student_id": "20230004",
+      "student_name": "Karim Adel",
+      "email": "karim.adel@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "L1-T2",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230005": {
+      "student_id": "20230005",
+      "student_name": "Omar Khaled",
+      "email": "omar.khaled@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230006": {
+      "student_id": "20230006",
+      "student_name": "Nour Hany",
+      "email": "nour.hany@student.edu.eg",
+      "lab_group": "L1",
+      "team_id": "",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "20230007": {
+      "student_id": "20230007",
+      "student_name": "Youssef Tarek",
+      "email": "youssef.tarek@student.edu.eg",
+      "lab_group": "L2",
+      "team_id": "L2-T1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    }
+  },
+  "lab_groups": {
+    "Fall 2026::BT_301::L1": {
+      "lab_group_id": "L1",
+      "name": "Lab Group 1 (L1)",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00"
+    },
+    "Fall 2026::BT_301::L2": {
+      "lab_group_id": "L2",
+      "name": "Lab Group 2 (L2)",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00"
+    },
+    "Fall 2026::BT_301::L3": {
+      "lab_group_id": "L3",
+      "name": "Lab Group 3 (L3)",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00"
+    }
+  },
+  "teams": {
+    "L1-T1": {
+      "team_id": "L1-T1",
+      "team_name": "Team 1 — DETECTR-Aqua",
+      "lab_group": "L1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "student_ids": [
+        "13989",
+        "20230001",
+        "20230002"
+      ],
+      "pi_id": "PI-RANIA",
+      "pi_name": "Dr. Rania Hassan",
+      "pi_email": "r.hassan@nu.edu.eg",
+      "topic_title": "DETECTR-Aqua: A CRISPR-Cas12a-Assisted Isothermal Assay for Detecting the Colistin-Resistance Gene mcr-1 in Hospital Wastewater",
+      "topic_description": "Matrix-aware RPA-Cas12a fluorescence diagnostic assay for rapid surveillance of plasmid-borne colistin resistance in hospital effluent.",
+      "topic_category": "Cell-Free Diagnostics / AMR Surveillance",
+      "status": "active",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "L1-T2": {
+      "team_id": "L1-T2",
+      "team_name": "Team 2 — PhytoNano",
+      "lab_group": "L1",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "student_ids": [
+        "20230003",
+        "20230004"
+      ],
+      "pi_id": "PI-AHMED",
+      "pi_name": "Dr. Ahmed Hassan",
+      "pi_email": "a.hassan@nu.edu.eg",
+      "topic_title": "Plant-Derived Compounds and Anti-Inflammatory Nanocarriers",
+      "topic_description": "Targeted liposomal delivery of standardized plant secondary metabolites for NF-kB modulation.",
+      "topic_category": "Nanobiotechnology",
+      "status": "active",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "L2-T1": {
+      "team_id": "L2-T1",
+      "team_name": "Team 1 — BioCatalyst",
+      "lab_group": "L2",
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "student_ids": [
+        "20230007"
+      ],
+      "pi_id": "PI-TARIK",
+      "pi_name": "Dr. Tarek El-Sayed",
+      "pi_email": "t.elsayed@nu.edu.eg",
+      "topic_title": "Thermostable PETase Variants for Industrial Polyester Depolymerization",
+      "topic_description": "Directed evolution of Ideonella sakaiensis PETase for bioreactor-scale plastic recycling.",
+      "topic_category": "Industrial Biotechnology",
+      "status": "active",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 08, 2026 - 20:57"
+    }
+  },
+  "pending_imports": {},
+  "audit_history": []
+}
