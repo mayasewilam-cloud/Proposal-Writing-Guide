@@ -13755,7 +13755,26 @@ window.runCitationTraceabilityAudit = function(showToastNotice) {
     showToast(`Citation Audit: ${matched.length} matched, ${orphans.length} missing from Sec 10, ${uncited.length} uncited in text.`);
   }
 
-  return { inTextList, bibList, matched, orphans, uncited };
+  const totalDemand = Math.max(1, inTextList.length + orphans.length);
+  let computedScore = 0;
+  if (bibList.length > 0 || inTextList.length > 0) {
+    const rawPct = (matched.length / totalDemand) * 100;
+    const penalty = (uncited.length * 5) + (orphans.length * 15);
+    computedScore = Math.max(0, Math.min(100, Math.round(rawPct - penalty)));
+  }
+
+  return {
+    score: computedScore,
+    inTextList: inTextList,
+    citedList: inTextList,
+    bibList: bibList,
+    matched: matched,
+    orphans: orphans,
+    uncited: uncited,
+    missingBibNumbers: orphans.map(o => o.key || o.author || "Unknown"),
+    uncitedBibNumbers: uncited.map(u => u.index || u.key || "Unknown"),
+    totalBibEntries: bibList.length
+  };
 };
 
 window.addOrphanCitationToSection10 = function(author, year, sectionLabel) {
