@@ -361,16 +361,17 @@ def generate_markdown_portfolio(data: Dict[str, Any], audit_results: Dict[str, A
     md.append("## 9.2 Budget & Resource Allocation (EGP)")
     egp_items = data.get("budget_egp_items", [])
     if egp_items and isinstance(egp_items, list):
-        md.append("| Item Description & Specs | Official Category | Qty | Unit Cost (EGP) | Total Cost (EGP) |")
-        md.append("| :--- | :--- | :---: | ---: | ---: |")
+        md.append("| Item Description & Specs | Official Category | Scientific Justification / Purpose | Qty | Unit Cost (EGP) | Total Cost (EGP) |")
+        md.append("| :--- | :--- | :--- | :---: | ---: | ---: |")
         grand_total_egp = 0.0
         for item in egp_items:
             q = int(item.get("qty", 1))
             u = float(item.get("unit_cost", 0))
             tot = q * u
             grand_total_egp += tot
-            md.append(f"| {item.get('desc', 'Item')} | {item.get('category', 'B. Consumables & Reagents')} | {q} | {u:,.2f} EGP | {tot:,.2f} EGP |")
-        md.append(f"| **TOTAL ESTIMATED BUDGET** | — | — | — | **{grand_total_egp:,.2f} EGP (ج.م)** |\n")
+            just = item.get("justification") or item.get("purpose") or "Standard assay consumable"
+            md.append(f"| {item.get('desc') or item.get('item', 'Item')} | {item.get('category', 'B. Consumables & Reagents')} | {just} | {q} | {u:,.2f} EGP | {tot:,.2f} EGP |")
+        md.append(f"| **TOTAL ESTIMATED BUDGET** | — | — | — | — | **{grand_total_egp:,.2f} EGP (ج.م)** |\n")
     else:
         # Standard default EGP table
         md.append("| Official Category | Allocated Subtotal (EGP) | Justification & Deliverable |")
@@ -527,9 +528,8 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
     add_formatted_runs(p_kw, kw)
     p_kw.paragraph_format.space_after = Pt(14)
 
-    # 2. Introduction & Background
+    # 2. Introduction (BT_301 Unified Narrative Standard)
     doc.add_heading("2. Introduction & Background", level=1)
-    doc.add_heading("2.1 Problem Statement & Background", level=2)
     narrative = data.get("problem_narrative")
     if not narrative:
         funnel = data.get("funnel", {})
@@ -539,22 +539,25 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
     if not narrative and data.get("matrix"):
         m = data.get("matrix", {})
         narrative = f"{m.get('yellow', '')} {m.get('blue', '')} {m.get('green', '')} {m.get('red', '')}".strip()
-    p_bg = doc.add_paragraph()
-    add_formatted_runs(p_bg, narrative if narrative else "[Unified background narrative pending]")
-    p_bg.paragraph_format.space_after = Pt(10)
+    
+    p_intro = doc.add_paragraph()
+    add_formatted_runs(p_intro, narrative if narrative else "[Unified introduction narrative pending]")
+    p_intro.paragraph_format.space_after = Pt(8)
 
-    doc.add_heading("2.2 Project Importance & Multi-Domain Impact", level=2)
-    p_imp = doc.add_paragraph()
+    impact_text = data.get("impact_text") or data.get("impact")
     impact_domains = data.get("impact_domains", [])
-    if impact_domains:
-        p_imp.add_run(f"Target Domains: {', '.join([d.capitalize() for d in impact_domains])}\n").bold = True
-    add_formatted_runs(p_imp, data.get("impact_text") or data.get("impact") or "[Multi-domain impact statement pending]")
-    p_imp.paragraph_format.space_after = Pt(10)
-
-    doc.add_heading("2.3 Target Audience & Direct Beneficiaries", level=2)
-    p_aud = doc.add_paragraph()
-    add_formatted_runs(p_aud, data.get("target_audience") or data.get("customer") or "[Target beneficiaries pending]")
-    p_aud.paragraph_format.space_after = Pt(14)
+    aud = data.get("target_audience") or data.get("customer")
+    if impact_text or impact_domains or aud:
+        p_intro2 = doc.add_paragraph()
+        imp_parts = []
+        if impact_domains:
+            imp_parts.append(f"Target Domains: {', '.join([d.capitalize() for d in impact_domains])}.")
+        if impact_text:
+            imp_parts.append(str(impact_text).strip())
+        if aud:
+            imp_parts.append(f"Primary translational beneficiaries include {aud}.")
+        add_formatted_runs(p_intro2, " ".join(imp_parts))
+        p_intro2.paragraph_format.space_after = Pt(14)
 
     # 3. Project Aim & Objectives
     doc.add_heading("3. Project Aim & Objectives", level=1)
@@ -731,9 +734,9 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
     doc.add_heading("9.2 Budget & Resource Allocation (Egyptian Pounds - EGP)", level=2)
     egp_items = data.get("budget_egp_items", [])
     if egp_items and isinstance(egp_items, list):
-        b_table = doc.add_table(rows=len(egp_items) + 2, cols=5)
+        b_table = doc.add_table(rows=len(egp_items) + 2, cols=6)
         b_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        for idx, h in enumerate(["Item Description", "Category", "Qty", "Unit (EGP)", "Total (EGP)"]):
+        for idx, h in enumerate(["Item Description", "Category", "Scientific Justification / Purpose", "Qty", "Unit (EGP)", "Total (EGP)"]):
             c = b_table.rows[0].cells[idx]
             c.text = h
             _set_cell_background(c, "1E293B")
@@ -746,22 +749,23 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
             u = float(it.get("unit_cost", 0))
             sub = q * u
             grand_total_egp += sub
-            row.cells[0].text = str(it.get("desc", "Item"))
-            row.cells[1].text = str(it.get("category", "Consumables"))
-            row.cells[2].text = str(q)
-            row.cells[3].text = f"{u:,.2f}"
-            row.cells[4].text = f"{sub:,.2f}"
+            row.cells[0].text = str(it.get("desc") or it.get("item") or "Item")
+            row.cells[1].text = str(it.get("category", "B. Consumables & Reagents"))
+            row.cells[2].text = str(it.get("justification") or it.get("purpose") or "Essential assay reagent / consumable")
+            row.cells[3].text = str(q)
+            row.cells[4].text = f"{u:,.2f}"
+            row.cells[5].text = f"{sub:,.2f}"
             if idx % 2 == 0:
-                for c_idx in range(5):
+                for c_idx in range(6):
                     _set_cell_background(row.cells[c_idx], "F8FAFC")
         # Grand total
         tot_row = b_table.rows[-1]
         tot_row.cells[0].text = "TOTAL ESTIMATED BUDGET"
-        tot_row.cells[4].text = f"{grand_total_egp:,.2f} EGP"
+        tot_row.cells[5].text = f"{grand_total_egp:,.2f} EGP"
         _set_cell_background(tot_row.cells[0], "FEF3C7")
-        _set_cell_background(tot_row.cells[4], "FEF3C7")
+        _set_cell_background(tot_row.cells[5], "FEF3C7")
         tot_row.cells[0].paragraphs[0].runs[0].font.bold = True
-        tot_row.cells[4].paragraphs[0].runs[0].font.bold = True
+        tot_row.cells[5].paragraphs[0].runs[0].font.bold = True
     else:
         # Default EGP Categories Table
         b_table = doc.add_table(rows=8, cols=3)
@@ -802,9 +806,21 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
 
     # 10. References
     doc.add_heading("10. References", level=1)
-    rp = doc.add_paragraph()
-    add_formatted_runs(rp, data.get("references", "[No references submitted]"))
-    rp.paragraph_format.space_after = Pt(14)
+    raw_refs = data.get("references", "").strip()
+    if raw_refs:
+        # Format references in clean APA standard without forced bracket numbers
+        for ref_line in raw_refs.splitlines():
+            ref_line = ref_line.strip()
+            if not ref_line:
+                continue
+            clean_ref = re.sub(r"^\s*(?:\[\d+\]|\d+[.)])\s*", "", ref_line)
+            rp = doc.add_paragraph()
+            add_formatted_runs(rp, clean_ref)
+            rp.paragraph_format.space_after = Pt(6)
+    else:
+        rp = doc.add_paragraph()
+        add_formatted_runs(rp, "[No references submitted]")
+        rp.paragraph_format.space_after = Pt(14)
 
     # Statement of Research Authorship & AI Transparency
     doc.add_heading("Statement of Research Authorship & AI Transparency", level=1)

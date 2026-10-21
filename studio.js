@@ -3380,8 +3380,75 @@ function initRhevParaphraseLab() {
         resultsBox.innerHTML = html;
         showToast("Paraphrase audit complete!");
       } catch (err) {
-        console.error(err);
-        resultsBox.innerHTML = "<p style='color:red;'>Error running paraphrase audit.</p>";
+        console.warn("Server paraphrase API unavailable, executing client-side RHEV algorithmic audit:", err);
+        // Robust Client-Side RHEV Algorithmic Paraphrase Audit
+        const tokensOf = (t) => (t.toLowerCase().match(/\b[a-z0-9_-]+\b/g) || []);
+        const ngramsOf = (toks, n) => {
+          const res = new Set();
+          for (let i = 0; i <= toks.length - n; i++) res.add(toks.slice(i, i + n).join(" "));
+          return res;
+        };
+
+        const oToks = tokensOf(original);
+        const dToks = tokensOf(draft);
+        const oSet = new Set(oToks);
+        const dSet = new Set(dToks);
+
+        let vocabInter = 0;
+        dSet.forEach(w => { if (oSet.has(w)) vocabInter++; });
+        const vocabUnion = new Set([...oSet, ...dSet]).size;
+        const jaccard = vocabUnion > 0 ? (vocabInter / vocabUnion) : 0;
+
+        const o3 = ngramsOf(oToks, 3);
+        const d3 = ngramsOf(dToks, 3);
+        let shared3 = 0;
+        d3.forEach(g => { if (o3.has(g)) shared3++; });
+        const ngramSim = d3.size > 0 ? (shared3 / d3.size) : 0;
+
+        const verbatimRuns = [];
+        const origLower = original.toLowerCase();
+        for (let i = 0; i < dToks.length - 2; i++) {
+          for (let len = dToks.length - i; len >= 3; len--) {
+            const subSeq = dToks.slice(i, i + len).join(" ");
+            if (origLower.includes(subSeq)) {
+              if (!verbatimRuns.some(v => v.includes(subSeq))) verbatimRuns.push(subSeq);
+              break;
+            }
+          }
+        }
+
+        const combinedSim = Math.round(((ngramSim * 0.7) + (jaccard * 0.3)) * 1000) / 10;
+        let riskLevel = "low";
+        let verdict = "✅ Authentic Academic Paraphrase (Safe)";
+        let advice = "Excellent! You articulated the experimental finding with distinct sentence syntax and authentic academic phrasing.";
+
+        if (combinedSim > 45 || verbatimRuns.length >= 2 || verbatimRuns.some(v => v.split(" ").length >= 6)) {
+          riskLevel = "high";
+          verdict = "❌ High Plagiarism Risk (Turnitin Flagged)";
+          advice = "You retained 3 or more consecutive words directly from the source paper. Hide the original text, explain the finding from memory, and lead with your experimental outcome.";
+        } else if (combinedSim > 25 || verbatimRuns.length === 1) {
+          riskLevel = "medium";
+          verdict = "⚠️ Moderate Similarity / Synonym Swap";
+          advice = "Noticeable structural overlap with source text. Vary your rhetorical sequence and avoid mirroring the original clause pattern.";
+        }
+
+        const badgeBg = riskLevel === "low" ? "#10b981" : (riskLevel === "medium" ? "#f59e0b" : "#ef4444");
+        let html = `
+          <div style="background:white; border:1px solid #c7d2fe; border-radius:8px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong>${verdict}</strong>
+              <span style="background:${badgeBg}; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:800;">
+                Turnitin Risk: ${riskLevel.toUpperCase()} (${combinedSim}%)
+              </span>
+            </div>
+            <p style="font-size:0.85rem; color:#334155; margin-bottom:8px;">${advice}</p>
+        `;
+        if (verbatimRuns.length > 0) {
+          html += `<div style="font-size:0.8rem; color:#b91c1c;"><strong>⚠️ Verbatim Runs Flagged:</strong> ${verbatimRuns.map(v => `<code>"${escapeHtml(v)}"</code>`).join(", ")}</div>`;
+        }
+        html += `</div>`;
+        resultsBox.innerHTML = html;
+        showToast("Paraphrase audit complete (RHEV Offline Engine)!");
       }
     });
   }
@@ -4953,12 +5020,9 @@ function generateClientWordDoc(st) {
       <p><strong>Keywords:</strong> ${formatRichTextToHtml(st.keywords || "biotechnology, genetic engineering")}</p>
 
       <h2>2. Introduction & Background</h2>
-      <h3>2.1 Problem Statement & Background Context</h3>
       <p>${formatRichTextToHtml(st.problem_narrative || "")}</p>
-      <h3>2.2 Project Importance & Multi-Domain Impact</h3>
-      <p>${formatRichTextToHtml(st.impact_text || st.impact || "")}</p>
-      <h3>2.3 Target Audience & Direct Beneficiaries</h3>
-      <p>${formatRichTextToHtml(st.target_audience || st.customer || "")}</p>
+      ${(st.impact_text || st.impact) ? `<p>${formatRichTextToHtml(st.impact_text || st.impact)}</p>` : ""}
+      ${(st.target_audience || st.customer) ? `<p>${formatRichTextToHtml(st.target_audience || st.customer)}</p>` : ""}
 
       <h2>3. Project Aim & Objectives</h2>
       <h3>3.1 Overarching Aim</h3>
@@ -5024,13 +5088,14 @@ function generateClientWordDoc(st) {
       <p>${formatRichTextToHtml(st.time_plan || "")}</p>
       <h3>9.2 Budget & Resource Allocation (Egyptian Pounds - EGP)</h3>
       <table>
-        <thead><tr><th>Item Description</th><th>Category</th><th>Qty</th><th>Unit (EGP)</th><th>Total (EGP)</th></tr></thead>
+        <thead><tr><th>Item Description &amp; Specs</th><th>Official Category</th><th>Scientific Justification</th><th>Qty</th><th>Unit Cost (EGP)</th><th>Total Cost (EGP)</th></tr></thead>
         <tbody>
           ${(st.budget_egp_items || []).map(b => {
             const q = parseInt(b.qty || 1, 10);
             const u = parseFloat(b.unit_cost || 0);
             const sub = q * u;
-            return `<tr><td>${formatRichTextToHtml(b.desc || b.item || "Item")}</td><td>${escapeHtml(b.category || "Consumables")}</td><td>${q}</td><td>${u.toLocaleString()}</td><td>${sub.toLocaleString()} EGP</td></tr>`;
+            const just = b.justification || b.purpose || "Essential experimental reagents & consumables";
+            return `<tr><td>${formatRichTextToHtml(b.desc || b.item || "Item")}</td><td>${escapeHtml(b.category || "Consumables")}</td><td>${formatRichTextToHtml(just)}</td><td style="text-align:center;">${q}</td><td style="text-align:right;">${u.toLocaleString()}</td><td style="text-align:right; font-weight:bold;">${sub.toLocaleString()} EGP</td></tr>`;
           }).join("")}
         </tbody>
       </table>
@@ -5086,84 +5151,104 @@ function generateClientWordDoc(st) {
 }
 
 // Document & Slide Exporters
-function initExportHandlers() {
-  const triggerDocx = async () => {
-    try {
+async function triggerDocx() {
+  try {
+    if (typeof scrapeAllDomInputsToProjectState === "function") {
       scrapeAllDomInputsToProjectState();
-      showToast("Generating Word document...");
-      const resp = await fetch("/api/export/docx", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(projectState)
-      });
-      if (!resp.ok) {
-        throw new Error("Server returned status " + resp.status);
-      }
-      const blob = await resp.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `BT301_Proposal_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.docx`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast("Word (.docx) downloaded!");
-    } catch (e) {
-      console.warn("Server docx unavailable, generating client-side Word document (GitHub Pages mode):", e);
-      try {
+    }
+    showToast("Generating Word document...");
+    const resp = await fetch("/api/export/docx", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(projectState)
+    });
+    if (!resp.ok) {
+      throw new Error("Server returned status " + resp.status);
+    }
+    const blob = await resp.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `BT301_Proposal_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast("Word (.docx) downloaded!");
+  } catch (e) {
+    console.warn("Server docx unavailable, generating client-side Word document (GitHub Pages mode):", e);
+    try {
+      if (typeof scrapeAllDomInputsToProjectState === "function") {
         scrapeAllDomInputsToProjectState();
-        const docHtml = generateClientWordDoc(projectState);
-        const blob = new Blob([docHtml], { type: "application/msword;charset=utf-8" });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `BT301_Proposal_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.doc`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        showToast("Word document (.doc) downloaded!");
-      } catch (err2) {
-        console.error("Client docx generation failed", err2);
-        showToast("Error downloading Word file.");
       }
-    }
-  };
-
-  const triggerPptx = async () => {
-    try {
-      scrapeAllDomInputsToProjectState();
-      showToast("Building 16:9 Defense Presentation Deck...");
-      const resp = await fetch("/api/export/pptx", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(projectState)
-      });
-      const blob = await resp.blob();
+      const docHtml = generateClientWordDoc(projectState);
+      const blob = new Blob([docHtml], { type: "application/msword;charset=utf-8" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Oral_Defense_Slides_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.pptx`;
+      a.download = `BT301_Proposal_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.doc`;
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast("Oral Defense Slides (.pptx) downloaded!");
-    } catch (e) {
-      console.error(e);
-      showToast("Error downloading slides.");
+      showToast("Word document (.doc) downloaded!");
+    } catch (err2) {
+      console.error("Client docx generation failed", err2);
+      showToast("Error downloading Word file.");
     }
-  };
+  }
+}
+window.triggerDocx = triggerDocx;
 
+async function triggerPptx() {
+  try {
+    if (typeof scrapeAllDomInputsToProjectState === "function") {
+      scrapeAllDomInputsToProjectState();
+    }
+    showToast("Building 16:9 Defense Presentation Deck...");
+    const resp = await fetch("/api/export/pptx", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(projectState)
+    });
+    const blob = await resp.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Oral_Defense_Slides_${(projectState.student_name || "Student").replace(/\s+/g, "_")}.pptx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast("Oral Defense Slides (.pptx) downloaded!");
+  } catch (e) {
+    console.error(e);
+    showToast("Error downloading slides.");
+  }
+}
+window.triggerPptx = triggerPptx;
+
+function initExportHandlers() {
   const btnDocx = document.getElementById("btn-export-docx");
-  if (btnDocx) btnDocx.addEventListener("click", triggerDocx);
+  if (btnDocx && !btnDocx._wired) {
+    btnDocx._wired = true;
+    btnDocx.addEventListener("click", () => window.triggerDocx());
+  }
 
   const btnFinalDocx = document.getElementById("btn-final-export-docx");
-  if (btnFinalDocx) btnFinalDocx.addEventListener("click", triggerDocx);
+  if (btnFinalDocx && !btnFinalDocx._wired) {
+    btnFinalDocx._wired = true;
+    btnFinalDocx.addEventListener("click", () => window.triggerDocx());
+  }
 
   const btnPptx = document.getElementById("btn-export-pptx");
-  if (btnPptx) btnPptx.addEventListener("click", triggerPptx);
+  if (btnPptx && !btnPptx._wired) {
+    btnPptx._wired = true;
+    btnPptx.addEventListener("click", () => window.triggerPptx());
+  }
 
   const btnFinalPptx = document.getElementById("btn-final-export-pptx");
-  if (btnFinalPptx) btnFinalPptx.addEventListener("click", triggerPptx);
+  if (btnFinalPptx && !btnFinalPptx._wired) {
+    btnFinalPptx._wired = true;
+    btnFinalPptx.addEventListener("click", () => window.triggerPptx());
+  }
 
   
   const btnExpPdf = document.getElementById("btn-export-pdf");
@@ -7598,22 +7683,36 @@ function renderLiveManuscript() {
   setEl("manu-abstract-count", `${wCount} words (${absStatus})`);
   setEl("manu-keywords", projectState.keywords || "Biotechnology, Molecular Engineering, Chassis, Empirical Benchmark");
 
-  // 2. Introduction & Background
+  // 2. Introduction (BT_301 Unified Narrative Standard)
   const narr = projectState.problem_narrative || 
     (projectState.funnel ? [projectState.funnel.tier1, projectState.funnel.tier2, projectState.funnel.tier3, projectState.funnel.tier4].filter(Boolean).join(" ") : "") ||
-    "Draft your Section 2.1 unified narrative in Phase 1.";
-  setHtml("manu-background", renderFormattedMarkdown(narr));
-
-  // 2.2 Multi-Domain Impact
-  let domHtml = "";
-  if (projectState.impact_domains && projectState.impact_domains.length > 0) {
-    domHtml += `<div style="margin-bottom:6px;"><strong>Target Domains:</strong> ${projectState.impact_domains.map(d => `<span style="display:inline-block; background:#e0e7ff; color:#3730a3; padding:1px 6px; border-radius:4px; margin-right:4px; font-size:0.75rem;">${escapeHtml(d.charAt(0).toUpperCase() + d.slice(1))}</span>`).join("")}</div>`;
+    "";
+  
+  let unifiedIntroHtml = "";
+  if (narr) {
+    unifiedIntroHtml += `<p style="margin-bottom: 8px; text-align: justify;">${renderFormattedMarkdown(narr)}</p>`;
   }
-  domHtml += `<div>${escapeHtml(projectState.impact_text || projectState.impact || "Select impact domains in Phase 1.")}</div>`;
-  setHtml("manu-impact-domains", domHtml);
+  
+  const impText = projectState.impact_text || projectState.impact || "";
+  const impDomains = projectState.impact_domains && projectState.impact_domains.length > 0 ? projectState.impact_domains : [];
+  const targetAud = projectState.target_audience || projectState.customer || "";
 
-  // 2.3 Target Audience
-  setHtml("manu-target-audience", renderFormattedMarkdown(projectState.target_audience || projectState.customer || "Specify target beneficiaries in Phase 1."));
+  if (impText || impDomains.length > 0 || targetAud) {
+    let domainStr = impDomains.length > 0 ? `Targeting ${impDomains.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ")} domains, ` : "";
+    let audStr = targetAud ? ` Primary beneficiaries and translational stakeholders include ${escapeHtml(targetAud)}.` : "";
+    let secPara = `${domainStr}${escapeHtml(impText)}${audStr}`.trim();
+    if (secPara) {
+      unifiedIntroHtml += `<p style="margin-top: 6px; margin-bottom: 0; text-align: justify;">${renderFormattedMarkdown(secPara)}</p>`;
+    }
+  }
+
+  if (!unifiedIntroHtml) {
+    unifiedIntroHtml = `<p style="color: #64748b; font-style: italic;">Draft your unified introduction narrative moving from broader context to specific problem, knowledge gap, and proposed model in Phase 1.</p>`;
+  }
+  setHtml("manu-introduction-unified", unifiedIntroHtml);
+  setHtml("manu-background", renderFormattedMarkdown(narr));
+  setHtml("manu-impact-domains", escapeHtml(impText));
+  setHtml("manu-target-audience", renderFormattedMarkdown(targetAud));
 
   // 3. Aim & Objectives
   setHtml("manu-aim-overall", renderFormattedMarkdown(projectState.overarching_aim || projectState.aim || projectState.funnel?.tier4 || "Formulate your overarching aim in Phase 2."));
@@ -7841,15 +7940,63 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
   `;
   setHtml("manu-pestel", pestelHtml);
 
-  // 9.1 Timeline
+  // 9.1 Timeline & Visual Milestone Schedule
   const gs = projectState.gantt_schedule || {};
   const totM = gs.total_months || 18;
+  const wp1_s = parseInt(gs.wp1_start, 10) || 1;
+  const wp1_e = parseInt(gs.wp1_end, 10) || 6;
+  const wp2_s = parseInt(gs.wp2_start, 10) || 5;
+  const wp2_e = parseInt(gs.wp2_end, 10) || 12;
+  const wp3_s = parseInt(gs.wp3_start, 10) || 10;
+  const wp3_e = parseInt(gs.wp3_end, 10) || totM;
+
   const timeHtml = `
     <div style="font-size:0.75rem;">
-      <div style="margin-bottom:4px;"><strong>Duration:</strong> ${totM} Months (Scientific Milestones — Zero Student Names Assigned)</div>
-      <div>• <strong>WP1 (Design & Construction):</strong> Months ${gs.wp1_start || 1}–${gs.wp1_end || 6} | Gate: ${escapeHtml(gs.wp1_gate || "Sequence verified")}</div>
-      <div>• <strong>WP2 (Functional Characterization):</strong> Months ${gs.wp2_start || 5}–${gs.wp2_end || 12} | Gate: ${escapeHtml(gs.wp2_gate || "Activity threshold met")}</div>
-      <div>• <strong>WP3 (Optimization & Validation):</strong> Months ${gs.wp3_start || 10}–${gs.wp3_end || totM} | Gate: ${escapeHtml(gs.wp3_gate || "Benchmark outperformed")}</div>
+      <div style="margin-bottom:6px; font-weight:700; color:#1e293b;">
+        Project Execution Schedule &amp; Go/No-Go Decision Gates (Total Duration: ${totM} Months)
+      </div>
+      
+      <!-- Visual Gantt Bar Schedule -->
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; margin-bottom:8px;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.72rem;">
+          <thead>
+            <tr style="border-bottom:1px solid #cbd5e1; color:#475569;">
+              <th style="text-align:left; width:38%; padding:3px 4px;">Work Package &amp; Go/No-Go Gate</th>
+              <th style="text-align:center; width:14%; padding:3px 4px;">Schedule</th>
+              <th style="text-align:left; width:48%; padding:3px 4px;">Timeline Progression (Months 1 to ${totM})</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f1f5f9;">
+              <td style="padding:4px 4px;"><strong>WP1: Design &amp; Construction</strong><br><span style="color:#64748b; font-size:0.68rem;">Gate: ${escapeHtml(gs.wp1_gate || "Sequence verified")}</span></td>
+              <td style="text-align:center; padding:4px 4px; font-weight:700; color:#2563eb;">M${wp1_s}–M${wp1_e}</td>
+              <td style="padding:4px 4px;">
+                <div style="background:#e2e8f0; border-radius:4px; height:12px; position:relative; overflow:hidden;">
+                  <div style="position:absolute; left:${((wp1_s-1)/totM)*100}%; width:${((wp1_e-wp1_s+1)/totM)*100}%; background:#3b82f6; height:100%; border-radius:3px;"></div>
+                </div>
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f5f9;">
+              <td style="padding:4px 4px;"><strong>WP2: Functional Characterization</strong><br><span style="color:#64748b; font-size:0.68rem;">Gate: ${escapeHtml(gs.wp2_gate || "Activity threshold met")}</span></td>
+              <td style="text-align:center; padding:4px 4px; font-weight:700; color:#059669;">M${wp2_s}–M${wp2_e}</td>
+              <td style="padding:4px 4px;">
+                <div style="background:#e2e8f0; border-radius:4px; height:12px; position:relative; overflow:hidden;">
+                  <div style="position:absolute; left:${((wp2_s-1)/totM)*100}%; width:${((wp2_e-wp2_s+1)/totM)*100}%; background:#10b981; height:100%; border-radius:3px;"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:4px 4px;"><strong>WP3: Optimization &amp; Validation</strong><br><span style="color:#64748b; font-size:0.68rem;">Gate: ${escapeHtml(gs.wp3_gate || "Benchmark outperformed")}</span></td>
+              <td style="text-align:center; padding:4px 4px; font-weight:700; color:#d97706;">M${wp3_s}–M${wp3_e}</td>
+              <td style="padding:4px 4px;">
+                <div style="background:#e2e8f0; border-radius:4px; height:12px; position:relative; overflow:hidden;">
+                  <div style="position:absolute; left:${((wp3_s-1)/totM)*100}%; width:${((wp3_e-wp3_s+1)/totM)*100}%; background:#f59e0b; height:100%; border-radius:3px;"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
   setHtml("manu-timeline", timeHtml);
@@ -7865,10 +8012,11 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
       <table style="width:100%; font-size:0.75rem; border-collapse:collapse; border:1px solid #cbd5e1; margin-top:4px;">
         <thead>
           <tr style="background:#f8fafc; text-align:left;">
-            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:45%;">Item Description</th>
-            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:25%;">Category</th>
-            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:10%; text-align:center;">Qty</th>
-            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:20%; text-align:right;">Total (EGP)</th>
+            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:28%;">Item Description</th>
+            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:20%;">Category</th>
+            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:28%;">Scientific Justification / Purpose</th>
+            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:7%; text-align:center;">Qty</th>
+            <th style="padding:4px 6px; border:1px solid #cbd5e1; width:17%; text-align:right;">Total (EGP)</th>
           </tr>
         </thead>
         <tbody>
@@ -7876,17 +8024,19 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
             const tot = (parseInt(it.qty, 10) || 1) * (parseFloat(it.unit_cost) || 0);
             const descText = it.desc || it.item || "";
             const catText = typeof normalizeBudgetCategory === "function" ? normalizeBudgetCategory(it.category) : (it.category || "");
+            const justText = it.justification || it.purpose || "Essential experimental consumable";
             return `
               <tr>
                 <td style="padding:4px 6px; border:1px solid #cbd5e1;">${escapeHtml(descText)}</td>
                 <td style="padding:4px 6px; border:1px solid #cbd5e1;">${escapeHtml(catText)}</td>
+                <td style="padding:4px 6px; border:1px solid #cbd5e1; color:#334155;">${escapeHtml(justText)}</td>
                 <td style="padding:4px 6px; border:1px solid #cbd5e1; text-align:center;">${it.qty}</td>
                 <td style="padding:4px 6px; border:1px solid #cbd5e1; text-align:right;">${tot.toLocaleString('en-US', {minimumFractionDigits: 2})} EGP</td>
               </tr>
             `;
           }).join("")}
           <tr style="background:#fef3c7; font-weight:700;">
-            <td colspan="3" style="padding:4px 6px; border:1px solid #cbd5e1;">TOTAL ESTIMATED BUDGET</td>
+            <td colspan="4" style="padding:4px 6px; border:1px solid #cbd5e1;">TOTAL ESTIMATED BUDGET</td>
             <td style="padding:4px 6px; border:1px solid #cbd5e1; text-align:right;">${grandTotalEgp.toLocaleString('en-US', {minimumFractionDigits: 2})} EGP</td>
           </tr>
         </tbody>
@@ -7907,12 +8057,31 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
   }
   setHtml("manu-budget", budgetHtml);
 
-  // 10. References
-  const refs = projectState.references ? escapeHtml(projectState.references).replace(/\n/g, "<br>") : "<em>Paste references in Phase 4.</em>";
-  setHtml("manu-references", refs);
+  // 10. References (Clean APA standard without forced bracket numbering)
+  let refsHtml = "<em>Paste references in Phase 4.</em>";
+  if (projectState.references && projectState.references.trim()) {
+    const rawRefLines = projectState.references.trim().split(/\n+/);
+    refsHtml = rawRefLines.map(line => {
+      const cleanLine = line.replace(/^\s*(?:\[\d+\]|\d+[.)])\s*/, "").trim();
+      return `<p style="margin-bottom:6px; text-indent:-24px; padding-left:24px; font-size:0.75rem; line-height:1.4;">${escapeHtml(cleanLine)}</p>`;
+    }).join("");
+  }
+  setHtml("manu-references", refsHtml);
   renderOfficialDocumentPreview();
 
-  // Wire Print and Copy Buttons (Option C)
+  // Wire Word (.docx), Print, and Copy Buttons
+  const btnManuDocx = document.getElementById("btn-manu-export-docx");
+  if (btnManuDocx && !btnManuDocx._wired) {
+    btnManuDocx._wired = true;
+    btnManuDocx.addEventListener("click", () => {
+      if (typeof window.triggerDocx === "function") {
+        window.triggerDocx();
+      } else if (typeof triggerDocx === "function") {
+        triggerDocx();
+      }
+    });
+  }
+
   const btnPrint = document.getElementById("btn-print-manuscript");
   if (btnPrint && !btnPrint._wired) {
     btnPrint._wired = true;
@@ -8283,7 +8452,7 @@ function renderRigorRadarHtml() {
           <strong>💡 Strength:</strong> Clear work package independence across 3 specific aims.
         </div>
         <div style="background: #f8fafc; border-left: 3px solid #f59e0b; padding: 8px 12px; border-radius: 4px; font-size: 0.78rem; margin-top: 6px;">
-          <strong>🔍 Area for Polish:</strong> Ensure empirical baseline metric ($T_m, k_{cat}$) is fully specified in Step 2.
+          <strong>🔍 Area for Polish:</strong> Ensure empirical baseline metric (Tm, kcat) is fully specified in Step 2.
         </div>
       </div>
     </div>
@@ -11490,16 +11659,22 @@ function initSection2_3TargetAudience() {
 
 // 4. Section 3.2 Specific Objectives Dynamic Builder with Action Verbs
 const BLOOM_ACTION_VERBS = [
+  "Extract and isolate",
+  "Purify and fractionate",
+  "Formulate and stabilize",
+  "Encapsulate and functionalize",
+  "Design and synthesize",
   "Clone and express",
   "Engineer and optimize",
   "Characterize and quantify",
-  "Benchmark and compare",
-  "Screen and identify",
-  "Formulate and deliver",
+  "Benchmark and calibrate",
   "Validate in vitro",
-  "Evaluate in vivo",
-  "Design and synthesize",
-  "Purify and isolate"
+  "Evaluate ex vivo / in vivo",
+  "Screen and identify",
+  "Assess stability & kinetics",
+  "Test matrix biocompatibility",
+  "Ferment and scale-up",
+  "Immobilize and recover"
 ];
 
 function initObjectivesBuilder() {
@@ -11542,25 +11717,29 @@ function renderObjectivesList() {
   container.innerHTML = projectState.objectives.map((obj, idx) => `
     <div class="objective-builder-card" data-idx="${idx}" style="display:flex; gap:10px; align-items:center; margin-bottom:10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
       <span style="font-weight:800; color:#4338ca; min-width:24px; font-size:0.9rem;">${idx + 1}.</span>
-      <select class="form-input verb-select" data-idx="${idx}" style="width:220px; font-weight:700; background:#f8fafc; border-color:#cbd5e1; font-size:0.85rem;">
-        ${BLOOM_ACTION_VERBS.map(v => `<option value="${v}" ${v === obj.verb ? 'selected' : ''}>${v}</option>`).join("")}
-      </select>
-      <input type="text" class="form-input obj-text-input" data-idx="${idx}" placeholder="e.g. recombinant construct in host chassis and evaluate kinetic parameters (kcat/KM)..." value="${escapeHtml(obj.text || '')}" style="flex:1; font-size:0.85rem;">
+      <div style="position:relative; width:250px; flex-shrink:0;">
+        <input type="text" list="bloom-action-verbs-datalist" class="form-input verb-select" data-idx="${idx}" placeholder="Pick or type heading..." value="${escapeHtml(obj.verb || '')}" style="width:100%; font-weight:700; background:#f8fafc; border-color:#cbd5e1; font-size:0.85rem;" title="Select an action heading from suggestions or type your own custom objective heading">
+      </div>
+      <input type="text" class="form-input obj-text-input" data-idx="${idx}" placeholder="Define experimental objective, target construct, and measurable milestone threshold..." value="${escapeHtml(obj.text || '')}" style="flex:1; font-size:0.85rem;">
       <button type="button" class="btn-obj-remove" data-idx="${idx}" title="Remove objective" style="background:#fee2e2; color:#b91c1c; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; font-weight:700;">✕</button>
     </div>
   `).join("");
 
-  // Bind change on verb selects
+  // Bind change and input on verb selects (supports both typing & selecting from datalist)
   container.querySelectorAll(".verb-select").forEach(sel => {
-    sel.addEventListener("change", (e) => {
+    const handleVerbUpdate = (e) => {
       const i = parseInt(e.target.getAttribute("data-idx"), 10);
       if (projectState.objectives[i]) {
         projectState.objectives[i].verb = e.target.value;
         syncLegacyAimsFromObjectives();
         saveToStorage();
         renderLiveManuscript();
+        if (typeof window.render10SectionOverseer === "function") window.render10SectionOverseer();
+        if (typeof window.syncLiveEditorToAgent === "function") window.syncLiveEditorToAgent();
       }
-    });
+    };
+    sel.addEventListener("change", handleVerbUpdate);
+    sel.addEventListener("input", handleVerbUpdate);
   });
 
   // Bind input on text
@@ -11657,6 +11836,19 @@ function initControlsChecklist() {
   const pos = document.getElementById("chk-control-positive");
   const neg = document.getElementById("chk-control-negative");
   const trip = document.getElementById("chk-control-triplicates");
+  const posSpec = document.getElementById("ctrl-positive-spec");
+  const negSpec = document.getElementById("ctrl-negative-spec");
+  const tripSpec = document.getElementById("ctrl-triplicates-spec");
+
+  if (posSpec && projectState.control_triad && projectState.control_triad.positive) {
+    posSpec.value = projectState.control_triad.positive;
+  }
+  if (negSpec && projectState.control_triad && projectState.control_triad.negative) {
+    negSpec.value = projectState.control_triad.negative;
+  }
+  if (tripSpec && projectState.control_triad && projectState.control_triad.specificity) {
+    tripSpec.value = projectState.control_triad.specificity;
+  }
 
   const sync = () => {
     projectState.controls_checklist = {
@@ -11674,6 +11866,34 @@ function initControlsChecklist() {
   if (pos && !pos._wired) { pos._wired = true; pos.addEventListener("change", sync); }
   if (neg && !neg._wired) { neg._wired = true; neg.addEventListener("change", sync); }
   if (trip && !trip._wired) { trip._wired = true; trip.addEventListener("change", sync); }
+
+  if (posSpec && !posSpec._wired) {
+    posSpec._wired = true;
+    posSpec.addEventListener("input", (e) => {
+      projectState.control_triad = projectState.control_triad || {};
+      projectState.control_triad.positive = e.target.value;
+      saveToStorage();
+      renderLiveManuscript();
+    });
+  }
+  if (negSpec && !negSpec._wired) {
+    negSpec._wired = true;
+    negSpec.addEventListener("input", (e) => {
+      projectState.control_triad = projectState.control_triad || {};
+      projectState.control_triad.negative = e.target.value;
+      saveToStorage();
+      renderLiveManuscript();
+    });
+  }
+  if (tripSpec && !tripSpec._wired) {
+    tripSpec._wired = true;
+    tripSpec.addEventListener("input", (e) => {
+      projectState.control_triad = projectState.control_triad || {};
+      projectState.control_triad.specificity = e.target.value;
+      saveToStorage();
+      renderLiveManuscript();
+    });
+  }
 }
 
 // 7. Section 5 Risk Management & Contingency Plan Table
@@ -11888,13 +12108,13 @@ const OFFICIAL_BUDGET_CATEGORIES = [
 ];
 
 const DEFAULT_EGP_BUDGET_ITEMS = [
-  { desc: "Custom Primers, Oligos & Gene Synthesis", category: "B. Consumables & Reagents", qty: 1, unit_cost: 25000 },
-  { desc: "High-Fidelity Polymerases & Restriction Enzymes", category: "B. Consumables & Reagents", qty: 2, unit_cost: 18000 },
-  { desc: "Sanger Sequencing & Plasmid Verification Services", category: "B. Consumables & Reagents", qty: 1, unit_cost: 22000 },
-  { desc: "Core Facility Shared Equipment Bench Access (HPLC & Spectrophotometry)", category: "A. Equipment & Facilities", qty: 1, unit_cost: 45000 },
-  { desc: "Student Research Assistant Stipends (3 students x 12,000 EGP)", category: "D. Personnel & Student Stipends", qty: 3, unit_cost: 12000 },
-  { desc: "Bioinformatics Cloud Compute & Structural Modeling Software", category: "E. Training & Computational/Software", qty: 1, unit_cost: 15000 },
-  { desc: "Unforeseen Experimental Contingency & Waste Disposal (5%)", category: "F. Other Direct Costs & Contingency", qty: 1, unit_cost: 15000 }
+  { desc: "Custom Primers, Oligos & Gene Synthesis", category: "B. Consumables & Reagents", justification: "PCR amplification & target construct cloning verification", qty: 1, unit_cost: 25000 },
+  { desc: "High-Fidelity Polymerases & Restriction Enzymes", category: "B. Consumables & Reagents", justification: "High-fidelity amplicon generation and restriction verification", qty: 2, unit_cost: 18000 },
+  { desc: "Sanger Sequencing & Plasmid Verification Services", category: "B. Consumables & Reagents", justification: "Sequence confirmation across biological replicates", qty: 1, unit_cost: 22000 },
+  { desc: "Core Facility Shared Equipment Bench Access (HPLC & Spectrophotometry)", category: "A. Equipment & Facilities", justification: "High-precision endpoint quantification across replicates", qty: 1, unit_cost: 45000 },
+  { desc: "Student Research Assistant Stipends (3 students x 12,000 EGP)", category: "D. Personnel & Student Stipends", justification: "Technical laboratory support for assay execution & triplicates", qty: 3, unit_cost: 12000 },
+  { desc: "Bioinformatics Cloud Compute & Structural Modeling Software", category: "E. Training & Computational/Software", justification: "In silico construct modeling & statistical regression analysis", qty: 1, unit_cost: 15000 },
+  { desc: "Unforeseen Experimental Contingency & Waste Disposal (5%)", category: "F. Other Direct Costs & Contingency", justification: "Consumable buffer replenishment and biohazard disposal compliance", qty: 1, unit_cost: 15000 }
 ];
 
 function initBudgetEGP() {
@@ -11925,6 +12145,89 @@ function initBudgetEGP() {
   }
 }
 
+window.recalculateEgpBudget = function() {
+  const tbody = document.getElementById("budget-egp-tbody");
+  let grandTotal = 0;
+  const catTotals = {};
+  OFFICIAL_BUDGET_CATEGORIES.forEach(c => catTotals[c] = 0);
+
+  if (tbody) {
+    const rows = tbody.querySelectorAll("tr");
+    rows.forEach((tr, idx) => {
+      const qInp = tr.querySelector(".budget-item-qty, .budget-qty-input");
+      const uInp = tr.querySelector(".budget-item-unit, .budget-cost-input");
+      const catSel = tr.querySelector(".budget-item-cat, .budget-cat-input");
+      const descInp = tr.querySelector(".budget-item-desc, .budget-item-input");
+      const justInp = tr.querySelector(".budget-item-just, .budget-just-input");
+      const subCell = tr.querySelector(".budget-row-subtotal") || tr.children[5];
+
+      const q = parseFloat(qInp ? qInp.value : 1) || 0;
+      const u = parseFloat(uInp ? uInp.value : 0) || 0;
+      const sub = q * u;
+      grandTotal += sub;
+
+      const rawCat = catSel ? catSel.value : "B. Consumables & Reagents";
+      const cat = typeof normalizeBudgetCategory === "function" ? normalizeBudgetCategory(rawCat) : "B. Consumables & Reagents";
+      if (catTotals[cat] !== undefined) catTotals[cat] += sub;
+
+      if (subCell) {
+        subCell.textContent = `${sub.toLocaleString('en-US', { minimumFractionDigits: 2 })} EGP`;
+      }
+
+      if (window.projectState && window.projectState.budget_egp_items && window.projectState.budget_egp_items[idx]) {
+        if (descInp) window.projectState.budget_egp_items[idx].desc = descInp.value;
+        if (catSel) window.projectState.budget_egp_items[idx].category = cat;
+        if (justInp) window.projectState.budget_egp_items[idx].justification = justInp.value;
+        window.projectState.budget_egp_items[idx].qty = q;
+        window.projectState.budget_egp_items[idx].unit_cost = u;
+      }
+    });
+  } else if (window.projectState && window.projectState.budget_egp_items) {
+    window.projectState.budget_egp_items.forEach(it => {
+      const q = parseFloat(it.qty) || 1;
+      const u = parseFloat(it.unit_cost) || 0;
+      const sub = q * u;
+      grandTotal += sub;
+      const cat = typeof normalizeBudgetCategory === "function" ? normalizeBudgetCategory(it.category) : "B. Consumables & Reagents";
+      if (catTotals[cat] !== undefined) catTotals[cat] += sub;
+    });
+  }
+
+  const totalEl = document.getElementById("budget-egp-grand-total");
+  if (totalEl) {
+    totalEl.innerHTML = `<strong>Total:</strong> ${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} EGP (${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} ج.م)`;
+  }
+
+  const breakdownEl = document.getElementById("budget-egp-breakdown");
+  if (breakdownEl) {
+    breakdownEl.innerHTML = OFFICIAL_BUDGET_CATEGORIES.map(c => {
+      const amt = catTotals[c] || 0;
+      const letter = c.slice(0, 2);
+      return `<span style="display:inline-block; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:4px; padding:3px 8px; font-size:0.75rem; margin-right:6px; margin-bottom:4px;"><strong>${letter}</strong> ${amt.toLocaleString('en-US')} EGP</span>`;
+    }).join("");
+  }
+
+  const egpLines = OFFICIAL_BUDGET_CATEGORIES
+    .filter(c => (catTotals[c] || 0) > 0)
+    .map(c => `• ${c}: ${(catTotals[c] || 0).toLocaleString('en-US')} EGP`);
+  const egpSummaryText = `[Calibrated EGP Budget Summary — Total: ${grandTotal.toLocaleString('en-US')} EGP (${grandTotal.toLocaleString('en-US')} ج.م)]\n` +
+    egpLines.join("\n") +
+    `\n\nJustification: All molecular reagents, oligonucleotides, chromatography consumables, and core facility access fees are costed in Egyptian Pounds (EGP) according to local supplier quotes and STDF/ASRT university grant guidelines.`;
+
+  const notesEl = document.getElementById("budget-input");
+  if (notesEl && (!notesEl.value.trim() || notesEl.value.includes("$") || notesEl.value.startsWith("[Calibrated EGP Budget Summary"))) {
+    notesEl.value = egpSummaryText;
+  }
+  if (window.projectState) {
+    window.projectState.budget = egpSummaryText;
+  }
+
+  if (typeof renderLiveManuscript === "function") {
+    renderLiveManuscript();
+  }
+  return grandTotal;
+};
+
 function renderBudgetEGPTable() {
   const tbody = document.getElementById("budget-egp-tbody");
   if (!tbody) return;
@@ -11940,7 +12243,8 @@ function renderBudgetEGPTable() {
   tbody.innerHTML = projectState.budget_egp_items.map((it, idx) => {
     it.desc = it.desc || it.item || "";
     it.category = normalizeBudgetCategory(it.category);
-    const q = parseInt(it.qty, 10) || 1;
+    it.justification = it.justification || it.purpose || "";
+    const q = parseFloat(it.qty) || 1;
     const u = parseFloat(it.unit_cost) || 0;
     const sub = q * u;
     grandTotal += sub;
@@ -11956,13 +12260,16 @@ function renderBudgetEGPTable() {
             ${OFFICIAL_BUDGET_CATEGORIES.map(c => `<option value="${c}" ${c === it.category ? 'selected' : ''}>${c}</option>`).join("")}
           </select>
         </td>
+        <td>
+          <input type="text" class="form-input budget-item-just" data-idx="${idx}" placeholder="Scientific justification & experimental role..." value="${escapeHtml(it.justification || '')}" style="width:100%; font-size:0.83rem;">
+        </td>
         <td style="text-align:center;">
           <input type="number" min="1" class="form-input budget-item-qty" data-idx="${idx}" value="${q}" style="width:60px; text-align:center; font-size:0.83rem;">
         </td>
         <td style="text-align:right;">
           <input type="number" min="0" step="100" class="form-input budget-item-unit" data-idx="${idx}" value="${u}" style="width:100px; text-align:right; font-size:0.83rem;">
         </td>
-        <td style="text-align:right; font-weight:700; color:#1e293b; font-size:0.83rem;">
+        <td class="budget-row-subtotal" style="text-align:right; font-weight:700; color:#1e293b; font-size:0.83rem;">
           ${sub.toLocaleString('en-US', { minimumFractionDigits: 2 })} EGP
         </td>
         <td style="text-align:center;">
@@ -11988,22 +12295,6 @@ function renderBudgetEGPTable() {
     }).join("");
   }
 
-  // Sync Budget Justification Notes (#budget-input) in Egyptian Pounds (EGP) & purge any legacy USD ($) strings
-  const egpLines = OFFICIAL_BUDGET_CATEGORIES
-    .filter(c => (catTotals[c] || 0) > 0)
-    .map(c => `• ${c}: ${(catTotals[c] || 0).toLocaleString('en-US')} EGP`);
-  const egpSummaryText = `[Calibrated EGP Budget Summary — Total: ${grandTotal.toLocaleString('en-US')} EGP (${grandTotal.toLocaleString('en-US')} ج.م)]\n` +
-    egpLines.join("\n") +
-    `\n\nJustification: All molecular reagents, oligonucleotides, chromatography consumables, and core facility access fees are costed in Egyptian Pounds (EGP) according to local supplier quotes and STDF/ASRT university grant guidelines.`;
-
-  const notesEl = document.getElementById("budget-input");
-  const curNotes = notesEl ? notesEl.value.trim() : (projectState.budget || "").trim();
-  const hasActiveProposalContent = Boolean((projectState.title && projectState.title.trim()) || projectState.student_id === "13989");
-  if (hasActiveProposalContent && (!curNotes || curNotes.includes("$") || curNotes.includes("USD") || curNotes.startsWith("[Calibrated EGP Budget Summary"))) {
-    projectState.budget = egpSummaryText;
-    if (notesEl) notesEl.value = egpSummaryText;
-  }
-
   const curFig = (typeof window !== "undefined" && window.activeFigure) || activeFigure;
   if (curFig === "donut" || curFig === "pitch") {
     renderActiveVisualFigure();
@@ -12021,39 +12312,53 @@ function renderBudgetEGPTable() {
     });
   });
 
+  tbody.querySelectorAll(".budget-item-just").forEach(inp => {
+    inp.addEventListener("input", (e) => {
+      const i = parseInt(e.target.getAttribute("data-idx"), 10);
+      if (projectState.budget_egp_items[i]) {
+        projectState.budget_egp_items[i].justification = e.target.value;
+        saveToStorage();
+        renderLiveManuscript();
+      }
+    });
+  });
+
   tbody.querySelectorAll(".budget-item-cat").forEach(sel => {
     sel.addEventListener("change", (e) => {
       const i = parseInt(e.target.getAttribute("data-idx"), 10);
       if (projectState.budget_egp_items[i]) {
         projectState.budget_egp_items[i].category = e.target.value;
         saveToStorage();
-        renderBudgetEGPTable();
+        window.recalculateEgpBudget();
         renderLiveManuscript();
       }
     });
   });
 
-  tbody.querySelectorAll(".budget-item-qty").forEach(inp => {
+  // Dynamic recalculation on Qty & Unit Cost WITHOUT losing cursor focus
+  tbody.querySelectorAll(".budget-item-qty, .budget-item-unit").forEach(inp => {
     inp.addEventListener("input", (e) => {
-      const i = parseInt(e.target.getAttribute("data-idx"), 10);
-      if (projectState.budget_egp_items[i]) {
-        projectState.budget_egp_items[i].qty = parseInt(e.target.value, 10) || 1;
-        saveToStorage();
-        renderBudgetEGPTable();
-        renderLiveManuscript();
-      }
-    });
-  });
+      const tr = e.target.closest("tr");
+      if (!tr) return;
+      const i = parseInt(tr.getAttribute("data-idx"), 10);
+      const qInp = tr.querySelector(".budget-item-qty");
+      const uInp = tr.querySelector(".budget-item-unit");
+      const q = parseFloat(qInp ? qInp.value : 1) || 0;
+      const u = parseFloat(uInp ? uInp.value : 0) || 0;
+      const sub = q * u;
 
-  tbody.querySelectorAll(".budget-item-unit").forEach(inp => {
-    inp.addEventListener("input", (e) => {
-      const i = parseInt(e.target.getAttribute("data-idx"), 10);
       if (projectState.budget_egp_items[i]) {
-        projectState.budget_egp_items[i].unit_cost = parseFloat(e.target.value) || 0;
-        saveToStorage();
-        renderBudgetEGPTable();
-        renderLiveManuscript();
+        projectState.budget_egp_items[i].qty = q;
+        projectState.budget_egp_items[i].unit_cost = u;
       }
+
+      const subCell = tr.querySelector(".budget-row-subtotal");
+      if (subCell) {
+        subCell.textContent = `${sub.toLocaleString('en-US', { minimumFractionDigits: 2 })} EGP`;
+      }
+
+      window.recalculateEgpBudget();
+      saveToStorage();
     });
   });
 
@@ -12063,7 +12368,7 @@ function renderBudgetEGPTable() {
       if (projectState.budget_egp_items.length > 1) {
         projectState.budget_egp_items.splice(i, 1);
       } else {
-        projectState.budget_egp_items = [{ desc: "", category: "B. Consumables & Reagents", qty: 1, unit_cost: 0 }];
+        projectState.budget_egp_items = [{ desc: "", category: "B. Consumables & Reagents", justification: "", qty: 1, unit_cost: 0 }];
       }
       saveToStorage();
       renderBudgetEGPTable();
@@ -12331,26 +12636,33 @@ function renderOfficialDocumentPreview() {
     <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.8rem; border: 1px solid #cbd5e1;">
       <thead>
         <tr style="background: #1e293b; color: #ffffff; text-align: left;">
-          <th style="padding: 6px 10px; width: 44%;">Item Description</th>
-          <th style="padding: 6px 10px; width: 26%;">Category</th>
-          <th style="padding: 6px 10px; width: 10%; text-align: center;">Qty</th>
-          <th style="padding: 6px 10px; width: 20%; text-align: right;">Total (EGP)</th>
+          <th style="padding: 6px 8px; width: 26%;">Item Description &amp; Specifications</th>
+          <th style="padding: 6px 8px; width: 18%;">Official Category</th>
+          <th style="padding: 6px 8px; width: 26%;">Scientific Justification / Purpose</th>
+          <th style="padding: 6px 8px; width: 8%; text-align: center;">Qty</th>
+          <th style="padding: 6px 8px; width: 11%; text-align: right;">Unit (EGP)</th>
+          <th style="padding: 6px 8px; width: 11%; text-align: right;">Total (EGP)</th>
         </tr>
       </thead>
       <tbody>
         ${egpItems.map(it => {
-          const tot = (parseInt(it.qty, 10) || 1) * (parseFloat(it.unit_cost) || 0);
+          const q = parseInt(it.qty, 10) || 1;
+          const u = parseFloat(it.unit_cost) || 0;
+          const tot = q * u;
+          const just = it.justification || it.purpose || "Essential experimental reagents & consumables";
           return `
             <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 6px 10px;">${escapeHtml(it.desc || "Item")}</td>
-              <td style="padding: 6px 10px; color: #475569;">${escapeHtml(it.category || "Consumables")}</td>
-              <td style="padding: 6px 10px; text-align: center;">${it.qty || 1}</td>
-              <td style="padding: 6px 10px; text-align: right; font-weight: 600;">${tot.toLocaleString('en-US', {minimumFractionDigits: 2})} EGP</td>
+              <td style="padding: 6px 8px;">${escapeHtml(it.desc || it.item || "Item")}</td>
+              <td style="padding: 6px 8px; color: #475569;">${escapeHtml(it.category || "Consumables")}</td>
+              <td style="padding: 6px 8px; color: #334155;">${escapeHtml(just)}</td>
+              <td style="padding: 6px 8px; text-align: center;">${q}</td>
+              <td style="padding: 6px 8px; text-align: right;">${u.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td style="padding: 6px 8px; text-align: right; font-weight: 600;">${tot.toLocaleString('en-US', {minimumFractionDigits: 2})} EGP</td>
             </tr>
           `;
         }).join("")}
         <tr style="background: #fef3c7; font-weight: 800; font-size: 0.85rem; border-top: 2px solid #cbd5e1;">
-          <td colspan="3" style="padding: 8px 10px; color: #92400e;">TOTAL ESTIMATED BUDGET (EGP)</td>
+          <td colspan="5" style="padding: 8px 10px; color: #92400e;">TOTAL ESTIMATED BUDGET (EGP)</td>
           <td style="padding: 8px 10px; text-align: right; color: #92400e;">${grandTotalEgp.toLocaleString('en-US', {minimumFractionDigits: 2})} EGP (${grandTotalEgp.toLocaleString('en-US', {minimumFractionDigits: 2})} ج.م)</td>
         </tr>
       </tbody>
@@ -12409,17 +12721,14 @@ function renderOfficialDocumentPreview() {
       <div style="font-size: 0.82rem; color: #475569;"><strong>Keywords:</strong> ${escapeHtml(kw)} • <em>(${absWords} words)</em></div>
     </div>
 
-    <!-- 2. Introduction & Background -->
+    <!-- 2. Introduction & Background (BT_301 Unified Narrative Standard) -->
     <div style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid #e2e8f0;">
-      <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">2. Introduction & Project Background</h2>
-      <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 4px;">2.1 Problem Statement & Background Context</h3>
-      <div style="font-size: 0.86rem; line-height: 1.6; color: #334155; margin-bottom: 10px;">${renderFormattedMarkdown(prob)}</div>
-
-      <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 4px;">2.2 Project Importance & Multi-Domain Impact</h3>
-      <div style="font-size: 0.86rem; line-height: 1.6; color: #334155; margin-bottom: 10px;">${renderFormattedMarkdown(impact)}</div>
-
-      <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 4px;">2.3 Target Audience & Direct Beneficiaries</h3>
-      <div style="font-size: 0.86rem; line-height: 1.6; color: #334155;">${renderFormattedMarkdown(targetAud)}</div>
+      <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">2. Introduction &amp; Project Background</h2>
+      <div style="font-size: 0.88rem; line-height: 1.7; color: #334155; text-align: justify;">
+        <div>${renderFormattedMarkdown(prob)}</div>
+        ${(impact && impact !== "Section 2.2 multi-domain impact pending.") ? `<div style="margin-top: 10px;">${renderFormattedMarkdown(impact)}</div>` : ""}
+        ${(targetAud && targetAud !== "Section 2.3 target beneficiaries pending.") ? `<div style="margin-top: 10px;">${renderFormattedMarkdown(targetAud)}</div>` : ""}
+      </div>
     </div>
 
     <!-- 3. Aim & Objectives -->
@@ -12433,7 +12742,7 @@ function renderOfficialDocumentPreview() {
           <h3 style="font-size: 0.95rem; font-weight: 700; color: #4338ca; margin-top: 10px; margin-bottom: 4px;">3.0 Core Research Question &amp; Testable Hypothesis</h3>
           <div style="background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 6px; padding: 10px 12px; font-size: 0.85rem; line-height: 1.55; color: #1e293b; margin-bottom: 10px;">
             ${rqVal ? `<div style="margin-bottom: 6px;"><strong style="color: #4338ca;">Research Question:</strong> ${escapeHtml(rqVal)}</div>` : ""}
-            ${hypVal ? `<div><strong style="color: #6d28d9;">Testable Hypothesis ($H_1$ / $H_0$):</strong> ${escapeHtml(hypVal)}</div>` : ""}
+            ${hypVal ? `<div><strong style="color: #6d28d9;">Testable Hypothesis (H1 / H0):</strong> ${escapeHtml(hypVal)}</div>` : ""}
           </div>
         `;
       })()}
@@ -12494,11 +12803,11 @@ function renderOfficialDocumentPreview() {
 
       <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 4px;">4.3 Materials &amp; Methods, Experimental Variables &amp; Statistical Plan</h3>
       <div style="font-size: 0.86rem; line-height: 1.6; color: #334155; margin-bottom: 8px;">${renderFormattedMarkdown(matMethods)}</div>
-      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px 12px; font-size: 0.8rem; margin-bottom: 8px;">
-        <strong style="color: #15803d;">Scientific Controls:</strong>
-        Positive Control: ${ctrl.positive ? "✅ Verified" : "⚪ Pending"} • 
-        Negative Control: ${ctrl.negative ? "✅ Verified" : "⚪ Pending"} • 
-        Biological Replicates: ${ctrl.triplicates ? "✅ Configured" : "⚪ Pending"}
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; margin-bottom: 8px; line-height: 1.6;">
+        <div style="font-weight: 800; color: #15803d; margin-bottom: 4px;">🧪 Rigorous Experimental Controls &amp; Replication Triad:</div>
+        <div>• <strong>Positive Control:</strong> ${ctrl.positive ? '✅ ' : '⚪ '} ${escapeHtml(st.control_triad?.positive || document.getElementById("ctrl-positive-spec")?.value || "Validated reference standard comparator")}</div>
+        <div>• <strong>Negative Control:</strong> ${ctrl.negative ? '✅ ' : '⚪ '} ${escapeHtml(st.control_triad?.negative || document.getElementById("ctrl-negative-spec")?.value || "Empty vehicle blank / no-template buffer blank")}</div>
+        <div>• <strong>Replicates &amp; Sample Size:</strong> ${ctrl.triplicates ? '✅ ' : '⚪ '} ${escapeHtml(st.control_triad?.specificity || document.getElementById("ctrl-triplicates-spec")?.value || "n = 3 independent biological cultures × 3 technical repeat wells")}</div>
       </div>
       ${(() => {
         const indVar = document.getElementById("exp-design-indep-var")?.value?.trim() || st.exp_design_indep_var || "";
@@ -12511,7 +12820,7 @@ function renderOfficialDocumentPreview() {
             <div style="font-weight: 800; color: #1e40af; margin-bottom: 4px;">📊 Experimental Design Variables &amp; Statistical Analysis Plan</div>
             ${indVar ? `<div>• <strong>Independent Variable(s):</strong> ${escapeHtml(indVar)}</div>` : ""}
             ${depVar ? `<div>• <strong>Dependent Variable(s) &amp; Endpoints:</strong> ${escapeHtml(depVar)}</div>` : ""}
-            ${repJust ? `<div>• <strong>Sample Size ($n$) &amp; Replication Justification:</strong> ${escapeHtml(repJust)}</div>` : ""}
+            ${repJust ? `<div>• <strong>Sample Size (n) &amp; Replication Justification:</strong> ${escapeHtml(repJust)}</div>` : ""}
             ${statTest ? `<div>• <strong>Statistical Hypothesis Test &amp; Significance Threshold:</strong> ${escapeHtml(statTest)}</div>` : ""}
           </div>
         `;
@@ -12573,33 +12882,60 @@ function renderOfficialDocumentPreview() {
     <!-- 9. Timeline & Budget -->
     <div style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid #e2e8f0;">
       <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">9. Timeline &amp; Budget</h2>
-      <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 4px;">9.1 Project Timeline &amp; Milestones (Scientific Gantt Chart)</h3>
+      <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin-top: 10px; margin-bottom: 6px;">9.1 Project Timeline &amp; Work Package Schedule (Visual Gantt Chart)</h3>
       ${(() => {
         const totalMonths = parseInt(document.getElementById("select-section9-duration")?.value || st.gantt_schedule?.total_months || st.duration_months || "12", 10) || 12;
-        const ganttTasks = (Array.isArray(st.gantt_tasks) && st.gantt_tasks.length > 0)
-          ? st.gantt_tasks
-          : ((Array.isArray(st.gantt_schedule?.tasks) && st.gantt_schedule.tasks.length > 0) ? st.gantt_schedule.tasks : []);
-        if (ganttTasks.length > 0) {
-          const rows = ganttTasks.map((t, idx) => {
-            const wpName = t.name || t.title || `WP${idx + 1}`;
-            const startM = t.start || t.start_month || 1;
-            const endM = t.end || t.end_month || Math.min(totalMonths, startM + 2);
-            const gate = t.deliverable || t.gate || t.milestone || "Quantifiable stage-gate deliverable verified.";
-            return `<div>• <strong>${escapeHtml(wpName)}:</strong> Months ${escapeHtml(String(startM))}–${escapeHtml(String(endM))} | Gate: ${escapeHtml(gate)}</div>`;
-          }).join("");
-          return `
-            <p style="font-size: 0.82rem; color: #475569; margin-bottom: 8px;">${totalMonths}-Month duration structured into ${ganttTasks.length} sequential work packages with quantifiable stage-gate deliverables.</p>
-            <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">${rows}</div>
-          `;
-        }
         const m1 = Math.max(2, Math.round(totalMonths * 0.33));
         const m2 = Math.max(m1 + 1, Math.round(totalMonths * 0.67));
+        const defaultTasks = [
+          { name: "WP1: Construct / Formulation Design & Quality Verification", start: 1, end: m1, deliverable: "Sequence/formulation verified with baseline purity benchmarks confirmed", color: "#3b82f6" },
+          { name: "WP2: Functional Characterization & Quantitative Assay Optimization", start: Math.max(1, m1 - 1), end: m2, deliverable: "Primary analytical endpoint (LoD/IC50/kinetics) and positive/negative controls met", color: "#10b981" },
+          { name: "WP3: Matrix Validation, Stability & Statistical Comparative Analysis", start: Math.max(1, m2 - 1), end: totalMonths, deliverable: "Biological triplicates (n=3) and statistical significance (p < 0.05) vs. comparator achieved", color: "#f59e0b" }
+        ];
+        const rawTasks = (Array.isArray(st.gantt_tasks) && st.gantt_tasks.length > 0)
+          ? st.gantt_tasks
+          : ((Array.isArray(st.gantt_schedule?.tasks) && st.gantt_schedule.tasks.length > 0) ? st.gantt_schedule.tasks : defaultTasks);
+
+        const colors = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"];
+
         return `
-          <p style="font-size: 0.82rem; color: #475569; margin-bottom: 8px;">${totalMonths}-Month duration structured into sequential work packages with quantifiable stage-gate deliverables.</p>
-          <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
-            <div>• <strong>WP1 (Design &amp; Construct/Formulation Preparation):</strong> Months 1–${m1} | Gate: Sequence/formulation verification and baseline quality confirmed.</div>
-            <div>• <strong>WP2 (Functional Characterization &amp; Quantitative Assay):</strong> Months ${Math.max(1, m1)}–${m2} | Gate: Primary analytical endpoint and control benchmarks achieved.</div>
-            <div>• <strong>WP3 (Optimization, Validation &amp; Statistical Analysis):</strong> Months ${Math.max(1, m2)}–${totalMonths} | Gate: Reproducibility and statistical comparison vs. gold-standard comparator completed.</div>
+          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">
+              Scientific Stage-Gate Progression Matrix (Total Duration: ${totalMonths} Months)
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.76rem;">
+              <thead>
+                <tr style="border-bottom: 1.5px solid #cbd5e1; color: #475569; background: #f8fafc;">
+                  <th style="text-align: left; width: 34%; padding: 6px 8px;">Work Package</th>
+                  <th style="text-align: center; width: 12%; padding: 6px 8px;">Duration</th>
+                  <th style="text-align: left; width: 28%; padding: 6px 8px;">Gantt Progression (M1–M${totalMonths})</th>
+                  <th style="text-align: left; width: 26%; padding: 6px 8px;">Go/No-Go Stage Gate</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rawTasks.map((t, idx) => {
+                  const s = parseInt(t.start || t.start_month || 1, 10);
+                  const e = parseInt(t.end || t.end_month || Math.min(totalMonths, s + 3), 10);
+                  const wpName = t.name || t.title || `WP${idx + 1}`;
+                  const gate = t.deliverable || t.gate || t.milestone || "Quantitative milestone benchmark verified";
+                  const col = t.color || colors[idx % colors.length];
+                  const leftPct = Math.max(0, Math.min(100, ((s - 1) / totalMonths) * 100));
+                  const widthPct = Math.max(6, Math.min(100 - leftPct, ((e - s + 1) / totalMonths) * 100));
+                  return `
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                      <td style="padding: 6px 8px; font-weight: 600; color: #1e293b;">${escapeHtml(wpName)}</td>
+                      <td style="text-align: center; padding: 6px 8px; font-weight: 700; color: ${col};">M${s}–M${e}</td>
+                      <td style="padding: 6px 8px;">
+                        <div style="background: #e2e8f0; border-radius: 4px; height: 14px; position: relative; overflow: hidden;">
+                          <div style="position: absolute; left: ${leftPct}%; width: ${widthPct}%; background: ${col}; height: 100%; border-radius: 3px;" title="M${s} to M${e}"></div>
+                        </div>
+                      </td>
+                      <td style="padding: 6px 8px; color: #475569; font-size: 0.72rem;">${escapeHtml(gate)}</td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
           </div>
         `;
       })()}
@@ -13040,6 +13376,7 @@ window.runScientificConsistencyEngine = function(showToastNotice) {
         severity: "critical",
         title: "Objective ↔ Methodology Mismatch: Anti-Inflammatory Claim Without Inflammatory Assay",
         detail: `Your Aim/Objectives claim <strong>anti-inflammatory activity</strong>, but Section 4 lacks an inflammatory readout. ${onlyOther} Specify an LPS-stimulated macrophage assay (e.g., RAW 264.7 / THP-1) measuring TNF-α, IL-6, IL-1β via ELISA, Nitric Oxide (Griess reagent), or COX-2 inhibition.`,
+        fix: "Specify an LPS-stimulated RAW 264.7 macrophage assay measuring TNF-α/IL-6 ELISA or Griess NO in Section 4.",
         fixType: "add_anti_inflammatory"
       });
     }
@@ -13054,6 +13391,7 @@ window.runScientificConsistencyEngine = function(showToastNotice) {
         severity: "critical",
         title: "Objective ↔ Methodology Mismatch: Antioxidant Objective Without Radical/Redox Assay",
         detail: "Your Aim/Objectives propose evaluating <strong>antioxidant activity</strong>, but Section 4 does not include a radical-scavenging or redox assay (e.g., DPPH at 517 nm, ABTS•+, FRAP, or intracellular DCFH-DA ROS assay with Ascorbic Acid/Trolox positive control and IC50 calculation).",
+        fix: "Add DPPH (517 nm) / ABTS assay with Trolox positive control and IC50 calculation to Section 4.",
         fixType: "add_antioxidant"
       });
     }
@@ -13068,6 +13406,7 @@ window.runScientificConsistencyEngine = function(showToastNotice) {
         severity: "critical",
         title: "Objective ↔ Methodology Mismatch: Antimicrobial Claim Without Susceptibility Assay",
         detail: "Your Aim/Objectives claim <strong>antibacterial / antimicrobial activity</strong>, but Section 4 lacks microbial susceptibility testing (e.g., CLSI broth microdilution for MIC/MBC, disk diffusion, time-kill CFU/mL kinetics, or crystal violet biofilm quantification).",
+        fix: "Add CLSI broth microdilution (MIC/MBC) and time-kill kinetics to Section 4.",
         fixType: "add_antimicrobial"
       });
     }
@@ -13082,6 +13421,7 @@ window.runScientificConsistencyEngine = function(showToastNotice) {
         severity: "critical",
         title: "Aim ↔ Methodology Mismatch: Formulation Proposed Without Physicochemical Characterization",
         detail: "Your Aim/Objectives propose developing a <strong>formulation / nanocarrier / hydrogel</strong>, but Section 4 only describes bioactivity testing without characterizing the formulation itself (hydrodynamic size via DLS, PDI, Zeta potential, % encapsulation efficiency, pH/rheology, and drug release kinetics).",
+        fix: "Add DLS hydrodynamic size, Zeta potential, % encapsulation efficiency, and Franz cell release to Section 4.",
         fixType: "add_formulation_char"
       });
     }
@@ -13096,6 +13436,7 @@ window.runScientificConsistencyEngine = function(showToastNotice) {
         severity: "critical",
         title: "Methodology ↔ Outcome Overreach: Clinical Human Claim From In Vitro Assay",
         detail: "Section 5 Expected Outcomes claim <strong>direct human clinical efficacy</strong> (e.g., reduced inflammation/disease in humans), whereas Section 4 Methodology only performs <strong>in vitro laboratory assays</strong>. Calibrate Section 5 to report preclinical in vitro benchmarks (e.g., IC50, fold-reduction, LoD) as a foundation for future in vivo translation.",
+        fix: "Calibrate Section 5 outcomes to preclinical in vitro benchmarks instead of direct human clinical efficacy.",
         fixType: "calibrate_clinical_outcome"
       });
     }
@@ -13798,9 +14139,9 @@ window.addOrphanCitationToSection10 = function(author, year, sectionLabel) {
     newEntry = `${author} et al. (${year}). [Cited in ${sectionLabel || "Proposal Narrative"} — Verify full article title, journal, volume, and DOI].`;
   }
 
-  const existing = refEl.value.trim() ? refEl.value.trim().split(/\n+/).filter(Boolean) : [];
-  const numbered = (existing.length + 1) + ". " + newEntry.replace(/^\d+\.\s*/, "");
-  refEl.value = existing.concat([numbered]).join("\n");
+  const existing = refEl.value.trim() ? refEl.value.trim().split(/\n+/).map(l => l.trim()).filter(Boolean) : [];
+  const cleanRef = newEntry.replace(/^\s*(?:\[\d+\]|\d+[.)])\s*/, "").trim();
+  refEl.value = existing.concat([cleanRef]).join("\n\n");
   if (window.projectState) window.projectState.references = refEl.value;
   saveToStorage();
   renderLiveManuscript();
@@ -13855,14 +14196,14 @@ window.deduplicateAndFormatReferences = function() {
     }
   });
 
-  const formatted = uniqueLines.map((c, i) => `${i + 1}. ${c}`).join("\n");
+  const formatted = uniqueLines.join("\n\n");
   refEl.value = formatted;
   if (window.projectState) window.projectState.references = formatted;
   saveToStorage();
   renderLiveManuscript();
   window.runCitationTraceabilityAudit(false);
   if (typeof showToast === "function") {
-    showToast(`Formatted & deduplicated ${uniqueLines.length} reference(s) in APA 7th order!`);
+    showToast(`Formatted & deduplicated ${uniqueLines.length} reference(s) in clean APA 7th format!`);
   }
 };
 
@@ -14669,24 +15010,17 @@ window.syncTimelineAndBudgetFromMethodology = function () {
 
   if (window.projectState) {
     window.projectState.budget_items = budgetItems;
+    window.projectState.budget_egp_items = budgetItems.map(b => ({
+      desc: b.item,
+      category: typeof normalizeBudgetCategory === "function" ? normalizeBudgetCategory(b.category) : "B. Consumables & Reagents",
+      justification: b.justification || "Essential experimental consumables & reagents",
+      qty: Number(b.qty) || 1,
+      unit_cost: Number(b.unitCost) || 0
+    }));
   }
 
-  const tbody = document.getElementById("budget-egp-tbody");
-  if (tbody) {
-    tbody.innerHTML = budgetItems.map((b) => {
-      const sub = (Number(b.qty) || 1) * (Number(b.unitCost) || 0);
-      return `
-        <tr style="border-bottom: 1px solid #e2e8f0;">
-          <td style="padding: 6px;"><input type="text" class="budget-cat-input" value="${b.category}" style="width:100%; padding:5px 7px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.76rem;" oninput="if(window.recalculateEgpBudget) window.recalculateEgpBudget();" /></td>
-          <td style="padding: 6px;"><input type="text" class="budget-item-input" value="${b.item}" style="width:100%; padding:5px 7px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.76rem;" oninput="if(window.recalculateEgpBudget) window.recalculateEgpBudget();" /></td>
-          <td style="padding: 6px; text-align:center;"><input type="number" class="budget-qty-input" value="${b.qty}" min="1" style="width:58px; padding:5px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.76rem; text-align:center;" oninput="if(window.recalculateEgpBudget) window.recalculateEgpBudget();" /></td>
-          <td style="padding: 6px; text-align:right;"><input type="number" class="budget-cost-input" value="${b.unitCost}" min="0" step="100" style="width:90px; padding:5px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.76rem; text-align:right;" oninput="if(window.recalculateEgpBudget) window.recalculateEgpBudget();" /></td>
-          <td class="budget-row-subtotal" style="padding: 6px; text-align:right; font-weight:800; color:#047857; font-size:0.78rem;">${sub.toLocaleString()} EGP</td>
-          <td style="padding: 6px;"><input type="text" class="budget-just-input" value="${b.justification}" style="width:100%; padding:5px 7px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.75rem;" oninput="if(window.recalculateEgpBudget) window.recalculateEgpBudget();" /></td>
-          <td style="padding: 6px; text-align:center;"><button type="button" onclick="this.closest('tr').remove(); if(window.recalculateEgpBudget) window.recalculateEgpBudget();" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:2px 6px; font-size:0.72rem; cursor:pointer;">✕</button></td>
-        </tr>
-      `;
-    }).join("");
+  if (typeof renderBudgetEGPTable === "function") {
+    renderBudgetEGPTable();
   }
 
   if (typeof window.recalculateEgpBudget === "function") window.recalculateEgpBudget();

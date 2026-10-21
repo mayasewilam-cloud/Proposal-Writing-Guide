@@ -1416,6 +1416,24 @@ window.switchMatrixViewTab = function(tab) {
             </div>
 
             <div class="objective-builder-card">
+              <datalist id="bloom-action-verbs-datalist">
+                <option value="Extract and isolate">Natural product bioactives & plant extracts</option>
+                <option value="Purify and fractionate">Chromatography & yield optimization</option>
+                <option value="Formulate and stabilize">Nanocarriers, hydrogels, creams & emulsions</option>
+                <option value="Encapsulate and functionalize">Targeted delivery & surface modification</option>
+                <option value="Design and synthesize">Constructs, primers, probes & reporters</option>
+                <option value="Clone and express">Recombinant vectors & host chassis systems</option>
+                <option value="Engineer and optimize">Rational mutagenesis & metabolic flux</option>
+                <option value="Characterize and quantify">DLS, TEM, spectroscopy & purity</option>
+                <option value="Benchmark and calibrate">Enzyme kinetics (kcat/Km) & dose-response</option>
+                <option value="Validate in vitro">Cell culture, cytotoxicity & bioactivity</option>
+                <option value="Evaluate ex vivo / in vivo">Permeation, tissue models & animal assays</option>
+                <option value="Screen and identify">High-throughput phenotypic selection</option>
+                <option value="Assess stability & kinetics">Release profile & shelf-life degradation</option>
+                <option value="Test matrix biocompatibility">MTT viability & hemolysis testing</option>
+                <option value="Ferment and scale-up">Bioreactor cultivation & biomass yield</option>
+                <option value="Immobilize and recover">Biocatalyst reusability & biocontainment</option>
+              </datalist>
               <div id="objectives-builder-list">
                 <!-- Dynamically rendered by studio.js -->
               </div>
@@ -1585,29 +1603,40 @@ window.switchMatrixViewTab = function(tab) {
               </button>
             </div>
 
-            <!-- Controls Checklist -->
-            <div class="controls-checklist-box">
-              <label class="control-check-item">
-                <input type="checkbox" id="chk-control-positive" checked>
-                <div>
-                  <strong>Positive Control</strong>
-                  <div style="font-size: 0.73rem; color: #64748b;">Validated reference standard, native enzyme, or wild-type comparator</div>
-                </div>
-              </label>
-              <label class="control-check-item">
-                <input type="checkbox" id="chk-control-negative" checked>
-                <div>
-                  <strong>Negative Control</strong>
-                  <div style="font-size: 0.73rem; color: #64748b;">Empty vector, vehicle blank, or no-template control (NTC)</div>
-                </div>
-              </label>
-              <label class="control-check-item">
-                <input type="checkbox" id="chk-control-triplicates" checked>
-                <div>
-                  <strong>Biological vs. Technical Replicates</strong>
-                  <div style="font-size: 0.73rem; color: #64748b;">Sample size (n) justified by assay variance, effect size &amp; statistical power</div>
-                </div>
-              </label>
+            <!-- Controls Checklist & Explicit Specifications -->
+            <div class="controls-checklist-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+              <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+                <label class="control-check-item" style="margin-bottom: 6px;">
+                  <input type="checkbox" id="chk-control-positive" checked>
+                  <div>
+                    <strong style="color: #0f172a;">Positive Control</strong>
+                    <div style="font-size: 0.72rem; color: #64748b;">Validated reference standard or wild-type comparator</div>
+                  </div>
+                </label>
+                <input type="text" id="ctrl-positive-spec" class="form-input" style="font-size: 0.78rem; padding: 4px 8px; width: 100%;" placeholder="Specify reference standard (e.g., Synthetic template, ascorbic acid, purified wild-type)">
+              </div>
+
+              <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+                <label class="control-check-item" style="margin-bottom: 6px;">
+                  <input type="checkbox" id="chk-control-negative" checked>
+                  <div>
+                    <strong style="color: #0f172a;">Negative Control</strong>
+                    <div style="font-size: 0.72rem; color: #64748b;">Empty vector, vehicle blank, or no-template control</div>
+                  </div>
+                </label>
+                <input type="text" id="ctrl-negative-spec" class="form-input" style="font-size: 0.78rem; padding: 4px 8px; width: 100%;" placeholder="Specify negative control (e.g., Empty vehicle, untransformed host, buffer blank)">
+              </div>
+
+              <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+                <label class="control-check-item" style="margin-bottom: 6px;">
+                  <input type="checkbox" id="chk-control-triplicates" checked>
+                  <div>
+                    <strong style="color: #0f172a;">Replicates &amp; Sample Size</strong>
+                    <div style="font-size: 0.72rem; color: #64748b;">Biological and technical replicate design</div>
+                  </div>
+                </label>
+                <input type="text" id="ctrl-triplicates-spec" class="form-input" style="font-size: 0.78rem; padding: 4px 8px; width: 100%;" placeholder="Specify replicates (e.g., n = 3 independent biological cultures × 3 technical repeat wells)">
+              </div>
             </div>
 
             <!-- Structured Experimental Design & Statistical Power Grid (P1-A) -->
@@ -1616,7 +1645,7 @@ window.switchMatrixViewTab = function(tab) {
                 📐 Experimental Variables, Sample Size Justification &amp; Statistical Analysis Plan
               </div>
               <div style="font-size: 0.74rem; color: #475569; margin-bottom: 10px; line-height: 1.4;">
-                Specify your independent and dependent variables, distinguish <strong>biological replicates</strong> (independent batches/cultures) from <strong>technical replicates</strong> (repeat wells), and justify your sample size ($n$) and statistical test rather than assuming an arbitrary rule.
+                Specify your independent and dependent variables, distinguish <strong>biological replicates</strong> (independent batches/cultures) from <strong>technical replicates</strong> (repeat wells), and justify your sample size (n) and statistical test rather than assuming an arbitrary rule.
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
                 <div>
@@ -1628,7 +1657,7 @@ window.switchMatrixViewTab = function(tab) {
                   <input type="text" id="exp-design-dep-var" class="form-input" style="font-size: 0.79rem; padding: 6px 8px;" placeholder="e.g. Fluorescence RFU, % inhibition (IC50), LoD (copies/µL), HPLC peak area">
                 </div>
                 <div>
-                  <label class="field-label" for="exp-design-replicates-just" style="font-size: 0.75rem;"><strong>Replicates &amp; Sample Size ($n$) Justification:</strong></label>
+                  <label class="field-label" for="exp-design-replicates-just" style="font-size: 0.75rem;"><strong>Replicates &amp; Sample Size (n) Justification:</strong></label>
                   <input type="text" id="exp-design-replicates-just" class="form-input" style="font-size: 0.79rem; padding: 6px 8px;" placeholder="e.g. n = 3 independent biological batches × 3 technical wells (80% power at α = 0.05)">
                 </div>
                 <div>
@@ -2092,12 +2121,13 @@ window.switchMatrixViewTab = function(tab) {
               <table class="budget-egp-table" id="budget-egp-table">
                 <thead>
                   <tr>
-                    <th style="width: 32%;">Item Description & Specifications</th>
-                    <th style="width: 22%;">Official Category</th>
-                    <th style="width: 10%; text-align: center;">Qty</th>
-                    <th style="width: 16%; text-align: right;">Unit Cost (EGP)</th>
-                    <th style="width: 16%; text-align: right;">Total Cost (EGP)</th>
-                    <th style="width: 4%; text-align: center;">✕</th>
+                    <th style="width: 24%;">Item Description & Specifications</th>
+                    <th style="width: 18%;">Official Category</th>
+                    <th style="width: 24%;">Scientific Justification / Purpose</th>
+                    <th style="width: 8%; text-align: center;">Qty</th>
+                    <th style="width: 12%; text-align: right;">Unit Cost (EGP)</th>
+                    <th style="width: 11%; text-align: right;">Total Cost (EGP)</th>
+                    <th style="width: 3%; text-align: center;">✕</th>
                   </tr>
                 </thead>
                 <tbody id="budget-egp-tbody">
@@ -2366,6 +2396,7 @@ window.switchMatrixViewTab = function(tab) {
           <span class="nature-tag-pill">LIVE ASSIGNMENT VIEW</span>
         </div>
         <div class="nature-actions-group">
+          <button type="button" class="btn-manu-action" id="btn-manu-export-docx" style="background: #1d4ed8; color: #ffffff; border-color: #1e40af; font-weight: 700;" title="Download proposal as Microsoft Word (.docx)">📄 Export Word (.docx)</button>
           <button type="button" class="btn-manu-action" id="btn-print-manuscript" title="Print or save proposal to PDF">🖨️ Print / PDF</button>
           <button type="button" class="btn-manu-action" id="btn-copy-manuscript" title="Copy full formatted proposal text">📋 Copy</button>
         </div>
@@ -2425,17 +2456,15 @@ window.switchMatrixViewTab = function(tab) {
 
       <!-- Sections 2 through 10 Live Content -->
       <div class="manuscript-columns" style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
-        <!-- 2. Introduction & Background -->
+        <!-- 2. Introduction (BT_301 Unified Narrative Standard) -->
         <section class="manuscript-sec">
-          <h2 class="manuscript-sec-heading">2. Introduction & Project Background</h2>
-          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">2.1 Problem Statement & Background</div>
-          <div class="manuscript-sec-body" id="manu-background" style="font-size: 0.82rem; line-height: 1.5; text-align: justify;">Draft your Section 2.1 unified narrative in Phase 1.</div>
-          
-          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">2.2 Project Importance & Multi-Domain Impact</div>
-          <div class="manuscript-sec-body" id="manu-impact-domains" style="font-size: 0.82rem; line-height: 1.5;">Select impact domains in Phase 1.</div>
-
-          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">2.3 Target Audience & Direct Beneficiaries</div>
-          <div class="manuscript-sec-body" id="manu-target-audience" style="font-size: 0.82rem; line-height: 1.5;">Specify target beneficiaries in Phase 1.</div>
+          <h2 class="manuscript-sec-heading">2. Introduction</h2>
+          <div class="manuscript-sec-body" id="manu-introduction-unified" style="font-size: 0.82rem; line-height: 1.6; text-align: justify;">
+            Draft your unified introduction narrative moving from broader context to specific problem, knowledge gap, and model relevance in Phase 1.
+          </div>
+          <div id="manu-background" style="display:none;"></div>
+          <div id="manu-impact-domains" style="display:none;"></div>
+          <div id="manu-target-audience" style="display:none;"></div>
         </section>
 
         <!-- 3. Aim & Objectives -->
@@ -4716,10 +4745,15 @@ window.switchMatrixViewTab = function(tab) {
       var s3Status = s3Missing.length === 0 ? "complete" : ((f1 || f2 || f3 || f4 || absWords > 30) ? "draft" : "empty");
       var s3Snippet = absWords > 0 ? `Structured Abstract contains ${absWords} words.` : "⚪ Funnel and abstract not yet written.";
 
-      // 4. Specific Aims (BT_301 Decoupled 3-Aim Architecture)
-      var a1 = getVal("section-3-1-aim");
-      var a2 = getVal("section-3-2-aim");
-      var a3 = getVal("section-3-3-aim");
+      // 4. Specific Aims (BT_301 Decoupled 3-Aim Architecture - Reads Overarching Aim & Specific Objectives)
+      var objCards = document.querySelectorAll("#objectives-builder-list .objective-builder-card");
+      var obj1Text = objCards && objCards[0] ? ((objCards[0].querySelector(".verb-select")?.value || "") + " " + (objCards[0].querySelector(".obj-text-input")?.value || "")).trim() : "";
+      var obj2Text = objCards && objCards[1] ? ((objCards[1].querySelector(".verb-select")?.value || "") + " " + (objCards[1].querySelector(".obj-text-input")?.value || "")).trim() : "";
+      var obj3Text = objCards && objCards[2] ? ((objCards[2].querySelector(".verb-select")?.value || "") + " " + (objCards[2].querySelector(".obj-text-input")?.value || "")).trim() : "";
+
+      var a1 = (getVal("section-3-1-aim") || obj1Text || window.projectState?.aims?.aim1 || "").trim();
+      var a2 = (getVal("section-3-2-aim") || obj2Text || window.projectState?.aims?.aim2 || "").trim();
+      var a3 = (getVal("section-3-3-aim") || obj3Text || window.projectState?.aims?.aim3 || "").trim();
       var s4Missing = [];
 
       // Aim 1 Audit
@@ -7677,7 +7711,7 @@ Here is a side-by-side comparison across feasibility, novelty, host chassis, and
 I have compiled and populated a publication-grade, grant-compliant foundation across your active proposal:
 • **Section 1 & 2.1:** Inverted Funnel Abstract with quantified global burden and reference benchmark.
 • **Section 3:** Decoupled Specific Aims with empirical acceptance criteria.
-• **Section 4:** 5-Phase Laboratory Pipeline with untransformed wild-type baseline negative controls and triplicate testing ($n=3$).
+• **Section 4:** 5-Phase Laboratory Pipeline with untransformed wild-type baseline negative controls and triplicate testing (n = 3).
 • **Section 5:** Technical failure modes and Plan B rescue protocols.
 
 You can now click **"🤖 AI Review & Polish"** on any section header to inspect Socratic compliance and customize the details!`;
@@ -8118,7 +8152,7 @@ To construct a proposal that impresses grant committees and avoids the "Host-Swa
           if (liveTitle.length < 28) {
             critiqueMsg += `⚠️ **Missing Critical Specifics (${liveTitle.split(/\s+/).filter(Boolean).length} words):** Your title is too brief. Reviewers cannot identify your biological chassis, quantitative milestone, or specific target application.\n\n`;
           }
-          critiqueMsg += `**What Reviewers Need to See (The 4-Anchor Formula):**\n$$\\text{Title} = [\\text{Molecular Tool / Formulation}] \\text{ in } [\\text{Host Chassis / Model}] \\text{ to } [\\text{Quantified Benchmark}] \\text{ for } [\\text{Application}]$$\n\n---\n\n`;
+          critiqueMsg += `**What Reviewers Need to See (The 4-Anchor Formula):**\n\n> **Title = [Molecular Tool / Formulation] in [Host Chassis / Model] to [Quantified Benchmark] for [Application]**\n\n---\n\n`;
         }
 
         // Domain-specific 4-anchor titles
@@ -8155,31 +8189,38 @@ To construct a proposal that impresses grant committees and avoids the "Host-Swa
           t3 = `Nanoparticle-Formulated ${baseTool} in ${baseChassis} to Achieve Rapid Field-Deployable Detection of ${baseTarget}`;
         }
 
-        reply = `${critiqueMsg}✨ **Let's Co-Author a Publication-Grade Title & Abstract:**
+        reply = `${critiqueMsg}🧩 **How to Formulate Your Title (The 4-Anchor Formula):**
+In BT_301, academic grant reviewers look for an active, engineered solution rather than observational school-lab phrasing. 
 
-${domainHeading}
-
-1. **Option 1 (High Analytical Rigor):**
-   *"${t1}"*
-2. **Option 2 (Novel Delivery / Bioengineering Platform):**
-   *"${t2}"*
-3. **Option 3 (Translational & Field-Ready):**
-   *"${t3}"*
+Assemble your title using these 4 building blocks:
+1. **Active Tool / Construct:** What specific molecule, formulation, enzyme, or carrier are you engineering?
+2. **Host Chassis / Model:** In what host organism, cell line, tissue model, or environmental matrix?
+3. **Quantitative Benchmark:** What numerical milestone will define success (e.g. *IC50 < 25 µg/mL*, *MIC < 15 µg/mL*, *LOD < 10 pM*, *>80% release*)?
+4. **Target Application:** What real-world health, agricultural, or industrial problem does it solve?
 
 ---
 
-📐 **The Inverted Funnel Abstract Structure (4 Tiers):**
-• **Tier 1 (Global Context):** State the quantified worldwide clinical, agricultural, or environmental burden.
-• **Tier 2 (Current Standard):** Name the reference standard technology and its quantitative metric/limitation.
-• **Tier 3 (Knowledge Gap):** Pivot with *"However, current approaches remain bottlenecked by [specific biophysical mechanism]..."*
-• **Tier 4 (Our Solution & Hypothesis):** Conclude with your proposed chassis, tool, target, and quantitative hypothesis!
+📐 **Illustrative Title Structures for Inspiration (Choose the style that fits your vision):**
 
-Click below to adopt one of these 4-Anchor titles directly:`;
+• **Analytical / Mechanism-Focused Structure:**
+  *[Tool/Construct] in [Host/Matrix] to [Quantitative Milestone] for [Application]*
+  *(e.g., "${t1}")*
+
+• **Delivery / Platform-Focused Structure:**
+  *[Carrier/Platform System] for Targeted Delivery of [Active Agent] in [Biological Model] to [Benchmark]*
+  *(e.g., "${t2}")*
+
+• **Translational / Field-Ready Structure:**
+  *[Engineered System] in [Authentic Matrix] to [Benchmark] for Rapid [Application]*
+  *(e.g., "${t3}")*
+
+---
+
+💡 **Next Step for You:** Use the formula above to draft your title in Step 1. Click below to jump straight to the title input in the editor!`;
 
         actions = [
-          { label: "Adopt Title Option 1", icon: "✨", onClickJs: `copilotAdoptTitle('${t1.replace(/'/g, "\\'")}')` },
-          { label: "Adopt Title Option 2", icon: "✨", onClickJs: `copilotAdoptTitle('${t2.replace(/'/g, "\\'")}')` },
-          { label: "Adopt Title Option 3", icon: "✨", onClickJs: `copilotAdoptTitle('${t3.replace(/'/g, "\\'")}')` }
+          { label: "Jump to Step 1: Title Input", icon: "✏️", onClickJs: `jumpToEditorSection('proposal-title-input')` },
+          { label: "Inspect 3 Strategic Pillars", icon: "🏷️", onClickJs: `jumpToEditorSection('pillar-chassis')` }
         ];
       }
 
@@ -8282,7 +8323,7 @@ Your current Section 4.1 Methodology (${methVal.trim() ? methVal.trim().split(/\
 
         var actionDirectives = [];
         if (consistencyReport.contradictions && consistencyReport.contradictions.length > 0) {
-          actionDirectives.push(`🚨 **Resolve ${consistencyReport.contradictions.length} Scientific Contradiction(s):** ${consistencyReport.contradictions[0].title} — ${consistencyReport.contradictions[0].fix}`);
+          actionDirectives.push(`🚨 **Resolve ${consistencyReport.contradictions.length} Scientific Contradiction(s):** ${consistencyReport.contradictions[0].title} — ${consistencyReport.contradictions[0].fix || (consistencyReport.contradictions[0].detail ? consistencyReport.contradictions[0].detail.replace(/<[^>]+>/g, '').substring(0, 100) + '...' : 'Review experimental alignment.')}`);
         }
         if (!liveTitle || liveTitle.length < 28 || /^(the\s+)?(effect|study)\s+of/i.test(liveTitle)) {
           actionDirectives.push(`🏷️ **Refine Proposal Title & 3 Pillars (Section 1):** Ensure title follows the 4-Anchor Formula ([Tool] in [Chassis] to [Benchmark] for [Application]) and avoids passive 'The effect of...' phrasing.`);
@@ -8461,7 +8502,7 @@ Reviewers ask: *"Did the student actually innovate, or did they just run standar
 
 ### 4 Strategies to Guarantee Novelty &amp; Inventive Step:
 1. **Rational Active-Site Redesign:** Introduce specific point mutations (e.g. S238F/W159H or engineered disulfide bridges A180C–G165C) to boost catalytic turnover ($k_{\text{cat}}$) or thermostability ($T_m > 60^\circ\text{C}$).
-2. **Dual-Enzyme Chimeric Cascades:** Fuse complementary enzymes (e.g. PETase + MHETase with a $(G_4S)_3$ flexible linker) to eliminate intermediate metabolite inhibition.
+2. **Dual-Enzyme Chimeric Cascades:** Fuse complementary enzymes (e.g. PETase + MHETase with a (G4S)3 flexible linker) to eliminate intermediate metabolite inhibition.
 3. **Decentralized Acellular Deployment:** Formulate the reaction as a freeze-dried, cell-free paper strip, eliminating living GMO release concerns.
 4. **Synthetic Biocontainment:** Integrate synthetic kill switches (e.g. cold-sensitive or amino acid auxotrophy) to prevent environmental persistence.
 
@@ -8474,10 +8515,10 @@ In analytical biotechnology, under **CLSI EP17-A2 guidelines**, the Limit of Det
 
 ### Mathematical Protocol:
 1. **Prepare Serial Dilutions:** Titrate synthetic DNA across a graded concentration series (e.g. 1, 3, 10, 30, 100, 300, 1,000 copies/reaction).
-2. **Replicate Testing:** Run $N \ge 20$ replicates at each concentration. Record each reaction as binary: **Positive (1)** or **Negative (0)** based on background threshold ($3 \times \text{SD}_{\text{blank}}$).
+2. **Replicate Testing:** Run N ≥ 20 replicates at each concentration. Record each reaction as binary: **Positive (1)** or **Negative (0)** based on background threshold ($3 \times \text{SD}_{\text{blank}}$).
 3. **Probit Modeling:** In statistical software, fit the cumulative normal distribution:
-   $$\text{Probit}(P) = \Phi^{-1}(P) = \beta_0 + \beta_1 \log_{10}(\text{Concentration})$$
-4. **LoD Determination:** Solve for $P = 0.95$ to calculate the concentration where the detection probability is exactly 95%, with **Wilson 95% Confidence Intervals**.
+   Probit(P) = Φ⁻¹(P) = β₀ + β₁ log₁₀(Concentration)
+4. **LoD Determination:** Solve for P = 0.95 to calculate the concentration where the detection probability is exactly 95%, with **Wilson 95% Confidence Intervals**.
 
 💡 **Proposal Integration:** State in Section 4.1 (Phase 5) and Section 3 (Aim 2) that your analytical LoD will be mathematically derived via probit regression!`;
         } else {
@@ -8485,7 +8526,7 @@ In analytical biotechnology, under **CLSI EP17-A2 guidelines**, the Limit of Det
 
 **Colistin (Polymyxin E)** is a polycationic peptide antibiotic with 5 positive charges. It functions like a molecular magnet:
 1. It electrostatically binds to the negatively charged **lipid A phosphate headgroups** of lipopolysaccharide (LPS) in the Gram-negative outer membrane.
-2. It displaces stabilizing $\text{Mg}^{2+}$ and $\text{Ca}^{2+}$ ions, disrupting the outer membrane and lysing the bacterium.
+2. It displaces stabilizing Mg²⁺ and Ca²⁺ ions, disrupting the outer membrane and lysing the bacterium.
 
 ### How MCR-1 Confers Resistance:
 • **MCR-1** is a 61 kDa membrane-bound **phosphoethanolamine transferase** carried on mobile conjugative plasmids (e.g. IncI2, IncX4).
@@ -8511,12 +8552,12 @@ In analytical biotechnology, under **CLSI EP17-A2 guidelines**, the Limit of Det
 To defend your proposal before a faculty or grant review panel, your experimental design (Section 4.1 & Table 2) must distinguish three essential control & statistical layers:
 
 1. **Matrix-Matched Negative Baseline Control:**
-   • *Untransformed host chassis / empty vector*, *solvent vehicle control* (e.g. $\le 0.1\%$ DMSO in broth/media), or *no-template control (NTC)* assayed under identical conditions.
+   • *Untransformed host chassis / empty vector*, *solvent vehicle control* (e.g. ≤ 0.1% DMSO in broth/media), or *no-template control (NTC)* assayed under identical conditions.
    • Proves that optical, catalytic, or biological signals are strictly target-dependent rather than matrix autofluorescence or solvent toxicity.
 2. **Calibrated Positive Reference Standard:**
    • Known active comparator (e.g. Ascorbic acid/Trolox for DPPH; Dexamethasone for anti-inflammatory macrophage assays; Ciprofloxacin/Gentamicin for MIC; commercial purified enzyme or synthetic target template for kinetics/diagnostics).
 3. **Biological vs. Technical Replicates & Statistical Power:**
-   • Clearly separate **biological replicates** (independent cultures, extractions, or cell passages, e.g. $n \ge 3$ justified by expected effect size and assay variance) from **technical replicates** (triplicate pipetted wells per biological sample) and specify your statistical test (e.g. one-way ANOVA with Tukey's post-hoc test or two-tailed Student's $t$-test, $\alpha = 0.05$).
+   • Clearly separate **biological replicates** (independent cultures, extractions, or cell passages, e.g. n ≥ 3 justified by expected effect size and assay variance) from **technical replicates** (triplicate pipetted wells per biological sample) and specify your statistical test (e.g. one-way ANOVA with Tukey's post-hoc test or two-tailed Student's t-test, α = 0.05).
 
 💡 **Actionable Step:** Click below to insert verified controls into Section 4 or auto-populate Table 2 from your Objectives:`;
 
@@ -9533,9 +9574,14 @@ What specific section would you like to strengthen next?`;
       var liveChassis = document.getElementById("pillar-chassis") ? document.getElementById("pillar-chassis").value.trim() : "";
       var liveTool = document.getElementById("pillar-tool") ? document.getElementById("pillar-tool").value.trim() : "";
       var liveTarget = document.getElementById("pillar-target") ? document.getElementById("pillar-target").value.trim() : "";
-      var liveAim1 = document.getElementById("section-3-1-aim") ? document.getElementById("section-3-1-aim").value.trim() : "";
-      var liveAim2 = document.getElementById("section-3-2-aim") ? document.getElementById("section-3-2-aim").value.trim() : "";
-      var liveAim3 = document.getElementById("section-3-3-aim") ? document.getElementById("section-3-3-aim").value.trim() : "";
+      var objCardsLive = document.querySelectorAll("#objectives-builder-list .objective-builder-card");
+      var obj1Live = objCardsLive && objCardsLive[0] ? ((objCardsLive[0].querySelector(".verb-select")?.value || "") + " " + (objCardsLive[0].querySelector(".obj-text-input")?.value || "")).trim() : "";
+      var obj2Live = objCardsLive && objCardsLive[1] ? ((objCardsLive[1].querySelector(".verb-select")?.value || "") + " " + (objCardsLive[1].querySelector(".obj-text-input")?.value || "")).trim() : "";
+      var obj3Live = objCardsLive && objCardsLive[2] ? ((objCardsLive[2].querySelector(".verb-select")?.value || "") + " " + (objCardsLive[2].querySelector(".obj-text-input")?.value || "")).trim() : "";
+
+      var liveAim1 = (document.getElementById("section-3-1-aim")?.value || obj1Live || window.projectState?.aims?.aim1 || "").trim();
+      var liveAim2 = (document.getElementById("section-3-2-aim")?.value || obj2Live || window.projectState?.aims?.aim2 || "").trim();
+      var liveAim3 = (document.getElementById("section-3-3-aim")?.value || obj3Live || window.projectState?.aims?.aim3 || "").trim();
       var liveMethodology = document.getElementById("section-4-1-methodology") ? document.getElementById("section-4-1-methodology").value.trim() : (document.getElementById("section-4-3-methods") ? document.getElementById("section-4-3-methods").value.trim() : (document.getElementById("methodology-input") ? document.getElementById("methodology-input").value.trim() : ""));
       var livePitfalls = document.getElementById("section-5-interpretations") ? document.getElementById("section-5-interpretations").value.trim() : (document.getElementById("section-5-expected-outcomes") ? document.getElementById("section-5-expected-outcomes").value.trim() : "");
       var isHumanChecked = document.getElementById("form-human-subjects") ? document.getElementById("form-human-subjects").checked : false;
@@ -10026,9 +10072,10 @@ What specific section would you like to strengthen next?`;
         // LENS 1: 🔎 LITERATURE PRECEDENT RADAR (EGP CALIBRATED)
         // =========================================================================
         var combinedText = (liveTitle + " " + liveChassis + " " + liveTool + " " + liveAbstract + " " + liveMethodology).toLowerCase();
-        var isCrispr = /crispr|cas12|cas13|cas9|rpa|guide\s*rna|crrna/i.test(combinedText);
-        var isPetase = /petase|plastic|polyethylene|mhetase|esterase|depolymer/i.test(combinedText);
-        var isAptamer = /aptamer|selex|fluorescent\s*probe|biosensor/i.test(combinedText);
+        var isPhytoOrTopical = /\b(plant|calendula|herb|phytochem|extract|topical|cream|gel|ointment|lotion|nanoemulsion|dermal|wound|skin|essential oil|bioactive|anti-?inflamm)\b/i.test(combinedText);
+        var isCrispr = (/\b(crispr|cas12[a-z]?|cas13[a-z]?|cas9|crrna)\b/i.test(combinedText) || (/\brpa\b/i.test(combinedText))) && !isPhytoOrTopical;
+        var isPetase = /\b(petase|plastic|polyethylene|mhetase|esterase|depolymer)\b/i.test(combinedText);
+        var isAptamer = /\b(aptamer|selex|fluorescent\s*probe|biosensor)\b/i.test(combinedText);
 
         var precTitle = "🔎 Lens 1 • Precedent Radar";
         var precBench = "Standard clinical / laboratory assay (Culture, PCR, or HPLC).";
@@ -10036,7 +10083,13 @@ What specific section would you like to strengthen next?`;
         var precLimit = "Known Limitation: Cross-reactivity or matrix inhibition in raw samples.";
         var precNudge = "Ensure Aim 2 sets a numerical benchmark against existing literature.";
 
-        if (isCrispr) {
+        if (isPhytoOrTopical) {
+          precTitle = "🔎 Lens 1 • Precedent: Phytochemical & Topical Formulations";
+          precBench = "Standard Reference: Commercial Hydrocortisone 1% or Diclofenac gel (~45–90 EGP/tube) / Indomethacin.";
+          precLOD = "Published Efficacy: In vitro IC50 for NO / TNF-α inhibition (typically 10–50 µg/mL) & >70% cell viability.";
+          precLimit = "Literature Limitation: Poor stratum corneum skin permeation & batch-to-batch variation in raw herbal extracts.";
+          precNudge = "Does your Specific Aim 2 establish an explicit formulation release rate (e.g. >75% over 12h) or anti-inflammatory benchmark (e.g. IC50 < 25 µg/mL)?";
+        } else if (isCrispr) {
           precTitle = "🔎 Lens 1 • Precedent: CRISPR Diagnostics";
           precBench = "Gold Standard: RT-qPCR (750–1,500 EGP/sample, 3–4 hrs turnaround).";
           precLOD = "Published Cas12a/Cas13 LOD: 10 pM – 50 pM (fluorescent reporter).";
@@ -10955,20 +11008,21 @@ What specific section would you like to strengthen next?`;
       // Helper: read live proposal fields
       function gv(id) { var el = document.getElementById(id); return el ? (el.value || el.innerText || '').trim() : ''; }
 
-      // Helper: read budget rows from the EGP budget table
+      // Helper: read budget rows from the EGP budget table (7-column schema)
       function readBudgetRows() {
         var tbody = document.getElementById("budget-egp-tbody");
         if (!tbody) return [];
         var rows = [];
         Array.from(tbody.children).forEach(function(tr) {
           var cells = tr.querySelectorAll("td");
-          if (cells.length >= 5) {
+          if (cells.length >= 6) {
             var item = (cells[0].querySelector("input") || cells[0]).value || cells[0].innerText || '';
             var cat = (cells[1].querySelector("select") || cells[1].querySelector("input") || cells[1]).value || cells[1].innerText || '';
-            var qty = parseFloat((cells[2].querySelector("input") || cells[2]).value || cells[2].innerText) || 0;
-            var unit = parseFloat(((cells[3].querySelector("input") || cells[3]).value || cells[3].innerText || '').replace(/[^0-9.]/g, '')) || 0;
-            var total = parseFloat(((cells[4].querySelector("input,span,div") || cells[4]).value || cells[4].innerText || '').replace(/[^0-9.]/g, '')) || (qty * unit);
-            rows.push({ item: item.trim(), category: cat.trim(), qty: qty, unitCost: unit, totalCost: total });
+            var just = (cells[2].querySelector("input") || cells[2]).value || cells[2].innerText || '';
+            var qty = parseFloat((cells[3].querySelector("input") || cells[3]).value || cells[3].innerText) || 0;
+            var unit = parseFloat(((cells[4].querySelector("input") || cells[4]).value || cells[4].innerText || '').replace(/[^0-9.]/g, '')) || 0;
+            var total = parseFloat(((cells[5].querySelector("input,span,div") || cells[5]).value || cells[5].innerText || '').replace(/[^0-9.]/g, '')) || (qty * unit);
+            rows.push({ item: item.trim(), category: cat.trim(), justification: just.trim(), qty: qty, unitCost: unit, totalCost: total });
           }
         });
         return rows;
