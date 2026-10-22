@@ -1,0 +1,8 @@
+{
+  "project_id": "TEST-ADAPTER-MODES",
+  "current_state": "MOCK_HANDOFF_COMPLETED",
+  "requirements_summary": [],
+  "last_transition_time": "2026-10-22T18:39:10.628248+00:00",
+  "dossier_generated": true,
+  "previous_state": "READY_FOR_ETHICS_HANDOFF"
+}

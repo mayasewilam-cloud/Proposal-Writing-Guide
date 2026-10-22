@@ -44,6 +44,13 @@ from core.breakthroughs_manager import (
     CREATORS,
     COPYRIGHT_NOTICE
 )
+from core.bt301_guide import (
+    get_all_chapters,
+    get_chapter,
+    search_guide,
+    get_quick_finder,
+    get_sentence_formulation_guide
+)
 from core.auth_store import (
     register_student,
     authenticate_student,
@@ -876,6 +883,62 @@ def api_copilot_message():
     return jsonify({
         "status": "success",
         **result
+    })
+
+
+@app.route("/api/guide/chapters", methods=["GET"])
+def api_get_guide_chapters():
+    chapters = get_all_chapters()
+    return jsonify({
+        "status": "success",
+        "total": len(chapters),
+        "chapters": chapters
+    })
+
+
+@app.route("/api/guide/chapter/<int:chapter_num>", methods=["GET"])
+def api_get_guide_chapter(chapter_num):
+    ch = get_chapter(chapter_num)
+    if not ch:
+        return jsonify({"status": "error", "message": f"Chapter {chapter_num} not found"}), 404
+    return jsonify({
+        "status": "success",
+        "chapter": ch
+    })
+
+
+@app.route("/api/guide/search", methods=["GET", "POST"])
+def api_search_guide():
+    if request.method == "POST":
+        data = request.get_json() or {}
+        q = data.get("query", data.get("q", ""))
+        limit = int(data.get("limit", 10))
+    else:
+        q = request.args.get("q", request.args.get("query", ""))
+        limit = int(request.args.get("limit", 10))
+    results = search_guide(q, limit=limit)
+    return jsonify({
+        "status": "success",
+        "query": q,
+        "results": results
+    })
+
+
+@app.route("/api/guide/quick_finder", methods=["GET"])
+def api_get_guide_quick_finder():
+    items = get_quick_finder()
+    return jsonify({
+        "status": "success",
+        "items": items
+    })
+
+
+@app.route("/api/guide/sentence_coach", methods=["GET"])
+def api_get_sentence_coach():
+    coach = get_sentence_formulation_guide()
+    return jsonify({
+        "status": "success",
+        **coach
     })
 
 

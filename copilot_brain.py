@@ -22,6 +22,34 @@ except ImportError:
         execute_multi_search = None
         get_search_engine_links = None
 
+try:
+    from core.bt301_guide import (
+        get_all_chapters,
+        get_chapter,
+        search_guide,
+        get_quick_finder,
+        get_sentence_formulation_guide,
+        get_glossary_terms,
+        get_glossary_term
+    )
+except ImportError:
+    try:
+        from bt301_guide import (
+            get_all_chapters,
+            get_chapter,
+            search_guide,
+            get_quick_finder,
+            get_sentence_formulation_guide,
+            get_glossary_terms,
+            get_glossary_term
+        )
+    except ImportError:
+        get_all_chapters = None
+        get_chapter = None
+        search_guide = None
+        get_quick_finder = None
+        get_sentence_formulation_guide = None
+
 
 # =============================================================================
 # DEEP BIOTECHNOLOGY KNOWLEDGE BASE GRAPH
@@ -468,6 +496,98 @@ def generate_socratic_thinking_response(
     is_web_search_intent = bool(re.search(r'\b(search (the )?(web|internet|google|online|duckduckgo|engines?)|look up (online|on the web|on google)|search engine|search engines|find (me )?(papers|studies|articles) online|find online|latest (news|research|paper|development) on)\b', lower))
     is_web_search = is_explicit_search or is_web_search_intent
 
+    # BT301 Pedagogical, Writing & Sentence Formulation Intents
+    is_sentence_coach = bool(re.search(
+        r'\b(formulate\s+(a\s+)?sentence|sentence\s+formulation|how\s+to\s+formulate\s+(a\s+)?sentence|'
+        r'build(ing)?\s+(a\s+)?sentence|sentence\s+structure|how\s+to\s+write\s+(a\s+)?sentence|'
+        r'write\s+(a\s+)?sentence|sentence\s+guide|sentence\s+blueprint|scientific\s+verbs?|'
+        r'active\s+vs\s+passive|active\s+passive|tense\s+in\s+proposal|verb\s+choice|verb\s+matrix|'
+        r'informal\s+to\s+academic|hedging|sentence\s+starter)\b',
+        lower
+    )) or (bool(re.search(r'\b(sentence|sentences)\b', lower)) and bool(re.search(r'\b(formulate|build|write|guide|help|structure|craft)\b', lower)))
+
+    is_hypothesis_coach = bool(re.search(
+        r'\b(how\s+to\s+write\s+(a\s+)?hypothesis|write\s+(a\s+)?hypothesis|hypothesis\s+sentence|'
+        r'formulate\s+(a\s+)?hypothesis|mechanistic\s+hypothesis|testable\s+hypothesis|'
+        r'hypothesis\s+formulation|hypothesis\s+blueprint)\b',
+        lower
+    ))
+
+    # NEW: Specific Aims Formulation Intent (Chapter 9 & 22)
+    is_aims_coach = bool(re.search(
+        r'\b(how\s+to\s+write\s+(specific\s+)?aims|draft\s+(specific\s+)?aims|aims?\s+formula|'
+        r'decoupled\s+aims?|aims?\s+structure|how\s+to\s+structure\s+aims|write\s+objectives|'
+        r'formulate\s+aims|specific\s+aims?\s+guide)\b',
+        lower
+    ))
+
+    # NEW: Grant Budgeting in EGP Intent (Chapter 25)
+    is_budget_coach = bool(re.search(
+        r'\b(budget|egp|egyptian\s+pounds?|how\s+to\s+write\s+(a\s+)?budget|budget\s+justification|'
+        r'itemized\s+budget|reagents?\s+cost|equipment\s+cost|indirect\s+costs?|direct\s+costs?|'
+        r'contingency\s+fund|budget\s+categories|grant\s+budget)\b',
+        lower
+    ))
+
+    # NEW: Timeline & Gantt Chart Intent (Chapter 24)
+    is_timeline_coach = bool(re.search(
+        r'\b(gantt(\s+chart)?|timeline|milestones?|quarterly\s+milestone|project\s+schedule|'
+        r'timeline\s+template|contingency\s+plan|plan\s+b|risk\s+management)\b',
+        lower
+    ))
+
+    # NEW: Experimental Controls Intent (Chapter 23)
+    is_controls_coach = bool(re.search(
+        r'\b(what\s+controls\s+do\s+i\s+need|experimental\s+controls?|negative\s+control|'
+        r'positive\s+control|vehicle\s+control|sham\s+control|matrix(-|\s+)matched|blank\s+sample|'
+        r'assay\s+controls?)\b',
+        lower
+    ))
+
+    # NEW: Statistical Rigor & Limit of Detection Intent (Chapter 2 & 23)
+    is_stats_coach = bool(re.search(
+        r'\b(statistical\s+design|statistical\s+analysis|statistics|p-value|sample\s+size|power\s+calculation|'
+        r'(anova|t-test)\b.*\b(anova|t-test)|choose\s+between\s+t-test|limit\s+of\s+detection|'
+        r'how\s+to\s+calculate\s+lod|probit\s+regression|lod\s+formula)\b',
+        lower
+    ))
+
+    # NEW: Reviewer 2 Mock Viva Defense ("Grill Me") Intent
+    is_grilling = bool(re.search(
+        r'\b(grill\s+me|reviewer\s+2|mock\s+defense|mock\s+viva|simulate\s+oral\s+defense|cross(-|\s+)examin|defense\s+mode)\b',
+        lower
+    ))
+
+    # NEW: Glossary & Scientific Definition Lookup
+    glossary_match = get_glossary_term(text) if get_glossary_term else None
+    is_glossary = bool(glossary_match) and bool(re.search(
+        r'\b(what\s+is|what\s+are|define|definition|explain|meaning\s+of|what\s+does.*mean|tell\s+me\s+about|how\s+to\s+calculate|formula\s+for)\b',
+        lower
+    ) or clean_trim == (glossary_match.get("term", "").lower() if glossary_match else ""))
+
+    is_gap_coach = bool(re.search(
+        r'\b(how\s+to\s+write\s+(a\s+)?(literature\s+)?gap|gap\s+sentence|gap\s+pivot|'
+        r'formulate\s+(a\s+)?gap|finding\s+the\s+gap|literature\s+gap\s+statement)\b',
+        lower
+    ))
+
+    is_guide_direct = bool(re.search(
+        r'\b(bt301\s+guide|course\s+guide|complete\s+guide|student\s+guide|'
+        r'pre-submission\s+checklist|master\s+checklist|grading\s+rubric|how\s+is\s+my\s+proposal\s+graded|'
+        r'how\s+will\s+it\s+be\s+graded|stuck\s+finder|quick\s+finder|fill-in\s+templates?)\b',
+        lower
+    )) or bool(re.match(r'^(show|open|read|view)?\s*chapter\s*(\d+)', lower))
+
+    # Comprehensive Contextual Guidance & Co-Thinking Intent
+    is_guidance_request = (bool(re.search(
+        r'\b(help\s+me\s+do\s+this|help\s+me\s+with\s+this|guide\s+me\s+on\s+this|guide\s+me\s+through\s+this|'
+        r'can\s+you\s+guide\s+me|can\s+you\s+help\s+me|how\s+do\s+i\s+do\s+this|what\s+should\s+i\s+do|'
+        r'what\s+should\s+i\s+write|where\s+do\s+i\s+start|how\s+to\s+start|help\s+me\s+with\s+my\s+project|'
+        r'what\s+is\s+next|next\s+step|suggest\s+next\s+step|tell\s+me\s+what\s+to\s+do|walk\s+me\s+through|'
+        r'guide\s+me\s+to\s+write|help\s+me\s+to\s+write|help\s+me\s+write)\b',
+        lower
+    )) or (clean_trim in ["help me", "guide me", "help me please", "guide me please", "what should i do next", "how do i do this", "help", "guide"])) and not is_sentence_coach and not is_hypothesis_coach and not is_gap_coach
+
     # Daily human conversation intents
     is_weather = bool(re.search(r'\b(weather|rain|raining|sunny|clouds?|cloudy|forecast|hot outside|cold outside|temperature outside)\b', lower))
     is_how_are_you = bool(re.match(r'^(how are you|how are you doing|hows it going|how is it going|how are things|hows your day|how do you feel|whats up|sup|doing good)\??$', clean_trim)) or bool(re.search(r'\b(how are you doing|how have you been|how are things with you)\b', lower))
@@ -545,7 +665,671 @@ We queried open web knowledge indices and Europe PMC for the latest developments
             "engine_links": engine_links
         }
 
-    # CASUAL CASE 1: Weather & Everyday Small Talk
+    # BT301 ROUTE: Comprehensive Contextual Guidance & Co-Thinking Partner
+    elif is_guidance_request:
+        thinking_steps.append("Analyzing student inquiry for contextual project guidance & next-step co-thinking.")
+        thinking_steps.append(f"Inspecting active proposal draft: Title='{live_title or 'Untitled'}', Chassis='{live_chassis or 'Unspecified'}', Tool='{live_tool or 'Unspecified'}', Target='{live_target or 'Unspecified'}'.")
+        thinking_steps.append("Cross-referencing active telemetry against the BT301 Master Workflow (Phases A through E).")
+        thinking_steps.append("Formulating structured diagnostic, immediate priority milestone, and concrete scientific worked options.")
+
+        # Analyze Title & Active Telemetry
+        is_title_passive = bool(re.search(r'^(the\s+)?(effect|role|impact|study|investigation|evaluation|analysis|overview)\s+(of|on|into)\b', (live_title or "").lower().strip()))
+        is_title_brief = len((live_title or "").split()) < 7
+
+        title_critique = ""
+        if live_title:
+            if is_title_passive:
+                title_critique = f"❌ **Current Title Issue:** *\"{live_title}\"* starts with descriptive, passive school-lab phrasing (*\"The effect of...\"*). Academic reviewers penalize this because it observes rather than engineers a solution."
+            elif is_title_brief:
+                title_critique = f"⚠️ **Current Title Status:** *\"{live_title}\"* is quite brief. Reviewers cannot identify your biological chassis, quantitative milestone, or specific target application."
+            else:
+                title_critique = f"✅ **Active Title:** *\"{live_title}\"*."
+        else:
+            title_critique = "⚠️ **Title Status:** You haven't chosen a proposal title yet. We need a strong active title built on the 4-anchor formula."
+
+        reply = f"""### 🤝 Research Co-Pilot Guidance: Let's Build Your Proposal Step-by-Step
+
+I've examined your active proposal context. Scientific proposal writing can feel complex, but when we follow the **BT301 Master Workflow**, every section builds naturally on the one before it.
+
+---
+
+### 📊 1. Diagnostic of Your Current Draft:
+• {title_critique}
+• **Strategic Pillars:** Chassis: `{live_chassis or 'Needs Definition'}` | Molecular Tool: `{live_tool or 'Needs Definition'}` | Biological Target: `{live_target or 'Needs Definition'}`
+
+---
+
+### 🎯 2. Your Immediate High-Impact Next Steps (In Priority Order):
+
+1. **Step 1: Lock in Your 4-Part Title & 3 Strategic Pillars (Chapter 14 & 20):**
+   $$\\text{{Title}} = [\\text{{Active Tool / Construct}}] \\text{{ in }} [\\text{{Host Chassis / Model}}] \\text{{ to }} [\\text{{Quantified Benchmark}}] \\text{{ for }} [\\text{{Target Application}}]$$
+   *(If your idea is detector/sensor-focused, specify what molecular mechanism it uses, e.g. Cas12a trans-cleavage, electrochemical aptamer, or nano-biosensor).*
+
+2. **Step 2: Define the Literature Gap Pivot (Chapter 8 & 21):**
+   State what existing methods can do, and contrast it with their unresolved bottleneck:
+   *"Although standard culture assays detect [target], their 48-hour turnaround delays intervention..."*
+
+3. **Step 3: Draft Your Mechanistic Hypothesis & 3 Decoupled Aims (Chapter 9 & 22):**
+   State *how* your system works down at the molecular level, followed by 3 independent experimental aims.
+
+---
+
+### ✍️ Three Concrete Worked Directions Tailored to Your Draft:
+• **Option A (CRISPR Molecular Diagnostics):**  
+  *"Engineered Recombinase Polymerase Amplification (RPA) Coupled with LbCas12a Trans-Cleavage in Paper-Based Lateral Flow Strips to Achieve Sub-Picomolar Pathogen Detection for Rapid Point-of-Care Surveillance"*
+
+• **Option B (Nanomaterial Biosensing):**  
+  *"Electrochemical Aptasensor Functionalized with Gold Nanoparticles in Clinical Serum to Attain LOD < 5 pg/mL for Rapid Sepsis Biomarker Quantification"*
+
+• **Option C (Bioactive Formulation & Drug Delivery):**  
+  *"Chitosan-PLGA Nanoparticles Loaded with Standardized Bioactive Extract in Human Dermal Fibroblasts to Achieve >80% Wound Closure for Accelerated Tissue Regeneration"*
+
+---
+
+💡 **Where should we start right now?** Tell me which direction fits your vision best, or tell me your target analyte, and we will formulate your exact title and aims together!"""
+
+        actions = [
+            {"label": "Suggest & Refine My Title", "icon": "✍️", "onClickJs": "quickSendCopilotPrompt('suggest edits and guide me to write a good title')"},
+            {"label": "Draft 3 Specific Aims", "icon": "🎯", "onClickJs": "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims')"},
+            {"label": "Formulate Literature Gap", "icon": "🔍", "onClickJs": "quickSendCopilotPrompt('help me write a literature gap sentence')"},
+            {"label": "Formulate a Sentence (Ch 13)", "icon": "📝", "onClickJs": "quickSendCopilotPrompt('can you help me and guide on how to formulate a sentence')"},
+            {"label": "📖 Open BT301 Complete Guide", "icon": "📖", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(1);"}
+        ]
+
+        suggestions = [
+            {"text": "✍️ Guide me to write a good title", "prompt": "suggest edits and guide me to write a good title"},
+            {"text": "🧬 Help me write my hypothesis sentence", "prompt": "how to write a mechanistic hypothesis sentence"},
+            {"text": "🔍 Help me write a literature gap", "prompt": "how to write a literature gap sentence"}
+        ]
+
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_contextual_guidance"
+        }
+
+    # BT301 ROUTE: Glossary & Scientific Definition Resolver (Chapter 32)
+    elif is_glossary and glossary_match:
+        term_name = glossary_match.get("term", text)
+        definition = glossary_match.get("definition", "")
+        ref = glossary_match.get("ref", "Chapter 32")
+        ch_num = glossary_match.get("chapter", 32)
+
+        thinking_steps.append(f"Identified Glossary & Scientific Definition query for: '{term_name}'.")
+        thinking_steps.append(f"Cross-referencing definition and practical guidance from {ref}.")
+        thinking_steps.append("Synthesizing pedagogical definition card with common pitfalls and actionable next steps.")
+
+        reply = f"""### 📖 Glossary Definition: **{term_name}**
+**Curriculum Reference:** {ref}
+
+{definition}
+
+---
+
+### 📐 Standard Proposal Benchmark & Blueprint:
+• **Academic Standard:** Ensure this term is quantified with precise physical units (e.g. $\mu\text{{M}}$, ng/mL, bp) and clear biological agency.
+• **Proposal Integration:** Frame within your active project context ({live_title or "your draft"}) to prevent reviewer ambiguity.
+
+---
+
+### ⚠️ Common Student Pitfall / Reviewer Red Flag:
+Confusing this term with colloquial equivalents or related concepts (e.g. technical vs. biological replicates, or aims vs. protocols). Reviewers deduct marks for conceptual imprecision.
+
+---
+
+💡 **Next Steps:** Would you like to check how this applies to your aims, or test your understanding in a mock defense?"""
+
+        actions = [
+            {"label": f"Open {ref.split('&')[0].strip()}", "icon": "📖", "onClickJs": f"if(window.openBt301Guide) window.openBt301Guide({ch_num});"},
+            {"label": "Open Master Glossary (Ch 32)", "icon": "📚", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(32);"},
+            {"label": "Grill Me on This", "icon": "🧠", "onClickJs": f"quickSendCopilotPrompt('grill me on {term_name}')"}
+        ]
+        suggestions = [
+            {"text": f"🔬 How do I apply {term_name} in my aims?", "prompt": f"how do I apply {term_name} in my specific aims?"},
+            {"text": f"⚠️ Common reviewer traps for {term_name}?", "prompt": f"what do reviewers look for regarding {term_name}?"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "glossary_definition"
+        }
+
+    # BT301 ROUTE: Specific Aims Formulation Coach (Chapter 9 & 22)
+    elif is_aims_coach:
+        thinking_steps.append("Identified Specific Aims Formulation Inquiry (BT301 Guide • Chapter 9 & 22).")
+        thinking_steps.append("Applying standard verb-led milestone structure with mandatory aim decoupling.")
+        thinking_steps.append("Synthesizing actionable aim blueprint tailored to the active proposal draft.")
+
+        reply = f"""### 🎯 BT301 Specific Aims Formulation Guide (Chapter 9 & 22)
+
+A Specific Aim is **not a methodology step** (e.g., *"To run PCR"* or *"To purify protein"*). An aim is a **verb-led scientific milestone** that directly tests one logical component of your mechanistic hypothesis.
+
+---
+
+### 📐 The Universal 4-Part Specific Aim Formula:
+$$\text{{Specific Aim [X]}} = [\text{{Action Verb}}] + [\text{{Target Molecule / System}}] + [\text{{Mechanistic Method}}] + [\text{{Chassis / Model}}] + [\text{{Quantified Endpoint}}]$$
+
+• **Approved Action Verbs:** *Quantify, Engineer, Validate, Characterize, Optimize, Decouple, Formulate.*  
+• **Prohibited Verbs:** *Study, Investigate, Explore, Look into, Understand.*
+
+---
+
+### 🛡️ The Non-Negotiable Decoupling Rule (Chapter 9 §9.4):
+Reviewers immediately reject proposals where Aim 2 cannot proceed if Aim 1 fails or yields low expression.
+• **Bad (Coupled):** Aim 1 produces an engineered enzyme; Aim 2 tests its activity on plastic. If Aim 1 yield is poor, Aim 2 is dead.
+• **Good (Decoupled):** Aim 2 uses commercially available wild-type enzyme as an active benchmark while Aim 1 variants are in production.
+
+---
+
+### 📑 Alignment Matrix Checklist (Chapter 22):
+Every aim must explicitly declare:
+1. **Biological Hypothesis Tested**
+2. **Standardized Quantitative Assay** (e.g., HPLC, qPCR, ELISA, IC50)
+3. **Primary Positive Standard & Matrix Blank**
+4. **Feasibility Contingency (Plan B)**"""
+
+        actions = [
+            {"label": "Open Chapter 9: The Funnel", "icon": "🎯", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(9);"},
+            {"label": "Open Chapter 22: Specific Aims", "icon": "📑", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(22);"},
+            {"label": "Draft 3 Decoupled Aims for My Project", "icon": "✍️", "onClickJs": "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims for my active proposal')"}
+        ]
+        suggestions = [
+            {"text": "🎯 Draft Aim 1 for my project", "prompt": "draft Aim 1 for my active proposal"},
+            {"text": "🛡️ How to decouple Aim 2 from Aim 1?", "prompt": "how to decouple Aim 2 from Aim 1?"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "aims_formulation"
+        }
+
+    # BT301 ROUTE: Grant Budgeting in EGP Coach (Chapter 25)
+    elif is_budget_coach:
+        thinking_steps.append("Identified Grant Budgeting & Financial Feasibility Inquiry (BT301 Guide • Chapter 25).")
+        thinking_steps.append("Enforcing 100% Egyptian Pounds (EGP) currency mandate and 4-tier category allocation.")
+        thinking_steps.append("Generating itemized justification blueprint and reviewer compliance checks.")
+
+        reply = """### 💰 BT301 Itemized Grant Budget Guide (Chapter 25)
+
+In Egyptian academic funding (STDF, ASRT, University Grants), all budgets **MUST be denominated in Egyptian Pounds (EGP)**. Submitting budgets in USD without explicit sponsor permission is an immediate compliance red flag.
+
+---
+
+### 📊 The 4 Standard Grant Budget Categories:
+1. **Category 1: Direct Reagents & Assay Consumables (50–60% of total):**  
+   Enzymes, primers, antibodies, cell culture media, plasticware, specialized assay kits.
+2. **Category 2: Core Facility Testing & Analytical Services (20–25% of total):**  
+   Per-sample charges for Sanger sequencing, LC-MS/MS, TEM/SEM imaging, NMR, FACS.
+3. **Category 3: Student & Personnel Stipends (10–15% of total):**  
+   Undergraduate/MSc student research compensation allocated per semester.
+4. **Category 4: Contingency & Buffer Reserve (5–10% of total):**  
+   Emergency buffer for customs clearance, currency fluctuation, and re-runs.
+
+---
+
+### 📝 The Reagent Justification Formula (Chapter 25 §25.3):
+Reviewers reject vague line items like *"Chemicals: 50,000 EGP"*. Every single item must be mathematically justified:
+$$\text{Total Cost (EGP)} = [\text{Number of Samples}] \times [\text{3 Biological Replicates}] \times [\text{Unit Price per Reaction (EGP)}]$$
+
+• **Example:** *TaqPath qPCR Master Mix (Applied Biosystems, Cat# A15297): 480 reactions across 40 samples × 3 replicates × 4 target genes = 4 kits @ 12,500 EGP/kit = 50,000 EGP.*"""
+
+        actions = [
+            {"label": "Open Chapter 25: Itemized Budget", "icon": "💰", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(25);"},
+            {"label": "Audit My Current Budget", "icon": "📊", "onClickJs": "quickSendCopilotPrompt('audit my proposal budget in EGP')"}
+        ]
+        suggestions = [
+            {"text": "💵 How to justify reagent costs?", "prompt": "how to write a reagent justification in EGP"},
+            {"text": "🛡️ What is the maximum budget allowed?", "prompt": "what are the standard budget limits for student proposals?"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "budget_formulation"
+        }
+
+    # BT301 ROUTE: Milestone Timeline & Gantt Chart Coach (Chapter 24)
+    elif is_timeline_coach:
+        thinking_steps.append("Identified Milestone Timeline & Gantt Chart Inquiry (BT301 Guide • Chapter 24).")
+        thinking_steps.append("Structuring 12-month or 24-month roadmap with quarterly milestones and contingency buffers.")
+
+        reply = """### 📅 BT301 Timeline & Gantt Chart Guide (Chapter 24)
+
+Reviewers look for an achievable, logically sequenced schedule with explicit milestones and buffer time for experimental troubleshooting.
+
+---
+
+### 🗺️ Standard 12-Month Project Architecture:
+• **Months 1–3 (Q1): Chassis Preparation & Vector Construction:**  
+  *Milestone 1:* Sequence-verified recombinant construct generated and transformed into host chassis.
+• **Months 4–6 (Q2): Expression Optimization & Pilot Screen:**  
+  *Milestone 2:* Target molecule expressed with confirmed yield > 50 mg/L or detectable enzymatic activity.
+• **Months 7–9 (Q3): Full Analytical Characterization & Controls:**  
+  *Milestone 3:* Triplicate assays completed across all positive reference standards and negative matrix blanks.
+• **Months 10–12 (Q4): Validation Replicates, Data Synthesis & Defense:**  
+  *Milestone 4:* Final statistical analysis (ANOVA, 95% CI) and publication manuscript drafted.
+
+---
+
+### 🛡️ Mandatory Buffer & Plan B Contingency (Chapter 24 §24.4):
+Reserve the final 2 months exclusively for data analysis and buffer time. Never schedule critical laboratory bench experiments into the final month before graduation or submission."""
+
+        actions = [
+            {"label": "Open Chapter 24: Timeline & Gantt", "icon": "📅", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(24);"},
+            {"label": "Build My Gantt Schedule", "icon": "📊", "onClickJs": "quickSendCopilotPrompt('help me structure my 12 month Gantt chart')"}
+        ]
+        suggestions = [
+            {"text": "📅 How to define quarterly milestones?", "prompt": "how to define quarterly milestones for my proposal"},
+            {"text": "🛡️ What is a Plan B contingency table?", "prompt": "how to write a contingency plan for protein expression failure"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "timeline_formulation"
+        }
+
+    # BT301 ROUTE: Experimental Controls & Replicates Coach (Chapter 23)
+    elif is_controls_coach:
+        thinking_steps.append("Identified Experimental Controls & Replicates Inquiry (BT301 Guide • Chapter 23).")
+        thinking_steps.append("Enforcing the 4 mandatory control groups and biological vs. technical replicate standards.")
+
+        reply = """### 🧪 BT301 Experimental Controls & Rigor Guide (Chapter 23)
+
+Reviewer 2 frequently writes: *"The proposed methodology lacks rigorous controls."* In biotechnology, you must deploy the **4 Non-Negotiable Experimental Controls**:
+
+---
+
+### 🛡️ The 4 Mandatory Experimental Controls:
+1. **Negative Control (Baseline Specificity):**  
+   Non-targeting gRNA (CRISPR), empty plasmid vector, or untreated host cells. Proves signal is not due to vector or cellular background.
+2. **Positive Reference Standard (Assay Validity):**  
+   Commercially validated benchmark (e.g. wild-type enzyme, FDA-approved therapeutic, or synthetic target DNA). Proves your assay chemistry functions under tested conditions.
+3. **Matrix-Matched Blank (Interference Check):**  
+   Authentic patient serum, uninoculated plant sap, or sterile soil without target analyte. Proves matrix components (e.g. humic acids, endogenous proteases) do not cause false positives.
+4. **Vehicle / Sham Control (Solvent Effect):**  
+   Buffer with identical DMSO, glycerol, or ethanol concentration without bioactive compound. Proves observed bioactivity is not solvent toxicity.
+
+---
+
+### 🔬 Replicates Rule of Rigor:
+• **Biological Replicates ($n \ge 3$):** Independent cultures grown on different days or separate test subjects. Used for statistical significance ($p < 0.05$).
+• **Technical Replicates (Triplicate):** Pipetting replicates from the same biological sample. Proves pipetting precision, not biological reproducibility."""
+
+        actions = [
+            {"label": "Open Chapter 23: Methodology", "icon": "🧪", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(23);"},
+            {"label": "Audit Controls for My Project", "icon": "🔍", "onClickJs": "quickSendCopilotPrompt('what controls do I need for my active proposal')"}
+        ]
+        suggestions = [
+            {"text": "🧪 What negative control for CRISPR?", "prompt": "what negative control should I use for CRISPR diagnostics?"},
+            {"text": "📊 How many replicates do I need?", "prompt": "difference between biological and technical replicates in grant proposals"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "controls_formulation"
+        }
+
+    # BT301 ROUTE: Statistical Rigor & Limit of Detection (Chapter 2 & 23)
+    elif is_stats_coach:
+        thinking_steps.append("Identified Statistical Rigor & Limit of Detection Inquiry (BT301 Guide • Chapter 2 & 23).")
+        thinking_steps.append("Formulating IUPAC/CLSI limit of detection equations and hypothesis testing decision trees.")
+
+        reply = """### 📊 BT301 Statistical Rigor & Limit of Detection (LoD) Guide
+
+Statistical rigor distinguishes an undergraduate lab report from a fundable research proposal.
+
+---
+
+### 📐 Standard IUPAC / CLSI Limit of Detection (LoD) Equation:
+$$\text{LoD} = \bar{x}_{\text{blank}} + 3.3 \times \sigma_{\text{blank}}$$
+$$\text{LoQ (Limit of Quantitation)} = \bar{x}_{\text{blank}} + 10 \times \sigma_{\text{blank}}$$
+• $\bar{x}_{\text{blank}}$: Mean signal of matrix-matched blank ($n \ge 20$ replicates).
+• $\sigma_{\text{blank}}$: Standard deviation of matrix-matched blank.
+
+For binary diagnostics (positive/negative), use **Probit Regression Analysis** to identify the concentration that yields 95% positive detection with 95% Confidence Intervals.
+
+---
+
+### 📈 Statistical Test Decision Matrix (Chapter 2 §2.2):
+• **2 Groups (e.g. Treated vs. Untreated):** Two-tailed Student's $t$-test (paired if same subject before/after; unpaired otherwise).
+• **$\ge 3$ Groups with 1 Factor:** One-Way ANOVA followed by **Tukey's Post-Hoc HSD** (compares all pairs) or **Dunnett's test** (compares all to control).
+• **2 Factors (e.g. Dose $\times$ Time):** Two-Way ANOVA with **Bonferroni correction** for multiple comparisons.
+• **Threshold:** Set $\alpha = 0.05$. Report exact $p$-values (e.g. $p = 0.018$), never just $p < 0.05$."""
+
+        actions = [
+            {"label": "Open Chapter 2: Statistics", "icon": "📊", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(2);"},
+            {"label": "Open Chapter 23: Methodology", "icon": "🧪", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(23);"}
+        ]
+        suggestions = [
+            {"text": "📊 How to choose between t-test and ANOVA?", "prompt": "when to use ANOVA vs t-test in biotechnology proposals"},
+            {"text": "🎯 How to calculate sample size?", "prompt": "how to perform power calculation for sample size"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "statistics_rigor"
+        }
+
+    # BT301 ROUTE: Reviewer 2 Mock Defense / Faculty Cross-Examination ("Grill Me")
+    elif is_grilling:
+        thinking_steps.append("Activating Reviewer 2 Mock Defense & Faculty Cross-Examination Simulator.")
+        thinking_steps.append(f"Targeting active proposal: Title='{live_title or 'Untitled'}', Chassis='{live_chassis or 'Unspecified'}', Tool='{live_tool or 'Unspecified'}'.")
+        thinking_steps.append("Formulating 4 critical reviewer cross-examination questions.")
+
+        reply = f"""### 🧠 Reviewer 2 Faculty Defense Station: Cross-Examination
+**Active Proposal:** *"{live_title or "Your Research Draft"}"*
+
+I am acting as **Reviewer 2** on your faculty grant evaluation panel. Here are the 4 hardest questions your committee will ask during your viva defense:
+
+---
+
+### ⚔️ Question 1: The Feasibility & Expression Trap
+*"{live_chassis or 'Your chosen host'} is notorious for forming insoluble inclusion bodies when overexpressing foreign recombinant proteins. How will you confirm soluble expression before spending your budget on downstream characterization?"*
+
+### ⚔️ Question 2: The Benchmark & Sensitivity Challenge
+*"Existing commercial assays already detect {live_target or 'the target'} reliably. What is your quantitative benchmark (LoD or kcat/Km), and why would a clinic or industrial partner adopt your method over established gold standards?"*
+
+### ⚔️ Question 3: The Decoupling Vulnerability
+*"If Aim 1 produces an expression yield below your threshold (< 50 mg/L), how does Aim 2 proceed? Have you formulated a decoupled Plan B contingency?"*
+
+### ⚔️ Question 4: Matrix Interference & Specificity
+*"Have you validated that non-target homologous molecules or clinical matrix components will not cause false-positive signal in your standardized assay?"*
+
+---
+
+💡 **How would you defend against Question 1 or Question 3?** Type your response, and I will critique your defense!"""
+
+        actions = [
+            {"label": "Show Model Defense for Q1", "icon": "🛡️", "onClickJs": "quickSendCopilotPrompt('model defense for Question 1 inclusion bodies')"},
+            {"label": "Show Model Defense for Q3", "icon": "🎯", "onClickJs": "quickSendCopilotPrompt('model defense for Question 3 decoupled aims')"}
+        ]
+        suggestions = [
+            {"text": "🛡️ Model defense for Question 1", "prompt": "how to defend against protein expression failure in viva"},
+            {"text": "🎯 How to answer Question 3", "prompt": "how to defend decoupled aims in oral defense"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "reviewer_defense"
+        }
+
+    # BT301 ROUTE: Mechanistic Hypothesis Formulation (Chapter 9 & 13)
+    elif is_hypothesis_coach:
+        thinking_steps.append("Identified Mechanistic Hypothesis Formulation Inquiry (BT301 Guide — Chapter 9 & 13).")
+        thinking_steps.append("Applying standard 4-pillar hypothesis structure with quantitative success benchmark.")
+
+        reply = """### 🧬 BT301 Mechanistic Hypothesis Formulation (Chapter 9)
+
+In BT301 grant evaluation, a hypothesis is **not a wild guess** and **not a descriptive statement**. It is a **mechanistic, testable prediction** grounded in published biochemistry.
+
+---
+
+### 🧩 The Mechanistic Hypothesis Blueprint:
+$$\\text{Hypothesis} = \\text{We hypothesize that } [\\text{Active Agent / Construct}] \\text{ will } [\\text{Action Verb}] [\\text{Molecular Target}] \\text{ by } [\\text{Biochemical Mechanism}], \\text{ thereby } [\\text{Quantified Benchmark}] \\text{ in } [\\text{Host Chassis / Model Matrix}].$$
+
+---
+
+### ⚖️ Descriptive vs. Mechanistic Hypothesis:
+• ❌ **Descriptive (School-Lab Trap):**  
+  *“We hypothesize that plant extract X will have an effect on bacteria.”*  
+  *(Why reviewers reject it: No active agent, no biochemical mechanism, no target molecule, no quantitative threshold.)*
+
+• ✅ **Mechanistic & Fundable:**  
+  *“We hypothesize that an ethosomal nano-emulsion of Calendula officinalis will accelerate dermal wound re-epithelialization by downregulating pro-inflammatory TNF-alpha and IL-6 expression in human epidermal keratinocytes, achieving >75% wound closure within 48 hours.”*
+
+---
+
+### 🎯 3 Golden Criteria of a Fundable Hypothesis (Criterion 2):
+1. **Directionality:** Does it state an increase, decrease, inhibition, or acceleration?
+2. **Biochemical Mechanism:** Does it specify *how* (pathway, receptor, domain, enzyme)?
+3. **Falsifiability:** Can a negative control or statistical test ($p < 0.05$) prove it wrong?
+
+---
+
+💡 **Let's construct your hypothesis together!** What is your active tool/agent and target molecule?"""
+
+        actions = [
+            {"label": "📖 Open Chapter 9: Research Funnel", "icon": "📖", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(9);"},
+            {"label": "📖 Open Chapter 13: Building a Sentence", "icon": "✍️", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(13);"},
+            {"label": "🎯 Draft 3 Specific Aims", "icon": "🎯", "onClickJs": "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims')"}
+        ]
+
+        suggestions = [
+            {"text": "✍️ Refine my current hypothesis", "prompt": "here is my hypothesis: can you critique and refine it?"},
+            {"text": "🔍 Help me write a gap sentence", "prompt": "how to write a literature gap sentence"}
+        ]
+
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_hypothesis_coaching"
+        }
+
+    # BT301 ROUTE: Literature Gap Statement (Chapter 8 & 21)
+    elif is_gap_coach:
+        thinking_steps.append("Identified Literature Gap Statement Inquiry (BT301 Guide — Chapter 8 & 21).")
+        thinking_steps.append("Deconstructing gap taxonomy and contrastive pivot structures.")
+
+        reply = """### 🔍 BT301 Literature Gap Formulation (Chapter 8 & 21)
+
+A literature gap is **not** simply saying *“no one has studied this before.”* A genuine research gap is a specific, high-value problem that prior scientific efforts failed to resolve or overlooked.
+
+---
+
+### 🧩 The 3-Part Literature Gap Pivot Formula:
+$$\\text{Gap Pivot} = [\\text{Acknowledge Established Prior Work}] + [\\text{Contrastive Conjunction: However / Despite}] + [\\text{Unresolved Mechanistic Void}].$$
+
+• **Worked Example:**  
+  *“Although numerous studies demonstrated the broad-spectrum antibacterial efficacy of silver nanoparticles in vitro, their clinical topical application remains severely constrained by cellular cytotoxicity and rapid oxidation in aqueous formulations.”*
+
+---
+
+### 📚 The 4 Valid Gap Archetypes (Chapter 8):
+1. **Methodological Gap:** Existing assays are too slow, expensive, or insensitive (e.g. 72-hour culture vs. 15-minute isothermal amplification).
+2. **Mechanistic Gap:** The clinical effect is known, but the exact cellular pathway or receptor remains uncharacterized.
+3. **Formulation / Delivery Gap:** The bioactive compound degrades rapidly or fails to cross biological barriers (e.g. stratum corneum).
+4. **Chassis / Environmental Gap:** A molecular system works in laboratory buffer but fails in authentic clinical or industrial matrices (e.g. humic acid inhibition).
+
+---
+
+💡 **Let's draft your literature gap sentence!** Share what prior studies found and what specific bottleneck your project solves."""
+
+        actions = [
+            {"label": "📖 Open Chapter 8: Finding the Gap", "icon": "📖", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(8);"},
+            {"label": "📖 Open Chapter 21: State of the Art", "icon": "📑", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(21);"},
+            {"label": "✍️ Formulate Hypothesis Next", "icon": "🧬", "onClickJs": "quickSendCopilotPrompt('how to write a mechanistic hypothesis sentence')"}
+        ]
+
+        suggestions = [
+            {"text": "🔍 Critique my literature gap", "prompt": "here is my gap statement: can you critique it?"},
+            {"text": "✍️ Guide me to write a sentence", "prompt": "can you help me and guide on how to formulate a sentence"}
+        ]
+
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_gap_coaching"
+        }
+
+    # BT301 ROUTE: Sentence Formulation & Scientific Writing (Chapter 13)
+    elif is_sentence_coach:
+        thinking_steps.append("Identified Scientific Sentence Formulation Inquiry (BT301 Guide — Chapter 13: Building a Sentence).")
+        thinking_steps.append("Applying 4-part scientific architecture: Subject (Agent/Tool) + Verb (Precise Action) + Object (Measured Property) + Condition (Matrix/Model).")
+        thinking_steps.append("Synthesizing actionable archetypes, verb matrices, and section tense guidelines.")
+
+        reply = """### ✍️ BT301 Scientific Sentence Formulation Guide (Chapter 13)
+
+Academic proposals require **active, mechanistic, and quantified** sentences. Reviewers look for clear agency: who or what is acting, what precise biophysical action is occurring, and under what exact conditions.
+
+---
+
+### 🧩 1. The Universal 4-Part Scientific Sentence Formula:
+$$\\text{Sentence} = [\\text{Subject / Agent}] + [\\text{Active Action Verb}] + [\\text{Direct Object / Measured Endpoint}] + [\\text{Condition / Chassis}]$$
+
+• **Example:**  
+  *“The ethanolic Calendula officinalis extract **(Subject)** inhibited **(Verb)** biofilm formation **(Object)** in cultured Methicillin-resistant Staphylococcus aureus **(Condition)**.”*
+
+---
+
+### 📐 2. The 5 Essential Sentence Types in a Research Proposal:
+
+| Section | Sentence Archetype | Formula & Worked Example |
+| :--- | :--- | :--- |
+| **Sec 2: Problem** | **The Real-World Bottleneck** | *"[Disease / Contaminant] causes [quantified cost / mortality], yet current standard [methods] suffer from [specific technical limitation]."*<br>*(e.g., "Sepsis claims over 11 million lives annually, yet blood-culture confirmation requires 48–72 hours to return antibiotic resistance profiles.")* |
+| **Sec 2: Gap Pivot** | **The Unresolved Void** | *"Although previous studies established that [known fact], whether [key variable] can [target effect] under [relevant condition] remains uncharacterized."*<br>*(e.g., "Although recombinant PETase degrades amorphous PET at 30°C, its rapid thermal inactivation at >50°C prevents commercial industrial deployment.")* |
+| **Sec 3: Hypothesis** | **The Mechanistic Prediction** | *"We hypothesize that [Agent / Construct] will [action verb] [target] by [biochemical mechanism], achieving [quantified milestone] in [model chassis]."*<br>*(e.g., "We hypothesize that disulfide-stabilized PETase variants will resist thermal unfolding at 65°C by decreasing backbone entropy, depolymerizing >85% post-consumer PET within 12 hours.")* |
+| **Sec 3: Objective** | **The Measurable Aim** | *"To [action verb: quantify / optimize / express / evaluate] [parameter] using [method / assay] in order to [milestone benchmark]."*<br>*(e.g., "To evaluate kinetic catalytic turnover ($k_{cat}/K_m$) of five engineered variants across 40–70°C using spectrophotometric esterase assays.")* |
+| **Sec 4: Protocol** | **Future-Tense Active Procedure** | *"[Sample / Formulation] will be [passive action verb] at [operating condition] for [duration] with [positive & negative controls] to [endpoint readout]."*<br>*(e.g., "Triplicate 50 mg substrate samples will be incubated at 65°C in 50 mM glycine-NaOH buffer (pH 9.0) with wild-type and heat-inactivated enzyme controls.")* |
+
+---
+
+### 🔬 3. Scientific Verb Choice Matrix:
+• **Define / Specify:** *is defined as, refers to, comprises, encompasses*  
+• **Describe Biochemical Mechanism:** *catalyzes, mediates, regulates, downregulates, upregulates, transcribes, cleaves*  
+• **Report Literature:** *demonstrated, observed, established, confirmed, identified*  
+• **Cautious Hedging:** *suggests, indicates, supports the hypothesis that, is consistent with* *(never use 'proves' in biology)*  
+• **Quantify Effect:** *inhibited by 68%, accelerated by 3.2-fold, reduced below detection threshold*
+
+---
+
+### 💡 Informal → Academic Quick Conversions:
+• *"A lot of studies"* ➔ **"Numerous empirical investigations"**  
+• *"Scientists found out that"* ➔ **"Researchers previously demonstrated that"**  
+• *"This proves that"* ➔ **"These findings provide strong evidence that"**  
+• *"We wanted to see if"* ➔ **"This investigation aims to determine whether"**  
+• *"The extract did not work"* ➔ **"The formulation exhibited no statistically significant inhibition ($p > 0.05$)"**
+
+---
+
+🎯 **What sentence would you like to draft right now?** Select an archetype below or share your draft sentence and we will refine it together!"""
+
+        actions = [
+            {"label": "📖 Open Chapter 13: Building a Sentence", "icon": "📖", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(13);"},
+            {"label": "✍️ Formulate Hypothesis Sentence", "icon": "🧬", "onClickJs": "quickSendCopilotPrompt('how to write a mechanistic hypothesis sentence')"},
+            {"label": "🔍 Formulate Literature Gap Sentence", "icon": "🔍", "onClickJs": "quickSendCopilotPrompt('how to write a literature gap sentence')"},
+            {"label": "🎯 Formulate Specific Aim Sentence", "icon": "🎯", "onClickJs": "quickSendCopilotPrompt('how to write a specific aim sentence')"},
+            {"label": "📋 View Master Pre-Submission Checklist", "icon": "✅", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(30);"}
+        ]
+
+        suggestions = [
+            {"text": "✍️ Help me write my hypothesis sentence", "prompt": "help me write a mechanistic hypothesis sentence for my proposal"},
+            {"text": "🔍 Help me write a gap pivot sentence", "prompt": "help me write a literature gap pivot sentence"},
+            {"text": "📖 Browse all 34 Guide chapters", "prompt": "show me the bt301 course guide"}
+        ]
+
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_sentence_coaching"
+        }
+
+    # BT301 ROUTE: Course Guide Navigator & Chapter Lookup
+    elif is_guide_direct:
+        thinking_steps.append("Identified BT301 Complete Course Guide Navigation Query.")
+        ch_match = re.search(r'chapter\s*(\d+)', lower)
+        ch_num = int(ch_match.group(1)) if ch_match else None
+
+        if ch_num and get_chapter:
+            ch_data = get_chapter(ch_num)
+            if ch_data:
+                thinking_steps.append(f"Loaded Chapter {ch_num}: {ch_data.get('title')}.")
+                preview = ch_data.get('content', '')[:1000]
+                reply = f"""### 📖 BT301 Guide — Chapter {ch_num}: {ch_data.get('title')}
+**Part:** {ch_data.get('part')} • **Scope:** {ch_data.get('word_count')} words
+
+{preview}...
+
+---
+
+💡 *Click the button below to read the full chapter, copy fill-in templates, and view the worked example in the interactive reader!*"""
+                actions = [
+                    {"label": f"📖 Open Full Chapter {ch_num} in Reader", "icon": "📖", "onClickJs": f"if(window.openBt301Guide) window.openBt301Guide({ch_num});"},
+                    {"label": "📋 Master Pre-Submission Checklist", "icon": "✅", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(30);"},
+                    {"label": "📝 View Fill-in Templates", "icon": "📝", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(31);"}
+                ]
+                suggestions = [
+                    {"text": f"✍️ Help me write sentences for Chapter {ch_num}", "prompt": "can you help me and guide on how to formulate a sentence"},
+                    {"text": "📖 Browse all 34 chapters", "prompt": "show me all chapters of the bt301 guide"}
+                ]
+                return {
+                    "reply": reply,
+                    "actions": actions,
+                    "suggestions": suggestions,
+                    "thinking": thinking_steps,
+                    "concept": "bt301_guide_navigation"
+                }
+
+        # General guide overview
+        thinking_steps.append("Presenting BT301 Guide master workflow and 'I'm Stuck' quick finder.")
+        # General guide overview
+        thinking_steps.append("Presenting BT301 Guide master workflow and 'I'm Stuck' quick finder.")
+        reply = """### 📖 BT301 Complete Course Guide
+**From Zero to a Fundable Research Proposal (29 Chapters)**
+
+The complete course guide is fully integrated into your workspace! It provides step-by-step guidance from essential biotechnology foundations to experimental design, statistics, itemized budgets (EGP), and master glossary definitions.
+
+---
+
+### 🗺️ The 5-Phase Master Curriculum:
+• **Part A: Foundations (Ch 1–5):** Science principles, essential vocabulary, statistics ($p$-value, SD, SEM), paper reading, ethics & AI tools.
+• **Part B: Finding & Shaping Your Project (Ch 6–11):** Biotechnology sectors, literature search strings, finding the gap, research funnel, fundability criteria, team roles.
+• **Part C: Academic Writing Skills (Ch 12–18):** Sentence formulation (Ch 13), scientific verbs, tenses, active vs passive, MEAL paragraph building, transitions, self-editing.
+• **Part D: Writing the Proposal (Ch 19–26):** Section-by-section drafting: Title & Summary, Background & Problem, Specific Aims, Methodology & Controls, Timeline & Gantt, Itemized Budget (EGP), Impact & Tech Transfer.
+• **Part E: Reference & Templates (Ch 31–33):** Fill-in proposal templates (Ch 31), master A–Z glossary (Ch 32), one-page cheat sheets (Ch 33).
+
+---
+
+### 🔍 Quick "I'm Stuck" Finder:
+• *Confused about Aim vs. Objective vs. Hypothesis?* → **Chapter 9**
+• *Need to formulate active, mechanistic sentences?* → **Chapter 13**
+• *Need to define the literature gap pivot?* → **Chapter 8 & 21**
+• *Looking up a term definition or standard formula?* → **Chapter 32 (Glossary)**
+• *Need copy-paste fill-in templates?* → **Chapter 31**
+
+Click below to open the complete interactive guide reader:"""
+
+        actions = [
+            {"label": "📖 Open BT301 Complete Guide Reader", "icon": "📖", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(1);"},
+            {"label": "✍️ Open Chapter 13: Building a Sentence", "icon": "✍️", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(13);"},
+            {"label": "📚 Chapter 32: Master Glossary (A–Z)", "icon": "📚", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(32);"},
+            {"label": "💰 Chapter 25: Itemized Budget (EGP)", "icon": "💰", "onClickJs": "if(window.openBt301Guide) window.openBt301Guide(25);"}
+        ]
+
+        suggestions = [
+            {"text": "✍️ How do I formulate a sentence?", "prompt": "can you help me and guide on how to formulate a sentence"},
+            {"text": "🎯 How to write a hypothesis?", "prompt": "how to write a mechanistic hypothesis sentence"},
+            {"text": "📑 How to write a literature gap?", "prompt": "how to write a literature gap sentence"}
+        ]
+
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_guide_navigation"
+        }
+
     elif is_weather:
         thinking_steps.append("Detected casual conversation: weather / everyday human inquiry.")
         thinking_steps.append("Responding warmly with natural personality (avoiding rigid bioengineering framing).")
@@ -1163,3 +1947,4 @@ def window_safe_escape(text: str) -> str:
     clean = str(text).replace("\\", "\\\\").replace("'", "\\'").replace('"', '&quot;')
     clean = re.sub(r'[\r\n]+', ' ', clean).strip()
     return clean
+

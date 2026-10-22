@@ -166,6 +166,105 @@
       "course_id": "BT_301",
       "created_at": "Sep 20, 2026 - 10:00",
       "updated_at": "Oct 08, 2026 - 20:57"
+    },
+    "ST-2026-01": {
+      "student_id": "ST-2026-01",
+      "student_name": "Sara Ahmed & Team BioDetect",
+      "email": "st-2026-01@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Sep 20, 2026 - 10:00",
+      "updated_at": "Oct 19, 2026 - 23:47"
+    },
+    "TEST-USER-B4224E": {
+      "student_id": "TEST-USER-B4224E",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-b4224e@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 19, 2026 - 23:47",
+      "updated_at": "Oct 19, 2026 - 23:47"
+    },
+    "TEST-USER-C3777E": {
+      "student_id": "TEST-USER-C3777E",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-c3777e@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 21, 2026 - 22:33",
+      "updated_at": "Oct 21, 2026 - 22:33"
+    },
+    "TEST-USER-34D270": {
+      "student_id": "TEST-USER-34D270",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-34d270@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 21, 2026 - 22:43",
+      "updated_at": "Oct 21, 2026 - 22:43"
+    },
+    "TEST-USER-37473E": {
+      "student_id": "TEST-USER-37473E",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-37473e@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 22, 2026 - 20:45",
+      "updated_at": "Oct 22, 2026 - 20:45"
+    },
+    "TEST-USER-796760": {
+      "student_id": "TEST-USER-796760",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-796760@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 22, 2026 - 21:02",
+      "updated_at": "Oct 22, 2026 - 21:02"
+    },
+    "TEST-USER-C33D9F": {
+      "student_id": "TEST-USER-C33D9F",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-c33d9f@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 22, 2026 - 21:14",
+      "updated_at": "Oct 22, 2026 - 21:14"
+    },
+    "TEST-USER-71C2C2": {
+      "student_id": "TEST-USER-71C2C2",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-71c2c2@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 22, 2026 - 21:16",
+      "updated_at": "Oct 22, 2026 - 21:16"
+    },
+    "TEST-USER-0235FC": {
+      "student_id": "TEST-USER-0235FC",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-0235fc@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 22, 2026 - 21:37",
+      "updated_at": "Oct 22, 2026 - 21:37"
     }
   },
   "lab_groups": {

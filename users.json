@@ -12,7 +12,7 @@
     "student_name": "Sara Ahmed & Team BioDetect",
     "password_hash": "pbkdf2:sha256:1000000$RTKudf8FRGGnLpvx$cabcaace1b6bab95c9890fc3cfa230d88f010edba0d6bd3c8ec8190d581ebf21",
     "created_at": "Sep 20, 2026 - 10:00",
-    "last_login": "Oct 08, 2026 - 17:27",
+    "last_login": "Oct 22, 2026 - 21:37",
     "role": "student"
   },
   "20230001": {
@@ -74,5 +74,85 @@
     "created_at": "Sep 20, 2026 - 10:00",
     "last_login": "Oct 08, 2026 - 14:09",
     "role": "student"
+  },
+  "TEST-USER-B4224E": {
+    "student_id": "TEST-USER-B4224E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$8s3oWO3WH5wDCTHI$46ad09401090e435b44fb578d146bd734a7ac4ad28c76db7099a79e32dc53f97",
+    "created_at": "Oct 19, 2026 - 23:47",
+    "last_login": "Oct 19, 2026 - 23:47",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-C3777E": {
+    "student_id": "TEST-USER-C3777E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$uFf7LJre3DDn1l6K$b20ed8cf638a4c84affa3dfa6dd013a3e75eb008f29fe899adfb9de702109dba",
+    "created_at": "Oct 21, 2026 - 22:33",
+    "last_login": "Oct 21, 2026 - 22:33",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-34D270": {
+    "student_id": "TEST-USER-34D270",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$gJ8jnZY7q0XKcFOx$21685003b7475ae14aeb269e8a906254769bc424b10e34beaee94c7b68304198",
+    "created_at": "Oct 21, 2026 - 22:43",
+    "last_login": "Oct 21, 2026 - 22:43",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-37473E": {
+    "student_id": "TEST-USER-37473E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$xIBk9WeEgLuEDjIp$e22a192182355e4fb3587baa9796e4b80b192c803d7460cd6877c696c0a8eaaf",
+    "created_at": "Oct 22, 2026 - 20:45",
+    "last_login": "Oct 22, 2026 - 20:45",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-796760": {
+    "student_id": "TEST-USER-796760",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$LPs0D1OaRhLKl4Yt$240790c7db36050d750a5a71ef26e0e232bffbe45bc370a92015e5077dd2d687",
+    "created_at": "Oct 22, 2026 - 21:02",
+    "last_login": "Oct 22, 2026 - 21:02",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-C33D9F": {
+    "student_id": "TEST-USER-C33D9F",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$zUu5oy4VSbqTcDXb$321c55143533c8c7f94b1a8af1b088e93ee616c5a3756c2c26e1cefeba391234",
+    "created_at": "Oct 22, 2026 - 21:14",
+    "last_login": "Oct 22, 2026 - 21:14",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-71C2C2": {
+    "student_id": "TEST-USER-71C2C2",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$wRUGuMnkjuhH0uLz$eec348beaa07e3103054c915a5ec3a965e43c6c24224c01bd03eb0e924714928",
+    "created_at": "Oct 22, 2026 - 21:16",
+    "last_login": "Oct 22, 2026 - 21:16",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-0235FC": {
+    "student_id": "TEST-USER-0235FC",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$bpF9PfexNXETwbYg$df09d4b9350272c45d93f818782a6605dc24da49b3f9e45137aad423770b8ef5",
+    "created_at": "Oct 22, 2026 - 21:37",
+    "last_login": "Oct 22, 2026 - 21:37",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
   }
 }

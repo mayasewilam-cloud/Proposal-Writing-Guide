@@ -1,0 +1,243 @@
+{
+  "project_id": "TEST-REST-E2E",
+  "current_state": "CLEARED_FOR_NEXT_STAGE",
+  "previous_state": "HUMAN_REVIEW",
+  "last_transition_time": "2026-10-22T18:39:05.438839+00:00",
+  "pending_clarifications": [],
+  "answered_clarifications": [
+    {
+      "question_id": "CLAR-HUMAN-01",
+      "field": "human_subjects",
+      "prompt": "Your methodology specifies testing with clinical isolates/specimens. To determine your institutional ethics pathway: Are these samples obtained from a verified, de-identified public strain bank (e.g. ATCC, NCTC) or will they be sourced directly from patient diagnostic swabs/clinical cohorts?",
+      "rationale": "Clarification needed to establish whether formal patient informed consent (Annex A) is mandatory.",
+      "context_snippet": "Form: False [proposal.human_subjects] | Contradicting text: 'Patient blood and serum samples will be collect...' [proposal.methodology]",
+      "status": "answered",
+      "researcher_response": "Verified clinical volunteer cohort following institutional informed consent protocols.",
+      "response_timestamp": "2026-10-22T18:39:04.901175+00:00"
+    },
+    {
+      "question_id": "CLAR-CHASSIS-01",
+      "field": "organism_or_chassis",
+      "prompt": "The proposal does not explicitly declare the biological host organism, expression system, or reaction matrix. What specific cellular host or acellular diagnostic matrix will you use to execute the experimental plan?",
+      "rationale": "Essential for determining taxonomic biosafety risk and genetic containment requirements.",
+      "context_snippet": "",
+      "status": "answered",
+      "researcher_response": "Verified clinical volunteer cohort following institutional informed consent protocols.",
+      "response_timestamp": "2026-10-22T18:39:04.959887+00:00"
+    }
+  ],
+  "requirements_summary": [
+    {
+      "rule_id": "REQ-ETH-01",
+      "category": "ethics",
+      "title": "Human Participants & Clinical Materials Review",
+      "description": "Research involving human participants, patient records, or clinical specimens requires formal institutional bioethics committee review to ensure informed consent and patient confidentiality.",
+      "status": "potentially_relevant",
+      "applicable_annex": "Annex A: Human Subjects & Clinical Specimens",
+      "evidence": "Human subject indicator: 'Researcher Clarification: Verified clinical volunteer cohort following institutional informed consent protocols.'",
+      "human_action_required": "Institutional BioEthics Committee (IBC) Reviewer must inspect informed consent or strain repository provenance."
+    },
+    {
+      "rule_id": "REQ-GOV-01",
+      "category": "institutional_governance",
+      "title": "Ambiguity & Incomplete Specification Escalation",
+      "description": "Proposal context contains ambiguous or unverified regulatory parameters. Autonomous progression is suspended to route context to human supervisor or request researcher clarification.",
+      "status": "potentially_relevant",
+      "applicable_annex": "Institutional Review Triage Queue",
+      "evidence": "Uncertainties detected: 1 item(s) unverified.",
+      "human_action_required": "Academic Advisor or Ethics Coordinator must review flagged ambiguities before proposal advances."
+    }
+  ],
+  "dossier_generated": true,
+  "human_decision": {
+    "project_id": "TEST-REST-E2E",
+    "reviewer_id": "dr_faculty_chair",
+    "role": "ethics_officer",
+    "decision": "approved",
+    "notes": "",
+    "conditions": "",
+    "recorded_at": "2026-10-22T18:39:05.365395+00:00",
+    "is_human_signed": true
+  },
+  "is_locked": true,
+  "last_agent_run": {
+    "agent_run_id": "RUN-514450F9",
+    "project_id": "TEST-REST-E2E",
+    "input_fingerprint": "d41d48ebbe3dc4ca",
+    "planner_mode": "deterministic_fallback",
+    "model_provider": "deterministic_fallback",
+    "model_version": "observation-driven-fallback-v1",
+    "final_decision": "ASK_RESEARCHER",
+    "tool_calls_count": 1,
+    "tools_called": [
+      "search_pubmed"
+    ],
+    "observations": [
+      {
+        "status": "ok",
+        "tool_id": "search_pubmed",
+        "query": "Paper Lateral Flow Matrix",
+        "records_count": 3,
+        "records": [
+          {
+            "pmid": "42874400",
+            "title": "Dual-mode lateral flow Immunochromatographic assay with Nanobody-functionalized hollow copper sulfide nanoprobe for Salmonella Typhimurium detection in food",
+            "journal": "Food chemistry",
+            "pubdate": "2026 Oct 10",
+            "authors": "Yao Q, Wang J, Li S",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874400/"
+          },
+          {
+            "pmid": "42790076",
+            "title": "SERS-LFIA for foodborne pathogenic bacteria and biotoxins: Current limitations and future perspectives",
+            "journal": "Biosensors & bioelectronics",
+            "pubdate": "2027 Jan 1",
+            "authors": "Li C, Wang Y, Zhao S",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42790076/"
+          },
+          {
+            "pmid": "42790075",
+            "title": "Photoactivatable NPOM-caged split-activator CRISPR/Cas12a biosensor for amplification-free imaging of deoxynivalenol-induced miR-155 dynamics and lateral-flow sensing",
+            "journal": "Biosensors & bioelectronics",
+            "pubdate": "2027 Jan 1",
+            "authors": "Chang K, Sun J, Liu T",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42790075/"
+          }
+        ],
+        "establishes_biosafety_risk_group": true,
+        "establishes_project_specific_containment": false,
+        "observation_summary": "PubMed returned 3 relevant record(s) for 'Paper Lateral Flow Matrix'.",
+        "provenance": {
+          "source_system": "NCBI PubMed E-utilities",
+          "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+          "query_executed": "Paper Lateral Flow Matrix",
+          "pmid_list": [
+            "42874400",
+            "42790076",
+            "42790075"
+          ],
+          "timestamp": "2026-10-22T18:39:04.768732+00:00",
+          "elapsed_ms": 2090.97
+        },
+        "elapsed_ms": 2090.97
+      }
+    ],
+    "added_clarifications": [],
+    "human_escalation": null,
+    "limits_enforced": {
+      "max_tool_calls_per_run": 3,
+      "max_execution_time_sec": 15.0,
+      "max_repeated_calls_same_tool": 1,
+      "allowed_tool_whitelist": [
+        "search_pubmed",
+        "search_europe_pmc",
+        "search_openalex",
+        "ask_researcher",
+        "request_human_review"
+      ],
+      "no_arbitrary_urls": true,
+      "no_arbitrary_code_execution": true,
+      "no_proposal_rewriting": true,
+      "no_governance_approval": true,
+      "no_modification_of_human_gate_state": true,
+      "no_bypassing_deterministic_safety_checks": true
+    },
+    "elapsed_ms": 2124.41,
+    "steps": [
+      {
+        "agent_run_id": "RUN-514450F9",
+        "step_index": 1,
+        "project_id": "TEST-REST-E2E",
+        "current_workflow_state": "REQUIREMENT_CHECK",
+        "input_fingerprint": "d41d48ebbe3dc4ca",
+        "available_tools": [
+          "search_pubmed",
+          "search_europe_pmc",
+          "search_openalex",
+          "ask_researcher",
+          "request_human_review"
+        ],
+        "selected_tool": "search_pubmed",
+        "tool_arguments": {
+          "query": "Paper Lateral Flow Matrix",
+          "max_results": 3
+        },
+        "tool_execution_status": "ok",
+        "records_count": 3,
+        "tool_result_provenance": {
+          "source_system": "NCBI PubMed E-utilities",
+          "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+          "query_executed": "Paper Lateral Flow Matrix",
+          "pmid_list": [
+            "42874400",
+            "42790076",
+            "42790075"
+          ],
+          "timestamp": "2026-10-22T18:39:04.768732+00:00",
+          "elapsed_ms": 2090.97,
+          "records_count": 3
+        },
+        "observation_summary": "PubMed returned 3 relevant record(s) for 'Paper Lateral Flow Matrix'.",
+        "decision_outcome": "USE_TOOL",
+        "reason": "Current proposal contains biosafety/AMR or sample-origin uncertainty; querying PubMed for peer-reviewed risk group and containment evidence.",
+        "confidence": 0.78,
+        "uncertainty": "4 uncertainty item(s); 2 pending clarification(s)",
+        "policy_validation_result": {
+          "allowed": true,
+          "status": "ALLOWED",
+          "reason": "Decision conforms to structured contract and bounded governance policy.",
+          "violation_code": null,
+          "enforced_fallback_action": null,
+          "safeguards_triggered": []
+        },
+        "next_action": "REASSESS_OBSERVATION",
+        "human_escalation": null,
+        "timestamp": "2026-10-22T18:39:02.682056+00:00",
+        "model_provider": "deterministic_fallback",
+        "model_version": "observation-driven-fallback-v1",
+        "planner_mode": "deterministic_fallback",
+        "deterministic_safeguards_triggered": [],
+        "concise_provenance": "Decision: Peer-reviewed biosafety classification and containment precedent for Paper Lateral Flow Matrix | Action: search_pubmed | Reason: Current proposal contains biosafety/AMR or sample-origin uncertainty; querying PubMed for peer-reviewed risk group and containment evidence. | Policy: ALLOWED | Observation: PubMed returned 3 relevant record(s) for 'Paper Lateral Flow Matrix'. | Next decision: Reassess observation in step 2"
+      },
+      {
+        "agent_run_id": "RUN-514450F9",
+        "step_index": 2,
+        "project_id": "TEST-REST-E2E",
+        "current_workflow_state": "REQUIREMENT_CHECK",
+        "input_fingerprint": "d41d48ebbe3dc4ca",
+        "available_tools": [
+          "search_pubmed",
+          "search_europe_pmc",
+          "search_openalex",
+          "ask_researcher",
+          "request_human_review"
+        ],
+        "selected_tool": null,
+        "tool_arguments": {},
+        "tool_execution_status": "not_applicable",
+        "tool_result_provenance": null,
+        "observation_summary": "PubMed returned 3 relevant record(s) for 'Paper Lateral Flow Matrix'.",
+        "decision_outcome": "ASK_RESEARCHER",
+        "reason": "Human clarification required because retrieved literature evidence does not establish project-specific laboratory containment or sample de-identification.",
+        "confidence": 0.88,
+        "uncertainty": "4 uncertainty item(s); 2 pending clarification(s)",
+        "policy_validation_result": {
+          "allowed": true,
+          "status": "ALLOWED",
+          "reason": "Decision conforms to structured contract and bounded governance policy.",
+          "violation_code": null,
+          "enforced_fallback_action": null,
+          "safeguards_triggered": []
+        },
+        "next_action": "AWAIT_RESEARCHER_CLARIFICATION",
+        "human_escalation": null,
+        "timestamp": "2026-10-22T18:39:04.791347+00:00",
+        "model_provider": "deterministic_fallback",
+        "model_version": "observation-driven-fallback-v1",
+        "planner_mode": "deterministic_fallback",
+        "deterministic_safeguards_triggered": [],
+        "concise_provenance": "Decision: ASK_RESEARCHER | Action: none | Reason: Human clarification required because retrieved literature evidence does not establish project-specific laboratory containment or sample de-identification. | Policy: ALLOWED | Observation: PubMed returned 3 relevant record(s) for 'Paper Lateral Flow Matrix'. | Next decision: AWAIT_RESEARCHER_CLARIFICATION"
+      }
+    ]
+  }
+}

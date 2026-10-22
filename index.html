@@ -93,9 +93,15 @@ window.switchMatrixViewTab = function(tab) {
         </div>
       </div>
 
-      <!-- Unified AI Research Co-Pilot & Compliance Agent Button -->
-      <button id="btn-nav-agent-compliance" onclick="toggleCopilotDrawer()" type="button" class="btn-nav-action" style="display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #38bdf8; border: 1.5px solid #0284c7; font-weight: 700; padding: 6px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25); cursor: pointer;" title="Open Unified Research Co-Pilot &amp; Compliance Agent Side Panel">
-        <span>🤖</span> <span>Research Co-Pilot &amp; Compliance Agent</span>
+      <!-- BT301 Complete Student Guide Trigger (High-Contrast WCAG AAA) -->
+      <button id="btn-nav-bt301-guide" onclick="openBt301Guide()" type="button" class="btn-nav-action" style="display: inline-flex; align-items: center; gap: 6px; background: #ffffff !important; color: #0f172a !important; border: 1.5px solid #2563eb !important; font-weight: 700; padding: 6px 14px; border-radius: 8px; box-shadow: 0 1px 3px rgba(37,99,235,0.15); cursor: pointer;" title="Open BT301 Complete Student Guide (29 Chapters, Checklists, Templates)">
+        <span>📖</span> <span style="color: #0f172a !important; font-weight: 700;">BT301 Guide</span>
+        <span class="guide-badge-count" style="background: #2563eb !important; color: #ffffff !important; font-size: 0.70rem; padding: 2px 7px; border-radius: 9999px; font-weight: 800; border: none;">29 Ch</span>
+      </button>
+
+      <!-- Unified AI Research Co-Pilot & Compliance Agent Button (High-Contrast Cobalt & White) -->
+      <button id="btn-nav-agent-compliance" onclick="toggleCopilotDrawer()" type="button" class="btn-nav-action" style="display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%) !important; color: #ffffff !important; border: 1.5px solid #93c5fd !important; font-weight: 700; padding: 6px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35); cursor: pointer;" title="Open Unified Research Co-Pilot &amp; Compliance Agent Side Panel">
+        <span>🤖</span> <span style="color: #ffffff !important; font-weight: 700;">Research Co-Pilot &amp; Compliance Agent</span>
       </button>
 
       <!-- Backward-compatible hidden elements for internal references -->
@@ -149,18 +155,14 @@ window.switchMatrixViewTab = function(tab) {
           <span>🚀 Sign In & Open Studio</span>
         </button>
 
-        <!-- 1-Click Quick Fill Demo Account & Blank Starter -->
-        <div class="auth-gate-quick-fill">
-          <span class="quick-fill-label">1-Click Workspace Launchers:</span>
-          <div class="quick-fill-chips">
-            <button type="button" class="btn-quick-fill" data-id="13989" title="1-Click login as Maya with 12 Faculty Directives">🛡️ Maya Abdelrazek (13989 Exemplar)</button>
-            <button type="button" class="btn-quick-fill" onclick="if(window.startCleanBlankProposal){window.startCleanBlankProposal(false);}" style="background:#eef2ff;color:#3730a3;border-color:#c7d2fe;" title="Open a clean, unbiased blank proposal workspace for your own custom topic">🧹 Clean Blank Workspace (New Topic)</button>
-          </div>
-          <button type="button" class="btn-demo-preview" id="btn-preview-demo" style="width: 100%; margin-top: 12px; padding: 12px 16px; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 10px; font-size: 0.88rem; font-weight: 800; color: #065f46; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); transition: all 0.2s ease;">
-            <span style="font-size: 1.15rem;">🚀</span> <span>Instant Demo Preview: Open Maya's Proposal (13989) with Faculty Directives</span>
+        <!-- 1-Click Workspace Launchers: Clean Draft or Exemplar Demo -->
+        <div class="auth-gate-quick-fill" style="margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 14px;">
+          <span class="quick-fill-label" style="display: block; font-size: 0.76rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; text-align: center;">⚡ Direct Workspace Launchers:</span>
+          <button type="button" id="btn-gate-start-blank" onclick="if(window.startCleanBlankProposal){window.startCleanBlankProposal(false);}" style="width: 100%; padding: 12px 16px; background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #6366f1; border-radius: 10px; font-size: 0.88rem; font-weight: 800; color: #312e81; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15); transition: all 0.2s ease;">
+            <span style="font-size: 1.15rem;">🧹</span> <span>Start Clean Blank Proposal (Custom Topic — No Pre-Filled Bias)</span>
           </button>
-          <button type="button" id="btn-gate-start-blank" onclick="if(window.startCleanBlankProposal){window.startCleanBlankProposal(false);}" style="width: 100%; margin-top: 8px; padding: 10px 16px; background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #6366f1; border-radius: 10px; font-size: 0.85rem; font-weight: 800; color: #312e81; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
-            <span style="font-size: 1.05rem;">🧹</span> <span>Start Clean Blank Proposal (Custom Topic — No Pre-Filled Bias)</span>
+          <button type="button" class="btn-demo-preview" id="btn-preview-demo" style="width: 100%; margin-top: 10px; padding: 12px 16px; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 10px; font-size: 0.88rem; font-weight: 800; color: #065f46; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); transition: all 0.2s ease;">
+            <span style="font-size: 1.15rem;">🚀</span> <span>Explore Exemplar Proposal (Maya 13989 with Faculty Directives)</span>
           </button>
         </div>
       </form>
@@ -574,7 +576,7 @@ window.switchMatrixViewTab = function(tab) {
           <span class="step-badge">Phase 1 of 4 • Topic & Context Formulation</span>
           <h1 class="step-heading">Topic Formulation, Project Header & Context Background</h1>
           <p class="step-subheading">
-            Follow the natural scientific journey: <strong>1. Define your 3 Magic Nouns</strong> (Chassis, Tool, Benchmark) & search queries &rarr; <strong>2. Decode research papers</strong> to discover baseline metrics and gaps &rarr; <strong>3. Synthesize your grant title</strong> and team roster &rarr; <strong>4. Paraphrase evidence into Section 2</strong> (Problem Narrative, Multi-Domain Impact, and Target Beneficiaries).
+            Follow the natural scientific journey: <strong>1. Define your 3 Core Building Blocks</strong> (System / Model, Active Substance / Tool, Target Goal / Baseline) & search queries &rarr; <strong>2. Decode research papers</strong> to discover baseline metrics and gaps &rarr; <strong>3. Synthesize your grant title</strong> and team roster &rarr; <strong>4. Paraphrase evidence into Section 2</strong> (Problem Narrative, Multi-Domain Impact, and Target Beneficiaries).
           </p>
         </div>
 
@@ -582,25 +584,25 @@ window.switchMatrixViewTab = function(tab) {
         
 <div class="guide-card" style="border-left: 4px solid var(--primary); margin-bottom: 24px;">
           <div class="guide-card-header">
-            <div class="guide-card-title">🔬 Step 1 • Topic Formulation & The 3 Magic Nouns</div>
-            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 1 of 4 • Topic & Nouns</span>
+            <div class="guide-card-title">🔬 Step 1 • Topic Formulation & The 3 Core Building Blocks</div>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 1 of 4 • Core Building Blocks</span>
           </div>
 
           <!-- Plain-English Analogies Callout Grid -->
           <div class="analogy-callout-grid">
             <div class="analogy-card">
-              <div class="analogy-icon">🚗</div>
+              <div class="analogy-icon">🌿</div>
               <div class="analogy-body">
-                <h4>The Chassis: Your Cellular Vehicle / Factory</h4>
-                <p>Think of the chassis as the car frame or living factory: It is the biological organism (e.g. <em>E. coli</em>, <em>Pichia pastoris</em>, or wheat) or cell-free matrix that houses your engineered tool, supplying nutrients, ATP energy, and ribosomes to produce your molecule.</p>
+                <h4>Your System, Plant, or Model: Where Your Solution Works</h4>
+                <p>This is the biological organism, plant, skin tissue model, cell line, or test matrix where your solution works (e.g. <em>plant extract matrix</em>, <em>topical skin model</em>, <em>water sample</em>, or <em>microbial host</em>). It provides a realistic, concrete setting for your proposal.</p>
               </div>
             </div>
 
             <div class="analogy-card benchmark-analogy">
-              <div class="analogy-icon">🏆</div>
+              <div class="analogy-icon">🎯</div>
               <div class="analogy-body">
-                <h4>The Benchmark: The Olympic World Record to Beat</h4>
-                <p>A scientific benchmark is the current world record in science—the standard rate, yield, or accuracy that existing technologies achieve today (e.g. <em>"current wild-type enzymes degrade 15% PET in 7 days"</em>). Your proposal must name this current record to prove why your solution is better.</p>
+                <h4>The Current Standard: What Existing Solutions Achieve Today</h4>
+                <p>This is the benchmark in science today—the standard rate, current healing time, commercial product efficacy, or detection limit that exists today (e.g. <em>"current commercial creams achieve 50% healing in 14 days"</em> or <em>"existing tests detect at 100 ng/mL"</em>). Your proposal proves why your new approach is better or safer than this current standard.</p>
               </div>
             </div>
           </div>
@@ -645,36 +647,36 @@ window.switchMatrixViewTab = function(tab) {
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar1">🧫</span>
                 <div>
-                  <div class="noun-title" id="label-pillar1">1. Biological Host / Chassis Organism (Cellular Factory)</div>
-                  <div class="noun-desc" id="desc-pillar1">The living cell line, plant, or matrix providing cellular machinery.</div>
+                  <div class="noun-title" id="label-pillar1">1. System, Plant, or Model (Where Your Work Takes Place)</div>
+                  <div class="noun-desc" id="desc-pillar1">The living organism, plant tissue, skin model, or test matrix.</div>
                 </div>
               </div>
-              <input type="text" id="pillar-chassis" class="form-input noun-input" placeholder="e.g. Pseudomonas putida or Triticum aestivum">
-              <div class="noun-example" id="example-pillar1">Examples: <code>Pseudomonas putida</code>, <code>Pichia pastoris</code>, <code>E. coli</code></div>
+              <input type="text" id="pillar-chassis" class="form-input noun-input" placeholder="e.g. Topical cream matrix, skin model, plant extract, or bacterial host">
+              <div class="noun-example" id="example-pillar1">Examples: <code>Skin model</code>, <code>Plant extract matrix</code>, <code>E. coli</code>, <code>Wheat crop</code></div>
             </div>
 
             <div class="noun-card noun-tool">
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar2">🛠️</span>
                 <div>
-                  <div class="noun-title" id="label-pillar2">2. Molecular Tool / Engineered Intervention (The Engine)</div>
-                  <div class="noun-desc" id="desc-pillar2">The enzyme, CRISPR guide, synthetic gene circuit, or therapeutic cargo.</div>
+                  <div class="noun-title" id="label-pillar2">2. Active Substance, Tool, or Formulation (What You Are Testing)</div>
+                  <div class="noun-desc" id="desc-pillar2">The active compound, formulated cream, enzyme, nanoparticle, or molecular tool.</div>
                 </div>
               </div>
-              <input type="text" id="pillar-tool" class="form-input noun-input" placeholder="e.g. Engineered PETase or Cas12a-crRNA reporter">
-              <div class="noun-example" id="example-pillar2">Examples: <code>PETase</code>, <code>Cas12a-crRNA</code>, <code>siRNA</code></div>
+              <input type="text" id="pillar-tool" class="form-input noun-input" placeholder="e.g. Bioactive Calendula extract, nano-carrier, or engineered enzyme">
+              <div class="noun-example" id="example-pillar2">Examples: <code>Calendula extract cream</code>, <code>Nano-carrier</code>, <code>Enzyme variant</code>, <code>Aptamer</code></div>
             </div>
 
             <div class="noun-card noun-target">
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar3">🎯</span>
                 <div>
-                  <div class="noun-title" id="label-pillar3">3. Target Phenomenon & Benchmark (World Record to Beat)</div>
-                  <div class="noun-desc" id="desc-pillar3">The specific disease, pollutant, or baseline rate you will improve.</div>
+                  <div class="noun-title" id="label-pillar3">3. Target Goal & Comparison Standard (What You Aim to Improve)</div>
+                  <div class="noun-desc" id="desc-pillar3">The specific disease symptom, healing rate, or standard baseline you will improve.</div>
                 </div>
               </div>
-              <input type="text" id="pillar-target" class="form-input noun-input" placeholder="e.g. PET plastic degradation rate (beat baseline 15%/wk)">
-              <div class="noun-example" id="example-pillar3">Examples: <code>depolymerization rate</code>, <code>femtomolar LOD</code></div>
+              <input type="text" id="pillar-target" class="form-input noun-input" placeholder="e.g. Skin erythema reduction vs standard hydrocortisone cream (beat current healing baseline)">
+              <div class="noun-example" id="example-pillar3">Examples: <code>Wound closure rate</code>, <code>IC50 reduction</code>, <code>% contaminant clearance</code></div>
             </div>
           </div>
 
@@ -1034,17 +1036,6 @@ window.switchMatrixViewTab = function(tab) {
           <span id="matrix-insight-red-body" style="display:none;"></span>
           <span id="matrix-insight-citation-body" style="display:none;"></span>
 
-        </div><!-- DEEP BIOLOGY ACROSS REVIEWER QUESTIONS & JARGON -->
-        <div class="matrix-faq-container" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px;">
-          <div style="font-size: 0.78rem; font-weight: 800; color: #1e293b; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px;">
-            <span style="display: flex; align-items: center; gap: 6px;">
-              <span>🧠</span> <span>Deep Science Walkthrough: 4 Critical Reviewer Questions</span>
-            </span>
-            <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">(Click any question to explore the biology)</span>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 6px;" id="matrix-faq-accordion-list">
-            <!-- Dynamically populated FAQ items -->
-          </div>
         </div>
 
         <!-- Decoded Biotech Jargon with Analogies -->
@@ -1106,8 +1097,41 @@ window.switchMatrixViewTab = function(tab) {
                 ✨ Auto-Assemble Title from Pillars
               </button>
             </div>
-            <div class="field-tip" style="margin-bottom: 8px;">
-              Formula: <code>[Engineered Tool / Mechanism] + in [Biological Chassis / System] + to [Target Outcome / Benchmark] + for [Application]</code>
+            <!-- In-Step Guidance Card: Title -->
+            <div class="step-coach-card" id="coach-card-title">
+              <div class="step-coach-header">
+                <div class="step-coach-title-wrap">
+                  <div class="step-coach-icon">💡</div>
+                  <div>
+                    <div class="step-coach-title">Writing Coach: Crafting a Good Project Title</div>
+                    <div class="step-coach-subtitle">Lead with your active solution, not passive school-lab phrases like <em>"A study of..."</em> or <em>"The effect of..."</em>.</div>
+                  </div>
+                </div>
+                <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-title')">Hide Tip ▾</button>
+              </div>
+              <div class="coach-body">
+                <div class="coach-formula-box">
+                  <strong>🧩 The Universal 4-Piece Formula (Works for Any Topic):</strong><br>
+                  <code>[Your Solution, Substance, or Tool] + in [Your Model, Plant, or System] + to [Target Goal or Number] + for [Real-World Problem]</code>
+                </div>
+                <div class="coach-contrast-grid">
+                  <div class="coach-contrast-box">
+                    <strong>🌿 For Plant Extracts, Creams &amp; Formulations:</strong><br>
+                    <em>"Formulation of Calendula Flower Extract in Topical Cream to Attain &gt;80% Wound Closure for Skin Inflammation"</em>
+                  </div>
+                  <div class="coach-contrast-box">
+                    <strong>🧪 For Diagnostics, Sensors &amp; Lab Tests:</strong><br>
+                    <em>"Rapid Detection Test for Bacterial Contamination in Water Samples to Detect Pathogens Below 10 Copies/µL"</em>
+                  </div>
+                </div>
+                <div class="coach-checkpoints">
+                  <strong>🔍 Quick Check:</strong>
+                  <span>☑️ Names active solution/tool</span>
+                  <span>☑️ Names model/plant/system</span>
+                  <span>☑️ Includes a target number or goal</span>
+                  <span>☑️ Names the real problem it solves</span>
+                </div>
+              </div>
             </div>
             <input type="text" id="proposal-title-input" class="form-input" style="font-size: 1.05rem; font-weight: 700; padding: 12px 14px;" placeholder="e.g. Engineered Salt Bridges in Pseudomonas putida PETase to Elevate Thermostability for Accelerated Plastic Bioremediation">
           </div>
@@ -1205,7 +1229,7 @@ window.switchMatrixViewTab = function(tab) {
               <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin: 0;">
                 2.1 Problem Statement &amp; Background
               </h3>
-              <button type="button" class="btn-sec-ai-assist" onclick="triggerSectionAiAssist('abstract')">🤖 AI Review &amp; Polish</button>
+              <button type="button" class="btn-sec-ai-assist" onclick="triggerSectionAiAssist('sec2')">🤖 AI Review &amp; Polish</button>
             </div>
             
             <div class="subtitle-guide-box" style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #92400e; margin-bottom: 12px; line-height: 1.5;">
@@ -1235,7 +1259,44 @@ window.switchMatrixViewTab = function(tab) {
 
               <div class="funnel-block tier-4-border">
                 <label class="field-label"><strong>Tier 4: Proposed Project Aim & Hypothesis (If... then... because...):</strong></label>
-                <textarea id="funnel-tier4" class="form-textarea" style="min-height: 60px;" placeholder="State your proposed engineering approach and state your hypothesis: If [Tool] is expressed in [Chassis], then [Outcome] because [Mechanism]..."></textarea>
+                <textarea id="funnel-tier4" class="form-textarea" style="min-height: 60px;" placeholder="State your proposed approach and hypothesis: If [Active Substance / Tool] is applied in [Model / System], then [Outcome with Number] compared to [Baseline / Control] because [Mechanism]..."></textarea>
+              </div>
+            </div>
+
+            <!-- In-Step Guidance Card: Background Funnel -->
+            <div class="step-coach-card" id="coach-card-background">
+              <div class="step-coach-header">
+                <div class="step-coach-title-wrap">
+                  <div class="step-coach-icon">🔻</div>
+                  <div>
+                    <div class="step-coach-title">Writing Coach: The Background Funnel (Broad → Specific)</div>
+                    <div class="step-coach-subtitle">Reviewers want a connected story: broad crisis → current limits → the exact missing piece (the gap).</div>
+                  </div>
+                </div>
+                <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-background')">Hide Tip ▾</button>
+              </div>
+              <div class="coach-body">
+                <div class="coach-formula-box">
+                  <strong>📐 The 4 Narrative Steps for Section 2.1:</strong><br>
+                  1. <strong>Problem Context:</strong> What real-world burden or disease/environmental crisis demands attention?<br>
+                  2. <strong>Current Solutions:</strong> What methods or treatments exist today, and what are their published limits?<br>
+                  3. <strong>The Bottleneck / Gap:</strong> What exact unsolved obstacle prevents existing tools from working?<br>
+                  4. <strong>Your Proposed Approach:</strong> How does your project tackle that bottleneck?
+                </div>
+                <div class="coach-contrast-grid">
+                  <div class="coach-contrast-box bad">
+                    ❌ <strong>Weak (List of Papers):</strong> "Smith (2022) studied X. Lee (2023) studied Y. In addition, Z is important." <em>(No connected story or gap)</em>
+                  </div>
+                  <div class="coach-contrast-box good">
+                    ✓ <strong>Strong (Critical Flow):</strong> "Existing extracts show antioxidant activity; however, poor skin penetration limits their topical effectiveness. This project addresses this bottleneck by..."
+                  </div>
+                </div>
+                <div class="coach-checkpoints">
+                  <strong>🔍 Reviewer Rule:</strong>
+                  <span>☑️ Group papers by idea (not just author-by-author)</span>
+                  <span>☑️ Ends with a clear, named gap</span>
+                  <span>☑️ Avoids unsupported claims</span>
+                </div>
               </div>
             </div>
 
@@ -1247,7 +1308,7 @@ window.switchMatrixViewTab = function(tab) {
                   <button type="button" class="btn-insert-template" id="btn-assemble-unified-narrative" style="font-size: 0.76rem; padding: 4px 10px;">
                     ✨ Assemble Unified Narrative from 4 Tiers
                   </button>
-                  <button type="button" class="btn-sec-ai-assist" onclick="triggerSectionAiAssist('abstract')">🤖 AI Polish</button>
+                  <button type="button" class="btn-sec-ai-assist" onclick="triggerSectionAiAssist('sec2')">🤖 AI Polish</button>
                 </div>
                 <span class="word-count-badge" id="section-2-1-word-badge">0 words</span>
               </div>
@@ -1379,14 +1440,48 @@ window.switchMatrixViewTab = function(tab) {
             <div style="font-size: 0.77rem; color: #475569; margin-bottom: 10px; line-height: 1.45;">
               <strong>🔬 Architectural Distinction:</strong> Do not confuse these four concepts: your <strong>Research Question</strong> asks what unknown relationship is being tested; your <strong>Hypothesis</strong> states a falsifiable mechanistic prediction (<em>If [independent variable/tool], then [measurable change in dependent variable], because [mechanism]</em>); your <strong>Overall Aim (3.1)</strong> states the overarching project purpose; and your <strong>Specific Objectives (3.2)</strong> break that aim into 3–5 measurable experimental actions.
             </div>
+            <!-- In-Step Guidance Card: Hypothesis & Aims -->
+            <div class="step-coach-card" id="coach-card-hypothesis">
+              <div class="step-coach-header">
+                <div class="step-coach-title-wrap">
+                  <div class="step-coach-icon">🎯</div>
+                  <div>
+                    <div class="step-coach-title">Writing Coach: Hypothesis &amp; Objectives Architecture</div>
+                    <div class="step-coach-subtitle">A fundable hypothesis is a prediction with an explicit number that can be tested in the lab.</div>
+                  </div>
+                </div>
+                <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-hypothesis')">Hide Tip ▾</button>
+              </div>
+              <div class="coach-body">
+                <div class="coach-formula-box">
+                  <strong>📐 Simple Hypothesis Pattern:</strong><br>
+                  <code>If [your proposed approach], then [measurable outcome with a number] compared to [untreated/blank control].</code>
+                </div>
+                <div class="coach-contrast-grid">
+                  <div class="coach-contrast-box bad">
+                    ❌ <strong>Vague (No Number):</strong> "The formulation will be effective against skin inflammation and improve healing." <em>(Unfalsifiable school-lab phrasing)</em>
+                  </div>
+                  <div class="coach-contrast-box good">
+                    ✓ <strong>Fundable (Measurable):</strong> "...reduces inflammatory markers by &gt;50% within 24 hours compared to the untreated vehicle cream."
+                  </div>
+                </div>
+                <div class="coach-checkpoints">
+                  <strong>💡 3 Decoupled Aims Rule:</strong>
+                  <span><strong>Aim 1:</strong> Preparation / Formulation</span>
+                  <span><strong>Aim 2:</strong> Testing with a Target Number</span>
+                  <span><strong>Aim 3:</strong> Real-World Matrix / Sample Validation</span>
+                </div>
+              </div>
+            </div>
+
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
               <div>
                 <label class="field-label" for="section-3-0-research-question" style="font-size: 0.78rem;"><strong>Primary Research Question (Interrogative):</strong></label>
-                <textarea id="section-3-0-research-question" class="form-textarea" style="min-height: 54px; font-size: 0.82rem;" placeholder="e.g. Can rational engineering or formulation of [Tool] within [Chassis] significantly improve [Target metric] compared to conventional reference standards?"></textarea>
+                <textarea id="section-3-0-research-question" class="form-textarea" style="min-height: 54px; font-size: 0.82rem;" placeholder="e.g. Can a topical formulation or diagnostic test significantly improve healing rate or detection speed compared to conventional standards?"></textarea>
               </div>
               <div>
                 <label class="field-label" for="section-3-0-hypothesis" style="font-size: 0.78rem;"><strong>Testable Mechanistic Hypothesis (If... then... because...):</strong></label>
-                <textarea id="section-3-0-hypothesis" class="form-textarea" style="min-height: 54px; font-size: 0.82rem;" placeholder="e.g. If [Tool] is deployed in [Chassis], then [Target readout] will improve by ≥2-fold (p < 0.05) relative to unengineered control because [biochemical mechanism]."></textarea>
+                <textarea id="section-3-0-hypothesis" class="form-textarea" style="min-height: 54px; font-size: 0.82rem;" placeholder="e.g. If the active substance is formulated at target concentration, then inflammation/pathogen levels will decrease by ≥50% (p < 0.05) compared to untreated baseline controls."></textarea>
               </div>
             </div>
           </div>
@@ -1396,10 +1491,47 @@ window.switchMatrixViewTab = function(tab) {
             <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
               3.1 Overall Aim (Central Core Statement)
             </h3>
-            <div class="subtitle-guide-box" style="background: #eef2ff; border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #312e81; margin-bottom: 10px; line-height: 1.5;">
-              <div><strong>📌 Format:</strong> Formulate <strong>one clear, overarching project aim statement</strong> summarizing the ultimate goal of the project.</div>
+            <!-- AIM FORMULA ASSISTANT & DECOUPLING TOOLKIT -->
+            <div class="aim-formula-assistant" style="background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); border: 1.5px solid #c7d2fe; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                <div style="font-weight: 800; color: #3730a3; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                  <span>🎯</span> <span>BT301 Specific Aim Formula Assistant (Ch 9 & 22)</span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="btn-aim-auto-pillar" id="btn-aim-auto-pillar" style="background: #4f46e5; color: white; border: none; font-size: 0.75rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Automatically formulate overarching aim using Tool, Target & Chassis from your Strategic Pillars">
+                    <span>⚡</span> <span>Auto-Draft Aim from Pillars</span>
+                  </button>
+                  <button type="button" class="btn-aim-decoupled-3" id="btn-aim-decoupled-3" style="background: #0ea5e9; color: white; border: none; font-size: 0.75rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Generate 3 independent, decoupled specific aims for Section 3.1 and Section 3.2">
+                    <span>📑</span> <span>Generate 3 Decoupled Aims</span>
+                  </button>
+                  <button type="button" class="btn-secondary" onclick="if(window.openBt301Guide) window.openBt301Guide(9);" style="font-size: 0.73rem; padding: 4px 8px; background: white; border-color: #cbd5e1; font-weight: 600;">
+                    📖 Guide Ch 9 & 22
+                  </button>
+                </div>
+              </div>
+
+              <div style="font-size: 0.78rem; color: #4338ca; line-height: 1.5; margin-bottom: 8px;">
+                <strong>📐 Golden Aim Blueprint:</strong> <code>Specific Aim = [Action Verb] + [Molecular Tool / System] + [Target] + [Mechanistic Method] + [Chassis] + [Quantified Benchmark]</code>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+                <span style="font-size: 0.72rem; font-weight: 700; color: #64748b;">Quick Action Verbs:</span>
+                <button type="button" class="btn-aim-verb-pill" data-verb="To engineer and validate" style="background: white; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: #1e293b; cursor: pointer;">To engineer and validate</button>
+                <button type="button" class="btn-aim-verb-pill" data-verb="To quantify and characterize" style="background: white; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: #1e293b; cursor: pointer;">To quantify and characterize</button>
+                <button type="button" class="btn-aim-verb-pill" data-verb="To optimize and calibrate" style="background: white; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: #1e293b; cursor: pointer;">To optimize and calibrate</button>
+                <button type="button" class="btn-aim-verb-pill" data-verb="To formulate and deliver" style="background: white; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: #1e293b; cursor: pointer;">To formulate and deliver</button>
+                <button type="button" class="btn-aim-verb-pill" data-verb="To decouple and benchmark" style="background: white; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: #1e293b; cursor: pointer;">To decouple and benchmark</button>
+              </div>
             </div>
-            <textarea id="section-3-1-aim" class="form-textarea" style="min-height: 55px;" placeholder="e.g. To develop a rationally engineered, ultra-thermostable PETase enzyme in Pseudomonas putida capable of sustained elevated-temperature plastic depolymerization exceeding 80% conversion in 24 hours."></textarea>
+
+            <textarea id="section-3-1-aim" class="form-textarea" style="min-height: 65px; font-family: inherit; font-size: 0.85rem;" placeholder="e.g. To engineer, biophysically calibrate, and validate an isothermal RPA-Cas12a fluorescent assay in paper fluidic chips capable of detecting AcrAB-TolC efflux pump mRNA with analytical sensitivity < 5 pM in under 35 minutes."></textarea>
+
+            <!-- Real-Time Aim Quality & Decoupling Badge Strip -->
+            <div id="aim-quality-inspector" style="display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; font-size: 0.72rem;">
+              <span id="badge-aim-verb" style="padding: 2px 8px; border-radius: 4px; font-weight: 700; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;">❌ Action Verb: Needed</span>
+              <span id="badge-aim-benchmark" style="padding: 2px 8px; border-radius: 4px; font-weight: 700; background: #fffbeb; color: #92400e; border: 1px solid #fde68a;">⏳ Quantitative Milestone: Add Threshold</span>
+              <span id="badge-aim-decoupling" style="padding: 2px 8px; border-radius: 4px; font-weight: 700; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0;">🛡️ Decoupling: Aim 2 Independent</span>
+            </div>
           </div>
 
           <!-- 3.2 Specific Objectives -->
@@ -1422,7 +1554,7 @@ window.switchMatrixViewTab = function(tab) {
                 <option value="Formulate and stabilize">Nanocarriers, hydrogels, creams & emulsions</option>
                 <option value="Encapsulate and functionalize">Targeted delivery & surface modification</option>
                 <option value="Design and synthesize">Constructs, primers, probes & reporters</option>
-                <option value="Clone and express">Recombinant vectors & host chassis systems</option>
+                <option value="Clone and express">Recombinant vectors & expression systems</option>
                 <option value="Engineer and optimize">Rational mutagenesis & metabolic flux</option>
                 <option value="Characterize and quantify">DLS, TEM, spectroscopy & purity</option>
                 <option value="Benchmark and calibrate">Enzyme kinetics (kcat/Km) & dose-response</option>
@@ -1451,11 +1583,48 @@ window.switchMatrixViewTab = function(tab) {
             <span class="badge-box" style="background:#cffafe; color:#0e7490;">Official Section 4</span>
           </div>
 
-          <!-- 4.1 Technical Overview & Workflow -->
+          <!-- 4.1 Overview -->
+          <!-- In-Step Guidance Card: Methodology -->
+          <div class="step-coach-card coach-emerald" id="coach-card-methodology">
+            <div class="step-coach-header">
+              <div class="step-coach-title-wrap">
+                <div class="step-coach-icon">🧪</div>
+                <div>
+                  <div class="step-coach-title">Writing Coach: 3 Rules Reviewers Grade in Methodology</div>
+                  <div class="step-coach-subtitle">Grant proposals request resources for future experiments. Follow these 3 rules for full marks:</div>
+                </div>
+              </div>
+              <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-methodology')">Hide Tip ▾</button>
+            </div>
+            <div class="coach-body">
+              <div class="coach-contrast-grid">
+                <div class="coach-contrast-box good">
+                  <strong>⏱️ 1. Future Tense Only:</strong><br>
+                  Write: <em>"Extracts will be prepared..."</em> and <em>"Samples will be measured..."</em>.<br>
+                  Never use past tense (<em>"was tested"</em>) in a proposal!
+                </div>
+                <div class="coach-contrast-box good">
+                  <strong>🛡️ 2. Baseline / Blank Control:</strong><br>
+                  State what proves zero noise: e.g. blank cream vehicle, plain buffer, or untreated cells.
+                </div>
+                <div class="coach-contrast-box good">
+                  <strong>📊 3. Repeat in Triplicate (n=3):</strong><br>
+                  State that you will run 3 independent biological batches so standard errors (SEM) and statistics can be trusted.
+                </div>
+              </div>
+              <div class="coach-checkpoints">
+                <strong>🔍 Method Checkpoints:</strong>
+                <span>☑️ Future tense throughout</span>
+                <span>☑️ Positive &amp; Negative controls named</span>
+                <span>☑️ Biological repeats (n=3)</span>
+                <span>☑️ Fallback plan / contingency if an assay fails</span>
+              </div>
+            </div>
+          </div>
           <div style="margin-bottom: 24px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
               <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
-                4.1 Technical Overview &amp; Research Pipeline
+                4.1 Overview
               </h3>
               <div style="display: flex; align-items: center; gap: 8px;">
                 <div style="display: flex; background: #e2e8f0; padding: 2px; border-radius: 6px;">
@@ -1551,7 +1720,7 @@ window.switchMatrixViewTab = function(tab) {
                 <button type="button" class="btn-fmt" data-fmt="bullet" title="Add Bullet" style="padding: 2px 8px; font-size: 0.78rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">• List</button>
                 <button type="button" onclick="autoParseMethodologyToPipeline(); switchMethodologyMode('studio');" style="margin-left: auto; font-size: 0.72rem; padding: 2px 8px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer;">🪄 Convert to 5-Phase Studio</button>
               </div>
-              <textarea id="section-4-1-methodology" class="form-textarea" style="min-height: 140px; font-size: 0.85rem; line-height: 1.5;" placeholder="Provide a comprehensive technical overview of the research pipeline in future tense..."></textarea>
+              <textarea id="section-4-1-methodology" class="form-textarea" style="min-height: 140px; font-size: 0.85rem; line-height: 1.5;" placeholder="Provide a comprehensive overview of the research plan and methodology in future tense..."></textarea>
             </div>
           </div>
 
@@ -2096,6 +2265,35 @@ window.switchMatrixViewTab = function(tab) {
           </div>
 
           <!-- 9.2 Budget & Resource Allocation (in Egyptian Pounds - EGP) -->
+          <!-- In-Step Guidance Card: Budget & Timeline -->
+          <div class="step-coach-card" id="coach-card-budget">
+            <div class="step-coach-header">
+              <div class="step-coach-title-wrap">
+                <div class="step-coach-icon">💰</div>
+                <div>
+                  <div class="step-coach-title">Writing Coach: Itemized Budget &amp; Staged Timeline</div>
+                  <div class="step-coach-subtitle">Reviewers check that every cost is justified and every project phase has a clear decision checkpoint.</div>
+                </div>
+              </div>
+              <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-budget')">Hide Tip ▾</button>
+            </div>
+            <div class="coach-body">
+              <div class="coach-contrast-grid">
+                <div class="coach-contrast-box good">
+                  <strong>🇪🇬 Currency &amp; Costs (EGP / ج.م):</strong><br>
+                  State real supplier prices in Egyptian Pounds. Enter your Quantity and Unit Cost; total cost calculates automatically.
+                </div>
+                <div class="coach-contrast-box good">
+                  <strong>📝 Scientific Justification:</strong><br>
+                  Explain <em>why</em> each reagent or consumable is essential for your experiment (e.g. <em>"Necessary for 6-point calibration curves in Aim 2"</em>).
+                </div>
+                <div class="coach-contrast-box good">
+                  <strong>🏁 Go / No-Go Decision Gates:</strong><br>
+                  Add a clear checkpoint to your timeline: <em>"If extraction yield is &lt;50%, switch to alternate extraction method."</em>
+                </div>
+              </div>
+            </div>
+          </div>
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
               <div style="display: flex; align-items: center; gap: 8px;">
@@ -2197,6 +2395,36 @@ window.switchMatrixViewTab = function(tab) {
             <div>✓ 5. Expected significance & tangible impact</div>
           </div>
 
+          <!-- In-Step Guidance Card: Abstract -->
+          <div class="step-coach-card coach-amber" id="coach-card-abstract">
+            <div class="step-coach-header">
+              <div class="step-coach-title-wrap">
+                <div class="step-coach-icon">📋</div>
+                <div>
+                  <div class="step-coach-title">Writing Coach: The 5-Sentence Executive Abstract</div>
+                  <div class="step-coach-subtitle"><strong>Golden Rule: Write this section LAST!</strong> You cannot summarize your proposal until your Aims and Methods are decided.</div>
+                </div>
+              </div>
+              <button type="button" class="btn-toggle-coach" onclick="toggleCoachTip('coach-card-abstract')">Hide Tip ▾</button>
+            </div>
+            <div class="coach-body">
+              <div class="coach-formula-box">
+                <strong>⚡ The 5-Sentence Structure (150–250 words total):</strong><br>
+                1. <strong>Problem &amp; Burden:</strong> What crisis or condition affects patients/industry?<br>
+                2. <strong>The Current Limit:</strong> Why do existing products/assays fail?<br>
+                3. <strong>Your Solution &amp; Number:</strong> What is your prediction, with your target number?<br>
+                4. <strong>Testing Approach:</strong> What are your main lab steps, controls, and timeline?<br>
+                5. <strong>Direct Beneficiary:</strong> Who specifically benefits once this project succeeds?
+              </div>
+              <div class="coach-checkpoints">
+                <strong>🔍 Abstract Checkpoints:</strong>
+                <span>☑️ Word count: 150–250 words</span>
+                <span>☑️ Numbers match your Title and Section 3</span>
+                <span>☑️ No unexplained acronyms</span>
+              </div>
+            </div>
+          </div>
+
           <div class="fmt-toolbar" data-target="proposal-abstract-input" style="display: flex; gap: 4px; align-items: center; margin-bottom: 6px; background: #f1f5f9; padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
             <button type="button" class="btn-fmt" data-fmt="bold" title="Bold (Ctrl+B)" style="padding: 2px 8px; font-size: 0.78rem; font-weight: bold; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">B</button>
             <button type="button" class="btn-fmt" data-fmt="italic" title="Italic (Ctrl+I)" style="padding: 2px 8px; font-size: 0.78rem; font-style: italic; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">I</button>
@@ -2224,7 +2452,7 @@ window.switchMatrixViewTab = function(tab) {
                 ⚡ Assemble from Decoded Papers &amp; In-Text Citations
               </button>
               <button type="button" id="btn-dedupe-format-references" onclick="if(window.deduplicateAndFormatReferences) window.deduplicateAndFormatReferences();" class="btn-secondary" style="font-size: 0.76rem; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-color: #a7f3d0; font-weight: 700; cursor: pointer;">
-                🧹 Deduplicate &amp; Number (APA 7th)
+                🧹 Format &amp; Alphabetize (APA 7th)
               </button>
               <button type="button" id="btn-audit-citations" onclick="if(window.runCitationTraceabilityAudit) window.runCitationTraceabilityAudit(true);" class="btn-secondary" style="font-size: 0.76rem; padding: 4px 10px; background: #f8fafc; color: #334155; border-color: #cbd5e1; font-weight: 700; cursor: pointer;">
                 🔍 Audit Traceability
@@ -2236,12 +2464,24 @@ window.switchMatrixViewTab = function(tab) {
             <div><strong>📌 Claim → Citation → Reference Traceability:</strong> Every in-text citation <code>(Author et al., Year)</code> across Sections 1–9 must map to a full bibliography entry in Section 10, and every reference in Section 10 should be cited in your proposal narrative.</div>
           </div>
 
-          <div class="fmt-toolbar" data-target="proposal-references-input" style="display: flex; gap: 4px; align-items: center; margin-bottom: 6px; background: #f1f5f9; padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
-            <button type="button" class="btn-fmt" data-fmt="bold" title="Bold (Ctrl+B)" style="padding: 2px 8px; font-size: 0.78rem; font-weight: bold; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">B</button>
-            <button type="button" class="btn-fmt" data-fmt="italic" title="Italic (Ctrl+I)" style="padding: 2px 8px; font-size: 0.78rem; font-style: italic; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">I</button>
-            <button type="button" class="btn-fmt" data-fmt="underline" title="Underline (Ctrl+U)" style="padding: 2px 8px; font-size: 0.78rem; text-decoration: underline; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">U</button>
-            <button type="button" class="btn-fmt" data-fmt="bullet" title="Add Bullet" style="padding: 2px 8px; font-size: 0.78rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">• List</button>
-            <span style="font-size: 0.7rem; color: #64748b; margin-left: auto;">Format: **bold**, *italic*, &lt;u&gt;underline&lt;/u&gt; (Ctrl+B / Ctrl+I / Ctrl+U)</span>
+          <div class="fmt-toolbar" data-target="proposal-references-input" style="display: flex; gap: 6px; align-items: center; margin-bottom: 8px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; flex-wrap: wrap;">
+            <button type="button" class="btn-fmt" data-fmt="bold" title="Bold (Ctrl+B)" style="padding: 3px 10px; font-size: 0.8rem; font-weight: bold; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; color: #000000;">B</button>
+            <button type="button" class="btn-fmt" data-fmt="italic" title="Italic (Ctrl+I)" style="padding: 3px 10px; font-size: 0.8rem; font-style: italic; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; color: #000000;">I</button>
+            <button type="button" class="btn-fmt" data-fmt="underline" title="Underline (Ctrl+U)" style="padding: 3px 10px; font-size: 0.8rem; text-decoration: underline; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; color: #000000;">U</button>
+            <div style="width: 1px; height: 18px; background: #cbd5e1; margin: 0 4px;"></div>
+            <button type="button" id="btn-apply-hanging-indent" onclick="if(window.applyHangingIndentToReferences) window.applyHangingIndentToReferences();" title="Apply APA 7th Hanging Indent (first line flush left, subsequent lines indented 0.5 in / 1.27 cm)" style="padding: 3px 12px; font-size: 0.78rem; font-weight: 700; background: #eff6ff; color: #1e40af; border: 1px solid #93c5fd; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+              <span>⇄</span> <span>Hanging Indent (APA 7th)</span>
+            </button>
+            <button type="button" id="btn-indent-references" onclick="if(window.indentReferences) window.indentReferences(true);" title="Indent references" style="padding: 3px 10px; font-size: 0.78rem; font-weight: 600; background: #ffffff; color: #000000; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">
+              ➔ Indent
+            </button>
+            <button type="button" id="btn-outdent-references" onclick="if(window.indentReferences) window.indentReferences(false);" title="Outdent / Decrease Indent" style="padding: 3px 10px; font-size: 0.78rem; font-weight: 600; background: #ffffff; color: #000000; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">
+              ⬅ Outdent
+            </button>
+            <button type="button" id="btn-remove-ref-numbers" onclick="if(window.removeNumbersFromReferences) window.removeNumbersFromReferences();" title="Remove numbers like 1., 2., 3. from references" style="padding: 3px 10px; font-size: 0.78rem; font-weight: 600; background: #ffffff; color: #000000; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">
+              ✕ Remove Numbers
+            </button>
+            <span style="font-size: 0.72rem; color: #000000; margin-left: auto; font-weight: 600;">APA 7th: Hanging indent (0.5 in), Alphabetical</span>
           </div>
           <textarea id="proposal-references-input" class="form-textarea" style="min-height: 110px; font-size: 0.84rem; font-family: monospace;" oninput="if(window.runCitationTraceabilityAudit) window.runCitationTraceabilityAudit(false);" placeholder="1. Author, A. B., & Author, C. D. (Year). Title of primary research article. Journal Name, Volume(Issue), Pages. https://doi.org/10.xxxx/xxxxx"></textarea>
 
@@ -2480,7 +2720,7 @@ window.switchMatrixViewTab = function(tab) {
         <!-- 4. Methodology & Experimental Design -->
         <section class="manuscript-sec">
           <h2 class="manuscript-sec-heading">4. Methodology & Experimental Design</h2>
-          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">4.1 Technical Overview & Workflow</div>
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">4.1 Overview</div>
           <div class="manuscript-sec-body" id="manu-methodology" style="font-size: 0.82rem; line-height: 1.5;">Detail your future-tense workflow in Phase 2.</div>
 
           <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">4.2 Workflow Diagram</div>
@@ -2651,6 +2891,10 @@ window.switchMatrixViewTab = function(tab) {
         <div style="margin-bottom: 8px;">
           <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">⚡ Co-Thinking &amp; Brainstorm Launchpads:</div>
           <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+            <button type="button" onclick="openBt301Guide()" style="background: #eff6ff; border: 1.5px solid #93c5fd; color: #1e40af; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">📖 BT301 Guide (29 Ch)</button>
+            <button type="button" onclick="quickSendCopilotPrompt('can you help me and guide on how to formulate a sentence')" style="background: #fdf4ff; border: 1.5px solid #f0abfc; color: #86198f; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">✍️ Sentence Coach (Ch 13)</button>
+            <button type="button" onclick="quickSendCopilotPrompt('how to write a mechanistic hypothesis sentence')" style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">🧬 Hypothesis Formula (Ch 9)</button>
+            <button type="button" onclick="openBt301Guide(30)" style="background: #fffbeb; border: 1.5px solid #fde68a; color: #92400e; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">✅ Master Checklist (Ch 30)</button>
             <button type="button" onclick="submitCopilotWebSearch()" style="background: #e0f2fe; border: 1.5px solid #7dd3fc; color: #0369a1; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">🌐 Search Web &amp; Engines</button>
             <button type="button" onclick="quickSendCopilotPrompt('how ready is my proposal?')" style="background: #f0fdf4; border: 1.5px solid #bbf7d0; color: #166534; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">📊 Live Proposal Audit</button>
             <button type="button" onclick="quickSendCopilotPrompt('what is missing in my methods?')" style="background: #ecfeff; border: 1.5px solid #a5f3fc; color: #0e7490; font-size: 0.67rem; font-weight: 700; padding: 4px 8px; border-radius: 5px; cursor: pointer;">🧪 Audit Methods &amp; Consistency</button>
@@ -2940,7 +3184,7 @@ window.switchMatrixViewTab = function(tab) {
       <div class="controls-row search-sync-row">
         <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
-          <input type="text" id="bt-search-input" class="bt-search-field" placeholder="Search by tool (e.g. Cas9, Prime Editor), chassis, benchmark, or problem solved...">
+          <input type="text" id="bt-search-input" class="bt-search-field" placeholder="Search by tool/substance, model/system, target outcome, or problem solved...">
           <button type="button" class="btn-clear-search" id="btn-clear-bt-search" style="display: none;">✕</button>
         </div>
 
@@ -3038,6 +3282,65 @@ window.switchMatrixViewTab = function(tab) {
           <button type="button" class="btn-primary" id="btn-dismiss-memo-modal">Acknowledge & Close</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- BT301 Complete Course Guide Interactive Reader Modal (29 Chapters) -->
+  <div class="auth-modal-overlay" id="modal-bt301-guide" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+    <div class="auth-modal-dialog" style="background: #ffffff; width: 95vw; max-width: 1240px; height: 90vh; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); border: 1px solid #cbd5e1; padding: 0;">
+      
+      <!-- Modal Header -->
+      <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2563eb;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.6rem;">📖</span>
+          <div>
+            <h2 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">BT301 Complete Course Guide</h2>
+            <div style="font-size: 0.74rem; color: #93c5fd;">From Zero to a Fundable Research Proposal • 29 Chapters • Official Pedagogical Reference &amp; Templates</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" onclick="openBt301StuckFinder()" style="background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <span>🚨</span> <span>"I'm Stuck" Finder</span>
+          </button>
+          <button type="button" onclick="openBt301Guide(31)" style="background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <span>📝</span> <span>Templates &amp; Reference (Ch 31)</span>
+          </button>
+          <button type="button" onclick="closeBt301Guide()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 6px;" title="Close Guide Reader">✕</button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Sidebar + Content Reader) -->
+      <div style="display: flex; flex: 1; overflow: hidden;">
+        
+        <!-- Sidebar Navigation -->
+        <div style="width: 330px; border-right: 1px solid #e2e8f0; background: #f8fafc; display: flex; flex-direction: column;">
+          <div style="padding: 12px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+            <input type="text" id="bt301-guide-search-input" oninput="filterBt301Chapters(this.value)" placeholder="🔍 Search 29 chapters, keywords, verbs..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.78rem; outline: none;">
+          </div>
+          <div id="bt301-chapters-list" style="flex: 1; overflow-y: auto; padding: 6px;">
+            <!-- Rendered by renderBt301ChaptersList() -->
+          </div>
+        </div>
+
+        <!-- Main Reader Pane -->
+        <div id="bt301-guide-reader" style="flex: 1; overflow-y: auto; padding: 26px 36px; background: #ffffff; line-height: 1.7; color: #0f172a; font-size: 0.92rem;">
+          <div style="text-align: center; padding: 40px; color: #64748b;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">📖</div>
+            <strong>Loading BT301 Complete Guide...</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="background: #f1f5f9; border-top: 1px solid #e2e8f0; padding: 10px 22px; display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; color: #475569;">
+        <div id="bt301-guide-footer-meta">Showing Chapter 1 of 34</div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="btn-guide-prev" onclick="navBt301Chapter(-1)" style="padding: 5px 14px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #1e293b; cursor: pointer; font-weight: 700;">← Previous</button>
+          <button type="button" id="btn-guide-next" onclick="navBt301Chapter(1)" style="padding: 5px 14px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #1e293b; cursor: pointer; font-weight: 700;">Next →</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -3148,6 +3451,8 @@ window.switchMatrixViewTab = function(tab) {
     </div>
   </footer>
 
+    <!-- BT301 Complete Course Guide Offline Client-Side Database (29 Chapters + Quick Finder) -->
+  <script src="data/bt301_guide_data.js" id="bt301-guide-data-js" onerror="if(!this._s1){this._s1=1;this.src='static/data/bt301_guide_data.js';}else if(this._s1===1){this._s1=2;this.src='../data/bt301_guide_data.js';}else if(this._s1===2){this._s1=3;this.src='static/js/bt301_guide_data.js';}"></script>
   <!-- Universal Application Script (Works on GitHub Pages, Flask, Render, Vercel & Desktop) -->
   <script src="studio.js" id="primary-app-js" onerror="if(!this._s1){this._s1=1;this.src='static/studio.js';}else if(this._s1===1){this._s1=2;this.src='../studio.js';}else if(this._s1===2){this._s1=3;this.src='../static/studio.js';}"></script>
   <!-- Trusted Research Workflow Agent Bridge (Catalyst 2026 Theme: Agentic Workflows You Can Trust) -->
@@ -4681,7 +4986,7 @@ window.switchMatrixViewTab = function(tab) {
 
       var s1Missing = [];
       if (!title) {
-        s1Missing.push("Missing Title: Formulate using the 4-Anchor Formula: [Molecular Tool/Mechanism] in [Host Chassis] to [Target Benchmark] for [Application].");
+        s1Missing.push("Missing Title: Formulate using the 4-Piece Formula: [Active Substance / Tool] in [Model / Plant / System] to [Target Goal / Number] for [Problem to Solve].");
       } else {
         var lowerTitle = title.toLowerCase().trim();
         var passiveMatch = lowerTitle.match(/^(the\s+)?(effect|role|impact|study|investigation|evaluation|analysis|overview)\s+(of|on|into)\b/i);
@@ -4695,20 +5000,20 @@ window.switchMatrixViewTab = function(tab) {
           /\b(in|into|from|against|expressed in|matrix|chassis)\b/i.test(lowerTitle) ||
           /\b(coli|pastoris|putida|aestivum|arabidopsis|human|murine|aureus|pseudomonas|bacillus|cell|cells|fibroblast|biofilm|effluent|wastewater|soil|skin|explant|plasma|serum|tissue|lysate|extract)\b/i.test(lowerTitle);
         if (!hasChassisInTitle) {
-          s1Missing.push("Missing Host Chassis in Title: Explicitly name the biological model, host organism, or matrix (e.g. 'in Staphylococcus aureus', 'in Human Dermal Fibroblasts', or 'in Hospital Wastewater').");
+          s1Missing.push("Missing Model or System in Title: Explicitly name the biological model, plant, tissue, organism, or test environment (e.g. 'in Skin Tissue Models', 'in Bacterial Cultures', or 'in Wastewater').");
         }
         var hasBenchmarkInTitle = /\b(to achieve|to attain|to reduce|to enhance|to degrade|to detect|to inhibit|lod|mic|ic50|%|turnover|limit of detection|trans-cleavage|regeneration|flux|eradicat)\b/i.test(lowerTitle);
         if (!hasBenchmarkInTitle) {
-          s1Missing.push("Missing Quantified Benchmark in Title: Specify a target performance milestone (e.g. 'to Achieve MIC < 15 µg/mL', 'to Attain >80% Wound Closure', or 'to Achieve LOD < 10 pM').");
+          s1Missing.push("Missing Target Goal or Number in Title: Specify a measurable target milestone (e.g. 'to Attain >80% Wound Closure', 'to Achieve >50% Reduction', 'to Achieve MIC < 15 µg/mL').");
         }
         var hasAppInTitle = /\b(for\s+[\w\s-]+|treatment|diagnosis|therapy|bioremediation|surveillance|protection|prevention|eradication|healing)\b/i.test(lowerTitle);
         if (!hasAppInTitle) {
           s1Missing.push("Missing Specific Application in Title: Conclude with the practical healthcare, environmental, or agricultural application (e.g. 'for Topical Biofilm Eradication', 'for Accelerated Wound Healing').");
         }
       }
-      if (!pTool) s1Missing.push("Missing Tool Pillar: Declare the active molecular tool, construct, or formulation (e.g. Chitosan Nanoparticles, CRISPR-Cas12a, Thermostabilized PETase).");
-      if (!pChassis) s1Missing.push("Missing Chassis Pillar: Declare the host organism, target pathogen, cell line, or matrix (e.g. MRSA, MCF-7, E. coli DH5α, wastewater).");
-      if (!pTarget) s1Missing.push("Missing Target Pillar: Declare the specific substrate, gene, cellular marker, or target benchmark (e.g. colistin mcr-1, biofilm matrix, topical skin wound).");
+      if (!pTool) s1Missing.push("Missing Tool / Substance Pillar: Declare the active substance, formulation, extract, or molecular tool (e.g. Calendula Extract Cream, Nanoparticles, Biosensor).");
+      if (!pChassis) s1Missing.push("Missing Model / System Pillar: Declare the model, tissue, host organism, or test matrix (e.g. Skin Tissue Model, Bacterial Cells, Wastewater, Soil).");
+      if (!pTarget) s1Missing.push("Missing Target Goal Pillar: Declare the specific condition, pathogen, or target result (e.g. Skin Inflammation, Wound Healing, Pathogen Detection).");
 
       var s1Status = s1Missing.length === 0 ? "complete" : ((title || pTool || pChassis || pTarget) ? "draft" : "empty");
       var s1Snippet = title ? `"${title.substring(0, 75)}${title.length > 75 ? '...' : ''}"` : "⚪ No title or pillars declared yet.";
@@ -5442,8 +5747,40 @@ window.switchMatrixViewTab = function(tab) {
       var improvements = "";
       var vivaQuestions = [];
 
-      if (sectionKey === "abstract" || sectionKey === "sec2") {
-        if (badgeEl) badgeEl.innerText = "Section 2.1 • Problem Statement & Abstract Narrative";
+      if (sectionKey === "abstract") {
+        if (badgeEl) badgeEl.innerText = "Section 1 • Executive Abstract (Strict 150–250 Words)";
+        var absEl = document.getElementById("abstract-input");
+        currentDraft = absEl ? absEl.value.trim() : "";
+        var wordCount = currentDraft ? currentDraft.split(/\s+/).filter(Boolean).length : 0;
+        var hasStats = /\d+%|\d+\s*(million|thousand|billion|deaths|cases|annually|usd|egp|tons|fold)/i.test(currentDraft);
+        var hasStandard = /(standard|culture|pcr|gold standard|broth microdilution|hplc|elisa|reference|conventional|crude|wild-type)/i.test(currentDraft);
+        var hasHypothesis = /(hypothesize|we propose|here we|if|then|aim|objective)/i.test(currentDraft);
+
+        var score = 60;
+        if (wordCount >= 150 && wordCount <= 250) score += 25; else if (wordCount > 50) score += 10;
+        if (hasStats) score += 5;
+        if (hasStandard) score += 5;
+        if (hasHypothesis) score += 5;
+        if (score > 100) score = 100;
+
+        auditResults.score = score;
+        auditResults.status = score >= 85 ? "🌟 Grant-Ready" : (score >= 65 ? "⚠️ Revisions Recommended" : "Draft Incomplete");
+        auditResults.statusClass = score >= 85 ? "status-grant-ready" : (score >= 65 ? "status-warning" : "status-incomplete");
+
+        auditResults.items = [
+          { name: "Strict Word Count (150–250 words)", pass: wordCount >= 150 && wordCount <= 250, note: wordCount < 150 ? `Current length: ${wordCount} words (Under 150-word minimum).` : (wordCount > 250 ? `Current length: ${wordCount} words (Exceeds 250-word ceiling).` : `Compliant (${wordCount} words).`) },
+          { name: "Problem Burden & Significance", pass: hasStats, note: hasStats ? "Real-world context specified." : "Add quantified context or problem scope." },
+          { name: "Proposed Solution & Objective", pass: hasHypothesis, note: hasHypothesis ? "Proposed approach clearly stated." : "Explicitly state your solution and goal." }
+        ];
+
+        auditResults.critique = "The Abstract must strictly stay between 150 and 250 words while summarizing problem, approach, and primary outcome.";
+        improvements = "Edited into a publication-grade abstract adhering to the strict 150–250 word limit.";
+        recommendedText = tpl.abstractText;
+        vivaQuestions = tpl.vivaAbstract;
+      }
+
+      else if (sectionKey === "sec2" || sectionKey === "background" || sectionKey === "problem") {
+        if (badgeEl) badgeEl.innerText = "Section 2 • Introduction & Problem Narrative (No Word Ceiling)";
         var unifiedEl = document.getElementById("section-2-1-unified");
         currentDraft = unifiedEl ? unifiedEl.value.trim() : "";
         if (!currentDraft) {
@@ -5456,13 +5793,13 @@ window.switchMatrixViewTab = function(tab) {
 
         var wordCount = currentDraft ? currentDraft.split(/\s+/).filter(Boolean).length : 0;
         var hasStats = /\d+%|\d+\s*(million|thousand|billion|deaths|cases|annually|usd|egp|tons|fold)/i.test(currentDraft);
-        var hasStandard = /(standard|culture|pcr|gold standard|broth microdilution|hplc|elisa|reference|conventional|crude|wild-type)/i.test(currentDraft);
-        var hasGap = /(however|bottleneck|limitation|delayed|centralized|unresolved|gap|challenge|suffer|narrow|instability)/i.test(currentDraft);
-        var hasHypothesis = /(hypothesize|we propose|here we|if|then|because|objective|aim)/i.test(currentDraft);
+        var hasStandard = /(standard|culture|pcr|gold standard|broth microdilution|hplc|elisa|reference|conventional|crude|wild-type|commercial)/i.test(currentDraft);
+        var hasGap = /(however|bottleneck|limitation|delayed|centralized|unresolved|gap|challenge|suffer|narrow|instability|constrained)/i.test(currentDraft);
+        var hasHypothesis = /(hypothesize|we propose|here we|if|then|because|objective|aim|investigate|evaluate)/i.test(currentDraft);
         var hasBullets = /^[•\-\*]\s+/m.test(currentDraft);
 
-        var score = 50;
-        if (wordCount >= 160 && wordCount <= 280) score += 15; else if (wordCount > 50) score += 5;
+        var score = 55;
+        if (wordCount >= 100) score += 15; else if (wordCount > 30) score += 5;
         if (hasStats) score += 10;
         if (hasStandard) score += 10;
         if (hasGap) score += 10;
@@ -5475,15 +5812,15 @@ window.switchMatrixViewTab = function(tab) {
         auditResults.statusClass = score >= 85 ? "status-grant-ready" : (score >= 65 ? "status-warning" : "status-incomplete");
         
         auditResults.items = [
-          { name: "4-Tier Inverted Funnel Structure", pass: hasStats && hasStandard && hasGap && hasHypothesis, note: "Contains Global Burden (T1), Reference Standard (T2), Knowledge Gap (T3), and Proposed Solution (T4)." },
-          { name: "Quantitative Burden & Statistics", pass: hasStats, note: hasStats ? "Verified quantified metrics and epidemiological/economic figures present." : "Missing quantified global or national burden statistics." },
-          { name: "Prior Reference Standard Benchmarked", pass: hasStandard, note: hasStandard ? "Explicitly names published reference methodology." : "Must benchmark against current reference protocol." },
-          { name: "Unified Academic Narrative (Zero Bullets)", pass: !hasBullets && wordCount > 0, note: hasBullets ? "Proposal guideline strictly forbids bullet points in Section 2.1." : "Clean, cohesive narrative text structure." },
-          { name: "Standard Word Count (180–260 words)", pass: wordCount >= 180 && wordCount <= 260, note: `Current length: ${wordCount} words (Target: 220 words, 12pt Times New Roman, 1.5 line spacing).` }
+          { name: "4-Tier Inverted Funnel Structure", pass: hasStats && hasStandard && hasGap && hasHypothesis, note: "Contains Global Context (T1), Current Standard (T2), Knowledge Gap (T3), and Proposed Approach (T4)." },
+          { name: "Quantitative Burden & Evidence", pass: hasStats, note: hasStats ? "Verified quantified metrics and context figures present." : "Include quantified statistics or impact figures." },
+          { name: "Prior Reference Standard Benchmarked", pass: hasStandard, note: hasStandard ? "Explicitly benchmarks against current published standard." : "Benchmark against existing baseline or conventional product." },
+          { name: "Unified Academic Narrative (Zero Bullets)", pass: !hasBullets && wordCount > 0, note: hasBullets ? "Proposal guideline strictly forbids bullet points in Section 2." : "Clean, cohesive narrative text structure." },
+          { name: "Scientific Depth & Detail", pass: wordCount >= 100, note: wordCount >= 100 ? `Current length: ${wordCount} words (comprehensive academic context provided; no upper word ceiling on Section 2).` : `Current length: ${wordCount} words (expand narrative detail).` }
         ];
 
-        auditResults.critique = "Grant evaluation committees expect Section 2.1 to bridge the real-world burden directly to your specific molecular/formulation tool (" + tpl.pTool + "). Ensure that your proposed solution is presented as a testable quantitative hypothesis rather than a descriptive intention.";
-        improvements = "Synthesized into a domain-matched 4-tier inverted funnel narrative tailored to your 3 Core Nouns, benchmarked against reference protocols, and formatted to 12pt Times New Roman specifications.";
+        auditResults.critique = "Grant evaluation committees look for Section 2 to bridge real-world context directly to your proposed solution (" + tpl.pTool + "). There is no word ceiling; thorough academic background is encouraged.";
+        improvements = "Domain-matched 4-tier inverted funnel narrative formatted without bullet points or artificial word ceilings.";
         recommendedText = tpl.abstractText;
         vivaQuestions = tpl.vivaAbstract;
       }
@@ -6481,6 +6818,348 @@ window.switchMatrixViewTab = function(tab) {
     // BIOCOPILOT SCIENTIFIC INTELLIGENCE & CONVERSATIONAL REASONING BRAIN
     // =============================================================================
     window.BioCopilotBrain = {
+      GLOSSARY_INDEX: {
+        "aim": {
+          term: "Specific Aim",
+          aliases: ["aim", "aims", "specific aim", "specific aims"],
+          definition: "A broad, verb-led research milestone that directly tests one logical component of the overall hypothesis. A fundable proposal contains 2–3 independent, decoupled aims.",
+          chapter: 9,
+          ref: "Chapter 9 (§9.4) & Chapter 22",
+          formula: "Aim [X]: To [action verb: quantify / express / optimize / engineer] [target molecule / system] by [mechanism / method] in [chassis].",
+          mistake: "Never write an aim as a methodology step (e.g. 'To run PCR'). An aim is a scientific milestone, not a protocol.",
+          actions: [
+            { label: "Open Chapter 9: The Funnel", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" },
+            { label: "Open Chapter 22: Specific Aims", icon: "📑", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(22);" }
+          ]
+        },
+        "chassis": {
+          term: "Chassis / Host Organism",
+          aliases: ["chassis", "host", "host organism", "expression system"],
+          definition: "The biological expression host, cell line, or delivery vehicle (e.g., E. coli BL21, Pichia pastoris, Pseudomonas putida, cell-free lysate, targeted LNP) engineered to express or deliver the molecular tool.",
+          chapter: 6,
+          ref: "Chapter 6 (§6.1) & Chapter 10 (§10.3)",
+          formula: "Chassis Selection = [Organism] + [Genetic Background / Strain] + [Expression Advantage (e.g. PTMs, secretion, biosafety)]",
+          mistake: "Falling into the 'Host-Swap Trap': swapping a well-studied enzyme into a new host without showing an urgent biological or bioprocessing bottleneck.",
+          actions: [
+            { label: "Open Chapter 6: Biotech Sectors", icon: "🧬", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(6);" },
+            { label: "Open Chapter 10: Feasibility", icon: "🛡️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(10);" }
+          ]
+        },
+        "construct": {
+          term: "Recombinant Construct",
+          aliases: ["construct", "recombinant construct", "plasmid construct", "vector construct"],
+          definition: "An engineered DNA or RNA sequence (e.g., plasmid vector, mRNA, viral genome) containing promoter, ribosome binding site (RBS), coding sequence, tag, and transcriptional terminator ready for delivery.",
+          chapter: 2,
+          ref: "Chapter 2 (§2.1.1)",
+          formula: "Construct = [Promoter (constitutive/inducible)] + [RBS] + [Gene / Engineered Variant] + [Epitope/Purification Tag] + [Terminator]",
+          mistake: "Omitting the promoter type or induction parameters (e.g. IPTG concentration, methanol induction time).",
+          actions: [
+            { label: "Open Chapter 2: Vocabulary", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(2);" }
+          ]
+        },
+        "assay": {
+          term: "Standardized Assay",
+          aliases: ["assay", "assays", "bioassay", "enzymatic assay"],
+          definition: "A calibrated laboratory procedure that qualitatively detects or quantitatively measures a biological target, catalytic rate, or binding affinity under controlled physical conditions.",
+          chapter: 1,
+          ref: "Chapter 1 (§1.5) & Chapter 23 (§23.2)",
+          formula: "Assay Readout = [Substrate] + [Enzyme/Agent] + [Reaction Buffer (pH, temp)] → [Optical / Fluorescent / Chromatographic Readout]",
+          mistake: "Failing to define the linear dynamic range, standard curve, and limit of detection (LoD).",
+          actions: [
+            { label: "Open Chapter 1: Experimental Design", icon: "🔬", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(1);" },
+            { label: "Open Chapter 23: Methodology", icon: "📋", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(23);" }
+          ]
+        },
+        "control": {
+          term: "Positive & Negative Controls",
+          aliases: ["control", "controls", "positive control", "negative control", "vehicle control"],
+          definition: "The non-negotiable benchmark conditions of scientific rigor. Positive controls use a known reference standard to prove the assay is functional; negative controls omit the active agent to verify zero background noise.",
+          chapter: 1,
+          ref: "Chapter 1 (§1.5.1) & Chapter 23",
+          formula: "Rigor Standard = [Negative Control (Buffer/Vehicle)] vs. [Test Condition] vs. [Positive Reference Standard (Wild-type/Commercial standard)]",
+          mistake: "Submitting a methodology that only tests the novel construct without a matrix-matched negative control.",
+          actions: [
+            { label: "Open Chapter 1: Rigor & Controls", icon: "🧪", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(1);" }
+          ]
+        },
+        "replicate": {
+          term: "Technical vs. Biological Replicates",
+          aliases: ["replicate", "replicates", "biological replicate", "biological replicates", "technical replicate", "technical replicates"],
+          definition: "Technical replicates measure pipetting and instrument precision on the same sample (e.g. triplicate wells from 1 tube). Biological replicates measure independently grown, separate biological preparations to verify true biological effect.",
+          chapter: 1,
+          ref: "Chapter 1 (§1.5.2)",
+          formula: "Publication Rule: Reviewers demand at least n = 3 independent BIOLOGICAL replicates for all quantitative claims.",
+          mistake: "Treating 3 pipetted wells from a single bacterial culture as n = 3 biological replicates.",
+          actions: [
+            { label: "Open Chapter 1: Experimental Design", icon: "🔬", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(1);" }
+          ]
+        },
+        "hypothesis": {
+          term: "Mechanistic Hypothesis",
+          aliases: ["hypothesis", "hypotheses", "mechanistic hypothesis", "testable hypothesis"],
+          definition: "A testable, falsifiable prediction of an experimental answer that explicitly specifies the acting agent, mechanism, target, and quantitative threshold.",
+          chapter: 9,
+          ref: "Chapter 9 (§9.3)",
+          formula: "Hypothesis: We hypothesize that [Engineered Agent] will [action verb] [target] by [biochemical mechanism], achieving [quantified metric] under [conditions].",
+          mistake: "Writing a hypothesis with no number or no failure threshold (unfalsifiable).",
+          actions: [
+            { label: "Open Chapter 9: The Funnel", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" }
+          ]
+        },
+        "gap": {
+          term: "Research Gap",
+          aliases: ["gap", "gaps", "research gap", "literature gap", "knowledge gap", "operational gap"],
+          definition: "A critical void in published knowledge, performance benchmark, or operational capability whose closure enables practical technological progress.",
+          chapter: 8,
+          ref: "Chapter 8 (§8.1) & Chapter 21",
+          formula: "Gap Pivot: Although prior studies established [known fact], whether [variable] can [target effect] under [operating condition] remains uncharacterized.",
+          mistake: "Confusing an absence of research with a valuable gap ('nobody looked at this plant in our village' is not a fundable gap).",
+          actions: [
+            { label: "Open Chapter 8: Finding the Gap", icon: "🔍", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(8);" }
+          ]
+        },
+        "objective": {
+          term: "Specific Objective",
+          aliases: ["objective", "objectives", "specific objective", "specific objectives"],
+          definition: "A concrete, operational sub-task under an Aim. Must be SMART (Specific, Measurable, Achievable, Relevant, Time-bound). Written as: 'To [action verb] [parameter] using [method] in order to [milestone]'.",
+          chapter: 9,
+          ref: "Chapter 9 (§9.5)",
+          formula: "Objective: To [action verb] [variable] using [standard assay] to reach [quantitative milestone].",
+          mistake: "Listing vague intentions without numbers, time bounds, or specific measurement methods.",
+          actions: [
+            { label: "Open Chapter 9: The Funnel", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" }
+          ]
+        },
+        "decoupled": {
+          term: "Decoupled Aims",
+          aliases: ["decoupled", "decoupled aims", "aim decoupling", "independent aims"],
+          definition: "Aims designed with independent experimental logic so that if Aim 1 encounters delays or negative results, Aim 2 and Aim 3 can still proceed to produce valid deliverables.",
+          chapter: 9,
+          ref: "Chapter 9 (§9.4)",
+          formula: "Independence Rule: Aim 2 must use a commercially purchased or wild-type backup if Aim 1 novel variant synthesis fails.",
+          mistake: "Sequential dependency trap: Aim 2 cannot start unless Aim 1 produces 100% positive results.",
+          actions: [
+            { label: "Open Chapter 9: Decoupled Aims", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" }
+          ]
+        },
+        "p-value": {
+          term: "p-value & Statistical Significance",
+          aliases: ["p-value", "p value", "pvalue", "statistical significance"],
+          definition: "The probability of obtaining an experimental result at least as extreme as the observed data, assuming the null hypothesis (no effect) is true. The standard threshold is p < 0.05.",
+          chapter: 2,
+          ref: "Chapter 2 (§2.2)",
+          formula: "Reporting standard: Report exact p-values (e.g. p = 0.014) rather than just 'p < 0.05', with confidence intervals.",
+          mistake: "Equating statistical significance with biological significance; tiny differences can have small p-values with huge sample sizes.",
+          actions: [
+            { label: "Open Chapter 2: Statistics", icon: "📊", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(2);" }
+          ]
+        },
+        "anova": {
+          term: "ANOVA (Analysis of Variance)",
+          aliases: ["anova", "one-way anova", "two-way anova", "analysis of variance"],
+          definition: "A parametric statistical test used to compare the means of three or more experimental groups (e.g. wild-type vs. variant A vs. variant B vs. negative control) to prevent Type I error inflation.",
+          chapter: 2,
+          ref: "Chapter 2 (§2.2.3)",
+          formula: "One-way ANOVA (one factor across 3+ groups) + post-hoc Tukey HSD test for pairwise comparisons.",
+          mistake: "Running multiple pairwise t-tests instead of ANOVA, which multiplies false-positive risk.",
+          actions: [
+            { label: "Open Chapter 2: Statistics", icon: "📊", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(2);" }
+          ]
+        },
+        "lod": {
+          term: "Limit of Detection (LoD)",
+          aliases: ["lod", "limit of detection", "analytical sensitivity", "detection limit"],
+          definition: "The lowest concentration of analyte that can be reliably distinguished from zero background noise with 95% statistical confidence (standard: 3.3 × SD of blank / slope of calibration curve).",
+          chapter: 20,
+          ref: "Chapter 20 & Chapter 23",
+          formula: "LoD = 3.3 × (SD of Blank / Slope of Standard Curve)",
+          mistake: "Confusing Limit of Blank (LoB), Limit of Detection (LoD), and Limit of Quantitation (LoQ).",
+          actions: [
+            { label: "Open Chapter 20: Proposal Overview", icon: "📋", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(20);" }
+          ]
+        },
+        "empirical": {
+          term: "Empirical Evidence",
+          aliases: ["empirical", "empirical evidence", "empirical data"],
+          definition: "Knowledge acquired strictly through direct, standardized physical observation and controlled measurement, as opposed to tradition, anecdotal belief, or theoretical speculation.",
+          chapter: 1,
+          ref: "Chapter 1 (§1.1.2)",
+          formula: "Empirical standard: Observed under defined conditions with replicates, positive/negative controls, and statistical testing.",
+          mistake: "Citing general textbooks or unverified claims ('everyone knows garlic boosts immunity') as empirical evidence.",
+          actions: [
+            { label: "Open Chapter 1: Foundations", icon: "🔬", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(1);" }
+          ]
+        },
+        "hedging": {
+          term: "Scientific Hedging",
+          aliases: ["hedging", "hedge", "hedged language", "scientific hedging"],
+          definition: "Language calibrated to match the exact strength of experimental evidence (e.g. 'suggests', 'is consistent with', 'indicates') without overclaiming causation.",
+          chapter: 12,
+          ref: "Chapter 12 (§12.5)",
+          formula: "Evidence ladder: may < was observed < was associated with < suggests < demonstrates (never use 'proves').",
+          mistake: "Using absolute claims like 'This proves that compound X cures cancer'. Science demonstrates effects within tested conditions.",
+          actions: [
+            { label: "Open Chapter 12: Academic Writing", icon: "✍️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(12);" }
+          ]
+        },
+        "budget": {
+          term: "Itemized Budget in Egyptian Pounds (EGP)",
+          aliases: ["budget", "budgeting", "egp", "egyptian pounds", "itemized budget", "project cost"],
+          definition: "The detailed financial plan for proposal execution, strictly calculated in Egyptian Pounds (EGP) across four standardized categories: Consumables & Reagents, Equipment & Core Facilities, Student Research Stipends, and Institutional Overhead.",
+          chapter: 25,
+          ref: "Chapter 25 (§25.1–25.4)",
+          formula: "Budget EGP = Reagents/Materials (~45%) + Equipment Access (~25%) + Stipends (~20%) + Contingency/Overhead (~10%)",
+          mistake: "Submitting round numbers (e.g. '100,000 EGP') without catalog vendor part numbers, unit counts, or local import duties.",
+          actions: [
+            { label: "Open Chapter 25: Itemized Budget", icon: "💰", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(25);" }
+          ]
+        },
+        "wild_type": {
+          term: "Wild Type (WT)",
+          aliases: ["wild type", "wildtype", "wt", "baseline"],
+          definition: "The naturally occurring, non-mutated form of an organism, gene, or enzyme; serves as the obligatory experimental baseline for evaluating engineered variants.",
+          chapter: 13,
+          ref: "Chapter 13 & Chapter 23",
+          formula: "Comparison: Variant catalytic rate (kcat/Km) normalized as a fold-change relative to Wild Type baseline (WT = 1.0).",
+          mistake: "Testing an engineered enzyme without purifying and testing the wild-type enzyme under identical parallel buffer conditions.",
+          actions: [
+            { label: "Open Chapter 23: Methodology", icon: "📋", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(23);" }
+          ]
+        },
+        "topic_sentence": {
+          term: "Topic Sentence",
+          aliases: ["topic sentence", "topic sentences", "paragraph opening"],
+          definition: "The opening sentence of an academic paragraph that announces its single overarching claim, controlling the scope of the evidence that follows.",
+          chapter: 14,
+          ref: "Chapter 14 (§14.3) & Chapter 15",
+          formula: "Topic Sentence = [Core Subject] + [Specific Analytical Claim / Finding] (acts as an umbrella for the evidence below it).",
+          mistake: "Starting a paragraph with a generic citation ('Smith et al. (2023) studied...') rather than your own analytical claim.",
+          actions: [
+            { label: "Open Chapter 14: Writing Hierarchy", icon: "✍️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(14);" },
+            { label: "Open Chapter 15: Paragraphs", icon: "🧱", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(15);" }
+          ]
+        },
+        "transition": {
+          term: "Logical Transitions",
+          aliases: ["transition", "transitions", "linking words", "connectives"],
+          definition: "A logical connective word or clause (e.g., 'Consequently', 'In contrast', 'Furthermore', 'Accordingly') that explicitly signals the intellectual relationship between consecutive sentences or paragraphs.",
+          chapter: 16,
+          ref: "Chapter 16 (§16.2)",
+          formula: "Logic matching: Contrast (However, Whereas) | Cause/Effect (Consequently, Therefore) | Addition (Furthermore, In addition).",
+          mistake: "Overusing 'However' or stringing unrelated paragraphs together without transitional bridges.",
+          actions: [
+            { label: "Open Chapter 16: Transitions", icon: "🔗", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(16);" }
+          ]
+        },
+        "contingency": {
+          term: "Contingency (Plan B)",
+          aliases: ["contingency", "plan b", "risk mitigation", "technical risks"],
+          definition: "A pre-planned alternative technical strategy that will be executed if the primary experimental methodology encounters an insurmountable technical failure (e.g., protein inclusion bodies).",
+          chapter: 23,
+          ref: "Chapter 23 (§23.5)",
+          formula: "Risk Entry = [Identified Failure Mode] + [Likelihood & Severity] + [Trigger Indicator] + [Concrete Pre-Engineered Plan B].",
+          mistake: "Claiming 'no risks are expected' in a genetic engineering or synthetic biology proposal.",
+          actions: [
+            { label: "Open Chapter 23: Methodology & Risks", icon: "🛡️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(23);" }
+          ]
+        },
+        "gantt": {
+          term: "Gantt Chart & Milestone Timeline",
+          aliases: ["gantt", "timeline", "milestones", "schedule", "work plan"],
+          definition: "A graphical project schedule mapping each specific aim and objective across months/quarters, defining clear dependencies, deliverables, and Go/No-Go decision gates.",
+          chapter: 24,
+          ref: "Chapter 24 (§24.1–24.4)",
+          formula: "Timeline Structure = 12–24 Months divided into Quarters, with Work Packages mapped to Specific Aims.",
+          mistake: "Drawing a Gantt chart where all aims run continuously from Month 1 to Month 12 without sequential milestones or gates.",
+          actions: [
+            { label: "Open Chapter 24: Timeline & Gantt", icon: "📅", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(24);" }
+          ]
+        },
+        "finer": {
+          term: "FINER Criteria",
+          aliases: ["finer", "finer criteria", "finer test"],
+          definition: "The 5 universal grant funding criteria: Feasible (can be done with available lab tools), Interesting, Novel (inventive step), Ethical (compliance and safety), and Relevant (addresses real operational problems).",
+          chapter: 9,
+          ref: "Chapter 9 (§9.2.3)",
+          formula: "Scorecard: Rate each letter F-I-N-E-R on a scale of 1–5 before committing to a proposal topic.",
+          mistake: "Choosing a topic that is Novel but impossible to execute with student resources (fails Feasibility).",
+          actions: [
+            { label: "Open Chapter 9: The Funnel", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" }
+          ]
+        },
+        "so_what": {
+          term: "So-What Test",
+          aliases: ["so what", "so-what", "so what test", "so-what test"],
+          definition: "The decisive reviewer query: 'If this project succeeds and the gap is closed, who actually benefits, what cost is reduced, and what clinical or industrial problem is solved?'",
+          chapter: 8,
+          ref: "Chapter 8 (§8.5)",
+          formula: "So-What Formula: Closing gap [X] enables [Stakeholder] to achieve [Quantitative Benefit], reducing [Cost/Mortality/Waste] by [Y%].",
+          mistake: "Answering the So-What test with academic curiosity instead of technological or patient impact.",
+          actions: [
+            { label: "Open Chapter 8: Finding the Gap", icon: "🔍", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(8);" }
+          ]
+        }
+      },
+
+      // Instant Multi-Alias Glossary & Curriculum Query Resolver
+      matchGlossaryQuery: function(text) {
+        if (!text) return null;
+        var lower = text.toLowerCase().trim();
+        
+        // 1. First check curated GLOSSARY_INDEX
+        for (var key in this.GLOSSARY_INDEX) {
+          var item = this.GLOSSARY_INDEX[key];
+          var aliases = item.aliases || [key, item.term.toLowerCase()];
+          for (var a = 0; a < aliases.length; a++) {
+            var al = aliases[a];
+            var pattern = new RegExp("\\b" + al.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') + "\\b", "i");
+            if (pattern.test(lower)) {
+              return item;
+            }
+          }
+        }
+
+        // 2. Dynamic lookup in Chapter 32 table rows if loaded
+        try {
+          var guideData = window.BT301_GUIDE_DATA;
+          if (guideData && guideData.chapters) {
+            var ch32 = guideData.chapters.find(function(c) { return c.number === 32; });
+            if (ch32 && ch32.content) {
+              var lines = ch32.content.split('\n');
+              for (var i = 0; i < lines.length; i++) {
+                var parts = lines[i].split('\t');
+                if (parts.length >= 2 && parts[0] !== 'Term' && !parts[0].startsWith('Chapter') && !parts[0].startsWith('32.')) {
+                  var rawTerm = parts[0].strip ? parts[0].strip() : parts[0].trim();
+                  var coreTerm = rawTerm.toLowerCase().replace(/\(.*?\)/g, '').trim();
+                  if (coreTerm.length >= 2) {
+                    var pattern2 = new RegExp("\\b" + coreTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') + "\\b", "i");
+                    if (pattern2.test(lower)) {
+                      var chNumMatch = (parts[2] || "").match(/Chapter\s*(\d+)/i);
+                      var targetCh = chNumMatch ? parseInt(chNumMatch[1], 10) : 32;
+                      return {
+                        term: rawTerm,
+                        aliases: [coreTerm, rawTerm.toLowerCase()],
+                        definition: parts[1].trim(),
+                        ref: parts[2] ? parts[2].trim() : "Chapter 32",
+                        chapter: targetCh,
+                        formula: "Academic Standard: Use precisely according to " + (parts[2] || "Chapter 32") + " definitions.",
+                        mistake: "Using colloquial or ambiguous phrasing instead of this formal term in proposal sections.",
+                        actions: [
+                          { label: "Open " + (parts[2] || "Chapter 32").split('&')[0].trim(), icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(" + targetCh + ");" },
+                          { label: "Open Master Glossary (Ch 32)", icon: "📚", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(32);" }
+                        ]
+                      };
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } catch(e) {}
+
+        return null;
+      },
+
       KNOWLEDGE_GRAPH: {
         cas12a: {
           category: "CRISPR Molecular Diagnostics",
@@ -6952,12 +7631,25 @@ To address **"${text}"** rigorously within a biotechnology research proposal (*"
     // Live Encyclopedic + Peer-Reviewed Literature Topic Synthesizer (Wikipedia REST API + Europe PMC)
     window.fetchLiveTopicIntelligence = async function(rawQuery, isBioContext) {
       if (!rawQuery) return null;
+
+      // 0. STRICT PEDAGOGICAL & WRITING GUARD:
+      // Never send writing questions, sentence guidance, grammar, or advice queries to Wikipedia
+      var isPedagogicalOrWriting = /\b(sentence|sentences|formulate|formulation|write|writing|grammar|phrase|phrasing|paragraph|paragraphs|transition|transitions|verb|verbs|tense|tenses|passive|active|help me|guide me|teach me|how to write|how do i write|how to formulate|how do i formulate|how to structure|rubric|checklist|template|templates|grade|grading|revise|revision|chapter|bt301|guide)\b/i.test(rawQuery);
+      if (isPedagogicalOrWriting) {
+        return null;
+      }
+
       var cleaned = rawQuery
         .replace(/^(can you|could you|please|hey|hi|copilot)\s+/i, "")
         .replace(/^(what is|what are|who is|who was|how does|how do|explain|tell me about|define|describe|can we talk about|let's talk about|lets talk about|discuss|what do you know about|why is|why does|how to perform|how to do)\s+(a|an|the)?\s*/i, "")
         .replace(/[?!.]+$/g, "")
         .trim();
-      if (!cleaned || cleaned.length < 2) cleaned = rawQuery.replace(/[?!.]+$/g, "").trim();
+      if (!cleaned || cleaned.length < 3) return null;
+
+      // Filter out pure conversational or filler words
+      if (/^(help me|tell me|show me|guide me|can you|could you|what should|what if)\b/i.test(cleaned)) {
+        return null;
+      }
 
       var wikiSummary = null;
       var wikiTitle = "";
@@ -6975,22 +7667,16 @@ To address **"${text}"** rigorously within a biotechnology research proposal (*"
             wikiUrl = (searchJson[3] && searchJson[3][0]) ? searchJson[3][0] : ("https://en.wikipedia.org/wiki/" + encodeURIComponent(wikiTitle.replace(/ /g, "_")));
           }
         }
-        if (!wikiTitle && cleaned.split(/\s+/).length > 3) {
-          var shortClean = cleaned.split(/\s+/).slice(0, 3).join(" ");
-          var searchRes2 = await fetch("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + encodeURIComponent(shortClean) + "&limit=1&namespace=0&format=json&origin=*");
-          if (searchRes2.ok) {
-            var searchJson2 = await searchRes2.json();
-            if (Array.isArray(searchJson2) && searchJson2[1] && searchJson2[1].length > 0) {
-              wikiTitle = searchJson2[1][0];
-              wikiUrl = (searchJson2[3] && searchJson2[3][0]) ? searchJson2[3][0] : ("https://en.wikipedia.org/wiki/" + encodeURIComponent(wikiTitle.replace(/ /g, "_")));
-            }
-          }
-        }
         if (wikiTitle) {
           var sumRes = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(wikiTitle));
           if (sumRes.ok) {
             var sumJson = await sumRes.json();
             if (sumJson && sumJson.extract && sumJson.type !== "disambiguation") {
+              // Non-scientific sanity guard: Reject songs, albums, musical artists, films, actors, and sports
+              var fullDesc = ((sumJson.description || "") + " " + sumJson.extract.slice(0, 140)).toLowerCase();
+              if (/\b(song|single by|album|rock band|pop band|band|musician|film|movie|actor|actress|comedian|baseball|football|cricket|basketball|video game|fictional character)\b/i.test(fullDesc)) {
+                return null;
+              }
               wikiSummary = sumJson.extract;
             }
           }
@@ -7143,27 +7829,78 @@ To address **"${text}"** rigorously within a biotechnology research proposal (*"
       var isCompareIntent = /(compare|comparison table|table comparing|versus|vs|how do they compare)/i.test(lower);
       var isBlueprintIntent = /(auto-assemble|auto assemble|proposal blueprint|assemble blueprint|full blueprint)/i.test(lower);
 
+      // BT301 Guide, Sentence Formulation & Pedagogical Writing Intents
+      var isSentenceCoach = /\b(formulate\s+(a\s+)?sentence|sentence\s+formulation|how\s+to\s+formulate\s+(a\s+)?sentence|build(ing)?\s+(a\s+)?sentence|sentence\s+structure|how\s+to\s+write\s+(a\s+)?sentence|write\s+(a\s+)?sentence|sentence\s+guide|sentence\s+blueprint|scientific\s+verbs?|active\s+vs\s+passive|active\s+passive|tense\s+in\s+proposal|verb\s+choice|verb\s+matrix|informal\s+to\s+academic|hedging|sentence\s+starter)\b/i.test(lower) || (/\b(sentence|sentences)\b/i.test(lower) && /\b(formulate|build|write|guide|help|structure|craft)\b/i.test(lower));
+      var isHypothesisCoach = /\b(how\s+to\s+write\s+(a\s+)?hypothesis|write\s+(a\s+)?hypothesis|hypothesis\s+sentence|formulate\s+(a\s+)?hypothesis|mechanistic\s+hypothesis|testable\s+hypothesis|hypothesis\s+formulation|hypothesis\s+blueprint)\b/i.test(lower);
+      var isGapCoach = /\b(how\s+to\s+write\s+(a\s+)?(literature\s+)?gap|gap\s+sentence|gap\s+pivot|formulate\s+(a\s+)?gap|finding\s+the\s+gap|literature\s+gap\s+statement)\b/i.test(lower);
+      var isGuideDirect = /\b(bt301\s+guide|course\s+guide|complete\s+guide|student\s+guide|pre-submission\s+checklist|master\s+checklist|grading\s+rubric|how\s+is\s+my\s+proposal\s+graded|how\s+will\s+it\s+be\s+graded|stuck\s+finder|quick\s+finder|fill-in\s+templates?)\b/i.test(lower) || /^(show|open|read|view)?\s*chapter\s*(\d+)/i.test(cleanTrim);
+
+      // Comprehensive Contextual Guidance & Co-Thinking Intent ("help me do this", "guide me", "how do I do this")
+      var isGuidanceRequest = (/\b(help\s+me\s+do\s+this|help\s+me\s+with\s+this|guide\s+me\s+on\s+this|guide\s+me\s+through\s+this|can\s+you\s+guide\s+me|can\s+you\s+help\s+me|how\s+do\s+i\s+do\s+this|what\s+should\s+i\s+do|what\s+should\s+i\s+write|where\s+do\s+i\s+start|how\s+to\s+start|help\s+me\s+with\s+my\s+project|what\s+is\s+next|next\s+step|suggest\s+next\s+step|tell\s+me\s+what\s+to\s+do|walk\s+me\s+through|guide\s+me\s+to\s+write|help\s+me\s+to\s+write|help\s+me\s+write)\b/i.test(lower) || (cleanTrim === "help me" || cleanTrim === "guide me" || cleanTrim === "help me please" || cleanTrim === "guide me please" || cleanTrim === "what should i do next" || cleanTrim === "how do i do this" || cleanTrim === "help" || cleanTrim === "guide")) && !isSentenceCoach && !isHypothesisCoach && !isGapCoach;
+
+      // Direct Glossary Query Intent
+      var glossaryMatch = window.BioCopilotBrain && window.BioCopilotBrain.matchGlossaryQuery ? window.BioCopilotBrain.matchGlossaryQuery(text) : null;
+      var isGlossaryQuery = !!glossaryMatch && (
+        /\b(what\s+is|what\s+are|define|definition|explain|meaning\s+of|what\s+does.*mean|tell\s+me\s+about|how\s+to\s+calculate|formula\s+for|what\s+do\s+you\s+mean\s+by)\b/i.test(lower) ||
+        cleanTrim === glossaryMatch.term.toLowerCase() ||
+        (glossaryMatch.aliases && glossaryMatch.aliases.some(function(a) { return cleanTrim === a.toLowerCase(); }))
+      );
+
+      // Specific Aims Formulation Coach (Chapter 9 & 22)
+      var isAimsCoach = /\b(how\s+to\s+write\s+(specific\s+)?aims|draft\s+(specific\s+)?aims|aims?\s+formula|decoupled\s+aims?|aims?\s+structure|how\s+to\s+structure\s+aims|write\s+objectives|formulate\s+aims)\b/i.test(lower);
+
+      // Grant Budgeting in EGP Coach (Chapter 25)
+      var isBudgetCoach = /\b(budget|egp|egyptian\s+pounds?|how\s+to\s+write\s+(a\s+)?budget|budget\s+justification|itemized\s+budget|reagents?\s+cost|equipment\s+cost|indirect\s+costs?|direct\s+costs?|contingency\s+fund|budget\s+categories)\b/i.test(lower);
+
+      // Timeline & Gantt Chart Coach (Chapter 24)
+      var isTimelineCoach = /\b(gantt(\s+chart)?|timeline|milestones?|quarterly\s+milestone|project\s+schedule|timeline\s+template|contingency\s+plan|plan\s+b|risk\s+management)\b/i.test(lower);
+
+      // Experimental Controls Coach (Chapter 23)
+      var isControlsCoach = /\b(what\s+controls\s+do\s+i\s+need|experimental\s+controls?|negative\s+control|positive\s+control|vehicle\s+control|sham\s+control|matrix(-|\s+)matched|blank\s+sample|assay\s+controls?)\b/i.test(lower) && !isGlossaryQuery;
+
+      // Statistics, Power & LoD Coach (Chapter 2 & 23)
+      var isStatsCoach = /\b(statistical\s+design|p-value|sample\s+size|power\s+calculation|anova\s+vs\s+t-test|limit\s+of\s+detection\s+formula|how\s+to\s+calculate\s+lod|probit\s+regression)\b/i.test(lower) && !isGlossaryQuery;
+
       // Conversational discussion opener ("can we talk about [X]", "let's discuss [X]", "tell me about [X]")
       var isTopicDiscussion = /^(can we|could we|let('?s)?|i want to|i'd like to|what about|how about|tell me about|what do you think about|discuss|explore|talk about)\s+(talk about|discuss|explore|think about)?/i.test(lower) || /^(can we talk about|let's talk about|talk about|discuss|explore)\b/i.test(lower);
       var isBrainstormPrompt = /\b(brainstorm|idea|ideas|what if|how about|project on|work on|concept|develop a)\b/i.test(lower);
 
-      // Show typing indicator
+      // Multi-Stage Deliberate Thinking Indicator (Visual Reasoning Engine)
       var container = document.getElementById("copilot-chat-messages");
       if (container) {
         var typingEl = document.createElement("div");
         typingEl.id = "copilot-typing-indicator";
-        typingEl.style.cssText = "align-self: flex-start; background: #f1f5f9; color: #475569; border-radius: 8px; padding: 7px 11px; font-size: 0.72rem; font-style: italic;";
-        if (isWebSearch) {
-          typingEl.innerHTML = "🌐 Searching live web across DuckDuckGo, Wikipedia &amp; search engines...";
-        } else if (hasSearchIntent) {
-          typingEl.innerHTML = "🔍 Searching Europe PMC &amp; expanding literature insights...";
-        } else if (isSmallTalk) {
-          typingEl.innerHTML = "💬 Research Co-Pilot is replying...";
-        } else {
-          typingEl.innerHTML = "🔬 Research Co-Pilot is brainstorming with you...";
-        }
+        typingEl.style.cssText = "align-self: flex-start; background: #ffffff; border: 1.5px solid #cbd5e1; border-left: 4px solid #2563eb; color: #1e293b; border-radius: 8px; padding: 10px 14px; font-size: 0.74rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-width: 90%; display: flex; flex-direction: column; gap: 4px;";
+        typingEl.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #1d4ed8;">
+            <span style="font-size: 1.1rem; display: inline-block;">🧠</span>
+            <span id="thinking-indicator-title">Research Co-Pilot is analyzing your question...</span>
+          </div>
+          <div id="thinking-indicator-subtitle" style="font-size: 0.69rem; color: #64748b; font-family: monospace;">
+            Parsing: "${text.substring(0, 36)}${text.length > 36 ? '...' : ''}"
+          </div>
+        `;
         container.appendChild(typingEl);
         container.scrollTop = container.scrollHeight;
+
+        // Stage 1 contemplation pause: Reading inquiry
+        await new Promise(function(resolve) { setTimeout(resolve, 350); });
+        var subEl = document.getElementById("thinking-indicator-subtitle");
+        var titEl = document.getElementById("thinking-indicator-title");
+        if (subEl && titEl) {
+          titEl.innerText = "Inspecting active draft telemetry & context...";
+          subEl.innerText = `Draft: "${(liveTitle || 'Active Proposal Draft').substring(0, 30)}..." (Step ${window.currentStep || 1})`;
+        }
+
+        // Stage 2 contemplation pause: Cross-referencing draft & BT301 Guide
+        await new Promise(function(resolve) { setTimeout(resolve, 380); });
+        if (subEl && titEl) {
+          titEl.innerText = "Consulting BT301 Curriculum Guide & Rubric...";
+          subEl.innerText = "Aligning evaluation criteria & formulating step-by-step guidance...";
+        }
+
+        // Stage 3 contemplation pause: Finalizing reasoned response
+        await new Promise(function(resolve) { setTimeout(resolve, 320); });
       }
 
       var reply = "";
@@ -8130,6 +8867,593 @@ To construct a proposal that impresses grant committees and avoids the "Host-Swa
         ];
       }
 
+      // ROUTE 4E-GUIDE: Comprehensive Contextual Guidance & Co-Thinking Partner
+      else if (isGuidanceRequest) {
+        var lowerTitle = (liveTitle || "").toLowerCase().trim();
+        var isPassiveTitle = /^(the\s+)?(effect|role|impact|study|investigation|evaluation|analysis|overview)\s+(of|on|into)\b/i.test(lowerTitle);
+        var isBriefTitle = liveTitle.split(/\s+/).filter(Boolean).length < 7;
+        
+        var titleDiagnostic = "";
+        if (liveTitle) {
+          if (isPassiveTitle) {
+            titleDiagnostic = `❌ **Current Title Issue:** *"${liveTitle}"* starts with descriptive, passive phrasing (*"The effect of..."*). In academic grant committees, passive titles are penalized because they observe rather than engineer an active solution.`;
+          } else if (isBriefTitle) {
+            titleDiagnostic = `⚠️ **Current Title Status:** *"${liveTitle}"* is quite brief. Reviewers cannot identify your working biological chassis, target benchmark, or specific real-world problem.`;
+          } else {
+            titleDiagnostic = `✅ **Active Title:** *"${liveTitle}"*.`;
+          }
+        } else {
+          titleDiagnostic = "⚠️ **Title Status:** You haven't chosen a proposal title yet. We need an active, engineered title.";
+        }
+
+        // Domain awareness for tailored examples
+        var isDetector = /detector|detect|sensor|biosensor|diagnostic|surveillance|strip|probe/i.test(lowerTitle + " " + lower);
+        var isPlant = /plant|extract|herbal|phytochem|wound|cream|ointment/i.test(lowerTitle + " " + lower);
+
+        var ex1 = "", ex2 = "", ex3 = "";
+        if (isDetector) {
+          ex1 = "Engineered Recombinase Polymerase Amplification (RPA) Coupled with LbCas12a Trans-Cleavage in Paper-Based Lateral Flow Strips to Achieve Sub-Picomolar Pathogen Detection for Rapid Point-of-Care Surveillance";
+          ex2 = "Electrochemical Aptasensor Functionalized with Gold Nanoparticles in Clinical Serum to Attain LOD < 5 pg/mL for Rapid Sepsis Diagnosis";
+          ex3 = "Fluorescent Graphene Oxide Biosensor in Wastewater Matrices to Achieve >90% Recovery for Continuous Heavy Metal Monitoring";
+        } else if (isPlant) {
+          ex1 = "Chitosan-PLGA Nanoparticles Encapsulating Bioactive Phytochemical Extract in Methicillin-Resistant Staphylococcus aureus to Achieve MIC < 15 µg/mL for Topical Biofilm Eradication";
+          ex2 = "Thermosensitive Pluronic F-127 Hydrogel Loaded with Standardized Bioactive Extract in Human Dermal Fibroblasts to Attain >80% Wound Closure for Accelerated Tissue Regeneration";
+          ex3 = "Self-Nanoemulsifying Drug Delivery System (SNEDDS) of Standardized Terpene Fraction in Porcine Stratum Corneum to Achieve >70% Transdermal Permeation for Topical Anti-Inflammatory Therapy";
+        } else {
+          ex1 = "Engineered Enzyme Depolymerization Cascade in Microfluidic Reactors to Achieve >85% Conversion for Continuous Bioprocessing";
+          ex2 = "Secretory Expression of Thermostabilized PETase in Pichia pastoris to Achieve >2.5 s⁻¹ Turnover for Elevated-Temperature Plastic Recycling";
+          ex3 = "Microbial Endophyte Inoculant in Wheat Root Systems to Enhance Proline Accumulation by >2.5-Fold for Drought Resilience";
+        }
+
+        reply = `### 🤝 Research Co-Pilot Guidance: Let's Build Your Proposal Step-by-Step
+
+I've examined your active proposal context. Scientific proposal writing can feel complex, but when we follow the **BT301 Master Workflow**, every section builds naturally on the one before it.
+
+---
+
+### 📊 1. Diagnostic of Your Current Draft:
+• ${titleDiagnostic}
+• **Strategic Pillars:** Chassis: <code>${liveChassis || 'Needs Definition'}</code> | Molecular Tool: <code>${liveTool || 'Needs Definition'}</code> | Biological Target: <code>${liveTarget || 'Needs Definition'}</code>
+
+---
+
+### 🎯 2. Your Immediate High-Impact Next Steps (In Priority Order):
+
+1. **Step 1: Lock in Your 4-Part Title & 3 Strategic Pillars (Chapter 14 & 20):**
+   > **Title = [Active Tool / Construct] in [Host Chassis / Model] to [Quantified Benchmark] for [Target Application]**
+   *(Specify what molecular tool your detector uses, in what sample matrix, achieving what benchmark).*
+
+2. **Step 2: Define the Literature Gap Pivot (Chapter 8 & 21):**
+   State what existing methods can do, and contrast it with their unresolved bottleneck:
+   *“Although standard culture assays detect [target], their 48-hour turnaround delays intervention...”*
+
+3. **Step 3: Draft Your Mechanistic Hypothesis & 3 Decoupled Aims (Chapter 9 & 22):**
+   State *how* your system works down at the molecular level, followed by 3 independent experimental aims.
+
+---
+
+### ✍️ Three Concrete Worked Directions Tailored to Your Draft:
+• **Option 1 (CRISPR / Isothermal):**  
+  *“${ex1}”*
+
+• **Option 2 (Surface Aptasensor / Nanoparticle):**  
+  *“${ex2}”*
+
+• **Option 3 (Fluorescent / Matrix-Validated):**  
+  *“${ex3}”*
+
+---
+
+💡 **Where should we start right now?** Tell me which direction fits your vision best, or tell me your target analyte, and we will formulate your exact title and aims together!`;
+
+        actions = [
+          { label: "Suggest & Refine My Title", icon: "✍️", onClickJs: "quickSendCopilotPrompt('suggest edits and guide me to write a good title')" },
+          { label: "Draft 3 Specific Aims", icon: "🎯", onClickJs: "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims')" },
+          { label: "Formulate Literature Gap", icon: "🔍", onClickJs: "quickSendCopilotPrompt('help me write a literature gap sentence')" },
+          { label: "Formulate a Sentence (Ch 13)", icon: "📝", onClickJs: "quickSendCopilotPrompt('can you help me and guide on how to formulate a sentence')" },
+          { label: "Open BT301 Complete Guide", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(1);" }
+        ];
+
+        suggestions = [
+          { text: "✍️ Guide me to write a good title", prompt: "suggest edits and guide me to write a good title" },
+          { text: "🧬 Help me write my hypothesis sentence", prompt: "how to write a mechanistic hypothesis sentence" },
+          { text: "🔍 Help me write a literature gap", prompt: "how to write a literature gap sentence" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Contextual Proposal Guidance & Co-Thinking Walkthrough",
+          "Relevant Proposal Section: Section 1 (Title), Section 2 (Gap) & Section 3 (Aims)",
+          "Evidence Status: [BT301 Complete Course Guide — Master Workflow (Phases A through E)]",
+          "Key Uncertainty: Students need structured, prioritized steps rather than overwhelming disparate feedback",
+          "Recommended Next Step: Establish active Title & 3 Pillars before drafting downstream methodology"
+        ];
+      }
+
+      // ROUTE 4F: BT301 Mechanistic Hypothesis Formulation (Chapter 9 & 13)
+      else if (isHypothesisCoach) {
+        reply = `### 🧬 BT301 Mechanistic Hypothesis Formulation (Chapter 9)
+
+In BT301 grant evaluation, a hypothesis is **not a wild guess** and **not a descriptive statement**. It is a **mechanistic, testable prediction** grounded in published biochemistry.
+
+---
+
+### 🧩 The Mechanistic Hypothesis Blueprint:
+$$\\text{Hypothesis} = \\text{We hypothesize that } [\\text{Active Agent / Construct}] \\text{ will } [\\text{Action Verb}] [\\text{Molecular Target}] \\text{ by } [\\text{Biochemical Mechanism}], \\text{ thereby } [\\text{Quantified Benchmark}] \\text{ in } [\\text{Host Chassis / Model Matrix}].$$
+
+---
+
+### ⚖️ Descriptive vs. Mechanistic Hypothesis:
+• ❌ **Descriptive (School-Lab Trap):**  
+  *“We hypothesize that plant extract X will have an effect on bacteria.”*  
+  *(Why reviewers reject it: No active agent, no biochemical mechanism, no target molecule, no quantitative threshold.)*
+
+• ✅ **Mechanistic & Fundable:**  
+  *“We hypothesize that an ethosomal nano-emulsion of Calendula officinalis will accelerate dermal wound re-epithelialization by downregulating pro-inflammatory TNF-alpha and IL-6 expression in human epidermal keratinocytes, achieving >75% wound closure within 48 hours.”*
+
+---
+
+### 🎯 3 Golden Criteria of a Fundable Hypothesis (Criterion 2):
+1. **Directionality:** Does it state an increase, decrease, inhibition, or acceleration?
+2. **Biochemical Mechanism:** Does it specify *how* (pathway, receptor, domain, enzyme)?
+3. **Falsifiability:** Can a negative control or statistical test ($p < 0.05$) prove it wrong?
+
+---
+
+💡 **Let's construct your hypothesis together!** What is your active tool/agent and target molecule?`;
+
+        actions = [
+          { label: "Open Chapter 9: Funnel", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" },
+          { label: "Open Chapter 13: Sentence", icon: "✍️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(13);" },
+          { label: "Draft 3 Specific Aims", icon: "🎯", onClickJs: "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims')" }
+        ];
+
+        suggestions = [
+          { text: "✍️ Refine my current hypothesis", prompt: "here is my hypothesis: can you critique and refine it?" },
+          { text: "🔍 Help me write a gap sentence", prompt: "how to write a literature gap sentence" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Mechanistic Hypothesis Formulation (Chapter 9)",
+          "Relevant Proposal Section: Section 3.1 (Central Hypothesis)",
+          "Evidence Status: [BT301 Complete Course Guide — Chapter 9: The Research Funnel]",
+          "Key Uncertainty: Hypotheses must be testable with defined negative controls and benchmarks",
+          "Recommended Next Step: Align hypothesis with 3 decoupled specific aims"
+        ];
+      }
+
+      // ROUTE 4G: BT301 Literature Gap Statement (Chapter 8 & 21)
+      else if (isGapCoach) {
+        reply = `### 🔍 BT301 Literature Gap Formulation (Chapter 8 & 21)
+
+A literature gap is **not** simply saying *“no one has studied this before.”* A genuine research gap is a specific, high-value problem that prior scientific efforts failed to resolve or overlooked.
+
+---
+
+### 🧩 The 3-Part Literature Gap Pivot Formula:
+$$\\text{Gap Pivot} = [\\text{Acknowledge Established Prior Work}] + [\\text{Contrastive Conjunction: However / Despite}] + [\\text{Unresolved Mechanistic Void}].$$
+
+• **Worked Example:**  
+  *“Although numerous studies demonstrated the broad-spectrum antibacterial efficacy of silver nanoparticles in vitro, their clinical topical application remains severely constrained by cellular cytotoxicity and rapid oxidation in aqueous formulations.”*
+
+---
+
+### 📚 The 4 Valid Gap Archetypes (Chapter 8):
+1. **Methodological Gap:** Existing assays are too slow, expensive, or insensitive (e.g. 72-hour culture vs. 15-minute isothermal amplification).
+2. **Mechanistic Gap:** The clinical effect is known, but the exact cellular pathway or receptor remains uncharacterized.
+3. **Formulation / Delivery Gap:** The bioactive compound degrades rapidly or fails to cross biological barriers (e.g. stratum corneum).
+4. **Chassis / Environmental Gap:** A molecular system works in laboratory buffer but fails in authentic clinical or industrial matrices (e.g. humic acid inhibition).
+
+---
+
+💡 **Let's draft your literature gap sentence!** Share what prior studies found and what specific bottleneck your project solves.`;
+
+        actions = [
+          { label: "Open Chapter 8: The Gap", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(8);" },
+          { label: "Open Chapter 21: State of Art", icon: "📑", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(21);" },
+          { label: "Formulate Hypothesis Next", icon: "🧬", onClickJs: "quickSendCopilotPrompt('how to write a mechanistic hypothesis sentence')" }
+        ];
+
+        suggestions = [
+          { text: "🔍 Critique my literature gap", prompt: "here is my gap statement: can you critique it?" },
+          { text: "✍️ Guide me to write a sentence", prompt: "can you help me and guide on how to formulate a sentence" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Literature Gap Statement Formulation (Chapter 8 & 21)",
+          "Relevant Proposal Section: Section 2.2 (Specific Unresolved Gap)",
+          "Evidence Status: [BT301 Complete Course Guide — Chapter 8: Finding the Gap]",
+          "Key Uncertainty: Gaps must be anchored against primary literature citations and acknowledge prior work",
+          "Recommended Next Step: Contrast existing published limits against proposed bioengineering intervention"
+        ];
+      }
+
+      // ROUTE 4E: BT301 Chapter 13 Scientific Sentence Formulation & Writing Coach
+      else if (isSentenceCoach) {
+        reply = `### ✍️ BT301 Scientific Sentence Formulation Guide (Chapter 13)
+
+Academic proposals require **active, mechanistic, and quantified** sentences. Reviewers look for clear agency: who or what is acting, what precise biophysical action is occurring, and under what exact conditions.
+
+---
+
+### 🧩 1. The Universal 4-Part Scientific Sentence Formula:
+$$\\text{Sentence} = [\\text{Subject / Agent}] + [\\text{Active Action Verb}] + [\\text{Direct Object / Measured Endpoint}] + [\\text{Condition / Chassis}]$$
+
+• **Example:**  
+  *“The ethanolic Calendula officinalis extract **(Subject)** inhibited **(Verb)** biofilm formation **(Object)** in cultured Methicillin-resistant Staphylococcus aureus **(Condition)**.”*
+
+---
+
+### 📐 2. The 5 Essential Sentence Types in a Research Proposal:
+
+| Section | Sentence Archetype | Formula & Worked Example |
+| :--- | :--- | :--- |
+| **Sec 2: Problem** | **The Real-World Bottleneck** | *"[Disease / Contaminant] causes [quantified cost / mortality], yet current standard [methods] suffer from [specific technical limitation]."*<br>*(e.g., "Sepsis claims over 11 million lives annually, yet blood-culture confirmation requires 48–72 hours to return antibiotic resistance profiles.")* |
+| **Sec 2: Gap Pivot** | **The Unresolved Void** | *"Although previous studies established that [known fact], whether [key variable] can [target effect] under [relevant condition] remains uncharacterized."*<br>*(e.g., "Although recombinant PETase degrades amorphous PET at 30°C, its rapid thermal inactivation at >50°C prevents commercial industrial deployment.")* |
+| **Sec 3: Hypothesis** | **The Mechanistic Prediction** | *"We hypothesize that [Agent / Construct] will [action verb] [target] by [biochemical mechanism], achieving [quantified milestone] in [model chassis]."*<br>*(e.g., "We hypothesize that disulfide-stabilized PETase variants will resist thermal unfolding at 65°C by decreasing backbone entropy, depolymerizing >85% post-consumer PET within 12 hours.")* |
+| **Sec 3: Objective** | **The Measurable Aim** | *"To [action verb: quantify / optimize / express / evaluate] [parameter] using [method / assay] in order to [milestone benchmark]."*<br>*(e.g., "To evaluate kinetic catalytic turnover ($k_{cat}/K_m$) of five engineered variants across 40–70°C using spectrophotometric esterase assays.")* |
+| **Sec 4: Protocol** | **Future-Tense Active Procedure** | *"[Sample / Formulation] will be [passive action verb] at [operating condition] for [duration] with [positive & negative controls] to [endpoint readout]."*<br>*(e.g., "Triplicate 50 mg substrate samples will be incubated at 65°C in 50 mM glycine-NaOH buffer (pH 9.0) with wild-type and heat-inactivated enzyme controls.")* |
+
+---
+
+### 🔬 3. Scientific Verb Choice Matrix:
+• **Define / Specify:** *is defined as, refers to, comprises, encompasses*  
+• **Describe Biochemical Mechanism:** *catalyzes, mediates, regulates, downregulates, upregulates, transcribes, cleaves*  
+• **Report Literature:** *demonstrated, observed, established, confirmed, identified*  
+• **Cautious Hedging:** *suggests, indicates, supports the hypothesis that, is consistent with* *(never use 'proves' in biology)*  
+• **Quantify Effect:** *inhibited by 68%, accelerated by 3.2-fold, reduced below detection threshold*
+
+---
+
+### 💡 Informal → Academic Quick Conversions:
+• *"A lot of studies"* ➔ **"Numerous empirical investigations"**  
+• *"Scientists found out that"* ➔ **"Researchers previously demonstrated that"**  
+• *"This proves that"* ➔ **"These findings provide strong evidence that"**  
+• *"We wanted to see if"* ➔ **"This investigation aims to determine whether"**  
+• *"The extract did not work"* ➔ **"The formulation exhibited no statistically significant inhibition ($p > 0.05$)"**
+
+---
+
+🎯 **What sentence would you like to draft right now?** Select an archetype below or share your draft sentence and we will refine it together!`;
+
+        actions = [
+          { label: "Open Chapter 13 in Guide", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(13);" },
+          { label: "Formulate Hypothesis Sentence", icon: "🧬", onClickJs: "quickSendCopilotPrompt('how to write a mechanistic hypothesis sentence')" },
+          { label: "Formulate Literature Gap", icon: "🔍", onClickJs: "quickSendCopilotPrompt('how to write a literature gap sentence')" },
+          { label: "Formulate Specific Aim", icon: "🎯", onClickJs: "quickSendCopilotPrompt('how to write a specific aim sentence')" },
+          { label: "Pre-Submission Checklist", icon: "✅", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(30);" }
+        ];
+
+        suggestions = [
+          { text: "✍️ Help me write my hypothesis sentence", prompt: "help me write a mechanistic hypothesis sentence for my proposal" },
+          { text: "🔍 Help me write a gap pivot sentence", prompt: "help me write a literature gap pivot sentence" },
+          { text: "📖 Browse all 34 Guide chapters", prompt: "show me the bt301 course guide" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: BT301 Scientific Sentence Formulation Coaching (Chapter 13)",
+          "Relevant Proposal Section: Sections 2, 3 & 4 (Mechanistic Agency & Precise Diction)",
+          "Evidence Status: [BT301 Complete Course Guide — Chapter 13: Building a Sentence]",
+          "Key Uncertainty: Sentences must avoid passive school-lab phrasing and specify active agents & conditions",
+          "Recommended Next Step: Assemble sentence using 4 anchors: Subject + Verb + Object + Condition"
+        ];
+      }
+
+      // ROUTE 4H: BT301 Complete Course Guide Navigator (29 Chapters)
+      else if (isGuideDirect) {
+        var chMatch = cleanTrim.match(/chapter\s*(\d+)/i);
+        var targetCh = chMatch ? parseInt(chMatch[1], 10) : 1;
+
+        reply = `### 📖 BT301 Complete Course Guide
+**From Zero to a Fundable Research Proposal (29 Chapters)**
+
+The complete course guide is fully integrated into your workspace! It provides step-by-step guidance from essential biotechnology foundations to experimental design, statistics, itemized budgets (EGP), and master glossary definitions.
+
+---
+
+### 🗺️ The 5-Phase Master Curriculum:
+• **Part A: Foundations (Ch 1–5):** Science principles, essential vocabulary, statistics ($p$-value, SD, SEM), paper reading, ethics & AI tools.
+• **Part B: Finding & Shaping Your Project (Ch 6–11):** Biotechnology sectors, literature search strings, finding the gap, research funnel, fundability criteria, team roles.
+• **Part C: Academic Writing Skills (Ch 12–18):** Sentence formulation (Ch 13), scientific verbs, tenses, active vs passive, MEAL paragraph building, transitions, self-editing.
+• **Part D: Writing the Proposal (Ch 19–26):** Section-by-section drafting: Title & Summary, Background & Problem, Specific Aims, Methodology & Controls, Timeline & Gantt, Itemized Budget (EGP), Impact & Tech Transfer.
+• **Part E: Reference & Templates (Ch 31–33):** Fill-in proposal templates (Ch 31), master A–Z glossary (Ch 32), one-page cheat sheets (Ch 33).
+
+---
+
+### 🔍 Quick "I'm Stuck" Finder:
+• *Confused about Aim vs. Objective vs. Hypothesis?* → **Chapter 9**
+• *Need to formulate active, mechanistic sentences?* → **Chapter 13**
+• *Need to define the literature gap pivot?* → **Chapter 8 & 21**
+• *Looking up a term definition or standard formula?* → **Chapter 32 (Glossary)**
+• *Need copy-paste fill-in templates?* → **Chapter 31**
+
+Click below to open the complete interactive guide reader:`;
+
+        actions = [
+          { label: "Open BT301 Complete Guide", icon: "📖", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(" + targetCh + ");" },
+          { label: "Open Chapter 13: Sentence", icon: "✍️", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(13);" },
+          { label: "Open Chapter 32: Glossary", icon: "📚", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(32);" },
+          { label: "Open Chapter 25: Budget", icon: "💰", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(25);" }
+        ];
+
+        suggestions = [
+          { text: "✍️ How do I formulate a sentence?", prompt: "can you help me and guide on how to formulate a sentence" },
+          { text: "🎯 How to write specific aims?", prompt: "how to write specific aims" },
+          { text: "💰 How to write a budget in EGP?", prompt: "how to write an itemized budget in EGP" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: BT301 Course Guide Navigation",
+          "Relevant Proposal Section: All Sections (Complete Curriculum)",
+          "Evidence Status: [BT301 Complete Course Guide — 29 Chapters Embedded]",
+          "Key Uncertainty: Students must know how to navigate between learning phases and proposal sections",
+          "Recommended Next Step: Open the Guide Reader or jump directly to the relevant chapter"
+        ];
+      }
+
+      // ROUTE 4-GLOSSARY: BioCopilot Direct Glossary & Scientific Concept Resolver (Chapter 32)
+      else if (isGlossaryQuery && glossaryMatch) {
+        reply = `### 📖 Glossary Definition: **${glossaryMatch.term}**
+**Curriculum Reference:** ${glossaryMatch.ref}
+
+${glossaryMatch.definition}
+
+---
+
+### 📐 Standard Proposal Blueprint / Benchmark:
+\`${glossaryMatch.formula}\`
+
+---
+
+### ⚠️ Common Student Pitfall / Reviewer Red Flag:
+*${glossaryMatch.mistake}*
+
+---
+
+💡 **Next Steps:** Would you like to review how this applies to your active project (${liveTitle ? '"' + liveTitle + '"' : 'your draft'}), or test your knowledge in a mock review?`;
+
+        actions = (glossaryMatch.actions || []).concat([
+          { label: "Check in My Proposal", icon: "🔍", onClickJs: `quickSendCopilotPrompt('how do I use ${window.BioCopilotBrain.windowSafeEscape(glossaryMatch.term)} in my proposal')` },
+          { label: "Grill Me on This", icon: "🧠", onClickJs: `quickSendCopilotPrompt('grill me on ${window.BioCopilotBrain.windowSafeEscape(glossaryMatch.term)}')` }
+        ]);
+
+        suggestions = [
+          { text: `🔬 How do I apply ${glossaryMatch.term} in my aims?`, prompt: `how do I apply ${glossaryMatch.term} in my specific aims?` },
+          { text: `⚠️ What do reviewers look for regarding ${glossaryMatch.term}?`, prompt: `what do reviewers look for regarding ${glossaryMatch.term}?` },
+          { text: `📖 Open BT301 Guide: ${glossaryMatch.ref.split('&')[0].trim()}`, prompt: `open ${glossaryMatch.ref.split('&')[0].trim().toLowerCase()}` }
+        ];
+
+        thinking = [
+          `Assessment Basis — Detected Task: Glossary & Concept Resolution for '${glossaryMatch.term}'`,
+          `Curriculum Reference: ${glossaryMatch.ref}`,
+          "Evidence Status: [BT301 Master Curriculum Lexicon & Experimental Blueprint]",
+          "Key Uncertainty: Preventing student confusion between colloquial terms and rigorous academic definitions",
+          "Recommended Next Step: Verify term application within the active proposal sections"
+        ];
+      }
+
+      // ROUTE 4-AIMS: BT301 Chapter 9 & 22 Specific Aims Formulation Coach
+      else if (isAimsCoach) {
+        reply = `### 🎯 BT301 Specific Aims Formulation Guide (Chapter 9 & 22)
+
+A Specific Aim is **not a laboratory protocol step** (e.g., *"To run PCR"* or *"To purify protein"*). An aim is an **independent, verb-led research milestone** that directly tests one logical component of your mechanistic hypothesis.
+
+---
+
+### 📐 The Universal 4-Part Specific Aim Formula:
+$$\text{Specific Aim [X]} = [\text{Action Verb}] + [\text{Target Molecule / System}] + [\text{Mechanistic Method}] + [\text{Chassis / Model}] + [\text{Quantified Benchmark}]$$
+
+• **Approved Action Verbs:** *Quantify, Engineer, Validate, Characterize, Optimize, Decouple, Formulate.*  
+• **Prohibited Verbs:** *Study, Investigate, Explore, Look into, Understand.*
+
+---
+
+### 🛡️ The Non-Negotiable Decoupling Rule (Chapter 9 §9.4):
+Reviewers immediately penalize proposals where Aim 2 fails if Aim 1 encounters yield or solubility delays.
+• **Weak (Coupled):** Aim 1 produces an engineered variant; Aim 2 tests it. If Aim 1 yield is low, Aim 2 cannot start.
+• **Strong (Decoupled):** Aim 2 tests wild-type benchmark enzyme or synthetic control while engineered variants are in production.
+
+---
+
+### 📑 Alignment Matrix Checklist (Chapter 22):
+Every aim must declare:
+1. **Biological Hypothesis Tested**
+2. **Standardized Quantitative Assay** (e.g., HPLC, qPCR, ELISA, IC50)
+3. **Primary Positive Standard & Matrix Blank**
+4. **Feasibility Contingency (Plan B)**`;
+
+        actions = [
+          { label: "Open Chapter 9: The Funnel", icon: "🎯", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(9);" },
+          { label: "Open Chapter 22: Specific Aims", icon: "📑", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(22);" },
+          { label: "Draft 3 Decoupled Aims", icon: "✍️", onClickJs: "quickSendCopilotPrompt('Let us draft 3 decoupled specific aims for my active proposal')" }
+        ];
+
+        suggestions = [
+          { text: "🎯 Draft Aim 1 for my project", prompt: "draft Aim 1 for my active proposal" },
+          { text: "🛡️ How to decouple Aim 2 from Aim 1?", prompt: "how to decouple Aim 2 from Aim 1?" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Specific Aims Formulation & Decoupling",
+          "Curriculum Reference: Chapter 9 (§9.4) & Chapter 22",
+          "Evidence Status: [BT301 Fundability Blueprint — Decoupled Research Milestones]",
+          "Key Uncertainty: Ensuring Aim 2 can execute independently even if Aim 1 has lower yields",
+          "Recommended Next Step: Formulate 2–3 verb-led milestones with quantitative endpoints"
+        ];
+      }
+
+      // ROUTE 4-BUDGET: BT301 Chapter 25 Grant Budgeting & EGP Allocation Coach
+      else if (isBudgetCoach) {
+        reply = `### 💰 BT301 Itemized Grant Budget Guide (Chapter 25)
+
+In Egyptian academic funding (STDF, ASRT, University Grants), all budgets **MUST be denominated in Egyptian Pounds (EGP)**. Using USD or other foreign currencies without explicit sponsor mandate leads to point deduction.
+
+---
+
+### 📊 The 4 Standard Grant Budget Categories:
+1. **Category 1: Direct Reagents & Assay Consumables (50–60% of total):**  
+   Enzymes, primers, antibodies, cell culture media, plasticware, specialized assay kits.
+2. **Category 2: Core Facility Testing & Analytical Services (20–25% of total):**  
+   Per-sample charges for Sanger sequencing, LC-MS/MS, TEM/SEM imaging, NMR, FACS.
+3. **Category 3: Student & Personnel Stipends (10–15% of total):**  
+   Undergraduate/MSc student research compensation allocated per semester.
+4. **Category 4: Contingency & Buffer Reserve (5–10% of total):**  
+   Emergency buffer for customs clearance, currency fluctuation, and re-runs.
+
+---
+
+### 📝 The Reagent Justification Formula (Chapter 25 §25.3):
+Reviewers reject vague line items like *"Chemicals: 50,000 EGP"*. Every single item must be mathematically justified:
+$$\text{Total Cost (EGP)} = [\text{Number of Samples}] \times [\text{3 Biological Replicates}] \times [\text{Unit Price per Reaction (EGP)}]$$
+
+• **Example:** *TaqPath qPCR Master Mix (Applied Biosystems, Cat# A15297): 480 reactions across 40 samples × 3 replicates × 4 target genes = 4 kits @ 12,500 EGP/kit = 50,000 EGP.*`;
+
+        actions = [
+          { label: "Open Chapter 25: Itemized Budget", icon: "💰", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(25);" },
+          { label: "Audit My Budget in EGP", icon: "📊", onClickJs: "quickSendCopilotPrompt('audit my proposal budget in EGP')" }
+        ];
+
+        suggestions = [
+          { text: "💵 How to justify reagent costs?", prompt: "how to write a reagent justification in EGP" },
+          { text: "🛡️ What are the 4 budget categories?", prompt: "explain the 4 grant budget categories in EGP" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Grant Budgeting & EGP Justification",
+          "Curriculum Reference: Chapter 25 (Itemized Budget & Justification)",
+          "Evidence Status: [Egyptian Academic Funding Mandate — 100% EGP Denomination]",
+          "Key Uncertainty: Line items must be tied to experimental sample counts and biological replicates",
+          "Recommended Next Step: Structure itemized table across the 4 funding categories"
+        ];
+      }
+
+      // ROUTE 4-TIMELINE: BT301 Chapter 24 Milestone Timeline & Gantt Chart Coach
+      else if (isTimelineCoach) {
+        reply = `### 📅 BT301 Timeline & Gantt Chart Guide (Chapter 24)
+
+Reviewers look for an achievable, logically sequenced schedule with explicit milestones and buffer time for experimental troubleshooting.
+
+---
+
+### 🗺️ Standard 12-Month Project Architecture:
+• **Months 1–3 (Q1): Chassis Preparation & Vector Construction:**  
+  *Milestone 1:* Sequence-verified recombinant construct generated and transformed into host chassis.
+• **Months 4–6 (Q2): Expression Optimization & Pilot Screen:**  
+  *Milestone 2:* Target molecule expressed with confirmed yield > 50 mg/L or detectable enzymatic activity.
+• **Months 7–9 (Q3): Full Analytical Characterization & Controls:**  
+  *Milestone 3:* Triplicate assays completed across all positive reference standards and negative matrix blanks.
+• **Months 10–12 (Q4): Validation Replicates, Data Synthesis & Defense:**  
+  *Milestone 4:* Final statistical analysis (ANOVA, 95% CI) and publication manuscript drafted.
+
+---
+
+### 🛡️ Mandatory Buffer & Plan B Contingency (Chapter 24 §24.4):
+Reserve the final 2 months exclusively for data analysis and buffer time. Never schedule critical laboratory bench experiments into the final month before graduation or submission.`;
+
+        actions = [
+          { label: "Open Chapter 24: Timeline & Gantt", icon: "📅", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(24);" },
+          { label: "Build My Gantt Schedule", icon: "📊", onClickJs: "quickSendCopilotPrompt('help me structure my 12 month Gantt chart')" }
+        ];
+
+        suggestions = [
+          { text: "📅 How to define quarterly milestones?", prompt: "how to define quarterly milestones for my proposal" },
+          { text: "🛡️ What is a Plan B contingency table?", prompt: "how to write a contingency plan for protein expression failure" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Timeline & Gantt Planning",
+          "Curriculum Reference: Chapter 24 (Timeline, Milestones & Gantt)",
+          "Evidence Status: [BT301 Project Feasibility Architecture]",
+          "Key Uncertainty: Leaving sufficient buffer for troubleshooting and reagent lead times",
+          "Recommended Next Step: Map specific aims across 4 quarterly milestones with contingency buffers"
+        ];
+      }
+
+      // ROUTE 4-CONTROLS: BT301 Chapter 23 Experimental Controls & Replicates Coach
+      else if (isControlsCoach) {
+        reply = `### 🧪 BT301 Experimental Controls & Rigor Guide (Chapter 23)
+
+Reviewer 2 frequently writes: *"The proposed methodology lacks rigorous controls."* In biotechnology, you must deploy the **4 Non-Negotiable Experimental Controls**:
+
+---
+
+### 🛡️ The 4 Mandatory Experimental Controls:
+1. **Negative Control (Baseline Specificity):**  
+   Non-targeting gRNA (CRISPR), empty plasmid vector, or untreated host cells. Proves signal is not due to vector or cellular background.
+2. **Positive Reference Standard (Assay Validity):**  
+   Commercially validated benchmark (e.g. wild-type enzyme, FDA-approved therapeutic, or synthetic target DNA). Proves your assay chemistry functions under tested conditions.
+3. **Matrix-Matched Blank (Interference Check):**  
+   Authentic patient serum, uninoculated plant sap, or sterile soil without target analyte. Proves matrix components (e.g. humic acids, endogenous proteases) do not cause false positives.
+4. **Vehicle / Sham Control (Solvent Effect):**  
+   Buffer with identical DMSO, glycerol, or ethanol concentration without bioactive compound. Proves observed bioactivity is not solvent toxicity.
+
+---
+
+### 🔬 Replicates Rule of Rigor:
+• **Biological Replicates ($n \ge 3$):** Independent cultures grown on different days or separate test subjects. Used for statistical significance ($p < 0.05$).
+• **Technical Replicates (Triplicate):** Pipetting replicates from the same biological sample. Proves pipetting precision, not biological reproducibility.`;
+
+        actions = [
+          { label: "Open Chapter 23: Methodology", icon: "🧪", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(23);" },
+          { label: "Audit Controls for My Project", icon: "🔍", onClickJs: "quickSendCopilotPrompt('what controls do I need for my active proposal')" }
+        ];
+
+        suggestions = [
+          { text: "🧪 What negative control for CRISPR?", prompt: "what negative control should I use for CRISPR diagnostics?" },
+          { text: "📊 How many replicates do I need?", prompt: "difference between biological and technical replicates in grant proposals" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Experimental Controls & Replicate Rigor",
+          "Curriculum Reference: Chapter 23 (Methodology & Controls)",
+          "Evidence Status: [Gold Standard Experimental Rigor Framework]",
+          "Key Uncertainty: Matrix interference and biological vs. technical variance",
+          "Recommended Next Step: Specify exact positive, negative, and vehicle controls for every assay"
+        ];
+      }
+
+      // ROUTE 4-STATS: BT301 Chapter 2 & 23 Statistical Rigor & LoD Equation Coach
+      else if (isStatsCoach) {
+        reply = `### 📊 BT301 Statistical Rigor & Limit of Detection (LoD) Guide
+
+Statistical rigor distinguishes an undergraduate lab report from a fundable research proposal.
+
+---
+
+### 📐 Standard IUPAC / CLSI Limit of Detection (LoD) Equation:
+$$\text{LoD} = \bar{x}_{\text{blank}} + 3.3 \times \sigma_{\text{blank}}$$
+$$\text{LoQ (Limit of Quantitation)} = \bar{x}_{\text{blank}} + 10 \times \sigma_{\text{blank}}$$
+• $\bar{x}_{\text{blank}}$: Mean signal of matrix-matched blank ($n \ge 20$ replicates).
+• $\sigma_{\text{blank}}$: Standard deviation of matrix-matched blank.
+
+For binary diagnostics (positive/negative), use **Probit Regression Analysis** to identify the concentration that yields 95% positive detection with 95% Confidence Intervals.
+
+---
+
+### 📈 Statistical Test Decision Matrix (Chapter 2 §2.2):
+• **2 Groups (e.g. Treated vs. Untreated):** Two-tailed Student's $t$-test (paired if same subject before/after; unpaired otherwise).
+• **$\ge 3$ Groups with 1 Factor:** One-Way ANOVA followed by **Tukey's Post-Hoc HSD** (compares all pairs) or **Dunnett's test** (compares all to control).
+• **2 Factors (e.g. Dose $\times$ Time):** Two-Way ANOVA with **Bonferroni correction** for multiple comparisons.
+• **Threshold:** Set $\alpha = 0.05$. Report exact $p$-values (e.g. $p = 0.018$), never just $p < 0.05$.`;
+
+        actions = [
+          { label: "Open Chapter 2: Statistics", icon: "📊", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(2);" },
+          { label: "Open Chapter 23: Methodology", icon: "🧪", onClickJs: "if(window.openBt301Guide) window.openBt301Guide(23);" }
+        ];
+
+        suggestions = [
+          { text: "📊 How to choose between t-test and ANOVA?", prompt: "when to use ANOVA vs t-test in biotechnology proposals" },
+          { text: "🎯 How to calculate sample size?", prompt: "how to perform power calculation for sample size" }
+        ];
+
+        thinking = [
+          "Assessment Basis — Detected Task: Statistical Design & LoD Equations",
+          "Curriculum Reference: Chapter 2 (§2.2) & Chapter 23",
+          "Evidence Status: [CLSI / IUPAC Analytical Validation Guidelines]",
+          "Key Uncertainty: Selecting appropriate post-hoc tests and reporting exact p-values",
+          "Recommended Next Step: Define statistical test and alpha threshold in Methodology section"
+        ];
+      }
+
       // ROUTE 5: Title & Abstract Formulation Request (Domain-Aware & BT_301 Rubric Evaluator)
       else if (/title|abstract|inverted funnel|name my project|how to phrase|good title|my title/i.test(lower)) {
         var lowerTitle = (liveTitle || "").toLowerCase().trim();
@@ -8150,9 +9474,9 @@ To construct a proposal that impresses grant committees and avoids the "Host-Swa
             critiqueMsg += `❌ **Passive School-Lab Trap (Criterion 1 Penalty):** Starting with *"The effect of..."* or *"A study on..."* is descriptive rather than mechanistic. Academic grant committees reject passive titles because they don't describe an engineered solution or active biotechnology mechanism.\n\n`;
           }
           if (liveTitle.length < 28) {
-            critiqueMsg += `⚠️ **Missing Critical Specifics (${liveTitle.split(/\s+/).filter(Boolean).length} words):** Your title is too brief. Reviewers cannot identify your biological chassis, quantitative milestone, or specific target application.\n\n`;
+            critiqueMsg += `⚠️ **Missing Critical Details (${liveTitle.split(/\s+/).filter(Boolean).length} words):** Your title is too brief. Reviewers cannot identify your working model/system, target goal/number, or specific application.\n\n`;
           }
-          critiqueMsg += `**What Reviewers Need to See (The 4-Anchor Formula):**\n\n> **Title = [Molecular Tool / Formulation] in [Host Chassis / Model] to [Quantified Benchmark] for [Application]**\n\n---\n\n`;
+          critiqueMsg += `**What Reviewers Need to See (The 4-Part Title Formula):**\n\n> **Title = [Active Solution / Tool] in [Model / Plant / System] to [Target Goal / Number] for [Problem to Solve]**\n\n---\n\n`;
         }
 
         // Domain-specific 4-anchor titles
@@ -8189,14 +9513,14 @@ To construct a proposal that impresses grant committees and avoids the "Host-Swa
           t3 = `Nanoparticle-Formulated ${baseTool} in ${baseChassis} to Achieve Rapid Field-Deployable Detection of ${baseTarget}`;
         }
 
-        reply = `${critiqueMsg}🧩 **How to Formulate Your Title (The 4-Anchor Formula):**
-In BT_301, academic grant reviewers look for an active, engineered solution rather than observational school-lab phrasing. 
+        reply = `${critiqueMsg}🧩 **How to Formulate Your Title (Simple 4-Piece Formula):**
+In BT_301, academic grant reviewers look for an active solution rather than passive school-lab phrasing. 
 
-Assemble your title using these 4 building blocks:
-1. **Active Tool / Construct:** What specific molecule, formulation, enzyme, or carrier are you engineering?
-2. **Host Chassis / Model:** In what host organism, cell line, tissue model, or environmental matrix?
-3. **Quantitative Benchmark:** What numerical milestone will define success (e.g. *IC50 < 25 µg/mL*, *MIC < 15 µg/mL*, *LOD < 10 pM*, *>80% release*)?
-4. **Target Application:** What real-world health, agricultural, or industrial problem does it solve?
+Assemble your title using these 4 simple building blocks:
+1. **Active Substance or Tool:** What specific molecule, plant extract, formulation, or test are you developing?
+2. **Model / Plant / System:** In what plant, tissue model, organism, or test environment?
+3. **Target Goal or Number:** What measurable milestone defines success (e.g. *>80% wound closure*, *>50% reduction*, *MIC < 15 µg/mL*, *<30 minutes*)?
+4. **Real-World Problem:** What practical health, agricultural, or environmental problem does it solve?
 
 ---
 
@@ -9744,7 +11068,7 @@ What specific section would you like to strengthen next?`;
         aimEvalColor = "#92400e";
         aimEvalBg = "#fef3c7";
         if (!liveAim2) {
-          aimFeedback = "<strong>💡 Co-Pilot Review:</strong> Specific Aim 1 is drafted. Next, define <strong>Specific Aim 2</strong> with an explicit quantitative milestone (" + (isPhytoOrTopical ? "e.g., MIC < 25 µg/mL or >75% sustained active release over 12 h" : "e.g., >85% turnover or LOD < 10 pM") + ").";
+          aimFeedback = "<strong>💡 Co-Pilot Review:</strong> Aim 1 is drafted. Next, define <strong>Aim 2</strong> with an explicit target number or milestone (" + (isPhytoOrTopical ? "e.g., >75% active release over 12 h, or >50% reduction in inflammation" : "e.g., >80% turnover, or LOD < 10 pM") + ").";
         } else {
           aimFeedback = "<strong>💡 Co-Pilot Review:</strong> Define <strong>Specific Aim 3</strong> to validate your construct in an authentic matrix or safety model (" + (isPhytoOrTopical ? "e.g. Franz cell skin permeation or MTT cytotoxicity" : "e.g. environmental matrix or cellular viability assay") + ").";
         }
@@ -9753,7 +11077,7 @@ What specific section would you like to strengthen next?`;
         aimEval = "⚠️ Aim 2 Needs Metric";
         aimEvalColor = "#92400e";
         aimEvalBg = "#fef3c7";
-        aimFeedback = "<strong>💡 Co-Pilot Review:</strong> Specific Aim 2 expresses qualitative goals. Grant reviewers score proposals with explicit numerical milestones (" + (isPhytoOrTopical ? "e.g., MIC < 25 µg/mL or >75% drug release over 12 h" : "e.g., LOD < 10 pM or >85% turnover") + ") significantly higher.";
+        aimFeedback = "<strong>💡 Co-Pilot Review:</strong> Specific Aim 2 expresses qualitative goals. Proposals with explicit numbers or target thresholds (" + (isPhytoOrTopical ? "e.g., >50% reduction in inflammation, or >75% release over 12 h" : "e.g., >80% conversion, or detection below 10 copies/µL") + ") score significantly higher.";
       } else {
         aimScore = 95;
         aimEval = "✅ 3 Decoupled Aims Verified";
@@ -10262,7 +11586,7 @@ What specific section would you like to strengthen next?`;
           actionsHtml += `
             <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-left: 4px solid #64748b; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;">
               <div style="font-size: 0.76rem; font-weight: 700; color: #334155;">⚪ Title Formulation</div>
-              <div style="font-size: 0.72rem; color: #475569; margin: 3px 0 6px 0;">Auto-assemble your title using your validated Chassis, Tool, and Benchmark.</div>
+              <div style="font-size: 0.72rem; color: #475569; margin: 3px 0 6px 0;">Auto-assemble your title using your 3 Core Building Blocks (System, Tool/Substance, and Target Outcome).</div>
               <button type="button" onclick="document.getElementById('btn-assemble-title-from-pillars')?.click()" style="background: #f1f5f9; border: 1px solid #94a3b8; color: #1e293b; font-size: 0.72rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
                 ✨ Auto-Assemble Title
               </button>
@@ -11359,8 +12683,615 @@ What specific section would you like to strengthen next?`;
       });
     })();
 
+    // =========================================================================
+    // BT301 COMPLETE COURSE GUIDE INTERACTIVE READER ENGINE (34 CHAPTERS)
+    // 100% Offline-First Architecture (Instant memory load from window.BT301_GUIDE_DATA)
+    // =========================================================================
+    window.bt301ChaptersCache = null;
+    window.currentBt301Chapter = 1;
+
+    function getGuideDataSource() {
+      if (window.bt301ChaptersCache && window.bt301ChaptersCache.length > 0) {
+        return window.bt301ChaptersCache;
+      }
+      if (window.BT301_GUIDE_DATA && Array.isArray(window.BT301_GUIDE_DATA) && window.BT301_GUIDE_DATA.length > 0) {
+        window.bt301ChaptersCache = window.BT301_GUIDE_DATA;
+        return window.bt301ChaptersCache;
+      }
+      return null;
+    }
+
+    window.openBt301Guide = async function(chapterNum) {
+      var modal = document.getElementById("modal-bt301-guide");
+      if (!modal) return;
+      modal.style.display = "flex";
+
+      // 1. Try instant memory load from pre-bundled client knowledge base
+      var chapters = getGuideDataSource();
+
+      // 2. Fallback to API only if not in memory and not file://
+      if (!chapters && window.location.protocol !== "file:") {
+        try {
+          var res = await fetch("/api/guide/chapters");
+          if (res.ok) {
+            var data = await res.json();
+            window.bt301ChaptersCache = data.chapters || [];
+            chapters = window.bt301ChaptersCache;
+          }
+        } catch(e) {
+          console.warn("Could not fetch guide chapters via network", e);
+        }
+      }
+
+      var target = chapterNum || window.currentBt301Chapter || 1;
+      window.renderBt301ChaptersList(chapters || [], target);
+      await window.loadBt301Chapter(target);
+    };
+
+    window.closeBt301Guide = function() {
+      var modal = document.getElementById("modal-bt301-guide");
+      if (modal) modal.style.display = "none";
+    };
+
+    window.renderBt301ChaptersList = function(chapters, activeNum) {
+      var listEl = document.getElementById("bt301-chapters-list");
+      if (!listEl) return;
+      if (!chapters || chapters.length === 0) {
+        listEl.innerHTML = '<div style="padding: 12px; font-size: 0.75rem; color: #64748b;">No chapters available.</div>';
+        return;
+      }
+
+      // Group by Part
+      var html = '';
+      var currentPart = '';
+      chapters.forEach(function(ch) {
+        if (ch.part !== currentPart) {
+          currentPart = ch.part;
+          html += '<div style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #1e40af; background: #e0f2fe; padding: 6px 10px; border-radius: 4px; margin: 8px 0 4px 0;">' + currentPart + '</div>';
+        }
+        var isActive = ch.number === activeNum;
+        var bg = isActive ? '#2563eb' : 'transparent';
+        var fg = isActive ? '#ffffff' : '#1e293b';
+        var border = isActive ? 'none' : '1px solid transparent';
+        html += `
+          <button type="button" class="btn-guide-ch-item" onclick="loadBt301Chapter(${ch.number})" data-ch="${ch.number}" style="width: 100%; text-align: left; padding: 6px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: ${isActive ? '700' : '500'}; background: ${bg}; color: ${fg}; border: ${border}; cursor: pointer; display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;">
+            <span style="font-family: monospace; font-weight: 800; opacity: 0.85;">Ch ${ch.number}</span>
+            <span style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ch.title}</span>
+          </button>
+        `;
+      });
+      listEl.innerHTML = html;
+    };
+
+    window.filterBt301Chapters = function(query) {
+      var q = (query || '').toLowerCase().trim();
+      var listEl = document.getElementById("bt301-chapters-list");
+      var chapters = getGuideDataSource();
+      if (!listEl || !chapters) return;
+
+      if (!q) {
+        window.renderBt301ChaptersList(chapters, window.currentBt301Chapter);
+        return;
+      }
+
+      var filtered = chapters.filter(function(ch) {
+        return ch.title.toLowerCase().includes(q) ||
+               (ch.part && ch.part.toLowerCase().includes(q)) ||
+               (ch.goal && ch.goal.toLowerCase().includes(q)) ||
+               ("chapter " + ch.number).includes(q) ||
+               String(ch.number) === q;
+      });
+
+      window.renderBt301ChaptersList(filtered, window.currentBt301Chapter);
+    };
+
+    // HIGH-IMPACT PEDAGOGICAL FORMATTER: Converts raw chapter markdown & tables into beautiful visual layout
+    window.formatBt301ChapterContent = function(ch) {
+      var content = ch.content || "";
+      var lines = content.split("\n");
+      
+      // 1. Extract Goal, Needs first, Produces
+      var goal = ch.goal || "";
+      var needsFirst = "";
+      var produces = "";
+      
+      var bodyLines = [];
+      var skipHeader = true;
+      for (var i = 0; i < lines.length; i++) {
+        var str = lines[i].trim();
+        if (skipHeader) {
+          if (str.startsWith("Chapter ") && (str.includes("—") || str.includes("-"))) continue;
+          if (str.includes("Goal:")) {
+            var mG = str.match(/Goal:\s*(.*?)(?=\s*Needs first:|$)/i);
+            if (mG && mG[1]) goal = mG[1].trim().replace(/\.$/, "");
+            var mN = str.match(/Needs first:\s*(.*?)(?=\s*Produces:|$)/i);
+            if (mN && mN[1]) needsFirst = mN[1].trim().replace(/\.$/, "");
+            var mP = str.match(/Produces:\s*(.*?)$/i);
+            if (mP && mP[1]) produces = mP[1].trim().replace(/\.$/, "");
+            skipHeader = false;
+            continue;
+          }
+        }
+        bodyLines.push(lines[i]);
+      }
+      
+      var text = bodyLines.join("\n").trim();
+      
+      // 2. Executive Chapter Mission Card
+      var cardHtml = `
+        <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 16px 20px; margin-bottom: 26px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 1.3rem;">🎯</span>
+              <div>
+                <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #1e40af; letter-spacing: 0.5px;">Chapter Goal</div>
+                <div style="font-size: 0.85rem; color: #0f172a; font-weight: 700; line-height: 1.4; margin-top: 2px;">${goal || 'Master this biotechnology research concept'}</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 1.3rem;">📋</span>
+              <div>
+                <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #0369a1; letter-spacing: 0.5px;">Prerequisites</div>
+                <div style="font-size: 0.85rem; color: #0f172a; font-weight: 600; line-height: 1.4; margin-top: 2px;">${needsFirst || 'None'}</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 1.3rem;">📦</span>
+              <div>
+                <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #047857; letter-spacing: 0.5px;">Deliverable Produced</div>
+                <div style="font-size: 0.85rem; color: #0f172a; font-weight: 700; line-height: 1.4; margin-top: 2px;">${produces || 'Core proposal section drafting skill'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      var rawParas = text.split("\n\n").map(function(p){ return p.trim(); }).filter(Boolean);
+      
+      // Group tab paragraphs into structured tables (handles both multi-line tables like Ch 32 and consecutive-line tables like Ch 1 & 13)
+      var blocks = [];
+      var currentTable = null;
+      for (var p = 0; p < rawParas.length; p++) {
+        var pStr = rawParas[p];
+        var pLines = pStr.split("\n").map(function(l){ return l.trim(); }).filter(Boolean);
+        var tabLinesInP = pLines.filter(function(l){ return l.includes("\t") && !l.startsWith("•\t") && !l.startsWith("- \t"); });
+
+        // Case 1: Paragraph itself is a complete multi-line table (e.g. Chapter 32 Glossary letter tables)
+        if (tabLinesInP.length >= 2 && tabLinesInP.length >= pLines.length - 1) {
+          if (currentTable) {
+            if (currentTable.length >= 2) blocks.push({ type: "table", rows: currentTable });
+            else blocks.push({ type: "para", text: currentTable[0] });
+            currentTable = null;
+          }
+          blocks.push({ type: "table", rows: tabLinesInP });
+          continue;
+        }
+
+        // Case 2: Consecutive single-line tab paragraphs (e.g. Chapter 1, 13)
+        var isBullet = pStr.startsWith("•\t") || pStr.startsWith("- \t");
+        var hasTab = pStr.includes("\t") && !isBullet;
+        if (hasTab) {
+          if (!currentTable) currentTable = [];
+          currentTable.push(pStr);
+        } else {
+          if (currentTable) {
+            if (currentTable.length >= 2) blocks.push({ type: "table", rows: currentTable });
+            else blocks.push({ type: "para", text: currentTable[0] });
+            currentTable = null;
+          }
+          blocks.push({ type: "para", text: pStr });
+        }
+      }
+      if (currentTable) {
+        if (currentTable.length >= 2) blocks.push({ type: "table", rows: currentTable });
+        else blocks.push({ type: "para", text: currentTable[0] });
+      }
+      
+      var outHtml = [];
+      for (var b = 0; b < blocks.length; b++) {
+        var block = blocks[b];
+        
+        // A. Table Rendering
+        if (block.type === "table") {
+          var headers = block.rows[0].split("\t").map(function(h){ return h.trim(); }).filter(Boolean);
+          var rows = block.rows.slice(1).map(function(r){
+            return r.split("\t").map(function(c){ return c.trim(); });
+          });
+          
+          var thHtml = headers.map(function(h){
+            return `<th style="background: #1e3a8a; color: #ffffff; padding: 10px 14px; font-size: 0.80rem; font-weight: 800; text-align: left; border: 1px solid #1e40af;">${h}</th>`;
+          }).join("");
+          
+          var trHtml = rows.map(function(row, rIdx){
+            var bg = rIdx % 2 === 0 ? "#ffffff" : "#f8fafc";
+            var tdHtml = row.map(function(cell, cIdx){
+              var w = cIdx === 0 ? "font-weight: 700; color: #0f172a;" : "color: #334155;";
+              return `<td style="padding: 9px 13px; font-size: 0.82rem; ${w} border: 1px solid #e2e8f0; vertical-align: top;">${cell}</td>`;
+            }).join("");
+            return `<tr style="background: ${bg};">${tdHtml}</tr>`;
+          }).join("");
+          
+          outHtml.push(`
+            <div style="overflow-x: auto; margin: 20px 0; border: 1.5px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+              <table style="width: 100%; border-collapse: collapse; font-family: system-ui, -apple-system, sans-serif;">
+                <thead><tr>${thHtml}</tr></thead>
+                <tbody>${trHtml}</tbody>
+              </table>
+            </div>
+          `);
+          continue;
+        }
+        
+        var pStr = block.text.replace(/#{2,6}\s*/g, '');
+        var pLines = pStr.split("\n").map(function(l){ return l.trim(); }).filter(Boolean);
+        
+        // B. Major Section Heading (e.g. 1.1 What Science Is)
+        var mSec = pStr.match(/^(\d+\.\d+)\s+([^\r\n]+)$/);
+        if (mSec) {
+          outHtml.push(`
+            <div style="display: flex; align-items: center; gap: 10px; margin: 30px 0 14px 0; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;">
+              <span style="background: #2563eb; color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-family: monospace;">${mSec[1]}</span>
+              <h2 style="margin: 0; font-size: 1.18rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">${mSec[2]}</h2>
+            </div>
+          `);
+          continue;
+        }
+        
+        // C. Subsection Heading (e.g. 1.1.1 Definition or #### 1.1.2)
+        var mSub = pStr.match(/^(?:####\s+)?(\d+\.\d+\.\d+)\s+([^\r\n]+)$/);
+        if (mSub) {
+          outHtml.push(`
+            <div style="display: flex; align-items: center; gap: 8px; margin: 22px 0 10px 0;">
+              <span style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; font-family: monospace;">${mSub[1]}</span>
+              <h3 style="margin: 0; font-size: 1.0rem; font-weight: 800; color: #1e293b;">${mSub[2]}</h3>
+            </div>
+          `);
+          continue;
+        }
+        
+        // D. Common Mistakes Alert Card
+        if (pStr.toLowerCase().includes("common mistake") || pStr.toLowerCase().includes("typical mistake")) {
+          var pFmt = pStr.replace(/\n/g, "<br>").replace(/(Common mistakes?:?)/gi, '<strong style="color: #be123c;">$1</strong>');
+          outHtml.push(`
+            <div style="background: #fff1f2; border: 1.5px solid #fecdd3; border-left: 5px solid #e11d48; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #be123c; margin-bottom: 6px;">
+                <span>⚠️</span> <span>COMMON MISTAKES & REVIEWER PITFALLS</span>
+              </div>
+              <div style="font-size: 0.88rem; color: #881337; line-height: 1.65;">
+                ${pFmt}
+              </div>
+            </div>
+          `);
+          continue;
+        }
+        
+        // E. Checklist Emerald Card
+        if (pStr.toLowerCase().includes("checklist") && (pStr.includes("•") || pStr.includes("- [") || pLines.length > 2)) {
+          var cFmt = pStr.replace(/\n/g, "<br>").replace(/Chapter\s+\d+\s+Checklist:?/gi, "").trim();
+          cFmt = cFmt.replace(/- \[ \]/g, "☐").replace(/•/g, "✔");
+          outHtml.push(`
+            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-left: 5px solid #16a34a; border-radius: 8px; padding: 14px 18px; margin: 20px 0;">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #15803d; margin-bottom: 8px;">
+                <span>✅</span> <span>CHAPTER VERIFICATION CHECKLIST</span>
+              </div>
+              <div style="font-size: 0.88rem; color: #14532d; line-height: 1.75; font-weight: 500;">
+                ${cFmt}
+              </div>
+            </div>
+          `);
+          continue;
+        }
+        
+        // F. Formula / Architecture Pipeline Card
+        if ((pStr.includes(" + ") || pStr.includes(" → ")) && pLines.length <= 4 && (pStr.includes("Subject") || pStr.includes("Observe") || pStr.includes("GAP") || pStr.includes("Direction"))) {
+          outHtml.push(`
+            <div style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%); border: 1.5px solid #93c5fd; border-radius: 10px; padding: 14px 18px; margin: 18px 0; text-align: center; box-shadow: 0 1px 3px rgba(37,99,235,0.08);">
+              <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #1d4ed8; letter-spacing: 0.5px; margin-bottom: 4px;">Standardized Formula / Architecture</div>
+              <div style="font-size: 1.0rem; font-weight: 800; color: #1e3a8a; font-family: monospace; letter-spacing: 0.2px; line-height: 1.5;">
+                ${pStr.replace(/\n/g, "<br>")}
+              </div>
+            </div>
+          `);
+          continue;
+        }
+        
+        // G. Standard Paragraph with Bold Scientific Terminology
+        var normFmt = pStr.replace(/\n/g, "<br>");
+        
+        // Highlight Rule:
+        normFmt = normFmt.replace(/\b(Rule:\s*)/gi, '<span style="background: #fef3c7; color: #92400e; font-weight: 800; padding: 1px 6px; border-radius: 4px; font-size: 0.76rem; border: 1px solid #fde68a;">RULE</span> <strong>');
+        if (normFmt.includes('RULE</span> <strong>') && !normFmt.includes('</strong>')) {
+          normFmt += '</strong>';
+        }
+        
+        // Bold Key Terms
+        var keyTerms = [
+          "Independent variable", "Dependent variable", "Controlled variables", 
+          "Positive control", "Negative control", "Technical replicate", 
+          "Biological replicate", "Empirical", "Objectivity", "Reproducibility",
+          "Statistical validation", "Peer review", "Randomization", "Blinding",
+          "Research question", "Hypothesis", "Overarching aim", "Specific objectives"
+        ];
+        for (var k = 0; k < keyTerms.length; k++) {
+          var kt = keyTerms[k];
+          var reg = new RegExp('(\\b' + kt + ':?)', 'gi');
+          normFmt = normFmt.replace(reg, '<strong style="color: #0f172a; font-weight: 800;">$1</strong>');
+        }
+        
+        outHtml.push(`<p style="margin: 12px 0; line-height: 1.75; font-size: 0.90rem; color: #1e293b;">${normFmt}</p>`);
+      }
+      
+      return cardHtml + outHtml.join("\n");
+    };
+
+    window.loadBt301Chapter = async function(num) {
+      window.currentBt301Chapter = num;
+      var readerEl = document.getElementById("bt301-guide-reader");
+      var metaEl = document.getElementById("bt301-guide-footer-meta");
+      if (!readerEl) return;
+
+      // Update sidebar active state
+      var buttons = document.querySelectorAll(".btn-guide-ch-item");
+      buttons.forEach(function(b) {
+        var chNum = parseInt(b.getAttribute("data-ch"), 10);
+        if (chNum === num) {
+          b.style.background = "#2563eb";
+          b.style.color = "#ffffff";
+          b.style.fontWeight = "700";
+        } else {
+          b.style.background = "transparent";
+          b.style.color = "#1e293b";
+          b.style.fontWeight = "500";
+        }
+      });
+
+      // 1. Instant check in memory
+      var ch = null;
+      var chapters = getGuideDataSource();
+      if (Array.isArray(chapters)) {
+        ch = chapters.find(function(c) { return c.number === num; });
+      }
+
+      // 2. Fallback to API if not in memory and not file://
+      if (!ch && window.location.protocol !== "file:") {
+        try {
+          var res = await fetch("/api/guide/chapter/" + num);
+          if (res.ok) {
+            var data = await res.json();
+            ch = data.chapter || null;
+          }
+        } catch(e) {
+          console.warn("Could not fetch chapter from network", e);
+        }
+      }
+
+      if (ch) {
+        if (metaEl) {
+          metaEl.innerHTML = `Showing <strong>Chapter ${ch.number}: ${ch.title}</strong> (${ch.part}) • ${ch.word_count || 0} words`;
+        }
+
+        // Apply rich high-impact formatting
+        var formatted = window.formatBt301ChapterContent ? window.formatBt301ChapterContent(ch) : (ch.content || "").replace(/\n/g, "<br>");
+
+        readerEl.innerHTML = `
+          <div style="border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 20px;">
+            <div style="font-size: 0.74rem; font-weight: 800; text-transform: uppercase; color: #2563eb; letter-spacing: 0.5px; margin-bottom: 4px;">${ch.part}</div>
+            <h1 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #0f172a;">Chapter ${ch.number}: ${ch.title}</h1>
+            <div style="margin-top: 6px; font-size: 0.82rem; color: #64748b; font-style: italic;">${ch.goal || ''}</div>
+          </div>
+          <div class="bt301-chapter-body" style="line-height: 1.75; font-size: 0.90rem; color: #1e293b;">
+            ${formatted}
+          </div>
+          <!-- Continuous Reading Navigation Footer -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding-top: 18px; border-top: 2px solid #e2e8f0;">
+            <button type="button" onclick="navBt301Chapter(-1)" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #334155; font-size: 0.80rem; font-weight: 700; padding: 7px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <span>◀</span> <span>Previous Chapter</span>
+            </button>
+            <button type="button" onclick="document.getElementById('bt301-guide-reader').scrollTop = 0;" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 0.76rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+              <span>↑</span> <span>Back to Top</span>
+            </button>
+            <button type="button" onclick="navBt301Chapter(1)" style="background: #2563eb; border: 1.5px solid #1d4ed8; color: #ffffff; font-size: 0.80rem; font-weight: 700; padding: 7px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <span>Next Chapter</span> <span>▶</span>
+            </button>
+          </div>
+        `;
+        readerEl.scrollTop = 0;
+      } else {
+        readerEl.innerHTML = '<div style="color: #ef4444; padding: 20px;">Could not load Chapter ' + num + '.</div>';
+      }
+    };
+
+    window.navBt301Chapter = function(delta) {
+      var chapters = getGuideDataSource() || [];
+      if (chapters.length === 0) return;
+      var currIdx = chapters.findIndex(function(c){ return c.number === window.currentBt301Chapter; });
+      if (currIdx === -1) currIdx = 0;
+      var nextIdx = currIdx + delta;
+      if (nextIdx >= 0 && nextIdx < chapters.length) {
+        window.loadBt301Chapter(chapters[nextIdx].number);
+      }
+    };
+
+    window.openBt301StuckFinder = async function() {
+      var readerEl = document.getElementById("bt301-guide-reader");
+      var metaEl = document.getElementById("bt301-guide-footer-meta");
+      if (!readerEl) return;
+
+      if (metaEl) metaEl.innerHTML = "Showing <strong>Section 0.3: 'I\'m Stuck' Quick Reference Finder</strong>";
+
+      var items = window.BT301_STUCK_FINDER;
+      if (!items && window.location.protocol !== "file:") {
+        try {
+          var res = await fetch("/api/guide/quick_finder");
+          if (res.ok) {
+            var data = await res.json();
+            items = data.items || [];
+          }
+        } catch(e) {
+          console.warn("Could not fetch quick finder", e);
+        }
+      }
+
+      items = items || [];
+      var html = `
+        <div style="border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 20px;">
+          <div style="font-size: 0.74rem; font-weight: 800; text-transform: uppercase; color: #dc2626; letter-spacing: 0.5px; margin-bottom: 4px;">Quick Trouble-Shooting Index</div>
+          <h1 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #0f172a;">🚨 "I'm Stuck" Quick Finder</h1>
+          <div style="margin-top: 6px; font-size: 0.82rem; color: #64748b;">Match your current bottleneck directly to the specific chapters with worked examples.</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+      `;
+      items.forEach(function(item) {
+        var chBadges = (item.chapters || []).map(function(c) {
+          return `<button type="button" onclick="loadBt301Chapter(${c})" style="background: #2563eb; color: #ffffff; border: none; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Ch ${c}</button>`;
+        }).join(" ");
+
+        html += `
+          <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+              <span style="font-size: 1.3rem;">${item.icon || '📌'}</span>
+              <div>
+                <strong style="font-size: 0.88rem; color: #0f172a;">${item.problem}</strong>
+                <div style="font-size: 0.78rem; color: #475569; margin-top: 2px;">${item.solution}</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+              ${chBadges}
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      readerEl.innerHTML = html;
+      readerEl.scrollTop = 0;
+    };
+
   </script>
   <script src="student_team_workspace.js" onerror="this.src='/static/student_team_workspace.js'"></script>
+
+
+<script>
+// --- BT301 Specific Aim Formula Assistant & Live Quality Inspector ---
+(function() {
+  function updateAimQualityBadges() {
+    var aimInput = document.getElementById("section-3-1-aim");
+    if (!aimInput) return;
+    var val = aimInput.value.trim();
+
+    var bVerb = document.getElementById("badge-aim-verb");
+    var bBench = document.getElementById("badge-aim-benchmark");
+    var bDecouple = document.getElementById("badge-aim-decoupling");
+
+    if (!val) {
+      if (bVerb) { bVerb.style.background = "#fef2f2"; bVerb.style.color = "#991b1b"; bVerb.style.borderColor = "#fecaca"; bVerb.innerText = "❌ Action Verb: Needed"; }
+      if (bBench) { bBench.style.background = "#fffbeb"; bBench.style.color = "#92400e"; bBench.style.borderColor = "#fde68a"; bBench.innerText = "⏳ Quantitative Milestone: Add Threshold"; }
+      if (bDecouple) { bDecouple.style.background = "#f1f5f9"; bDecouple.style.color = "#475569"; bDecouple.style.borderColor = "#e2e8f0"; bDecouple.innerText = "🛡️ Decoupling: Aim 2 Independent"; }
+      return;
+    }
+
+    // 1. Action Verb check
+    var activeVerbPattern = /^(to\s+)?(engineer|quantify|characterize|optimize|calibrate|formulate|validate|decouple|develop|synthesize|isolate|purify|clone|express)\b/i;
+    var passiveForbidden = /^(to\s+)?(study|investigate|explore|look into|understand|examine|observe)\b/i;
+
+    if (passiveForbidden.test(val)) {
+      if (bVerb) { bVerb.style.background = "#fef2f2"; bVerb.style.color = "#991b1b"; bVerb.style.borderColor = "#fecaca"; bVerb.innerText = "⚠️ Weak Verb: Avoid 'study/explore' (use 'quantify/engineer')"; }
+    } else if (activeVerbPattern.test(val)) {
+      if (bVerb) { bVerb.style.background = "#f0fdf4"; bVerb.style.color = "#166534"; bVerb.style.borderColor = "#bbf7d0"; bVerb.innerText = "✅ Action Verb: Approved Active Verb"; }
+    } else {
+      if (bVerb) { bVerb.style.background = "#fffbeb"; bVerb.style.color = "#92400e"; bVerb.style.borderColor = "#fde68a"; bVerb.innerText = "⏳ Action Verb: Prefix with 'To engineer/quantify...'"; }
+    }
+
+    // 2. Quantitative Milestone check
+    var quantPattern = /([><=~]\s*\d+|\d+\s*(%|mg\/l|\mu\text{m}|\mu\text{g}|\mu\text{m}|nm|pm|nm|\b(kcat|km|ic50|lod|copies|fold)\b))/i;
+    if (quantPattern.test(val)) {
+      if (bBench) { bBench.style.background = "#f0fdf4"; bBench.style.color = "#166534"; bBench.style.borderColor = "#bbf7d0"; bBench.innerText = "✅ Quantified Benchmark Detected"; }
+    } else {
+      if (bBench) { bBench.style.background = "#fffbeb"; bBench.style.color = "#92400e"; bBench.style.borderColor = "#fde68a"; bBench.innerText = "⚠️ Missing Numerical Benchmark (e.g. >80%, LOD < 5 pM)"; }
+    }
+
+    // 3. Decoupling Check
+    if (/decouple|independent|while.*production|positive control|wild-type/i.test(val)) {
+      if (bDecouple) { bDecouple.style.background = "#f0fdf4"; bDecouple.style.color = "#166534"; bDecouple.style.borderColor = "#bbf7d0"; bDecouple.innerText = "✅ Decoupled Milestone Protected"; }
+    } else {
+      if (bDecouple) { bDecouple.style.background = "#eff6ff"; bDecouple.style.color = "#1e40af"; bDecouple.style.borderColor = "#bfdbfe"; bDecouple.innerText = "🛡️ Aim 2 must not depend on Aim 1 yield"; }
+    }
+  }
+
+  // Auto-Draft Overarching Aim from Strategic Pillars
+  function autoDraftAimFromPillars() {
+    var pTool = (document.getElementById("pillar-tool")?.value || "Engineered Molecular Construct").trim();
+    var pTarget = (document.getElementById("pillar-target")?.value || "Target Biological Analyte").trim();
+    var pChassis = (document.getElementById("pillar-chassis")?.value || "E. coli BL21(DE3)").trim();
+
+    var aimInput = document.getElementById("section-3-1-aim");
+    if (!aimInput) return;
+
+    var crafted = `To engineer, biophysically calibrate, and validate ${pTool} in ${pChassis} targeting ${pTarget} to achieve >85% efficacy / sub-nanomolar analytical sensitivity within 30 minutes.`;
+    aimInput.value = crafted;
+    aimInput.dispatchEvent(new Event("input", { bubbles: true }));
+    updateAimQualityBadges();
+    if (typeof showToast === "function") showToast("🎯 Overarching Aim formulated using 4-Pillar Blueprint!");
+  }
+
+  // Generate 3 Decoupled Aims for Section 3.1 and Section 3.2
+  function generate3DecoupledAims() {
+    var pTool = (document.getElementById("pillar-tool")?.value || "Engineered Molecular Construct").trim();
+    var pTarget = (document.getElementById("pillar-target")?.value || "Target Biological Analyte").trim();
+    var pChassis = (document.getElementById("pillar-chassis")?.value || "E. coli BL21(DE3)").trim();
+
+    var aimInput = document.getElementById("section-3-1-aim");
+    if (aimInput) {
+      aimInput.value = `To design, characterize kinetics, and evaluate functional efficacy of ${pTool} in ${pChassis} for targeted modulation of ${pTarget} with verified statistical reproducibility (n=3, p < 0.05).`;
+      aimInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    if (window.projectState && Array.isArray(window.projectState.objectives)) {
+      window.projectState.objectives = [
+        { verb: "Design and synthesize", text: `codon-optimized recombinant ${pTool} expression cassettes and confirm structural integrity and yield > 50 mg/L in ${pChassis}.` },
+        { verb: "Characterize and optimize", text: `catalytic turnover (kcat/Km) and binding affinity against ${pTarget} benchmarked against commercial wild-type positive standards.` },
+        { verb: "Validate and evaluate", text: `translational efficacy in authentic matrix to attain >85% target modulation with matrix-matched negative controls (n=3, p < 0.05).` }
+      ];
+      if (typeof window.renderObjectivesList === "function") window.renderObjectivesList();
+    }
+
+    updateAimQualityBadges();
+    if (typeof showToast === "function") showToast("📑 3 Independent, Decoupled Specific Aims generated!");
+  }
+
+  // Bind on DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", function() {
+    var aimInput = document.getElementById("section-3-1-aim");
+    if (aimInput) {
+      aimInput.addEventListener("input", updateAimQualityBadges);
+      updateAimQualityBadges();
+    }
+
+    var btnAutoPillar = document.getElementById("btn-aim-auto-pillar");
+    if (btnAutoPillar) {
+      btnAutoPillar.addEventListener("click", autoDraftAimFromPillars);
+    }
+
+    var btnDecouple3 = document.getElementById("btn-aim-decoupled-3");
+    if (btnDecouple3) {
+      btnDecouple3.addEventListener("click", generate3DecoupledAims);
+    }
+
+    document.querySelectorAll(".btn-aim-verb-pill").forEach(function(pill) {
+      pill.addEventListener("click", function() {
+        var verb = pill.getAttribute("data-verb");
+        var aimEl = document.getElementById("section-3-1-aim");
+        if (aimEl && verb) {
+          var cur = aimEl.value.trim();
+          cur = cur.replace(/^(to\s+)?([a-z]+(\s+and\s+[a-z]+)?)\s+/i, "");
+          aimEl.value = verb + " " + (cur || "[Tool / Construct] in [Chassis] targeting [Target] to achieve [Benchmark].");
+          aimEl.dispatchEvent(new Event("input", { bubbles: true }));
+          aimEl.focus();
+        }
+      });
+    });
+  });
+})();
+</script>
 
 </body>
 </html>

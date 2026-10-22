@@ -44,11 +44,22 @@ def audit_title(title: str, system: str = "", tool: str = "", chassis: str = "")
     else:
         strengths.append(f"Appropriate academic length ({word_count} words).")
 
-    # Cliché check
-    vague_patterns = [r"^study of\b", r"^a study on\b", r"^research on\b", r"^investigation into\b"]
+    # Cliché & Passive Phrasing check
+    vague_patterns = [
+        r"^(the\s+)?effect of\b",
+        r"^(the\s+)?role of\b",
+        r"^(the\s+)?impact of\b",
+        r"^study of\b",
+        r"^a study on\b",
+        r"^research on\b",
+        r"^investigation into\b",
+        r"^evaluation of\b",
+        r"^analysis of\b"
+    ]
     for pat in vague_patterns:
-        if re.search(pat, title_clean, re.IGNORECASE):
-            issues.append(f"Avoid colloquial academic fillers like '{re.search(pat, title_clean, re.IGNORECASE).group(0)}'. Lead directly with the molecular mechanism or technology.")
+        m = re.search(pat, title_clean, re.IGNORECASE)
+        if m:
+            issues.append(f"Avoid colloquial descriptive phrasing like '{m.group(0)}'. Under BT_301 Rubric Criterion 1, grant titles must lead directly with an engineered molecular mechanism, tool, or active formulation.")
 
     # Experimental System / Model / Chassis check
     system_found = False
@@ -58,7 +69,8 @@ def audit_title(title: str, system: str = "", tool: str = "", chassis: str = "")
     elif any(term in title_clean.lower() for term in [
         "coli", "pastoris", "putida", "aestivum", "arabidopsis", "human", "murine",
         "isolates", "yeast", "plant", "bacterium", "nanoparticle", "cell-free",
-        "biosensor", "hydrogel", "liposome", "effluent", "wastewater", "clea", "in silico", "membrane"
+        "biosensor", "hydrogel", "liposome", "effluent", "wastewater", "clea", "in silico", "membrane",
+        "tissue", "skin", "wound", "topical", "calendula", "extract", "formulation", "matrix", "model", "herbal", "botanical"
     ]):
         system_found = True
         strengths.append("Experimental system, host, or diagnostic matrix recognized in title.")
@@ -72,7 +84,8 @@ def audit_title(title: str, system: str = "", tool: str = "", chassis: str = "")
         strengths.append(f"Molecular tool or mechanism explicitly named ('{tool}').")
     elif any(term in title_clean.lower() for term in [
         "crispr", "cas12", "cas9", "base edit", "petase", "promoter", "recombinant",
-        "enzyme", "sirna", "aptamer", "biosensor", "hydrolase", "isothermal", "laccase", "clea", "scaffold"
+        "enzyme", "sirna", "aptamer", "biosensor", "hydrolase", "isothermal", "laccase", "clea", "scaffold",
+        "extract", "formulation", "hydrogel", "cream", "emulsion", "bioactive", "compound", "phytochemical", "flavonoid"
     ]):
         tool_found = True
         strengths.append("Molecular mechanism, enzyme, or molecular intervention recognized.")
@@ -81,7 +94,7 @@ def audit_title(title: str, system: str = "", tool: str = "", chassis: str = "")
 
     # Metric / Outcome check
     metric_found = False
-    metric_indicators = ["enhance", "elevate", "reduce", "degrade", "yield", "tolerance", "detection", "limit of", "rate", "efficiency", "resistance", "inhibition", "clearing", "removal"]
+    metric_indicators = ["enhance", "elevate", "reduce", "degrade", "yield", "tolerance", "detection", "limit of", "rate", "efficiency", "resistance", "inhibition", "clearing", "removal", "healing", "closure", "wound", "anti-inflammatory", "antioxidant", "regeneration", "recovery"]
     if any(ind in title_clean.lower() for ind in metric_indicators):
         metric_found = True
         strengths.append("Target functional outcome or performance metric specified.")

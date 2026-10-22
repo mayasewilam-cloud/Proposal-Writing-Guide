@@ -267,7 +267,7 @@ def generate_markdown_portfolio(data: Dict[str, Any], audit_results: Dict[str, A
 
     # 4. Methodology & Experimental Design
     md.append("# 4. Methodology & Experimental Design")
-    md.append("## 4.1 Technical Overview & Workflow")
+    md.append("## 4.1 Overview")
     md.append(data.get("methodology", "*Methodological workflow overview pending (Future Tense).*") + "\n")
 
     md.append("## 4.2 Workflow Diagram")
@@ -586,9 +586,9 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
 
     # 4. Methodology & Experimental Design
     doc.add_heading("4. Methodology & Experimental Design", level=1)
-    doc.add_heading("4.1 Technical Overview & Workflow (Future Tense)", level=2)
+    doc.add_heading("4.1 Overview (Future Tense)", level=2)
     p_m1 = doc.add_paragraph()
-    add_formatted_runs(p_m1, data.get("methodology", "[Technical overview pending]"))
+    add_formatted_runs(p_m1, data.get("methodology", "[Overview pending]"))
     p_m1.paragraph_format.space_after = Pt(10)
 
     doc.add_heading("4.2 Workflow Diagram", level=2)

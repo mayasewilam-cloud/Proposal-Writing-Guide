@@ -1,0 +1,95 @@
+{
+  "project_id": "AUTH-TEST-FAC-01",
+  "current_state": "CLEARED_FOR_NEXT_STAGE",
+  "previous_state": "HUMAN_REVIEW",
+  "last_transition_time": "2026-10-22T18:37:25.653995+00:00",
+  "pending_clarifications": [],
+  "answered_clarifications": [],
+  "requirements_summary": [],
+  "dossier_generated": false,
+  "human_decision": {
+    "project_id": "AUTH-TEST-FAC-01",
+    "reviewer_id": "DR-ABDELRAZEK-IBC-CHAIR",
+    "role": "committee_chair",
+    "decision": "approved",
+    "notes": "Verified protocol safety.",
+    "conditions": "",
+    "recorded_at": "2026-10-22T18:37:25.597296+00:00",
+    "is_human_signed": true
+  },
+  "is_locked": true,
+  "last_agent_run": {
+    "agent_run_id": "RUN-5BC4DDC0",
+    "project_id": "AUTH-TEST-FAC-01",
+    "input_fingerprint": "26a3eaa1318d7d67",
+    "planner_mode": "deterministic_fallback",
+    "model_provider": "deterministic_fallback",
+    "model_version": "observation-driven-fallback-v1",
+    "final_decision": "CONTINUE",
+    "tool_calls_count": 0,
+    "tools_called": [],
+    "observations": [],
+    "added_clarifications": [],
+    "human_escalation": null,
+    "limits_enforced": {
+      "max_tool_calls_per_run": 3,
+      "max_execution_time_sec": 15.0,
+      "max_repeated_calls_same_tool": 1,
+      "allowed_tool_whitelist": [
+        "search_pubmed",
+        "search_europe_pmc",
+        "search_openalex",
+        "ask_researcher",
+        "request_human_review"
+      ],
+      "no_arbitrary_urls": true,
+      "no_arbitrary_code_execution": true,
+      "no_proposal_rewriting": true,
+      "no_governance_approval": true,
+      "no_modification_of_human_gate_state": true,
+      "no_bypassing_deterministic_safety_checks": true
+    },
+    "elapsed_ms": 70.19,
+    "steps": [
+      {
+        "agent_run_id": "RUN-5BC4DDC0",
+        "step_index": 1,
+        "project_id": "AUTH-TEST-FAC-01",
+        "current_workflow_state": "REQUIREMENT_CHECK",
+        "input_fingerprint": "26a3eaa1318d7d67",
+        "available_tools": [
+          "search_pubmed",
+          "search_europe_pmc",
+          "search_openalex",
+          "ask_researcher",
+          "request_human_review"
+        ],
+        "selected_tool": null,
+        "tool_arguments": {},
+        "tool_execution_status": "not_applicable",
+        "tool_result_provenance": null,
+        "observation_summary": "Assessed extracted state directly; no external tool call required.",
+        "decision_outcome": "CONTINUE",
+        "reason": "Proposal parameters and containment level are sufficiently specified with no unresolved biosafety or ethics ambiguities.",
+        "confidence": 0.95,
+        "uncertainty": "0 uncertainty item(s); 0 pending clarification(s)",
+        "policy_validation_result": {
+          "allowed": true,
+          "status": "ALLOWED",
+          "reason": "Decision conforms to structured contract and bounded governance policy.",
+          "violation_code": null,
+          "enforced_fallback_action": null,
+          "safeguards_triggered": []
+        },
+        "next_action": "PROCEED_IN_WORKFLOW",
+        "human_escalation": null,
+        "timestamp": "2026-10-22T18:37:25.382650+00:00",
+        "model_provider": "deterministic_fallback",
+        "model_version": "observation-driven-fallback-v1",
+        "planner_mode": "deterministic_fallback",
+        "deterministic_safeguards_triggered": [],
+        "concise_provenance": "Decision: CONTINUE | Action: none | Reason: Proposal parameters and containment level are sufficiently specified with no unresolved biosafety or ethics ambiguities. | Policy: ALLOWED | Observation: None | Next decision: PROCEED_IN_WORKFLOW"
+      }
+    ]
+  }
+}

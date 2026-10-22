@@ -906,19 +906,32 @@ def synthesize_breakthrough_narrative(title: str, abstract: str, category_label:
     }
 
 
+import html
+
+def clean_scientific_text(text: str) -> str:
+    if not text:
+        return ""
+    t = str(text)
+    for _ in range(3):
+        if "&" not in t:
+            break
+        t = html.unescape(t)
+    t = re.sub(r"<[^>]+>", "", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
 def synthesize_paper_to_breakthrough(paper: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """
     Synthesizes a peer-reviewed paper from Europe PMC into an authentic Breakthrough schema.
     Uses deep NLP deconstruction (no generic filler words or repetitive sentences).
     Reconciles publication year matching the primary literature source.
     """
-    title = (paper.get("title") or "").strip().rstrip(".")
+    title = clean_scientific_text(paper.get("title") or "").rstrip(".")
     if not title:
         return None
 
     abstract = paper.get("abstractText") or ""
-    # Clean HTML tags
-    clean_abstract = re.sub(r"<[^>]+>", "", abstract).strip()
+    clean_abstract = clean_scientific_text(abstract)
 
     # Strictly require a meaningful abstract (>100 characters)
     if not clean_abstract or len(clean_abstract) < 100 or len(clean_abstract.split()) < 20:

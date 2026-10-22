@@ -983,6 +983,21 @@ def fetch_paper_abstract_and_meta(identifier: str) -> Dict[str, Any]:
     }
 
 
+import html
+
+def clean_scientific_text(text: str) -> str:
+    """Decodes HTML entities and strips XML/HTML tags (like <i>, </i>) cleanly."""
+    if not text:
+        return ""
+    t = str(text)
+    for _ in range(3):
+        if "&" not in t:
+            break
+        t = html.unescape(t)
+    t = re.sub(r"<[^>]+>", "", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
 def _fetch_europepmc_record(identifier: str, is_doi: bool = True) -> Dict[str, Any]:
     """Queries Europe PMC REST API with proper query formatting."""
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
@@ -1001,11 +1016,10 @@ def _fetch_europepmc_record(identifier: str, is_doi: bool = True) -> Dict[str, A
             if results:
                 item = results[0]
                 title = item.get("title", "Scientific Study")
-                title_clean = re.sub(r"<[^>]+>", "", title).strip()
+                title_clean = clean_scientific_text(title)
 
                 abstract_raw = item.get("abstractText", "")
-                abstract_clean = re.sub(r"<[^>]+>", " ", abstract_raw).strip()
-                abstract_clean = re.sub(r"\s+", " ", abstract_clean)
+                abstract_clean = clean_scientific_text(abstract_raw)
 
                 author_str = item.get("authorString", "Authors")
                 if len(author_str.split(",")) > 4:
@@ -1114,10 +1128,10 @@ def _fetch_pubmed_abstract(pmid: str) -> Dict[str, Any]:
             article = root.find(".//PubmedArticle")
             if article is not None:
                 title_elem = article.find(".//ArticleTitle")
-                title = title_elem.text if title_elem is not None and title_elem.text else "Unknown Title"
+                title = clean_scientific_text("".join(title_elem.itertext()) if title_elem is not None else "Unknown Title")
 
-                abs_texts = [elem.text for elem in article.findall(".//AbstractText") if elem.text]
-                abstract = " ".join(abs_texts).strip()
+                abs_texts = ["".join(elem.itertext()) for elem in article.findall(".//AbstractText")]
+                abstract = clean_scientific_text(" ".join(abs_texts))
 
                 journal_elem = article.find(".//Journal/Title")
                 journal = journal_elem.text if journal_elem is not None and journal_elem.text else "PubMed Journal"
@@ -1162,7 +1176,8 @@ def deconstruct_paper(text: str, title: str = "", identifier: str = "", authors:
     5. Proposal placement recommendations
     6. Socratic RHEV Paraphrase Synthesis prompt
     """
-    clean_text = text.strip()
+    clean_text = clean_scientific_text(text)
+    title = clean_scientific_text(title)
     if not clean_text or len(clean_text.split()) < 15:
         return {
             "status": "error",

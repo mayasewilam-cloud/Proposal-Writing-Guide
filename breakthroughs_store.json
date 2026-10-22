@@ -1,5 +1,626 @@
 [
   {
+    "id": "live_42213084_2026",
+    "title": "A Review of Activator Strand Engineering Strategies for Smart CRISPR/Cas12a Diagnostics",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • ACS sensors",
+    "journal": "ACS sensors",
+    "authors": "Wang XY et al.",
+    "doi_url": "https://doi.org/10.1021/acssensors.6c00469",
+    "links": {
+      "europepmc": "https://doi.org/10.1021/acssensors.6c00469",
+      "doi": "https://doi.org/10.1021/acssensors.6c00469"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "The CRISPR/Cas12a system has emerged as a transformative tool in molecular diagnostics and biosensing, leveraging its high-efficiency DNA-targeting and unique trans-cleavage activity.",
+      "problem_solved": "However, its practical deployment is hindered by persistent challenges such as elevated background signals, constrained target versatility, and insufficient controllability.",
+      "how_it_works": [
+        "Target Recognition: The activator strand (AS), serving as the molecular trigger for Cas12a activation, presents a promising engineering target to systematically enhance system performance.",
+        "Biochemical Execution: By redesigning AS architecture, introducing allosteric control, and refining spatial assembly, these approaches significantly improve detection sensitivity, specificity, and versatility.",
+        "Validated Benchmark: This review comprehensively summarizes recent advances in AS-driven regulation of the CRISPR/Cas12a system, focusing on four core engineering strategies: terminal modification engineering, split activator design, PAM (protospacer adjacent motif) engineering and regulation, and topological conformation engineering."
+      ],
+      "why_it_matters": "Published in ACS sensors (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "The CRISPR/Cas12a system has emerged as a transformative tool in molecular diagnostics and biosensing, leveraging its high-efficiency DNA-targeting and unique trans-cleavage activity. However, its practical deployment is hindered by persistent challenges such as elevated background signals, constrained target versatility, and insufficient controllability. The activator strand (AS), serving as the molecular trigger for Cas12a activation, presents a promising engineering target to systematically enhance system performance. This review comprehensi...",
+      "citation": "Wang XY et al. (2026). A Review of Activator Strand Engineering Strategies for Smart CRISPR/Cas12a Diagnostics. ACS sensors. DOI: 10.1021/acssensors.6c00469",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": true
+    }
+  },
+  {
+    "id": "live_42255582_2026",
+    "title": "Integrated Optothermal Paperfluidic Platform for Single-Step, Model-Driven CRISPR-Cas12a Diagnostics of Mycobacterium tuberculosis",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • ACS omega",
+    "journal": "ACS omega",
+    "authors": "Thepbut A et al.",
+    "doi_url": "https://doi.org/10.1021/acsomega.6c00845",
+    "links": {
+      "europepmc": "https://doi.org/10.1021/acsomega.6c00845",
+      "doi": "https://doi.org/10.1021/acsomega.6c00845"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "An integrated opto-thermal paperfluidic platform engineered for the autonomous, single-step CRISPR-Cas12a detection of Mycobacterium tuberculosis (MTB).",
+      "problem_solved": "CRISPR-Cas12a molecular diagnostics offer high sensitivity and specificity for pathogen detection, yet their translation to point-of-care (POC) settings is often hindered by complex reagent handling, precise thermal requirements, and reliance on bulky laboratory equipment.",
+      "how_it_works": [
+        "Target Recognition: To achieve autonomous operation, we developed a hybrid mathematical modelincorporating boundary resistance and thermal evaporationto design an \"intrinsic timer\" that aligns capillary flow front progression with the 15 min CRISPR reaction kinetics.",
+        "Biochemical Execution: By utilizing a red-shifted ROX-quencher reporter probe to overcome paper autofluorescence and sucrose-based lyoprotection for reagent stabilization, the platform achieved a limit of detection of 0.0335 ng/μL with prestored reagents.",
+        "Validated Benchmark: The platform's architecture was optimized by comparing laser and thermal transfer printing, identifying the latter as the superior method for creating robust, leak-proof hydrophobic barriers while preserving the structural integrity of the cellulose substrate."
+      ],
+      "why_it_matters": "Published in ACS omega (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "CRISPR-Cas12a molecular diagnostics offer high sensitivity and specificity for pathogen detection, yet their translation to point-of-care (POC) settings is often hindered by complex reagent handling, precise thermal requirements, and reliance on bulky laboratory equipment. In this study, we present an integrated opto-thermal paperfluidic platform engineered for the autonomous, single-step CRISPR-Cas12a detection of Mycobacterium tuberculosis (MTB). The platform's architecture was optimized by comparing laser and thermal transfer printing, ident...",
+      "citation": "Thepbut A et al. (2026). Integrated Optothermal Paperfluidic Platform for Single-Step, Model-Driven CRISPR-Cas12a Diagnostics of Mycobacterium tuberculosis. ACS omega. DOI: 10.1021/acsomega.6c00845",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42899138_2026",
+    "title": "Paper integrated aptamer-CRISPR sensing enables multiplexed small-molecule sensing in a low-cost device",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • RSC advances",
+    "journal": "RSC advances",
+    "authors": "Sen A et al.",
+    "doi_url": "https://doi.org/10.1039/d6ra08018a",
+    "links": {
+      "europepmc": "https://doi.org/10.1039/d6ra08018a",
+      "doi": "https://doi.org/10.1039/d6ra08018a"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "The complete assay workflow is completed within 20 minutes using a reusable sodium acetate hand warmer for incubation and a 3D-printed smartphone-compatible reader, designed to align with ASSURED criteria for point-of-care diagnostics.",
+      "problem_solved": "CRISPR/Cas12a-based diagnostics achieved attomolar sensitivity for nucleic acid detection, yet their extension to small-molecule targets remains constrained by the need for solution-phase aptasensor-CRISPR coupling and laboratory infrastructure incompatible with resource-limited settings.",
+      "how_it_works": [
+        "Target Recognition: A Paper-integrated Aptamer-Cas12a Sensing platform (PACSense) in which the complete aptasensor-CRISPR/Cas12a signal transduction cascade is air-dried within a paper substrate, enabling a one-pot, amplification-free small-molecule detection workflow that is initiated by sample addition alone.",
+        "Biochemical Execution: Two orthogonal sensing modalities are demonstrated: first, a signal-OFF bivalent aptamer channel for adenosine 5'-triphosphate (ATP), achieving solution- and paper-phase limits of detection of 336 nM and 446 nM respectively, and second, a signal-ON complementary strand-displacement channel for cocaine, which to our knowledge represents the first coupling of the NC195 aptamer to CRISPR/Cas12a sensing, with solution- and paper-phase LODs of 0.605 µM and 16.15 µM respectively.",
+        "Validated Benchmark: Both channels are operated simultaneously on a single multiplexed paper chip with a cross-channel geometry that routes sample passively to four spatially distinct reaction zones, enabling independent and simultaneous detection confirmed by fluorescence imaging under a 495 nm blue LED."
+      ],
+      "why_it_matters": "Published in RSC advances (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "CRISPR/Cas12a-based diagnostics achieved attomolar sensitivity for nucleic acid detection, yet their extension to small-molecule targets remains constrained by the need for solution-phase aptasensor-CRISPR coupling and laboratory infrastructure incompatible with resource-limited settings. Here we report a Paper-integrated Aptamer-Cas12a Sensing platform (PACSense) in which the complete aptasensor-CRISPR/Cas12a signal transduction cascade is air-dried within a paper substrate, enabling a one-pot, amplification-free small-molecule detection workf...",
+      "citation": "Sen A et al. (2026). Paper integrated aptamer-CRISPR sensing enables multiplexed small-molecule sensing in a low-cost device. RSC advances. DOI: 10.1039/d6ra08018a",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42883123_2026",
+    "title": "Visual and Equipment-Minimized Detection of Avian Metapneumovirus Subtype C by RT-RPA-CRISPR/Cas12a Coupled with Lateral Flow Dipstick",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • Animals : an open access journal from MDPI",
+    "journal": "Animals : an open access journal from MDPI",
+    "authors": "Liang Q et al.",
+    "doi_url": "https://doi.org/10.3390/ani16193154",
+    "links": {
+      "europepmc": "https://doi.org/10.3390/ani16193154",
+      "doi": "https://doi.org/10.3390/ani16193154"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "Reaction parameters were systematically optimized, with 30 nmol/L Cas12a and 40 nmol/L crRNA identified as the optimal concentrations.",
+      "problem_solved": "While its impact in broilers and laying hens is relatively limited, aMPV subtype C (aMPV/C) is an important pathogen in ducks and waterfowl, leading to respiratory distress and severe egg-drop syndrome.",
+      "how_it_works": [
+        "Target Recognition: To overcome the limitations of current diagnostics, such as heavy reliance on laboratory infrastructure and prolonged turnaround times, we established a rapid detection assay integrating recombinase polymerase amplification (RPA) with CRISPR/Cas12a and a lateral flow dipstick (LFD), targeting the conserved N gene of aMPV/C.",
+        "Biochemical Execution: Rigorous specificity evaluation against seven common avian pathogens revealed no cross-reactivity.",
+        "Validated Benchmark: The limit of detection (LOD) was determined to be as low as 1.3 × 101 copies/μL, outperforming conventional PCR."
+      ],
+      "why_it_matters": "Published in Animals : an open access journal from MDPI (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "Avian metapneumovirus (aMPV) is the main etiological agent of turkey rhinotracheitis, causing respiratory distress and economic losses in turkeys. While its impact in broilers and laying hens is relatively limited, aMPV subtype C (aMPV/C) is an important pathogen in ducks and waterfowl, leading to respiratory distress and severe egg-drop syndrome. To overcome the limitations of current diagnostics, such as heavy reliance on laboratory infrastructure and prolonged turnaround times, we established a rapid detection assay integrating recombinase p...",
+      "citation": "Liang Q et al. (2026). Visual and Equipment-Minimized Detection of Avian Metapneumovirus Subtype C by RT-RPA-CRISPR/Cas12a Coupled with Lateral Flow Dipstick. Animals : an open access journal from MDPI. DOI: 10.3390/ani16193154",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42853271_2026",
+    "title": "Branched Split Activator-Regulated Cas12a Biosensor For Methyltransferases Detection",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • ACS sensors",
+    "journal": "ACS sensors",
+    "authors": "Hu L et al.",
+    "doi_url": "https://doi.org/10.1021/acssensors.6c02645",
+    "links": {
+      "europepmc": "https://doi.org/10.1021/acssensors.6c02645",
+      "doi": "https://doi.org/10.1021/acssensors.6c02645"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "The core strategy lies in designing split-and-reconstituted Cas12a-activating DNA fragments with steric hindrance effects.",
+      "problem_solved": "DNA methyltransferases (MTases) are important epigenetic enzymes involved in DNA methylation regulation and have attracted considerable interest as analytical targets in disease-related epigenetic studies.",
+      "how_it_works": [
+        "Target Recognition: However, traditional detection methods are constrained by laboratory-bound, sophisticated instrumentation and time-consuming protocols, while emerging approaches either depend on complex enzymatic amplifications or suffer from uncontrolled background signals, limiting their bioanalysis utility for precision-medicine-related applications.",
+        "Biochemical Execution: Inspired by the structure-controlled activation mechanism of CRISPR/Cas12a, we designed a branched split structure to regulate Cas12a for stepwise enzymatic activation and established the Cas12a-induced DNA MTase Sensor (CDMS), which enables highly sensitive MTase activity detection without the need for nucleic-acid amplification step.",
+        "Validated Benchmark: This method achieves ultra-low detection limit of 1.06 × 10-6 U/mL for M.SssI MTase and 7.41 × 10-8 U/mL for Dam MTase, exhibiting excellent specificity and robust applicability for MTase inhibitor screening."
+      ],
+      "why_it_matters": "Published in ACS sensors (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "DNA methyltransferases (MTases) are important epigenetic enzymes involved in DNA methylation regulation and have attracted considerable interest as analytical targets in disease-related epigenetic studies. However, traditional detection methods are constrained by laboratory-bound, sophisticated instrumentation and time-consuming protocols, while emerging approaches either depend on complex enzymatic amplifications or suffer from uncontrolled background signals, limiting their bioanalysis utility for precision-medicine-related applications. Insp...",
+      "citation": "Hu L et al. (2026). Branched Split Activator-Regulated Cas12a Biosensor For Methyltransferases Detection. ACS sensors. DOI: 10.1021/acssensors.6c02645",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42825812_2026",
+    "title": "Single-Atom Nanozyme Integrated Double-Clasp Transition Probe-Driven CRISPR/Cas12a Cascade for Preamplification-Free Detection of Non-Nucleic Acid Targets",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • ACS sensors",
+    "journal": "ACS sensors",
+    "authors": "Wang J et al.",
+    "doi_url": "https://doi.org/10.1021/acssensors.6c02981",
+    "links": {
+      "europepmc": "https://doi.org/10.1021/acssensors.6c02981",
+      "doi": "https://doi.org/10.1021/acssensors.6c02981"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "CRISPR/Cas12a diagnostics have greatly advanced nucleic acid testing, yet their extension to non-nucleic acid targets remains constrained by the intricate preamplification process and by inefficient signal transduction.",
+      "problem_solved": "Using human epidermal growth factor receptor 2 (HER2) as a clinically relevant non-nucleic acid target, the DCTP-driven Cas12a positive-feedback system shortened the cleavage time from 33 min in the conventional Cas12a system to 18 min and achieved a wide linear range from 10-3 to 104 ng/mL, with a low detection limit of 0.513 pg/mL.",
+      "how_it_works": [
+        "Target Recognition: A non-nucleic acid detection platform that integrates a CRISPR/Cas12a positive-feedback cascade with a single-atom nanozyme.",
+        "Biochemical Execution: In this strategy, cleavage of the designed double-clasp transition probe (DCTP) activates additional Cas12a ribonucleoprotein (RNP) complexes, enabling cascade signal amplification without a preamplification treatment.",
+        "Validated Benchmark: Furthermore, preliminary analysis of 31 clinical serum samples supported the feasibility of the strategy for quantitative serum HER2 (sHER2) determination, although validation in larger independent cohorts is required."
+      ],
+      "why_it_matters": "Published in ACS sensors (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "CRISPR/Cas12a diagnostics have greatly advanced nucleic acid testing, yet their extension to non-nucleic acid targets remains constrained by the intricate preamplification process and by inefficient signal transduction. Herein, we present a non-nucleic acid detection platform that integrates a CRISPR/Cas12a positive-feedback cascade with a single-atom nanozyme. In this strategy, cleavage of the designed double-clasp transition probe (DCTP) activates additional Cas12a ribonucleoprotein (RNP) complexes, enabling cascade signal amplification witho...",
+      "citation": "Wang J et al. (2026). Single-Atom Nanozyme Integrated Double-Clasp Transition Probe-Driven CRISPR/Cas12a Cascade for Preamplification-Free Detection of Non-Nucleic Acid Targets. ACS sensors. DOI: 10.1021/acssensors.6c02981",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42752528_2026",
+    "title": "A hand-powered positive pressure-driven sample injection digital RPA-CRISPR-Cas12a chip",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • Lab on a chip",
+    "journal": "Lab on a chip",
+    "authors": "Liang M et al.",
+    "doi_url": "https://doi.org/10.1039/d6lc00542j",
+    "links": {
+      "europepmc": "https://doi.org/10.1039/d6lc00542j",
+      "doi": "https://doi.org/10.1039/d6lc00542j"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "However, sample introduction and digital discretization mainly rely on negative pressure drive, and this injection method limits its application, especially in on-site detection.",
+      "problem_solved": "Positive-pressure loading is simple and well suited to portable operation, yet it is difficult to apply directly to chamber-based digital assays because air backflow and sample trailing can disrupt stable compartmentalization.",
+      "how_it_works": [
+        "Target Recognition: After integration with a one-pot digital RPA-CRISPR-Cas12a assay targeting hlyA, the system achieved absolute quantification of Listeria monocytogenes with a detection limit of 100 copies μL-1 and good linearity across dilutions (R2 = 0.99973).",
+        "Biochemical Execution: Chamber-based digital nucleic acid assays allow absolute quantification with high analytical sensitivity.",
+        "Validated Benchmark: But their use outside laboratory settings is still limited by the way samples are partitioned, which often depends on vacuum systems, centrifugation or specialized actuation."
+      ],
+      "why_it_matters": "Published in Lab on a chip (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "Chamber-based digital nucleic acid assays allow absolute quantification with high analytical sensitivity. However, sample introduction and digital discretization mainly rely on negative pressure drive, and this injection method limits its application, especially in on-site detection. But their use outside laboratory settings is still limited by the way samples are partitioned, which often depends on vacuum systems, centrifugation or specialized actuation. Positive-pressure loading is simple and well suited to portable operation, yet it is diffi...",
+      "citation": "Liang M et al. (2026). A hand-powered positive pressure-driven sample injection digital RPA-CRISPR-Cas12a chip. Lab on a chip. DOI: 10.1039/d6lc00542j",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42871210_2026",
+    "title": "An FTA card-based CRISPR/Cas12a platform with isothermal amplification for portable tuberculosis diagnosis",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • Frontiers in microbiology",
+    "journal": "Frontiers in microbiology",
+    "authors": "Xing J et al.",
+    "doi_url": "https://doi.org/10.3389/fmicb.2026.1958414",
+    "links": {
+      "europepmc": "https://doi.org/10.3389/fmicb.2026.1958414",
+      "doi": "https://doi.org/10.3389/fmicb.2026.1958414"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "A rapid, sensitive platform suitable for point-of-care detection by integrating FTA cards with ERA/RT-ERA amplification and CRISPR/Cas12a, enabling direct analysis of samples without conventional nucleic acid purification.",
+      "problem_solved": "Mycobacterium tuberculosis remains a major global public health threat, imposing significant socioeconomic burdens.",
+      "how_it_works": [
+        "Target Recognition: Leveraging FTA cards for efficient nucleic acid release and stable preservation, we established assays targeting IS6110, esxB, gyrB, and the RNA target ASdes.",
+        "Biochemical Execution: Integration of FTA-based sample processing, ERA/RT-ERA amplification, and Cas12a detection enables fast and reliable identification of nucleic acid markers.",
+        "Validated Benchmark: In clinical serum samples, the fluorescence readouts and lateral flow strip outputs showed strong concordance with quantitative PCR results across all four targets."
+      ],
+      "why_it_matters": "Published in Frontiers in microbiology (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "Mycobacterium tuberculosis remains a major global public health threat, imposing significant socioeconomic burdens. Current molecular diagnostics rely heavily on nucleic acid extraction and specialized equipment, which limits their use in resource-limited settings. We developed a rapid, sensitive platform suitable for point-of-care detection by integrating FTA cards with ERA/RT-ERA amplification and CRISPR/Cas12a, enabling direct analysis of samples without conventional nucleic acid purification. Leveraging FTA cards for efficient nucleic acid ...",
+      "citation": "Xing J et al. (2026). An FTA card-based CRISPR/Cas12a platform with isothermal amplification for portable tuberculosis diagnosis. Frontiers in microbiology. DOI: 10.3389/fmicb.2026.1958414",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
+    "id": "live_42734821_2026",
+    "title": "A steric hindrance-regulated autocatalytic CRISPR/Cas12a system for direct and amplification-free microRNA detection",
+    "category": "gene_editing",
+    "category_label": "Gene Editing",
+    "tag": "Peer-Reviewed Discovery (2026)",
+    "year": 2026,
+    "date_display": "2026 • Chemical communications (Cambridge, England)",
+    "journal": "Chemical communications (Cambridge, England)",
+    "authors": "Kong W et al.",
+    "doi_url": "https://doi.org/10.1039/d6cc04790d",
+    "links": {
+      "europepmc": "https://doi.org/10.1039/d6cc04790d",
+      "doi": "https://doi.org/10.1039/d6cc04790d"
+    },
+    "is_foundational": false,
+    "is_live": true,
+    "storage_source": "live",
+    "educational": {
+      "what_is_it": "We constructed a CRISPR/Cas12a autocatalytic system based on a miRNA-triggered overhang blocker (OB) cleavage-recombination framework, in which Cas12a sequentially removed steric hindrance to initiate cyclic autocatalysis, enabling exponential signal amplification for visual miRNA detection without target pre-amplification, thereby overcoming direct Cas12a recognition limitations for point-of-care diagnostics.",
+      "problem_solved": "Overcomes empirical limitations, off-target risks, and delivery barriers in current gene editing approaches.",
+      "how_it_works": [
+        "Target Recognition: Molecular recognition components target high-affinity sequence motifs within the host biological system.",
+        "Biochemical Execution: Enzymatic catalysis or synthetic RNA-directed cascades execute precise molecular conversions.",
+        "Validated Benchmark: Produces high-fidelity phenotypic correction or quantified analytical signal verification."
+      ],
+      "why_it_matters": "Published in Chemical communications (Cambridge, England) (2026). Demonstrates translational feasibility and provides an empirical benchmark for modern gene editing.",
+      "analogy": "Think of this like an intelligent molecular burglar alarm connected to a thousand fireworks. Normally, finding one single viral genome in a patient's saliva is like finding a specific grain of sand on a vast beach. The Cas12a enzyme is programmed with a guide RNA like a sniffer dog: it searches tirelessly through millions of DNA strands, completely ignoring human DNA. But the exact millisecond it sniffs and locks onto the matching viral sequence, it pulls a molecular tripwire that turns it into an indiscriminate cutting machine, rapidly slicing thousands of fluorescent reporter probes so the test tube lights up with an intense visible glow."
+    },
+    "technical": {
+      "mechanism": "We constructed a CRISPR/Cas12a autocatalytic system based on a miRNA-triggered overhang blocker (OB) cleavage-recombination framework, in which Cas12a sequentially removed steric hindrance to initiate cyclic autocatalysis, enabling exponential signal amplification for visual miRNA detection without target pre-amplification, thereby overcoming direct Cas12a recognition limitations for point-of-care diagnostics.",
+      "citation": "Kong W et al. (2026). A steric hindrance-regulated autocatalytic CRISPR/Cas12a system for direct and amplification-free microRNA detection. Chemical communications (Cambridge, England). DOI: 10.1039/d6cc04790d",
+      "primary_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "significance": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows."
+    },
+    "extracted_parameters": {
+      "chassis": "Crude Clinical Swab & Isothermal Reaction Matrix",
+      "tool": "LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)",
+      "burden_statistic": "Infectious viral and bacterial pathogens cause over 13 million global deaths annually, with centralized multi-hour thermal-cycler PCR testing creating critical diagnostic turnaround bottlenecks that delay timely treatment in clinical and field settings (WHO).",
+      "metric_numbers": [
+        "200 turnovers",
+        "2.5 copies/µL",
+        "2.5 copies/uL"
+      ],
+      "primary_metric_sentence": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "plain_metric": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling constant single-temperature (no thermal cycler needed) detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "controls": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "experimental_strategy": "Model & Assay: Fluorescence plate reader and lateral-flow strips with FQ reporter probes. Controls: Non-targeting guide RNAs (negative specificity control) and synthetic target plasmids (positive reference standard).",
+      "stated_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "plain_gap": "While Cas12a/Cas13 trans-cleavage operates with high attomolar sensitivity in purified synthetic buffers, crude biological matrices (whole blood, unpurified swabs) cause severe background optical quenching, non-specific RNase/DNase degradation, and require prior multi-step nucleic acid purification.",
+      "key_innovation": "Coupling crRNA-directed target-activated indiscriminate single-stranded DNase trans-cleavage with isothermal Recombinase Polymerase Amplification (RPA) at 37°C.",
+      "key_findings": "Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates.",
+      "research_horizon": "Evidence Proof: Cas12a target recognition triggers indiscriminate ssDNA trans-cleavage exceeding 1,200 turnovers per second, enabling isothermal detection of HPV16/18 down to 2.5 copies/µL (attomolar sensitivity) within 30 minutes in crude clinical swab lysates. Horizon for Your Project: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "target_milestone": "Target Milestone: Develop direct-lysis buffer chemistries and quenching-resistant fluorophores to eliminate silica-column pre-extraction in whole-blood diagnostic workflows.",
+      "timeline_benchmark": {
+        "phase1_months": "Months 1–4",
+        "phase1_focus": "Cloning, construct synthesis (LbCas12a Collateral ssDNase Coupled with RPA (DETECTR)), and sequence verification in Crude Clinical Swab & Isothermal Reaction Matrix",
+        "phase2_months": "Months 4–8",
+        "phase2_focus": "Expression optimization, kinetic assays, and quantitative benchmark evaluation",
+        "phase3_months": "Months 8–14",
+        "phase3_focus": "Operational matrix validation, stability trials, and translational reporting",
+        "buffer_guidance": "Peer-reviewed literature allocates 15–20% buffer for failed clone verification and protocol recalibration."
+      },
+      "burden_exp": "Highlights 13M annual infectious disease deaths and PCR turnaround lag to justify rapid point-of-care molecular testing.",
+      "gap_exp": "Identifies optical quenching and matrix inhibition in crude whole blood as the fatal diagnostic bottleneck.",
+      "is_review": false
+    }
+  },
+  {
     "id": "live_42793101_2026",
     "title": "Recent Advances in CRISPR/Cas Technologies for Biological Discovery, Therapeutics, and Diagnostics",
     "category": "gene_editing",

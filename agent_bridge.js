@@ -37,7 +37,12 @@
     return typeof window !== "undefined" && window.location && window.location.protocol === "file:";
   }
 
+  let _localServerOffline = false;
+
   function getApiBase() {
+    if (isFileProtocol() && _localServerOffline) {
+      return null;
+    }
     return isFileProtocol() ? "http://127.0.0.1:5000" : "";
   }
 
@@ -1012,21 +1017,29 @@
     let serverMode = "live_server";
     const apiBase = getApiBase();
 
-    try {
-      const resp = await fetch(`${apiBase}/agent/api/analyze/${encodeURIComponent(projectId)}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ proposal_data: proposalData })
-      });
-      if (resp.ok) {
-        resultData = await resp.json();
-        serverMode = isFileProtocol() ? "live_local_server" : "live_server";
-      } else {
-        throw new Error(`HTTP ${resp.status}`);
-      }
-    } catch (err) {
+    if (apiBase === null || (isFileProtocol() && _localServerOffline)) {
       resultData = runClientSideAgentAnalysis(proposalData, projectId);
       serverMode = "client_offline_engine";
+    } else {
+      try {
+        const resp = await fetch(`${apiBase}/agent/api/analyze/${encodeURIComponent(projectId)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ proposal_data: proposalData })
+        });
+        if (resp.ok) {
+          resultData = await resp.json();
+          serverMode = isFileProtocol() ? "live_local_server" : "live_server";
+        } else {
+          throw new Error(`HTTP ${resp.status}`);
+        }
+      } catch (err) {
+        if (isFileProtocol()) {
+          _localServerOffline = true;
+        }
+        resultData = runClientSideAgentAnalysis(proposalData, projectId);
+        serverMode = "client_offline_engine";
+      }
     }
 
     window.latestAgentAnalysis = resultData;
