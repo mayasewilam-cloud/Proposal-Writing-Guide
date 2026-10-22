@@ -1,47 +1,33 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
     },
     {
-      "src": "/studio.css",
-      "dest": "/static/studio.css"
+      "source": "/agent/api/(.*)",
+      "destination": "/api/index.py"
     },
     {
-      "src": "/studio.js",
-      "dest": "/static/studio.js"
+      "source": "/bt301_guide_data.js",
+      "destination": "/bt301_guide_data.js"
     },
     {
-      "src": "/faculty_cohort.js",
-      "dest": "/static/faculty_cohort.js"
+      "source": "/detectr_aqua_figure2.png",
+      "destination": "/detectr_aqua_figure2.png"
     },
     {
-      "src": "/student_team_workspace.js",
-      "dest": "/static/student_team_workspace.js"
+      "source": "/data/(.*)",
+      "destination": "/data/$1"
     },
     {
-      "src": "/agent_bridge.js",
-      "dest": "/static/agent_bridge.js"
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/static/favicon.ico"
-    },
-    {
-      "src": "/favicon.svg",
-      "dest": "/static/favicon.svg"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
+      "source": "/(.*)",
+      "destination": "/api/index.py"
     }
   ]
 }

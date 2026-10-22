@@ -3992,8 +3992,10 @@ function updateLogicChainUIDebounced() {
   logicChainDebounceTimer = setTimeout(updateLogicChainUI, 500);
 }
 
+let _logicChainApiOffline = false;
+
 async function updateLogicChainUI() {
-  if (isFileProtocol) {
+  if (isFileProtocol || _logicChainApiOffline) {
     calculateLocalLogicChain();
     return;
   }
@@ -4003,6 +4005,11 @@ async function updateLogicChainUI() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(projectState)
     });
+    if (!resp.ok || !(resp.headers.get("content-type") || "").includes("json")) {
+      _logicChainApiOffline = true;
+      calculateLocalLogicChain();
+      return;
+    }
     const data = await resp.json();
 
     const healthBadge = document.getElementById("chain-health-badge");
@@ -4035,7 +4042,8 @@ async function updateLogicChainUI() {
       }
     }
   } catch (err) {
-    // Non-blocking background sync
+    _logicChainApiOffline = true;
+    calculateLocalLogicChain();
   }
 }
 
@@ -11183,6 +11191,9 @@ async function loadBreakthroughsCatalog(showStatus = true) {
       q: btSearchQuery
     });
     const resp = await fetch(`/api/breakthroughs?${params.toString()}`);
+    if (!resp.ok || !(resp.headers.get("content-type") || "").includes("json")) {
+      throw new Error(`Server returned non-JSON response (status ${resp.status})`);
+    }
     const data = await resp.json();
 
     if (data.status === "success" && data.items) {

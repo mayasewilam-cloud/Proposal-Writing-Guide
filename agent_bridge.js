@@ -38,9 +38,13 @@
   }
 
   let _localServerOffline = false;
+  let _backendServerOffline = false;
 
   function getApiBase() {
     if (isFileProtocol() && _localServerOffline) {
+      return null;
+    }
+    if (_backendServerOffline) {
       return null;
     }
     return isFileProtocol() ? "http://127.0.0.1:5000" : "";
@@ -1036,6 +1040,8 @@
       } catch (err) {
         if (isFileProtocol()) {
           _localServerOffline = true;
+        } else if (err && (String(err.message).includes("405") || String(err.message).includes("404"))) {
+          _backendServerOffline = true;
         }
         resultData = runClientSideAgentAnalysis(proposalData, projectId);
         serverMode = "client_offline_engine";

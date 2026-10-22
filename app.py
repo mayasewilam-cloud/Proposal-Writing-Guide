@@ -231,6 +231,39 @@ def serve_root_css():
     return send_from_directory(os.path.join(STATIC_DIR, "css"), "studio.css", mimetype="text/css")
 
 
+
+@app.route("/bt301_guide_data.js")
+def serve_root_guide_data():
+    """Serves bt301_guide_data.js directly from root or data directories."""
+    for p in [os.path.join(BASE_DIR, "bt301_guide_data.js"),
+              os.path.join(BASE_DIR, "data", "bt301_guide_data.js"),
+              os.path.join(STATIC_DIR, "data", "bt301_guide_data.js")]:
+        if os.path.exists(p):
+            return send_from_directory(os.path.dirname(p), os.path.basename(p), mimetype="application/javascript")
+    return jsonify({"error": "bt301_guide_data.js not found"}), 404
+
+
+@app.route("/data/<path:filename>")
+def serve_data_directory(filename):
+    """Serves files from upload/data directory."""
+    data_dir = os.path.join(BASE_DIR, "data")
+    if os.path.exists(os.path.join(data_dir, filename)):
+        mimetype = "application/javascript" if filename.endswith(".js") else "application/json" if filename.endswith(".json") else None
+        return send_from_directory(data_dir, filename, mimetype=mimetype)
+    return jsonify({"error": f"File {filename} not found in data"}), 404
+
+
+@app.route("/detectr_aqua_figure2.png")
+@app.route("/images/<path:filename>")
+def serve_root_images(filename="detectr_aqua_figure2.png"):
+    """Serves diagram images with multiple directory fallbacks."""
+    for p in [os.path.join(BASE_DIR, filename),
+              os.path.join(STATIC_DIR, filename),
+              os.path.join(STATIC_DIR, "images", filename)]:
+        if os.path.exists(p):
+            return send_from_directory(os.path.dirname(p), os.path.basename(p), mimetype="image/png")
+    return jsonify({"error": "Image not found"}), 404
+
 @app.route("/studio.js")
 def serve_root_js():
     """Fail-safe direct JS route bypassing any proxy or web-server /static/ interceptors."""
