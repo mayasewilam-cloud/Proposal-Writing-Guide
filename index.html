@@ -1787,7 +1787,7 @@ window.switchMatrixViewTab = function(tab) {
 
               <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
                 <label class="control-check-item" style="margin-bottom: 6px;">
-                  <input type="checkbox" id="chk-control-negative" checked>
+                  <input type="checkbox" id="chk-control-negative">
                   <div>
                     <strong style="color: #0f172a;">Negative Control</strong>
                     <div style="font-size: 0.72rem; color: #64748b;">Empty vector, vehicle blank, or no-template control</div>
@@ -1798,7 +1798,7 @@ window.switchMatrixViewTab = function(tab) {
 
               <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
                 <label class="control-check-item" style="margin-bottom: 6px;">
-                  <input type="checkbox" id="chk-control-triplicates" checked>
+                  <input type="checkbox" id="chk-control-triplicates">
                   <div>
                     <strong style="color: #0f172a;">Replicates &amp; Sample Size</strong>
                     <div style="font-size: 0.72rem; color: #64748b;">Biological and technical replicate design</div>
@@ -2834,14 +2834,14 @@ window.switchMatrixViewTab = function(tab) {
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <strong style="font-size: 0.78rem; color: #0f172a; display: flex; align-items: center; gap: 5px;">
-              <span>🧭</span> <span>10-Section Health &amp; Gaps Guide</span>
+              <span>🧭</span> <span>Proposal Sections Health &amp; Gaps Guide</span>
             </strong>
             <span id="overseer-completed-count" style="font-size: 0.68rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 2px 7px; border-radius: 4px;">All Sections Monitored</span>
           </div>
 
           <!-- Section Filter Tabs -->
           <div style="display: flex; gap: 4px; margin-bottom: 10px; background: #f1f5f9; padding: 3px; border-radius: 6px;">
-            <button type="button" id="btn-filter-sec-all" onclick="filterOverseerSections('all')" style="flex: 1; border: none; background: #ffffff; color: #1e40af; font-size: 0.66rem; font-weight: 700; padding: 4px; border-radius: 4px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">All (10)</button>
+            <button type="button" id="btn-filter-sec-all" onclick="filterOverseerSections('all')" style="flex: 1; border: none; background: #ffffff; color: #1e40af; font-size: 0.66rem; font-weight: 700; padding: 4px; border-radius: 4px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">All (12)</button>
             <button type="button" id="btn-filter-sec-gaps" onclick="filterOverseerSections('gaps')" style="flex: 1; border: none; background: transparent; color: #64748b; font-size: 0.66rem; font-weight: 600; padding: 4px; border-radius: 4px; cursor: pointer;">⚠️ Needs Attention (<span id="count-gaps-badge">0</span>)</button>
             <button type="button" id="btn-filter-sec-done" onclick="filterOverseerSections('done')" style="flex: 1; border: none; background: transparent; color: #64748b; font-size: 0.66rem; font-weight: 600; padding: 4px; border-radius: 4px; cursor: pointer;">✓ Ready (<span id="count-done-badge">0</span>)</button>
           </div>
@@ -3663,7 +3663,7 @@ window.switchMatrixViewTab = function(tab) {
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
-                  <span style="font-size: 0.72rem; font-weight: 800; color: #1e40af; text-transform: uppercase;">Section 2: Abstract & Impact Narrative</span>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #1e40af; text-transform: uppercase;">Section 1: Executive Abstract & Impact Summary</span>
                   <span id="badge-coach-abstract-eval" style="font-size: 0.68rem; font-weight: 700; background: #dcfce7; color: #15803d; padding: 1px 6px; border-radius: 4px;">✅ Strong Structure</span>
                 </div>
                 <span style="font-size: 0.68rem; color: #64748b;">Source: proposal.abstract</span>
@@ -3912,7 +3912,7 @@ window.switchMatrixViewTab = function(tab) {
             <!-- Section 2: Abstract with Evidence Highlighting -->
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span style="font-size: 0.7rem; font-weight: 800; color: #1e40af; text-transform: uppercase;">Section 2: Abstract (Verbatim Evidence Spans)</span>
+                <span style="font-size: 0.7rem; font-weight: 800; color: #1e40af; text-transform: uppercase;">Section 1: Executive Abstract (Verbatim Evidence Spans)</span>
                 <span style="font-size: 0.68rem; color: #64748b;">Path: proposal.abstract</span>
               </div>
               <div id="part-abstract-text" style="font-size: 0.8rem; line-height: 1.55; color: #334155;">
@@ -4978,79 +4978,100 @@ window.switchMatrixViewTab = function(tab) {
         return el ? (el.value || el.innerText || "").trim() : "";
       };
 
-      // 1. Title & Pillars (BT_301 4-Anchor Formula)
+      // 0. Cover Page: Title & Pillars (BT_301 4-Piece Formula)
       var title = getVal("proposal-title-input");
       var pChassis = getVal("pillar-chassis");
       var pTool = getVal("pillar-tool");
       var pTarget = getVal("pillar-target");
 
-      var s1Missing = [];
+      var s0Missing = [];
       if (!title) {
-        s1Missing.push("Missing Title: Formulate using the 4-Piece Formula: [Active Substance / Tool] in [Model / Plant / System] to [Target Goal / Number] for [Problem to Solve].");
+        s0Missing.push("Missing Title: Formulate using the 4-Piece Formula: [Active Substance / Tool] in [Model / Plant / System] to [Target Goal / Number] for [Problem to Solve].");
       } else {
         var lowerTitle = title.toLowerCase().trim();
         var passiveMatch = lowerTitle.match(/^(the\s+)?(effect|role|impact|study|investigation|evaluation|analysis|overview)\s+(of|on|into)\b/i);
         if (passiveMatch) {
-          s1Missing.push(`Passive Title Trap: Avoid starting with "${passiveMatch[0]}". Under BT_301 Rubric Criterion 1, proposals must lead with an active engineering mechanism or molecular tool, not descriptive school-lab phrasing.`);
+          s0Missing.push(`Passive Title Trap: Avoid starting with "${passiveMatch[0]}". Under BT_301 Rubric Criterion 1, proposals must lead with an active engineering mechanism or molecular tool, not descriptive school-lab phrasing.`);
         }
         if (title.length < 28) {
-          s1Missing.push(`Title is too brief (${title.split(/\s+/).filter(Boolean).length} words): Academic biotechnology titles require 12–28 words to clearly ground mechanism, model, and application.`);
+          s0Missing.push(`Title is too brief (${title.split(/\s+/).filter(Boolean).length} words): Academic biotechnology titles require 12–28 words to clearly ground mechanism, model, and application.`);
         }
         var hasChassisInTitle = (pChassis && lowerTitle.includes(pChassis.toLowerCase().trim())) ||
           /\b(in|into|from|against|expressed in|matrix|chassis)\b/i.test(lowerTitle) ||
           /\b(coli|pastoris|putida|aestivum|arabidopsis|human|murine|aureus|pseudomonas|bacillus|cell|cells|fibroblast|biofilm|effluent|wastewater|soil|skin|explant|plasma|serum|tissue|lysate|extract)\b/i.test(lowerTitle);
         if (!hasChassisInTitle) {
-          s1Missing.push("Missing Model or System in Title: Explicitly name the biological model, plant, tissue, organism, or test environment (e.g. 'in Skin Tissue Models', 'in Bacterial Cultures', or 'in Wastewater').");
+          s0Missing.push("Missing Model or System in Title: Explicitly name the biological model, plant, tissue, organism, or test environment (e.g. 'in Skin Tissue Models', 'in RAW 264.7 Cells', or 'in Wastewater').");
         }
         var hasBenchmarkInTitle = /\b(to achieve|to attain|to reduce|to enhance|to degrade|to detect|to inhibit|lod|mic|ic50|%|turnover|limit of detection|trans-cleavage|regeneration|flux|eradicat)\b/i.test(lowerTitle);
         if (!hasBenchmarkInTitle) {
-          s1Missing.push("Missing Target Goal or Number in Title: Specify a measurable target milestone (e.g. 'to Attain >80% Wound Closure', 'to Achieve >50% Reduction', 'to Achieve MIC < 15 µg/mL').");
+          s0Missing.push("Missing Target Goal or Number in Title: Specify a measurable target milestone (e.g. 'to Attain >80% Wound Closure', 'to Achieve >50% Reduction', 'to Achieve MIC < 15 µg/mL').");
         }
         var hasAppInTitle = /\b(for\s+[\w\s-]+|treatment|diagnosis|therapy|bioremediation|surveillance|protection|prevention|eradication|healing)\b/i.test(lowerTitle);
         if (!hasAppInTitle) {
-          s1Missing.push("Missing Specific Application in Title: Conclude with the practical healthcare, environmental, or agricultural application (e.g. 'for Topical Biofilm Eradication', 'for Accelerated Wound Healing').");
+          s0Missing.push("Missing Specific Application in Title: Conclude with the practical healthcare, environmental, or agricultural application (e.g. 'for Topical Cutaneous Inflammation', 'for Biofilm Eradication').");
         }
       }
-      if (!pTool) s1Missing.push("Missing Tool / Substance Pillar: Declare the active substance, formulation, extract, or molecular tool (e.g. Calendula Extract Cream, Nanoparticles, Biosensor).");
-      if (!pChassis) s1Missing.push("Missing Model / System Pillar: Declare the model, tissue, host organism, or test matrix (e.g. Skin Tissue Model, Bacterial Cells, Wastewater, Soil).");
-      if (!pTarget) s1Missing.push("Missing Target Goal Pillar: Declare the specific condition, pathogen, or target result (e.g. Skin Inflammation, Wound Healing, Pathogen Detection).");
+      if (!pTool) s0Missing.push("Missing Tool / Substance Pillar: Declare the active substance, formulation, extract, or molecular tool.");
+      if (!pChassis) s0Missing.push("Missing Model / System Pillar: Declare the model, tissue, host organism, or test matrix.");
+      if (!pTarget) s0Missing.push("Missing Target Goal Pillar: Declare the specific condition, pathogen, or target result.");
 
-      var s1Status = s1Missing.length === 0 ? "complete" : ((title || pTool || pChassis || pTarget) ? "draft" : "empty");
-      var s1Snippet = title ? `"${title.substring(0, 75)}${title.length > 75 ? '...' : ''}"` : "⚪ No title or pillars declared yet.";
+      var s0Status = s0Missing.length === 0 ? "complete" : ((title || pTool || pChassis || pTarget) ? "draft" : "empty");
+      var s0Snippet = title ? `"${title.substring(0, 75)}${title.length > 75 ? '...' : ''}"` : "⚪ No title or pillars declared yet.";
 
-      // 2. Evidence Matrix
-      var mY = getVal("matrix-yellow");
-      var mB = getVal("matrix-blue");
-      var mG = getVal("matrix-green");
-      var mP = getVal("matrix-purple");
-      var s2Missing = [];
-      if (!mY || mY.length < 15) s2Missing.push("Missing Problem Statement (Yellow): Quantified clinical, economic, or environmental burden.");
-      if (!mB || mB.length < 15) s2Missing.push("Missing Prior-Art Benchmark (Blue): Reported LOD / turnaround time of existing standard methods.");
-      if (!mG || mG.length < 15) s2Missing.push("Missing Proposed Solution (Green): Specific engineered molecular mechanism.");
-      if (!mP || mP.length < 15) s2Missing.push("Missing Projected Impact (Purple): Turnaround time speedup and unit cost target.");
+      // 1. Executive Abstract & Keywords (Official Section 1 • Synthesized in Step 4)
+      var abs = getVal("proposal-abstract-input");
+      var absWords = abs ? abs.split(/\s+/).filter(Boolean).length : 0;
+      var kw = getVal("abstract-keywords-input");
+      var kwCount = kw ? kw.split(/[,;]+/).filter(function(k) { return k.trim().length > 0; }).length : 0;
+      var s1Missing = [];
+      if (!abs) {
+        s1Missing.push("Missing Executive Abstract: In Step 4, compose a 150–250 word summary covering Problem, Benchmark Gap, Molecular Tool, Lab Matrix, and Societal Impact.");
+      } else {
+        if (absWords < 150) {
+          s1Missing.push(`Executive Abstract is under-developed (${absWords}/150 words): Official BT_301 rubric requires 150–250 words summarizing the completed scientific plan.`);
+        } else if (absWords > 250) {
+          s1Missing.push(`Executive Abstract exceeds word ceiling (${absWords}/250 words): Reviewers strictly penalize abstracts over 250 words.`);
+        }
+        var hasProb = /burden|challenge|threat|disease|cancer|pathogen|resistance|pollution|contamination|crisis|need|dermat|inflamm|mcr-1|pet/i.test(abs);
+        var hasTool = /engineer|design|develop|crispr|cas|enzyme|rpa|nanoparticle|vector|construct|petase|assay|extract|formulat|cream|emulsion/i.test(abs);
+        var hasBench = /baseline|current|benchmark|limit|standard|fold|%|min|lod|conventional|mic|mbc|hydrocortisone|corticosteroid/i.test(abs);
+        var hasMatrix = /water|blood|serum|tissue|urine|effluent|soil|pond|sample|matrix|isolates|skin|topical|dermal|franz|keratinocyte|raw/i.test(abs);
+        var hasImpact = /rapid|field|point-of-care|therap|clinic|sustainable|degrad|yield|saving|global|wound|healing|antibacterial|selectivity|atrophy/i.test(abs);
+        if (!hasProb) s1Missing.push("Abstract Lacks Global Problem Context: State the quantified disease or environmental burden.");
+        if (!hasBench) s1Missing.push("Abstract Lacks Benchmark Gap: Mention the limitations of current gold-standard methods.");
+        if (!hasTool) s1Missing.push("Abstract Lacks Engineered Tool/Formulation: Clearly name your active substance or mechanism.");
+        if (!hasMatrix) s1Missing.push("Abstract Lacks Testing Matrix: Name the cell culture, skin explant, or real-world matrix.");
+      }
+      if (kwCount < 4) {
+        s1Missing.push(`Insufficient Keywords (${kwCount}/4 required): Add 4 to 6 specific academic keywords in Step 4.`);
+      }
 
-      var s2Count = [mY, mB, mG, mP].filter(function(v) { return v.length > 10; }).length;
-      var s2Status = s2Missing.length === 0 ? "complete" : (s2Count >= 1 ? "draft" : "empty");
-      var s2Snippet = s2Count > 0 ? `${s2Count}/4 Evidence Quadrants filled with citations.` : "⚪ 4-Color Evidence Matrix is blank.";
+      var s1Status = s1Missing.length === 0 ? "complete" : (absWords > 30 ? "draft" : "empty");
+      var s1Snippet = absWords > 0
+        ? `Executive Abstract: ${absWords} words (Target: 150–250) • ${kwCount} Keywords`
+        : "⚪ Executive Abstract not yet drafted in Step 4.";
 
-      // 3. Inverted Funnel & Abstract
+      // 2. Introduction & 4-Tier Inverted Funnel (Official Section 2)
       var f1 = getVal("funnel-tier1");
       var f2 = getVal("funnel-tier2");
       var f3 = getVal("funnel-tier3");
       var f4 = getVal("funnel-tier4");
-      var abs = getVal("section-2-1-unified") || getVal("proposal-abstract-input");
-      var absWords = abs ? abs.split(/\s+/).filter(Boolean).length : 0;
-      var s3Missing = [];
-      if (!f1) s3Missing.push("Missing Funnel Tier 1: Broad global significance and healthcare/environmental threat.");
-      if (!f2) s3Missing.push("Missing Funnel Tier 2: Exact technical barrier of current gold-standard methods.");
-      if (!f3) s3Missing.push("Missing Funnel Tier 3: Unmet need that your proposed project resolves.");
-      if (!f4) s3Missing.push("Missing Funnel Tier 4: Explicit, testable tripartite scientific hypothesis.");
-      if (absWords < 120) s3Missing.push(`Structured Abstract is under-developed (${absWords}/200 words): Reviewers require 150–250 words covering Problem, Benchmark Gap, Tool, Matrix, and Societal Impact.`);
+      var intro = getVal("section-2-1-unified");
+      var introWords = intro ? intro.split(/\s+/).filter(Boolean).length : 0;
+      var s2Missing = [];
+      if (!f1 && introWords < 40) s2Missing.push("Missing Funnel Tier 1: Broad global significance and healthcare/environmental threat with verified statistics.");
+      if (!f2 && introWords < 60) s2Missing.push("Missing Funnel Tier 2: Current scientific benchmark and published limitations of gold standard.");
+      if (!f3 && introWords < 80) s2Missing.push("Missing Funnel Tier 3: Explicit unaddressed biophysical, knowledge, or delivery gap.");
+      if (!f4 && introWords < 100) s2Missing.push("Missing Funnel Tier 4: Explicit, testable tripartite scientific hypothesis & proposed approach.");
+      if (introWords < 150) s2Missing.push(`Introduction Narrative is under-developed (${introWords}/250 words): Reviewers require a coherent, publication-grade academic text without bullet points.`);
 
-      var s3Status = s3Missing.length === 0 ? "complete" : ((f1 || f2 || f3 || f4 || absWords > 30) ? "draft" : "empty");
-      var s3Snippet = absWords > 0 ? `Structured Abstract contains ${absWords} words.` : "⚪ Funnel and abstract not yet written.";
+      var s2Count = [f1, f2, f3, f4].filter(function(v) { return v && v.length > 10; }).length;
+      var s2Status = s2Missing.length === 0 ? "complete" : ((s2Count >= 1 || introWords > 30) ? "draft" : "empty");
+      var s2Snippet = introWords > 0
+        ? `Introduction Narrative: ${introWords} words across 4 Funnel Tiers.`
+        : (s2Count > 0 ? `Drafting 4 Funnel Tiers (${s2Count}/4 Tiers defined).` : "⚪ Introduction and 4-tier funnel not yet written.");
 
-      // 4. Specific Aims (BT_301 Decoupled 3-Aim Architecture - Reads Overarching Aim & Specific Objectives)
+      // 3. Project Aim & Decoupled Objectives (Official Section 3)
       var objCards = document.querySelectorAll("#objectives-builder-list .objective-builder-card");
       var obj1Text = objCards && objCards[0] ? ((objCards[0].querySelector(".verb-select")?.value || "") + " " + (objCards[0].querySelector(".obj-text-input")?.value || "")).trim() : "";
       var obj2Text = objCards && objCards[1] ? ((objCards[1].querySelector(".verb-select")?.value || "") + " " + (objCards[1].querySelector(".obj-text-input")?.value || "")).trim() : "";
@@ -5059,253 +5080,326 @@ window.switchMatrixViewTab = function(tab) {
       var a1 = (getVal("section-3-1-aim") || obj1Text || window.projectState?.aims?.aim1 || "").trim();
       var a2 = (getVal("section-3-2-aim") || obj2Text || window.projectState?.aims?.aim2 || "").trim();
       var a3 = (getVal("section-3-3-aim") || obj3Text || window.projectState?.aims?.aim3 || "").trim();
-      var s4Missing = [];
+      var s3Missing = [];
 
       // Aim 1 Audit
       if (!a1 || a1.length < 15) {
-        s4Missing.push("Missing Specific Objective 1: Define your primary engineering/synthesis objective (e.g. extraction, recombinant cloning, nanoparticle synthesis, or vector construction).");
+        s3Missing.push("Missing Specific Objective 1: Define your primary engineering/synthesis objective (e.g. extraction, recombinant cloning, nanoparticle synthesis, or vector construction).");
       } else if (a1.length < 35 || (/^(to\s+)?(study|understand|look at|check|develop|make)\b/i.test(a1.trim()) && !/\b(formulat|extract|synthes|characteriz|isolat|clone|express|purif|design|quantif)\b/i.test(a1))) {
-        s4Missing.push("Aim 1 Needs Measurable Technical Specifics: State the precise action verb (e.g. 'To isolate...', 'To formulate...'), active compound/reagent, and verification method (e.g. yield, purity, particle size).");
+        s3Missing.push("Aim 1 Needs Measurable Technical Specifics: State the precise action verb (e.g. 'To isolate...', 'To formulate...'), active compound/reagent, and verification method (e.g. yield, purity, particle size).");
       }
 
-      // Aim 2 Audit
+      // Aim 2 Audit - requires actual numbers with units or comparison
+      var hasAim2RealNumber = /\b\d+(\.\d+)?\s*(%|µg\/ml|ug\/ml|mg\/ml|mg\/g|µm|um|nm|mm|pm|hours?|hrs?|days?|fold|kcat|km|mic|mbc|ic50|cc50|si\b)|(>|<|≥|≤)\s*\d+/i.test(a2);
       if (!a2 || a2.length < 15) {
-        s4Missing.push("Missing Specific Objective 2: Define your second decoupled objective (e.g. in vitro kinetic calibration, dose-response assay, or release kinetics).");
-      } else if (!/\d+|lod|pM|nM|µM|%|fold|kcat|km|mic|mbc|ic50|release|permeation|hours?|min|days?|size|nm\b/i.test(a2)) {
-        s4Missing.push("Aim 2 Lacks a Quantitative Milestone: Include a measurable performance threshold (e.g., MIC < 25 µg/mL, >75% drug release over 12 h, or IC50 < 10 µM). Proposals with clear numbers score significantly higher.");
+        s3Missing.push("Missing Specific Objective 2: Define your second decoupled objective (e.g. in vitro kinetic calibration, dose-response assay, or release kinetics).");
+      } else if (!hasAim2RealNumber) {
+        s3Missing.push("Aim 2 Lacks a Quantitative Milestone: Include a measurable performance threshold (e.g., MIC < 25 µg/mL, >75% drug release over 12 h, or IC50 < 10 µM). Proposals with clear numbers score significantly higher.");
       }
 
       // Aim 3 Audit
       if (!a3 || a3.length < 15) {
-        s4Missing.push("Missing Specific Objective 3: Define your third decoupled objective (e.g. ex vivo tissue validation, biocompatibility/cytotoxicity testing, or real-world matrix testing).");
-      } else if (!/\b(matrix|ex vivo|in vivo|serum|blood|effluent|soil|tissue|stability|biocompat|cytotox|hemolyt|shelf-life|ich|triplicate|control|biofilm|wound)\b/i.test(a3)) {
-        s4Missing.push("Aim 3 Needs Translational Context: Ground Aim 3 in a real-world matrix or safety assay (e.g., Franz cell permeation, MTT cell viability, or accelerated ICH stability).");
+        s3Missing.push("Missing Specific Objective 3: Define your third decoupled objective (e.g. ex vivo tissue validation, biocompatibility/cytotoxicity testing, or real-world matrix testing).");
+      } else if (!/\b(matrix|ex vivo|in vivo|serum|blood|effluent|soil|tissue|stability|biocompat|cytotox|hemolyt|shelf-life|ich|triplicate|control|biofilm|wound|macrophage|raw|franz)\b/i.test(a3)) {
+        s3Missing.push("Aim 3 Needs Translational Context: Ground Aim 3 in a real-world matrix or safety assay (e.g., Franz cell permeation, MTT cell viability, or accelerated ICH stability).");
       }
 
-      var s4Status = s4Missing.length === 0 ? "complete" : ((a1 || a2 || a3) ? "draft" : "empty");
-      var s4Snippet = a1 ? `Aim 1: "${a1.substring(0, 65)}${a1.length > 65 ? '...' : ''}"` : "⚪ Specific Aims not yet defined.";
+      var s3Status = s3Missing.length === 0 ? "complete" : ((a1 || a2 || a3) ? "draft" : "empty");
+      var s3Snippet = a1 ? `Aim 1: "${a1.substring(0, 65)}${a1.length > 65 ? '...' : ''}"` : "⚪ Specific Aims not yet defined.";
 
-      // 5. Methodology & Controls
+      // 4. Research Design & Methodology (Official Section 4)
       var meth = getVal("section-4-1-methodology");
-      var hasNeg = document.getElementById("chk-control-negative")?.checked;
-      var hasPos = document.getElementById("chk-control-positive")?.checked;
-      var hasTrips = document.getElementById("chk-control-triplicates")?.checked;
-      var s5Missing = [];
-      if (!hasNeg) s5Missing.push("Missing Negative Baseline Control: Untransformed strain, blank vehicle, or untreated control to prove zero background noise.");
-      if (!hasTrips) s5Missing.push("Missing Statistical Replicates: Biological & technical triplicates (n=3) for standard error (SEM) calculation.");
-      if (meth.length < 40) s5Missing.push("Methodology is brief: Detail physical conditions (temperature in °C, incubation duration, buffers), assay instruments, and quantitative detection units.");
-      var hasPhases = /(?:In\s+)?Phase\s*[1-5]/i.test(meth);
-      if (!hasPhases && meth.length > 50) s5Missing.push("Unstructured Methodology: Format methodology into sequential laboratory pipeline phases. Use the 'Auto-Parse into Pipeline' tool in Section 4.1.");
+      var negSpec = getVal("ctrl-negative-spec");
+      var posSpec = getVal("ctrl-positive-spec");
+      var tripSpec = getVal("ctrl-triplicates-spec");
 
-      var s5Status = s5Missing.length === 0 ? "complete" : ((meth.length > 20 || hasNeg || hasTrips) ? "draft" : "empty");
-      var s5Snippet = meth ? `${meth.split(/\s+/).filter(Boolean).length} words • Controls: ${hasNeg ? 'Negative ✔' : 'No Negative Control ⚠️'} • Pipeline: ${hasPhases ? 'Phases ✔' : 'Narrative'}` : "⚪ Methodology and scientific controls not declared.";
+      // Real controls verification: must have explicit text in spec or in methodology
+      var hasNeg = (negSpec && negSpec.length > 5) || /vehicle\s+control|blank\s+cream|blank\s+emulsion|empty\s+vehicle|untreated\s+control|untransformed|no-template/i.test(meth);
+      var hasPos = (posSpec && posSpec.length > 5) || /positive\s+control|hydrocortisone|corticosteroid|diclofenac|indomethacin|dexamethasone|ascorbic\s+acid|reference\s+standard|commercial\s+cream/i.test(meth);
+      var hasTrips = (tripSpec && tripSpec.length > 5) || /triplicate|n\s*=\s*3|biological\s+replicate|independent\s+batches|three\s+independent/i.test(meth);
+      var hasPhases = /(?:In\s+)?Phase\s*[1-5]|Step\s*[1-5]/i.test(meth);
+      var hasStatsTest = /(anova|dunnett|student's\s+t-test|post-hoc|p\s*<\s*0\.05|sem\b|standard\s+error)/i.test(meth);
 
-      // 6. Risk Management & Plan B
+      // Check for readout mismatch: if title or aims mention anti-inflammatory, does methodology have inflammatory assay?
+      var titleAndAims = (title + " " + a1 + " " + a2 + " " + a3).toLowerCase();
+      var isInflammatoryProject = /(inflamm|anti-inflamm|erythema|dermatitis|eczema|wound)/i.test(titleAndAims);
+      var hasInflammatoryAssay = /(lps|lipopolysaccharide|raw\s*264|thp-1|macrophage|tnf|tumor\s+necrosis|il-6|il-1|interleukin|nitric\s+oxide|\bno\b|griess|cox-2|prostaglandin|pge2)/i.test(meth);
+
+      var s4Missing = [];
+      if (!meth || meth.length < 50) {
+        s4Missing.push("Methodology is severely incomplete: Detail your 5 experimental phases, physical conditions, operating instruments, and quantitative readouts.");
+      } else {
+        if (!hasPhases) {
+          s4Missing.push("Unstructured Methodology Pipeline: Format into sequential phases (Phase 1: Extraction/Standardization, Phase 2: Formulation/Stability, Phase 3: Transdermal Release, Phase 4: Inflammatory Bioassay & Cytocompatibility, Phase 5: Statistics).");
+        }
+        if (isInflammatoryProject && !hasInflammatoryAssay) {
+          s4Missing.push("🚨 Fatal Readout Mismatch: Proposal claims anti-inflammatory activity, but Section 4 lacks an in vitro inflammatory assay (e.g. LPS-stimulated RAW 264.7 macrophages measuring TNF-α, IL-6 via ELISA, or NO via Griess assay). DPPH antioxidant assays alone do NOT prove anti-inflammatory efficacy.");
+        }
+        if (!hasNeg) {
+          s4Missing.push("Missing Negative Baseline Control: Explicitly declare an unloaded vehicle control (e.g. blank cream base without extract) and untreated cell control to rule out formulation background artifacts.");
+        }
+        if (!hasPos) {
+          s4Missing.push("Missing Positive Reference Standard: Benchmark against an established clinical drug comparator (e.g. Commercial Hydrocortisone 1% cream, Indomethacin, or Ascorbic Acid).");
+        }
+        if (!hasTrips) {
+          s4Missing.push("Missing Statistical Replicate Structure: Specify biological triplicates (n=3 independent batches/cultures) × technical repeat wells.");
+        }
+        if (!hasStatsTest) {
+          s4Missing.push("Missing Statistical Analysis Plan: Name your statistical hypothesis test (e.g. one-way ANOVA followed by Dunnett's post-hoc test, p < 0.05).");
+        }
+        var hasColloquial = /(make\s+a\s+cream|tested\s+first\s+and\s+then\s+added|different\s+concentrations\s+will\s+be\s+used\s+to\s+find\s+the\s+best|natural\s+plant\s+instead\s+of\s+chemicals)/i.test(meth);
+        if (hasColloquial) {
+          s4Missing.push("Informal School-Lab Phrasing in Protocol: Replace naive statements ('make a cream', 'find the best concentration') with academic protocol descriptions ('formulate an O/W emulsion', 'gradient concentration optimization').");
+        }
+      }
+
+      var s4Status = s4Missing.length === 0 ? "complete" : (meth.length > 30 ? "draft" : "empty");
+      var s4Snippet = meth
+        ? `${meth.split(/\s+/).filter(Boolean).length} words • Controls: ${hasNeg ? 'Negative ✔' : 'Missing Neg ⚠️'} • Positive: ${hasPos ? 'Positive ✔' : 'Missing Pos ⚠️'} • Pipeline: ${hasPhases ? 'Phases ✔' : 'Unstructured ⚠️'}`
+        : "⚪ Methodology and scientific controls not declared.";
+
+      // 5. Expected Outcomes & Alternative Strategies (Official Section 5)
       var outcomes = getVal("section-5-expected-outcomes");
       var pitfalls = getVal("section-5-interpretations");
-      var s6Missing = [];
-      if (!outcomes || outcomes.length < 20) s6Missing.push("Missing Expected Outcomes: Quantified target performance for primary analytical deliverables.");
-      if (!pitfalls || pitfalls.length < 20) s6Missing.push("Missing Plan B Contingency: Foreseeable failure modes (enzyme aggregation, formulation instability, low yield) and alternative rescue protocols.");
+      var s5Missing = [];
+      if (!outcomes || outcomes.length < 20) s5Missing.push("Missing Expected Outcomes: Quantified target performance for primary analytical deliverables.");
+      if (!pitfalls || pitfalls.length < 20) s5Missing.push("Missing Plan B Contingency: Foreseeable failure modes (enzyme aggregation, formulation instability, low yield) and alternative rescue protocols.");
 
-      var s6Status = s6Missing.length === 0 ? "complete" : ((outcomes || pitfalls) ? "draft" : "empty");
-      var s6Snippet = (outcomes || pitfalls) ? `Outcomes & contingency strategies declared (${outcomes.length + pitfalls.length} chars).` : "⚪ Risk assessment and alternative strategies blank.";
+      var s5Status = s5Missing.length === 0 ? "complete" : ((outcomes || pitfalls) ? "draft" : "empty");
+      var s5Snippet = (outcomes || pitfalls) ? `Outcomes & contingency strategies declared (${outcomes.length + pitfalls.length} chars).` : "⚪ Risk assessment and alternative strategies blank.";
 
       var isBasicScienceTrack = (document.getElementById("select-proposal-scientific-track")?.value || window.projectState?.scientific_track || "translational") === "basic_science";
 
-      // 7. Ansoff Matrix
+      // 6. Market Analysis — Ansoff Matrix (Official Section 6)
       var anP = getVal("ansoff-penetration");
       var anPD = getVal("ansoff-prod-dev");
       var anMD = getVal("ansoff-mkt-dev");
       var anD = getVal("ansoff-diversification");
-      var s7Missing = [];
+      var s6Missing = [];
       if (!isBasicScienceTrack) {
-        if (!anP) s7Missing.push("Missing Market Penetration: Strategy for adoption in existing target market (e.g. clinical, agricultural, or environmental end-users).");
-        if (!anPD) s7Missing.push("Missing Product Development: Multiplexed variants, optimized delivery formulations, or enhanced shelf-life.");
-        if (!anMD) s7Missing.push("Missing Market Development: Deployment to underserved regions, novel industries, or alternative user groups.");
-        if (!anD) s7Missing.push("Missing Diversification: Extending the core technology/platform into an entirely new biological or industrial sector.");
+        if (!anP) s6Missing.push("Missing Market Penetration: Strategy for adoption in existing target market (e.g. clinical, agricultural, or environmental end-users).");
+        if (!anPD) s6Missing.push("Missing Product Development: Multiplexed variants, optimized delivery formulations, or enhanced shelf-life.");
+        if (!anMD) s6Missing.push("Missing Market Development: Deployment to underserved regions, novel industries, or alternative user groups.");
+        if (!anD) s6Missing.push("Missing Diversification: Extending the core technology/platform into an entirely new biological or industrial sector.");
       }
 
-      var s7Count = [anP, anPD, anMD, anD].filter(function(v) { return v.length > 5; }).length;
-      var s7Status = isBasicScienceTrack ? "complete" : (s7Missing.length === 0 ? "complete" : (s7Count >= 1 ? "draft" : "empty"));
-      var s7Snippet = isBasicScienceTrack && s7Count === 0
+      var s6Count = [anP, anPD, anMD, anD].filter(function(v) { return v.length > 5; }).length;
+      var s6Status = isBasicScienceTrack ? "complete" : (s6Missing.length === 0 ? "complete" : (s6Count >= 1 ? "draft" : "empty"));
+      var s6Snippet = isBasicScienceTrack && s6Count === 0
         ? "✓ Optional in Basic/Fundamental Science Track (No Scoring Penalty)"
-        : (s7Count > 0 ? `${s7Count}/4 Ansoff quadrants developed.` : "⚪ Ansoff Matrix for Biotechnology is empty.");
+        : (s6Count > 0 ? `${s6Count}/4 Ansoff quadrants developed.` : "⚪ Ansoff Matrix for Biotechnology is empty.");
 
-      // 8. SWOT Analysis
+      // 7. Strategic Position — SWOT Analysis (Official Section 7)
       var swS = getVal("swot-strengths");
       var swW = getVal("swot-weaknesses");
       var swO = getVal("swot-opportunities");
       var swT = getVal("swot-threats");
-      var s8Missing = [];
+      var s7Missing = [];
       if (!isBasicScienceTrack) {
-        if (!swS) s8Missing.push("Missing Internal Strengths: Technical advantages, biological specificity, or cost-per-unit advantages.");
-        if (!swW) s8Missing.push("Missing Internal Weaknesses: Candid technical limitations (e.g. stability, yield, or scalability bottlenecks).");
-        if (!swO) s8Missing.push("Missing External Opportunities: Public health/environmental mandates, unmet market demand, or grant funding.");
-        if (!swT) s8Missing.push("Missing External Threats: Established gold-standard competition, regulatory delays, or supply chain bottlenecks.");
+        if (!swS) s7Missing.push("Missing Internal Strengths: Technical advantages, biological specificity, or cost-per-unit advantages.");
+        if (!swW) s7Missing.push("Missing Internal Weaknesses: Candid technical limitations (e.g. stability, yield, or scalability bottlenecks).");
+        if (!swO) s7Missing.push("Missing External Opportunities: Public health/environmental mandates, unmet market demand, or grant funding.");
+        if (!swT) s7Missing.push("Missing External Threats: Established gold-standard competition, regulatory delays, or supply chain bottlenecks.");
       }
 
-      var s8Count = [swS, swW, swO, swT].filter(function(v) { return v.length > 5; }).length;
-      var s8Status = isBasicScienceTrack ? "complete" : (s8Missing.length === 0 ? "complete" : (s8Count >= 1 ? "draft" : "empty"));
-      var s8Snippet = isBasicScienceTrack && s8Count === 0
+      var s7Count = [swS, swW, swO, swT].filter(function(v) { return v.length > 5; }).length;
+      var s7Status = isBasicScienceTrack ? "complete" : (s7Missing.length === 0 ? "complete" : (s7Count >= 1 ? "draft" : "empty"));
+      var s7Snippet = isBasicScienceTrack && s7Count === 0
         ? "✓ Optional in Basic/Fundamental Science Track (No Scoring Penalty)"
-        : (s8Count > 0 ? `${s8Count}/4 SWOT quadrants filled.` : "⚪ SWOT Analysis is empty.");
+        : (s7Count > 0 ? `${s7Count}/4 SWOT quadrants filled.` : "⚪ SWOT Analysis is empty.");
 
-      // 9. PESTEL Analysis
+      // 8. Environmental Analysis — PESTEL (Official Section 8)
       var pPol = getVal("pestel-political");
       var pEco = getVal("pestel-economic");
       var pSoc = getVal("pestel-social");
       var pTec = getVal("pestel-tech");
       var pEnv = getVal("pestel-env");
       var pLeg = getVal("pestel-legal");
-      var s9Missing = [];
+      var s8Missing = [];
       if (!isBasicScienceTrack) {
-        if (!pPol) s9Missing.push("Missing Political: National health/environmental/agricultural priorities or government support initiatives.");
-        if (!pEco) s9Missing.push("Missing Economic: Cost-effectiveness and affordability in Egyptian Pounds (EGP) vs existing alternatives.");
-        if (!pSoc) s9Missing.push("Missing Social: Public acceptance, patient/consumer compliance, and community accessibility.");
-        if (!pTec) s9Missing.push("Missing Technological: Required infrastructure, competing technologies, and equipment accessibility.");
-        if (!pEnv) s9Missing.push("Missing Environmental: Environmental sustainability, biocontainment, and waste disposal protocols.");
-        if (!pLeg) s9Missing.push("Missing Legal: Regulatory compliance, clinical/field trial approvals, safety standards, or IP considerations.");
+        if (!pPol) s8Missing.push("Missing Political: National health/environmental/agricultural priorities or government support initiatives.");
+        if (!pEco) s8Missing.push("Missing Economic: Cost-effectiveness and affordability in Egyptian Pounds (EGP) vs existing alternatives.");
+        if (!pSoc) s8Missing.push("Missing Social: Public acceptance, patient/consumer compliance, and community accessibility.");
+        if (!pTec) s8Missing.push("Missing Technological: Required infrastructure, competing technologies, and equipment accessibility.");
+        if (!pEnv) s8Missing.push("Missing Environmental: Environmental sustainability, biocontainment, and waste disposal protocols.");
+        if (!pLeg) s8Missing.push("Missing Legal: Regulatory compliance, clinical/field trial approvals, safety standards, or IP considerations.");
       }
 
-      var s9Count = [pPol, pEco, pSoc, pTec, pEnv, pLeg].filter(function(v) { return v.length > 5; }).length;
-      var s9Status = isBasicScienceTrack ? "complete" : (s9Missing.length === 0 ? "complete" : (s9Count >= 2 ? "draft" : "empty"));
-      var s9Snippet = isBasicScienceTrack && s9Count === 0
+      var s8Count = [pPol, pEco, pSoc, pTec, pEnv, pLeg].filter(function(v) { return v.length > 5; }).length;
+      var s8Status = isBasicScienceTrack ? "complete" : (s8Missing.length === 0 ? "complete" : (s8Count >= 2 ? "draft" : "empty"));
+      var s8Snippet = isBasicScienceTrack && s8Count === 0
         ? "✓ Optional in Basic/Fundamental Science Track (No Scoring Penalty)"
-        : (s9Count > 0 ? `${s9Count}/6 PESTEL dimensions mapped.` : "⚪ PESTEL Analysis is empty.");
+        : (s8Count > 0 ? `${s8Count}/6 PESTEL dimensions mapped.` : "⚪ PESTEL Analysis is empty.");
 
-      // 10. Milestones & Budget
+      // 9. Project Timeline & Budget (Official Section 9)
       var bTbody = document.getElementById("budget-egp-tbody");
       var hasBudgetRows = bTbody && bTbody.children && bTbody.children.length > 0;
       var bTotal = getVal("budget-egp-grand-total");
       var bInp = getVal("budget-input");
-      var s10DurationMonths = document.getElementById("select-section9-duration")?.value || window.projectState?.gantt_schedule?.total_months || "12";
+      var s9DurationMonths = document.getElementById("select-section9-duration")?.value || window.projectState?.gantt_schedule?.total_months || "12";
+      var s9Missing = [];
+      if (!hasBudgetRows && (!bTotal || bTotal === "0 EGP") && !bInp) s9Missing.push("Missing Itemized Consumables Budget: Reagents, enzymes, primers, and plasticware costed in Egyptian Pounds (EGP).");
+      if (!document.getElementById("gantt-tasks-tbody")?.children?.length) s9Missing.push(`Missing ${s9DurationMonths}-Month Work Packages: Milestone Gantt chart scheduling WP1 through WP4.`);
+
+      var s9Status = s9Missing.length === 0 ? "complete" : ((hasBudgetRows || bInp || bTotal) ? "draft" : "empty");
+      var s9Snippet = (hasBudgetRows || bTotal) ? `Budget: ${bTotal || 'Configured'} • ${s9DurationMonths}-Month Timeline` : "⚪ Budget breakdown and Gantt timeline empty.";
+
+      // 10. References Cited — APA 7th (Official Section 10)
+      var refTbody = document.getElementById("references-cited-tbody");
+      var refRows = refTbody ? refTbody.children.length : 0;
       var s10Missing = [];
-      if (!hasBudgetRows && (!bTotal || bTotal === "0 EGP") && !bInp) s10Missing.push("Missing Itemized Consumables Budget: Reagents, enzymes, primers, and plasticware costed in Egyptian Pounds (EGP).");
-      if (!document.getElementById("gantt-tasks-tbody")?.children?.length) s10Missing.push(`Missing ${s10DurationMonths}-Month Work Packages: Milestone Gantt chart scheduling WP1 through WP4.`);
+      if (refRows < 5) s10Missing.push(`Under-grounded bibliography (${refRows}/5 required): High-scoring proposals cite at least 5–10 peer-reviewed papers (APA 7th edition).`);
+      var s10Status = refRows >= 5 ? "complete" : (refRows > 0 ? "draft" : "empty");
+      var s10Snippet = refRows > 0 ? `${refRows} Peer-reviewed references cited in Section 10.` : "⚪ No references cited yet in Section 10.";
 
-      var s10Status = s10Missing.length === 0 ? "complete" : ((hasBudgetRows || bInp || bTotal) ? "draft" : "empty");
-      var s10Snippet = (hasBudgetRows || bTotal) ? `Budget: ${bTotal || 'Configured'} • ${s10DurationMonths}-Month Timeline` : "⚪ Budget breakdown and Gantt timeline empty.";
-
+      // 10 OFFICIAL PROPOSAL SECTIONS + COVER SHEET
       var allSections = [
         {
-          num: 1,
+          num: 0,
           icon: "🏷️",
-          name: "1. Title & 3 Strategic Pillars",
+          name: "Cover Sheet: Title & 3 Strategic Pillars",
           targetId: "proposal-title-input",
-          status: s1Status,
-          snippet: s1Snippet,
-          missing: s1Missing,
+          jumpBtnLabel: "Jump to Title",
+          status: s0Status,
+          snippet: s0Snippet,
+          missing: s0Missing,
           tip: "Formulate using formula: [Engineered Tool] in [Host Chassis] to [Target Benchmark] for [Application].",
           quickBtnText: !title ? "✨ Auto-Assemble Title" : null,
           quickBtnAction: !title ? "document.getElementById('btn-assemble-title-from-pillars')?.click()" : null
         },
         {
+          num: 1,
+          icon: "📝",
+          name: "1. Executive Abstract & Keywords (Section 1)",
+          targetId: "proposal-abstract-input",
+          jumpBtnLabel: "Jump to Section 1 (Abstract)",
+          status: s1Status,
+          snippet: s1Snippet,
+          missing: s1Missing,
+          tip: "Written last, read first! Summarize in 150–250 words covering Problem, Benchmark Gap, Solution, Lab Model, and Tangible Impact.",
+          quickBtnText: "🤖 Abstract Co-Writer",
+          quickBtnAction: "triggerSectionAiAssist('abstract')"
+        },
+        {
           num: 2,
-          icon: "📚",
-          name: "2. 4-Color Evidence Matrix",
-          targetId: "matrix-yellow",
+          icon: "🔻",
+          name: "2. Introduction & 4-Tier Inverted Funnel (Section 2)",
+          targetId: "section-2-1-unified",
+          jumpBtnLabel: "Jump to Section 2 (Intro)",
           status: s2Status,
           snippet: s2Snippet,
           missing: s2Missing,
-          tip: "Anchor your proposal in peer-reviewed literature. Ground the Problem (Yellow) and Prior-Art Benchmarks (Blue).",
-          quickBtnText: "🔍 Search Scholar Literature",
-          quickBtnAction: "quickSendCopilotPrompt('search: ' + (document.getElementById('pillar-tool')?.value || 'biotechnology benchmarks'))"
+          tip: "The 4-tier funnel deductively narrows from global burden (Tier 1) to baseline (Tier 2), unresolved gap (Tier 3), and tripartite hypothesis (Tier 4) without bullet points.",
+          quickBtnText: "🤖 AI Polish & Review",
+          quickBtnAction: "triggerSectionAiAssist('sec2')",
+          secondaryBtnText: "📝 Jump to Abstract",
+          secondaryBtnAction: "jumpToEditorSection('proposal-abstract-input')"
         },
         {
           num: 3,
-          icon: "🔻",
-          name: "3. Inverted Funnel & Abstract",
-          targetId: "funnel-tier1",
+          icon: "🎯",
+          name: "3. Project Aim & Decoupled Objectives (Section 3)",
+          targetId: "section-3-1-aim",
+          jumpBtnLabel: "Jump to Section 3 (Aims)",
           status: s3Status,
           snippet: s3Snippet,
           missing: s3Missing,
-          tip: "Deductive narrowing from global burden (Tier 1) to testable hypothesis (Tier 4) creates narrative inevitability.",
-          quickBtnText: null,
-          quickBtnAction: null
+          tip: "Decouple into 3 aims: Aim 1 (Synthesis/Isolation), Aim 2 (Quantitative Milestone: MIC, % release, yield, or LOD), and Aim 3 (Matrix Validation).",
+          quickBtnText: (!a2 || !hasAim2RealNumber) ? "+ Insert Aim 2 Milestone" : null,
+          quickBtnAction: (!a2 || !hasAim2RealNumber) ? "insertRecommendedAim2Milestone()" : null
         },
         {
           num: 4,
-          icon: "🎯",
-          name: "4. 3 Decoupled Specific Aims",
-          targetId: "section-3-1-aim",
+          icon: "🧪",
+          name: "4. Research Design & Methodology (Section 4)",
+          targetId: "section-4-1-methodology",
+          jumpBtnLabel: "Jump to Section 4 (Methods)",
           status: s4Status,
           snippet: s4Snippet,
           missing: s4Missing,
-          tip: "Decouple into 3 aims: Aim 1 (Synthesis/Isolation), Aim 2 (Quantitative Milestone: MIC, % release, yield, or LOD), and Aim 3 (Matrix Validation).",
-          quickBtnText: (!a2 || !/\d+/i.test(a2)) ? "+ Insert Aim 2 Milestone" : null,
-          quickBtnAction: (!a2 || !/\d+/i.test(a2)) ? "insertRecommendedAim2Milestone()" : null
+          tip: "Must feature a 5-phase sequential pipeline, paired vehicle and clinical positive controls, and biological triplicates (n=3).",
+          quickBtnText: "🤖 Methodology Co-Writer",
+          quickBtnAction: "triggerSectionAiAssist('sec4')",
+          secondaryBtnText: !hasNeg ? "+ Insert Controls" : null,
+          secondaryBtnAction: !hasNeg ? "insertRecommendedNegativeControl()" : null
         },
         {
           num: 5,
-          icon: "🧪",
-          name: "5. Methods & Controls Architecture",
-          targetId: "section-4-1-methodology",
+          icon: "⚠️",
+          name: "5. Expected Outcomes & Plan B (Section 5)",
+          targetId: "section-5-expected-outcomes",
+          jumpBtnLabel: "Jump to Section 5 (Outcomes)",
           status: s5Status,
           snippet: s5Snippet,
           missing: s5Missing,
-          tip: "Reviewers verify negative/vehicle baseline controls and biological triplicates (n=3) before approving proposals.",
-          quickBtnText: !hasNeg ? "+ Insert Negative/Vehicle Control" : null,
-          quickBtnAction: !hasNeg ? "insertRecommendedNegativeControl()" : null
+          tip: "Every high-impact proposal anticipates 1–2 technical failure modes and defines concrete contingency protocols.",
+          quickBtnText: "🤖 Plan B Co-Writer",
+          quickBtnAction: "triggerSectionAiAssist('sec5')"
         },
         {
           num: 6,
-          icon: "⚠️",
-          name: "6. Risk Management & Plan B",
-          targetId: "section-5-expected-outcomes",
+          icon: "📊",
+          name: "6. Market Analysis — Ansoff Matrix (Section 6)",
+          targetId: "ansoff-penetration",
+          jumpBtnLabel: "Jump to Section 6 (Ansoff)",
           status: s6Status,
           snippet: s6Snippet,
           missing: s6Missing,
-          tip: "Every high-impact proposal anticipates 1–2 technical failure modes and defines concrete contingency protocols.",
-          quickBtnText: null,
-          quickBtnAction: null
-        },
-        {
-          num: 7,
-          icon: "📊",
-          name: "7. Ansoff Matrix for Biotechnology",
-          targetId: "ansoff-penetration",
-          status: s7Status,
-          snippet: s7Snippet,
-          missing: s7Missing,
           tip: "Balance direct Market Penetration with Product Development and Diversification into high-value applications.",
           quickBtnText: null,
           quickBtnAction: null
         },
         {
-          num: 8,
+          num: 7,
           icon: "⚖️",
-          name: "8. SWOT Analysis",
+          name: "7. Strategic Position — SWOT Analysis (Section 7)",
           targetId: "swot-strengths",
-          status: s8Status,
-          snippet: s8Snippet,
-          missing: s8Missing,
+          jumpBtnLabel: "Jump to Section 7 (SWOT)",
+          status: s7Status,
+          snippet: s7Snippet,
+          missing: s7Missing,
           tip: "Grant reviewers respect candid internal Weaknesses and proactive defenses against competing market alternatives (Threats).",
           quickBtnText: null,
           quickBtnAction: null
         },
         {
-          num: 9,
+          num: 8,
           icon: "🌐",
-          name: "9. PESTEL Analysis",
+          name: "8. Environmental Analysis — PESTEL (Section 8)",
           targetId: "pestel-political",
-          status: s9Status,
-          snippet: s9Snippet,
-          missing: s9Missing,
+          jumpBtnLabel: "Jump to Section 8 (PESTEL)",
+          status: s8Status,
+          snippet: s8Snippet,
+          missing: s8Missing,
           tip: "Highlight Legal biosafety approval and Economic pricing in Egyptian Pounds (EGP) vs imported tests.",
           quickBtnText: null,
           quickBtnAction: null
         },
         {
-          num: 10,
+          num: 9,
           icon: "💰",
-          name: "10. Milestones & Budget (EGP)",
+          name: "9. Project Timeline & Budget in EGP (Section 9)",
           targetId: "budget-egp-tbody",
-          status: s10Status,
-          snippet: s10Snippet,
-          missing: s10Missing,
+          jumpBtnLabel: "Jump to Section 9 (Budget)",
+          status: s9Status,
+          snippet: s9Snippet,
+          missing: s9Missing,
           tip: "Itemize standard Egyptian consumables and link them to 12-month work packages (WP1–WP4).",
           quickBtnText: null,
           quickBtnAction: null
+        },
+        {
+          num: 10,
+          icon: "📚",
+          name: "10. References Cited — APA 7th (Section 10)",
+          targetId: "btn-assemble-bibliography",
+          jumpBtnLabel: "Jump to Section 10 (References)",
+          status: s10Status,
+          snippet: s10Snippet,
+          missing: s10Missing,
+          tip: "Ensure all in-text citations map 1:1 to peer-reviewed references in APA 7th Edition with working DOIs/PMIDs.",
+          quickBtnText: "⚡ Assemble Bibliography",
+          quickBtnAction: "if(window.assembleBibliographyFromProposal) window.assembleBibliographyFromProposal();"
         }
       ];
 
@@ -5314,7 +5408,7 @@ window.switchMatrixViewTab = function(tab) {
 
       var cBadge = document.getElementById("overseer-completed-count");
       if (cBadge) {
-        cBadge.innerText = `${readyCount}/10 Ready (${Math.round((readyCount / 10) * 100)}%)`;
+        cBadge.innerText = `${readyCount}/10 Ready (${Math.round((readyCount / allSections.length) * 100)}%)`;
         cBadge.style.color = readyCount >= 8 ? "#166534" : (readyCount >= 5 ? "#0284c7" : "#92400e");
         cBadge.style.background = readyCount >= 8 ? "#dcfce7" : (readyCount >= 5 ? "#eff6ff" : "#fef3c7");
       }
@@ -5322,6 +5416,8 @@ window.switchMatrixViewTab = function(tab) {
       if (gBadge) gBadge.innerText = gapsCount;
       var dBadge = document.getElementById("count-done-badge");
       if (dBadge) dBadge.innerText = readyCount;
+      var btnAll = document.getElementById("btn-filter-sec-all");
+      if (btnAll) btnAll.innerText = `All (10 Sections + Cover)`;
 
       var filter = window.currentOverseerFilter || 'all';
       var displayed = allSections.filter(function(s) {
@@ -5382,11 +5478,16 @@ window.switchMatrixViewTab = function(tab) {
             <!-- Action Bar -->
             <div style="display: flex; gap: 6px; flex-wrap: wrap;">
               <button type="button" onclick="jumpToEditorSection('${sec.targetId}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #1e293b; font-size: 0.68rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
-                <span>✏️</span> <span>Jump to Section</span>
+                <span>✏️</span> <span>${sec.jumpBtnLabel || 'Jump to Section'}</span>
               </button>
               ${sec.quickBtnText ? `
                 <button type="button" onclick="${sec.quickBtnAction}" style="background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 0.68rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
                   <span>⚡</span> <span>${sec.quickBtnText}</span>
+                </button>
+              ` : ''}
+              ${sec.secondaryBtnText ? `
+                <button type="button" onclick="${sec.secondaryBtnAction}" style="background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 0.68rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                  <span>${sec.secondaryBtnText}</span>
                 </button>
               ` : ''}
             </div>
@@ -5890,9 +5991,9 @@ Technical Failure Mode 2: System Instability or Loss of Potency During Incubatio
       var improvements = "";
       var vivaQuestions = [];
 
-      if (sectionKey === "abstract") {
+      if (sectionKey === "abstract" || sectionKey === "sec1") {
         if (badgeEl) badgeEl.innerText = "Section 1 • Executive Abstract (Strict 150–250 Words)";
-        var absEl = document.getElementById("abstract-input");
+        var absEl = document.getElementById("proposal-abstract-input") || document.getElementById("abstract-input");
         currentDraft = absEl ? absEl.value.trim() : "";
         var wordCount = currentDraft ? currentDraft.split(/\s+/).filter(Boolean).length : 0;
         var hasStats = /\d+%|\d+\s*(million|thousand|billion|deaths|cases|annually|usd|egp|tons|fold)/i.test(currentDraft);
@@ -6044,34 +6145,99 @@ Technical Failure Mode 2: System Instability or Loss of Potency During Incubatio
       }
 
       else if (sectionKey === "methodology" || sectionKey === "sec4") {
-        if (badgeEl) badgeEl.innerText = "Section 4.1 • Methodology & Laboratory Pipeline";
+        if (badgeEl) badgeEl.innerText = "Section 4 • Research Design & Methodology (5-Phase Pipeline & Controls)";
         var methEl = document.getElementById("section-4-1-methodology");
         currentDraft = methEl ? methEl.value.trim() : "";
 
-        var hasPhases = /(phase|step\s*1|pipeline|protocol|clon|express|kinetic|probit|dls|dpph|mtt|hplc)/i.test(currentDraft);
-        var hasControls = /(negative control|untransformed|wild-type|positive standard|iac|triplicate|vehicle|dmso|blank)/i.test(currentDraft);
+        // Re-run adaptive templates with user's actual context
+        tpl = window.getAdaptiveProposalSectionTemplates(rawTitle, rawChassis, rawTool, rawTarget, currentDraft);
+        if (titleEl) titleEl.innerText = tpl.pTitle;
+
+        var wordCount = currentDraft ? currentDraft.split(/\s+/).filter(Boolean).length : 0;
+        var hasSequentialPhases = /(Phase\s*[1-5]|Step\s*[1-5])/i.test(currentDraft);
+        var hasVehicleNeg = /(blank\s+cream|blank\s+emulsion|unloaded\s+vehicle|vehicle\s+control|untreated\s+control|no-template\s+control|untransformed\s+strain|buffer\s+blank)/i.test(currentDraft);
+        var hasPosRef = /(hydrocortisone|corticosteroid|diclofenac|indomethacin|dexamethasone|ascorbic\s+acid|positive\s+control|reference\s+standard|commercial\s+cream)/i.test(currentDraft);
+        var hasParams = /(hplc|gc-ms|dls|zeta|franz|temperature|32\s*(°|deg)|wavelength|\bnm\b|rpm|min|hours?|ph\s*5)/i.test(currentDraft);
+        var hasStatsRep = /(triplicate|n\s*=\s*3|biological\s+replicate|independent\s+batches|anova|dunnett|p\s*<\s*0\.05)/i.test(currentDraft);
+        var hasNovicePhrasing = /(make\s+a\s+cream|tested\s+first\s+and\s+then\s+added|different\s+concentrations\s+will\s+be\s+used\s+to\s+find\s+the\s+best|natural\s+plant\s+instead\s+of\s+chemicals|see\s+if\s+it\s+works|good\s+for\s+the\s+skin)/i.test(currentDraft);
         var hasFutureTense = /(will be|shall be|are to be)/i.test(currentDraft);
 
-        var score = 55;
-        if (currentDraft.length > 80) score += 15;
-        if (hasPhases) score += 10;
-        if (hasControls) score += 15;
+        // Check for readout mismatch
+        var combinedAimsAndTitle = (rawTitle + " " + currentDraft).toLowerCase();
+        var isInflammatoryScope = /(inflamm|anti-inflamm|erythema|dermatitis|eczema|wound)/i.test(combinedAimsAndTitle);
+        var hasInflammatoryAssay = /(lps|lipopolysaccharide|raw\s*264|thp-1|macrophage|tnf|tumor\s+necrosis|il-6|il-1|interleukin|nitric\s+oxide|\bno\b|griess|cox-2|prostaglandin|pge2)/i.test(currentDraft);
+
+        // Honest, rigorous scoring (baseline 15)
+        var score = 15;
+        if (wordCount >= 250) score += 15; else if (wordCount >= 100) score += 10; else if (wordCount > 30) score += 5;
+        if (hasSequentialPhases) score += 15;
+        if (hasVehicleNeg) score += 15;
+        if (hasPosRef) score += 15;
+        if (hasParams) score += 15;
+        if (hasStatsRep) score += 10;
         if (hasFutureTense) score += 5;
+        if (!hasNovicePhrasing && wordCount > 0) score += 10;
+
+        // Severe penalties for fatal flaws
+        if (isInflammatoryScope && !hasInflammatoryAssay && wordCount > 0) score -= 20;
+        if (hasNovicePhrasing) score -= 15;
+
         if (score > 100) score = 100;
+        if (score < 15 && wordCount > 0) score = 15;
 
         auditResults.score = score;
-        auditResults.status = score >= 85 ? "🌟 Grant-Ready" : (score >= 65 ? "⚠️ Revisions Recommended" : "Draft Incomplete");
-        auditResults.statusClass = score >= 85 ? "status-grant-ready" : (score >= 65 ? "status-warning" : "status-incomplete");
+        auditResults.status = score >= 80 ? "🌟 Grant-Ready" : (score >= 50 ? "⚠️ Revisions Recommended" : "Draft Incomplete / Major Revisions Needed");
+        auditResults.statusClass = score >= 80 ? "status-grant-ready" : (score >= 50 ? "status-warning" : "status-incomplete");
 
         auditResults.items = [
-          { name: "5-Phase Sequential Experimental Pipeline", pass: hasPhases, note: "Methodology progresses logically across 5 experimental phases from standardization to statistical modeling." },
-          { name: "Mandatory Negative & Positive Controls", pass: hasControls, note: hasControls ? "Vehicle/blank negative baselines and reference positive standards declared." : "Must include matched negative baseline and positive reference controls." },
-          { name: "Statistical Rigor (Biological Triplicate n=3)", pass: true, note: "All quantitative assays executed in biological triplicate (n=3) with appropriate statistical hypothesis testing." },
-          { name: "Strict Future-Tense Academic Compliance", pass: hasFutureTense, note: "Written in formal future tense ('will be quantified', 'will be evaluated') as required by grant proposals." }
+          {
+            name: "Target Disease Readout (Anti-Inflammatory Bioassay)",
+            pass: !isInflammatoryScope || hasInflammatoryAssay,
+            note: (isInflammatoryScope && !hasInflammatoryAssay)
+              ? "🚨 Fatal Readout Mismatch: Proposal targets skin inflammation, but Section 4 lacks an in vitro anti-inflammatory assay. Testing DPPH antioxidant activity alone does NOT prove suppression of inflammatory cascades. You must specify an LPS-stimulated macrophage assay (RAW 264.7 / THP-1) measuring TNF-α, IL-6, or Nitric Oxide (Griess assay)."
+              : "Appropriate domain-specific biological readout specified."
+          },
+          {
+            name: "5-Phase Sequential Experimental Pipeline",
+            pass: hasSequentialPhases,
+            note: hasSequentialPhases
+              ? "Structured into sequential laboratory phases."
+              : "⚠️ Unstructured Narrative: Format into sequential phases (Phase 1: Extraction & Chemical Standardization, Phase 2: Emulsion Formulation & Physicochemical Stability, Phase 3: Transdermal Permeation across Franz Diffusion Cells, Phase 4: Anti-inflammatory Bioassay & MTT Cytocompatibility, Phase 5: Statistics)."
+          },
+          {
+            name: "Paired Scientific Controls (Vehicle & Positive Comparator)",
+            pass: hasVehicleNeg && hasPosRef,
+            note: (!hasVehicleNeg ? "⚠️ Missing Negative Vehicle Control: Must test unloaded blank cream vehicle (without active extract) and untreated cells to prove formulation excipients do not cause false-positive suppression. " : "") +
+                  (!hasPosRef ? "⚠️ Missing Positive Reference Standard: Must benchmark against an established clinical drug comparator (e.g. Commercial Hydrocortisone 1% cream)." : "Negative vehicle baseline and clinical reference standard declared.")
+          },
+          {
+            name: "Analytical Precision & Operating Parameters",
+            pass: hasParams,
+            note: hasParams
+              ? "Quantitative operating conditions and analytical instrumentation declared."
+              : "⚠️ Vague Protocol Conditions: Detail exact physical parameters (HPLC reverse-phase C18 column, Franz cell receptor temperature at 32°C ± 0.5°C, RPM, sampling intervals, and wavelengths in nm)."
+          },
+          {
+            name: "Statistical Power & Biological Replicates",
+            pass: hasStatsRep,
+            note: hasStatsRep
+              ? "Statistical hypothesis testing and replicate structure declared."
+              : "⚠️ Missing Statistical Analysis: State replicate power (n=3 biological replicates × 3 technical repeats) and statistical hypothesis test (e.g. one-way ANOVA with Dunnett's post-hoc test, p < 0.05)."
+          },
+          {
+            name: "Academic Protocol Precision & Tone",
+            pass: !hasNovicePhrasing,
+            note: hasNovicePhrasing
+              ? "⚠️ Informal School-Lab Phrasing: Expressions like 'make a cream', 'tested first and then added', and 'natural plant instead of chemicals' lack academic protocol precision. Use formal biomedical terminology ('formulate an oil-in-water topical emulsion', 'gradient concentration optimization')."
+              : "Formal academic protocol language maintained."
+          }
         ];
 
-        auditResults.critique = "Methodology sections are frequently criticized for lacking explicit negative controls or statistical power. Declaring matched vehicle/unmodified baselines in " + tpl.pChassis + " protects your proposal from reviewer challenges.";
-        improvements = "Structured into an end-to-end 5-phase laboratory pipeline tailored to " + tpl.pTool + " and " + tpl.pTarget + ", incorporating negative/positive controls, triplicate execution (n=3), and formal future tense.";
+        auditResults.critique = (isInflammatoryScope && !hasInflammatoryAssay)
+          ? "Critical Reviewer Concern: Your proposal title and aims promise an anti-inflammatory therapeutic cream, but the experimental methodology only describes crude extraction or antioxidant testing. Reviewers will reject this proposal for lack of an authentic inflammatory disease model. You must incorporate an LPS-stimulated RAW 264.7 macrophage assay with Griess NO / TNF-α ELISA quantification benchmarked against Hydrocortisone 1%."
+          : "Methodology sections require explicit paired controls (unloaded vehicle + clinical benchmark) and a clear 5-phase sequential pipeline to achieve grant-readiness.";
+
+        improvements = "Restructured into a publication-grade 5-phase laboratory pipeline incorporating paired controls (unloaded vehicle and hydrocortisone 1%), LPS-stimulated RAW 264.7 anti-inflammatory bioassays, Franz cell transdermal kinetics, and formal future tense.";
         recommendedText = tpl.methodologyText;
         vivaQuestions = tpl.vivaMethod;
       }
@@ -6332,7 +6498,8 @@ Technical Failure Mode 2: System Instability or Loss of Potency During Incubatio
     window.discussSectionInChat = function() {
       var key = window._activeAiSectionKey || "abstract";
       var sectionLabels = {
-        abstract: "Section 2.1 Abstract & Background Narrative",
+        abstract: "Section 1 Executive Abstract & Project Keywords",
+        sec2: "Section 2.1 Introduction & 4-Tier Inverted Funnel",
         aims: "Section 3 Decoupled Specific Aims & Benchmarks",
         methodology: "Section 4 5-Phase Laboratory Methodology & Controls",
         risk: "Section 5 Technical Risk Mitigation & Plan B Contingencies"
@@ -9794,124 +9961,164 @@ Your current Section 4.1 Methodology (${methVal.trim() ? methVal.trim().split(/\
 
       // ROUTE 5C: Live End-to-End Grant Proposal Readiness & Rubric Audit
       else if (/\b(readiness|how ready|is my proposal ready|evaluate.*readiness|audit|check gaps|what is missing|review.*proposal|score|rubric|grant review)\b/i.test(lower)) {
+        var liveTitle = (document.getElementById("proposal-title-input")?.value || "").trim();
+        var liveAbstract = (document.getElementById("proposal-abstract-input")?.value || "").trim();
+        var liveIntro = (document.getElementById("section-2-1-unified")?.value || "").trim();
         var aimVal = (document.getElementById("section-3-1-aim")?.value || "").trim();
-        var objVal = (document.getElementById("section-3-2-objectives")?.value || "").trim();
         var methVal = (document.getElementById("section-4-1-methodology")?.value || "").trim();
-        var outVal = (document.getElementById("section-6-outcomes")?.value || "").trim();
-        var riskVal = (document.getElementById("risk-matrix-input")?.value || "").trim();
+        var outVal = (document.getElementById("section-5-expected-outcomes")?.value || "").trim();
+        var riskVal = (document.getElementById("section-5-interpretations")?.value || "").trim();
+        var swotVal = (document.getElementById("swot-strengths")?.value || "").trim();
+        var pestelVal = (document.getElementById("pestel-political")?.value || "").trim();
         var budNarr = (document.getElementById("budget-input")?.value || "").trim();
         var budTotalEl = document.getElementById("budget-egp-grand-total");
         var budTotalText = budTotalEl ? budTotalEl.textContent.trim() : "0 EGP";
+        var refVal = (document.getElementById("proposal-references-input")?.value || "").trim();
+        var refRowsCount = document.querySelectorAll("#references-cited-tbody tr").length;
 
         var consistencyReport = window.runScientificConsistencyEngine ? window.runScientificConsistencyEngine(false) : { score: 0, contradictions: [], missingLinks: [], rows: [] };
-        var citationReport = window.runCitationTraceabilityAudit ? window.runCitationTraceabilityAudit(false) : { score: 0, citedList: [], missingBibNumbers: [], uncitedBibNumbers: [], totalBibEntries: 0 };
-        var citScore = (citationReport.score !== undefined && !isNaN(citationReport.score)) ? citationReport.score : 0;
-        var totalBibCount = citationReport.totalBibEntries || (citationReport.bibList ? citationReport.bibList.length : 0);
+        
+        // 1. Title & Pillars (10 pts)
+        var sTitle = 0;
+        if (liveTitle) {
+          sTitle = 4;
+          if (liveTitle.length >= 28) sTitle += 3;
+          if (!/^(the\s+)?(effect|role|impact|study|investigation)\s+(of|on|into)\b/i.test(liveTitle)) sTitle += 3;
+        }
 
-        // 1. Scientific Logic & Aim→Method→Outcome Alignment (25 pts)
-        var s1 = Math.round((consistencyReport.score || 0) * 0.25);
-        // 2. Experimental Rigor, Replicates & Risk Plan B (25 pts)
-        var s2 = 0;
-        if (methVal.length > 150) s2 += 8;
-        if (/negative control|vehicle|untransformed|blank|ntc/i.test(methVal) || document.getElementById("chk-control-negative")?.checked) s2 += 5;
-        if (/positive control|reference standard|ascorbic|dexamethasone|ciprofloxacin/i.test(methVal) || document.getElementById("chk-control-positive")?.checked) s2 += 4;
-        if (/triplicate|biological replicate|anova|t-test|probit|p\s*<\s*0\.05/i.test(methVal)) s2 += 4;
-        if (riskVal.length > 60) s2 += 4;
-        // 3. Literature Evidence & Claim→Citation→Reference Traceability (25 pts)
-        var s3 = Math.round(citScore * 0.25);
-        // 4. Project Management, Gantt & EGP Budget Compliance (25 pts)
-        var s4 = 0;
-        var hasEgpNarr = /egp|ج\.م|egyptian pound/i.test(budNarr);
-        var hasStrayUsd = /\$\s*\d+|\busd\b/i.test(budNarr);
-        if (budNarr.length > 60 && hasEgpNarr && !hasStrayUsd) s4 += 10;
-        else if (budNarr.length > 30) s4 += 5;
-        if (budTotalText && budTotalText !== "0 EGP") s4 += 8;
-        if (aimVal.length > 30 && objVal.length > 50 && outVal.length > 50) s4 += 7;
+        // 2. Section 1 Abstract (10 pts)
+        var sAbs = 0;
+        if (liveAbstract) {
+          sAbs = 3;
+          if (liveAbstract.split(/\s+/).filter(Boolean).length >= 100) sAbs += 4;
+          if (/\b(\d+|%|\?g|mg|nm|\?m|mm|ic50|mic|lod)\b/i.test(liveAbstract)) sAbs += 3;
+        }
 
-        var totalLiveScore = Math.max(0, Math.min(100, s1 + s2 + s3 + s4));
-        var gradeLabel = totalLiveScore >= 90 ? "A (Publication & Grant Ready)" : (totalLiveScore >= 80 ? "B+ (Strong Draft — Minor Refinements)" : (totalLiveScore >= 65 ? "B/C (Developing — Resolve Flagged Gaps)" : "Needs Core Sections & Alignment"));
+        // 3. Section 2 Introduction (10 pts)
+        var sIntro = 0;
+        if (liveIntro) {
+          sIntro = 3;
+          if (liveIntro.length >= 200) sIntro += 4;
+          if (!/(bad for the skin|natural, so it could be safer|plant instead of chemicals|not enough studies)/i.test(liveIntro)) sIntro += 3;
+        }
+
+        // 4. Section 3 Specific Aims (10 pts)
+        var sAim = 0;
+        if (aimVal) {
+          sAim = 4;
+          if (/\b(\d+(\.\d+)?\s*(%|\?g|mg|nm|\?m|mm|uM|mM|hr|hours|days|lod|mic|ic50|fold))\b/i.test(aimVal)) sAim += 6;
+        }
+
+        // 5. Section 4 Methodology & Scientific Controls (20 pts)
+        var sMeth = 0;
+        var isInflammatoryScope = /(inflamm|anti-inflamm|erythema|dermatitis|eczema|wound)/i.test(liveTitle + " " + aimVal);
+        var hasInflammatoryAssay = /(lps|lipopolysaccharide|raw\s*264|thp-1|macrophage|tnf|tumor\s+necrosis|il-6|il-1|interleukin|nitric\s+oxide|\bno\b|griess|cox-2|prostaglandin|pge2)/i.test(methVal);
+        var hasNeg = /(vehicle\s+control|blank\s+cream|blank\s+emulsion|empty\s+vehicle|untreated\s+control|untransformed|no-template)/i.test(methVal);
+        var hasPos = /(positive\s+control|hydrocortisone|corticosteroid|diclofenac|indomethacin|dexamethasone|ascorbic\s+acid|reference\s+standard|commercial\s+cream)/i.test(methVal);
+        var hasTrips = /(triplicate|n\s*=\s*3|biological\s+replicate|independent\s+batches)/i.test(methVal);
+
+        if (methVal.length > 80) sMeth += 5;
+        if (hasNeg) sMeth += 4;
+        if (hasPos) sMeth += 4;
+        if (hasTrips) sMeth += 3;
+        if (!isInflammatoryScope || hasInflammatoryAssay) sMeth += 4;
+        else sMeth = Math.max(0, sMeth - 6); // Readout mismatch penalty
+
+        // 6. Section 5 Outcomes & Plan B (10 pts)
+        var sRisk = 0;
+        if (outVal.length > 50) sRisk += 5;
+        if (riskVal.length > 50) sRisk += 5;
+
+        // 7. Section 6-8 Commercialization & Environment (10 pts)
+        var sBiz = 0;
+        if (swotVal.length > 20) sBiz += 5;
+        if (pestelVal.length > 20) sBiz += 5;
+
+        // 8. Section 9 Budget & Timeline (10 pts)
+        var sBud = 0;
+        var hasEgp = /egp|\?|egyptian pound/i.test(budNarr + " " + budTotalText);
+        var hasUsd = /\$\s*\d+|\busd\b/i.test(budNarr);
+        if (budTotalText && budTotalText !== "0 EGP" && !hasUsd) sBud += 6;
+        if (budNarr.length > 30 && hasEgp && !hasUsd) sBud += 4;
+
+        // 9. Section 10 References (10 pts)
+        var sRef = 0;
+        if (refRowsCount >= 3 || refVal.length > 100) sRef += 10;
+        else if (refVal.length > 20) sRef += 5;
+
+        var totalLiveScore = Math.max(0, Math.min(100, sTitle + sAbs + sIntro + sAim + sMeth + sRisk + sBiz + sBud + sRef));
+        var gradeLabel = totalLiveScore >= 90 ? "A (Publication & Grant Ready)" : (totalLiveScore >= 75 ? "B (Good Draft — Minor Refinements)" : (totalLiveScore >= 50 ? "C (Developing Draft — Resolve Flagged Gaps)" : "D/F (Early Draft — Major Revisions Needed)"));
 
         var actionDirectives = [];
-        if (consistencyReport.contradictions && consistencyReport.contradictions.length > 0) {
-          actionDirectives.push(`🚨 **Resolve ${consistencyReport.contradictions.length} Scientific Contradiction(s):** ${consistencyReport.contradictions[0].title} — ${consistencyReport.contradictions[0].fix || (consistencyReport.contradictions[0].detail ? consistencyReport.contradictions[0].detail.replace(/<[^>]+>/g, '').substring(0, 100) + '...' : 'Review experimental alignment.')}`);
+        if (isInflammatoryScope && !hasInflammatoryAssay) {
+          actionDirectives.push("⚠️ **Fatal Readout Mismatch in Section 4:** Your proposal targets skin inflammation, but Section 4 lacks an in vitro inflammatory assay (e.g. LPS-stimulated RAW 264.7 macrophages measuring TNF-α, IL-6 via ELISA, or NO via Griess assay). DPPH antioxidant assays alone do NOT prove anti-inflammatory efficacy.");
         }
-        if (!liveTitle || liveTitle.length < 28 || /^(the\s+)?(effect|study)\s+of/i.test(liveTitle)) {
-          actionDirectives.push(`🏷️ **Refine Proposal Title & 3 Pillars (Section 1):** Ensure title follows the 4-Anchor Formula ([Tool] in [Chassis] to [Benchmark] for [Application]) and avoids passive 'The effect of...' phrasing.`);
+        if (!hasNeg) {
+          actionDirectives.push("🧪 **Missing Negative Baseline Control:** Section 4 must specify an unloaded vehicle control (blank cream base without extract) and untreated cells to prove formulation excipients do not cause false-positive suppression.");
         }
-        if (!aimVal || (consistencyReport.rows || []).length < 3) {
-          actionDirectives.push(`🎯 **Formulate 3 Decoupled Specific Objectives (Section 3):** Define non-contingent work packages with explicit Go/No-Go quantitative milestones.`);
+        if (!hasPos) {
+          actionDirectives.push("💊 **Missing Positive Comparator Standard:** Benchmark against an established clinical drug comparator (e.g. Commercial Hydrocortisone 1% cream or Indomethacin) for non-inferiority benchmarking.");
         }
-        if (consistencyReport.missingLinks && consistencyReport.missingLinks.length > 0) {
-          actionDirectives.push(`⚠️ **Close Objective-to-Method Gaps:** ${consistencyReport.missingLinks[0]}`);
+        if (!liveTitle || /^(the\s+)?(effect|study)\s+of/i.test(liveTitle)) {
+          actionDirectives.push("🏷️ **Passive Title Trap:** Avoid leading with 'Study of'. Use the 4-Piece BT_301 formula: `[Engineered Tool] in [Host Chassis] to [Target Benchmark] for [Application]`.");
         }
-        if (!methVal || methVal.length < 80 || s2 < 14) {
-          actionDirectives.push(`🧪 **Draft Methodology & Controls (Section 4):** Write experimental protocols in the future tense with explicit positive, negative, and vehicle controls.`);
-        }
-        if (citationReport.missingBibNumbers && citationReport.missingBibNumbers.length > 0) {
-          actionDirectives.push(`📚 **Fix Missing References in Section 10:** In-text citation(s) \`[${citationReport.missingBibNumbers.join("], [")}]\` have no matching bibliography entry.`);
-        }
-        if (citationReport.uncitedBibNumbers && citationReport.uncitedBibNumbers.length > 0) {
-          actionDirectives.push(`🔗 **Cite or Prune Uncited References:** Section 10 entry \`[${citationReport.uncitedBibNumbers.join("], [")}]\` is never cited in Sections 1–9.`);
-        }
-        if (totalBibCount < 10) {
-          actionDirectives.push(`📖 **Expand Section 10 References:** Current bibliography contains only ${totalBibCount}/10 required peer-reviewed sources in APA 7th format.`);
-        }
-        if (hasStrayUsd || !hasEgpNarr) {
-          actionDirectives.push(`💰 **Standardize Budget in EGP:** Sync Section 9.1 Budget Justification with Section 9.2 (${budTotalText}) in Egyptian Pounds (EGP).`);
-        }
-        if (totalLiveScore >= 80 && actionDirectives.length === 0) {
-          actionDirectives.push(`✅ **All Core Audits Passed:** Your Objectives, Methodology, Controls, Citations, and EGP Budget (${budTotalText}) are aligned and ready for faculty review!`);
+        if (actionDirectives.length === 0) {
+          actionDirectives.push("✓ Core scientific architecture and 10 sections grounded. Proceed to Faculty Mock Defense.");
         }
 
-        reply = `🔵 **Evidence Status:** \`[Live Multi-Engine Proposal Audit — Computed from Current Workspace]\`
+        var reply = `### 📋 Comprehensive Grant Proposal Readiness & Rubric Audit
 
-📊 **Dynamic Grant Proposal Readiness & Rubric Audit:**
-
-• **Computed Readiness Score:** **${totalLiveScore}/100** *(${gradeLabel})*
-• **Active Proposal Title:** *"${liveTitle || 'Untitled Draft'}"*
+**Computed Readiness Score:** **${totalLiveScore}/100** *(${gradeLabel})*  
+**Active Proposal Title:** *"${liveTitle || 'Untitled Draft'}"*
 
 ---
 
-### 1. 🧭 Scientific Consistency & Aim → Method → Outcome Alignment (**${s1}/25**)
-• **Consistency Engine Score:** **${consistencyReport.score}/100** across **${(consistencyReport.rows || []).length}** detected research objective(s).
-• **Scientific Contradictions:** ${(consistencyReport.contradictions || []).length === 0 ? '✅ **0 contradictions detected**' : '🚨 **' + consistencyReport.contradictions.length + ' contradiction(s) flagged**'}
-• **Missing Matrix Links:** ${(consistencyReport.missingLinks || []).length === 0 ? '✅ **All objectives mapped to methods, measurements & controls**' : '⚠️ **' + consistencyReport.missingLinks.length + ' incomplete link(s)**'}
-
-### 2. 🔬 Experimental Rigor, Replicates & Plan B Contingency (**${s2}/25**)
-• **Methodology Depth:** ${methVal ? methVal.split(/\s+/).length + ' words' : '⚠️ Empty'}
-• **Controls & Replicates:** ${(s2 >= 17) ? '✅ Positive/Negative controls and statistical replicates verified.' : '⚠️ Ensure both Positive Reference Standard, Negative/Vehicle Control, and Biological vs. Technical Replicates are explicitly stated.'}
-• **Section 5 Risk & Plan B:** ${riskVal.length > 60 ? '✅ Documented' : '⚠️ Needs explicit failure modes & Plan B rescue protocols'}
-
-### 3. 📚 Literature Evidence & Citation Traceability (**${s3}/25**)
-• **Citation Traceability Score:** **${citScore}/100**
-• **In-Text Citations Matched:** **${(citationReport.citedList || []).length}** cited in prose vs. **${totalBibCount}** reference(s) in Section 10.
-• **Orphan / Uncited Check:** ${(citationReport.missingBibNumbers || []).length === 0 && (citationReport.uncitedBibNumbers || []).length === 0 ? '✅ **100% bidirectional match**' : '⚠️ **' + (citationReport.missingBibNumbers || []).length + ' missing ref(s), ' + (citationReport.uncitedBibNumbers || []).length + ' uncited ref(s)**'}
-
-### 4. 💰 Project Management & Egyptian Pounds (EGP) Budget Compliance (**${s4}/25**)
-• **Section 9.2 Itemized EGP Total:** **${budTotalText}**
-• **Section 9.1 Narrative Currency Compliance:** ${(hasEgpNarr && !hasStrayUsd) ? '✅ Denominated in Egyptian Pounds (EGP / ج.م)' : '⚠️ Sync Section 9.1 narrative with Section 9.2 EGP table'}
+#### 🧭 10-Section Rubric Breakdown
+| Component | Score | Status | Key Checkpoint |
+| :--- | :--- | :--- | :--- |
+| **Cover Sheet: Title & Pillars** | ${sTitle}/10 | ${sTitle >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sTitle >= 8 ? '4-Piece engineering formula verified' : 'Avoid passive "Study of"; specify quantitative milestone'} |
+| **Section 1: Executive Abstract** | ${sAbs}/10 | ${sAbs >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sAbs >= 8 ? 'Word count & quantitative metric verified' : 'Target 150–250 words; include explicit numerical metric'} |
+| **Section 2: Introduction & Funnel** | ${sIntro}/10 | ${sIntro >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sIntro >= 8 ? 'Literature baseline & gap grounded' : 'Eliminate naive fallacies & colloquial phrases ("bad for skin")'} |
+| **Section 3: Project Aim & Objectives** | ${sAim}/10 | ${sAim >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sAim >= 8 ? 'Quantitative milestone number verified' : 'Specific Aim 2 requires explicit numerical threshold (MIC, %, LOD)'} |
+| **Section 4: Methodology & Controls** | ${sMeth}/20 | ${sMeth >= 15 ? '✓ Satisfied' : '⚠️ Critical Gap'} | ${sMeth >= 15 ? '5 phases, paired controls & triplicates verified' : 'Missing negative vehicle control, positive comparator, or bioassay'} |
+| **Section 5: Outcomes & Plan B** | ${sRisk}/10 | ${sRisk >= 7 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sRisk >= 7 ? 'Positive/negative criteria & fallback defined' : 'Declare quantitative fallback & contingency routes'} |
+| **Sections 6–8: Ansoff, SWOT, PESTEL** | ${sBiz}/10 | ${sBiz >= 7 ? '✓ Satisfied' : '⚠️ Incomplete'} | ${sBiz >= 7 ? 'Biotechnology market & environmental position filled' : 'Fill Ansoff matrix quadrant, SWOT, and PESTEL drivers'} |
+| **Section 9: Timeline & Budget in EGP** | ${sBud}/10 | ${sBud >= 7 ? '✓ Satisfied' : '⚠️ Incomplete'} | ${sBud >= 7 ? 'EGP currency compliance & milestones verified' : 'Budget in EGP; eliminate stray USD ($) references'} |
+| **Section 10: References Cited** | ${sRef}/10 | ${sRef >= 8 ? '✓ Satisfied' : '⚠️ Incomplete'} | ${sRef >= 8 ? 'APA 7th peer-reviewed citations grounded' : 'Provide minimum 3–5 peer-reviewed citations in APA 7th format'} |
 
 ---
 
-### 🎯 Prioritized Action Directives:
-${actionDirectives.map(function(d) { return '• ' + d; }).join('\n')}`;
+#### ⚡ Critical Faculty Reviewer Directives:
+${actionDirectives.map(function(d, i) { return `${i+1}. ${d}`; }).join('\n')}
+`;
 
-        actions = [
-          { label: "Open Scientific Consistency Engine", icon: "🧭", onClickJs: "if(window.runScientificConsistencyEngine) window.runScientificConsistencyEngine(true);" },
-          { label: "Run Citation Traceability Audit", icon: "📚", onClickJs: "if(window.runCitationTraceabilityAudit) window.runCitationTraceabilityAudit(true);" },
-          { label: "Sync EGP Budget Justification", icon: "💰", onClickJs: "if(window.syncBudgetNarrativeFromEgpTable) window.syncBudgetNarrativeFromEgpTable();" },
-          { label: "Inspect Section 4 Methodology", icon: "🧪", onClickJs: "quickSendCopilotPrompt('what is missing in my methods?')" }
+        var actions = [
+          { text: "🧪 Audit Section 4 Methodology", onClickJs: "triggerSectionAiAssist('sec4');" },
+          { text: "🏷️ Refine Proposal Title", onClickJs: "jumpToEditorSection('proposal-title-input');" },
+          { text: "🧭 Open 10-Section Health Guide", onClickJs: "window.render10SectionOverseer(); document.getElementById('overseer-sections-grid')?.scrollIntoView({behavior:'smooth'});" }
         ];
-        thinking = [
-          "Assessment Basis — Detected Task: Comprehensive Live Proposal Readiness & Rubric Audit",
-          "Relevant Proposal Section: Full Proposal (Sections 1–10)",
-          "Evidence Status: [Live Workspace Telemetry — Consistency: " + consistencyReport.score + "%, Citations: " + citationReport.score + "%, Budget: " + budTotalText + "]",
-          "Key Uncertainty: Unresolved scientific contradictions or missing control pairs lower faculty defense scores",
-          "Recommended Next Step: Execute top Action Directive below"
+
+        var suggestions = [
+          { text: "What controls are missing in my methods?", prompt: "what controls are missing in my methodology?" },
+          { text: "How do I defend against the naturalistic fallacy?", prompt: "how do I defend my natural plant extract without committing the naturalistic fallacy?" },
+          { text: "Help me write 3 decoupled specific aims", prompt: "help me formulate 3 decoupled specific aims with quantitative milestones" }
         ];
+
+        return {
+          reply: reply,
+          actions: actions,
+          suggestions: suggestions,
+          thinking: [
+            "Faculty Evaluation Basis → Detected Task: Comprehensive Live Proposal Readiness & Rubric Audit",
+            "Relevant Proposal Sections: Cover Sheet + Sections 1 through 10",
+            `Computed Live Score: ${totalLiveScore}/100 (${gradeLabel})`,
+            `Readout Mismatch Flag: ${isInflammatoryScope && !hasInflammatoryAssay ? 'TRIGGERED' : 'CLEARED'}`,
+            `Negative Vehicle Control Flag: ${hasNeg ? 'VERIFIED' : 'MISSING'}`,
+            `Positive Clinical Standard Flag: ${hasPos ? 'VERIFIED' : 'MISSING'}`
+          ]
+        };
       }
-
-      // ROUTE 5D: Proposal Typography & Scientific Formatting Rules
+            // ROUTE 5D: Proposal Typography & Scientific Formatting Rules
       else if (/\b(format|formatting|font|margin|margins|nsf|nih|times new roman|arial|line spacing|how should.*look|proposal rules)\b/i.test(lower)) {
         reply = `📐 **Official Scientific Proposal Typography &amp; Layout Guidelines:**
 
@@ -10447,21 +10654,40 @@ What specific section would you like to strengthen next?`;
       if (el) {
         var panel = el.closest(".step-panel");
         if (panel && panel.id) {
-          var stepNum = panel.id.replace("step-panel-", "");
-          if (stepNum && typeof window.switchStudioStep === "function") {
-            window.switchStudioStep(parseInt(stepNum, 10));
+          var stepNum = parseInt(panel.id.replace("step-panel-", ""), 10);
+          if (stepNum) {
+            if (typeof window.switchStudioStep === "function") {
+              window.switchStudioStep(stepNum);
+            } else if (typeof window.goToStep === "function") {
+              window.goToStep(stepNum);
+            } else {
+              document.querySelectorAll(".step-panel").forEach(function(p) { p.classList.remove("active"); });
+              panel.classList.add("active");
+              document.querySelectorAll(".btn-phase-tab").forEach(function(tab) {
+                var s = parseInt(tab.getAttribute("data-goto"), 10);
+                tab.classList.toggle("active", s === stepNum);
+              });
+              document.querySelectorAll(".step-indicator").forEach(function(ind) {
+                var s = parseInt(ind.getAttribute("data-step"), 10);
+                ind.classList.toggle("active", s === stepNum);
+                if (s < stepNum) ind.classList.add("completed");
+                else ind.classList.remove("completed");
+              });
+            }
           }
         }
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.focus();
-        var origBorder = el.style.borderColor;
-        var origShadow = el.style.boxShadow;
-        el.style.borderColor = "#0284c7";
-        el.style.boxShadow = "0 0 0 3px rgba(2, 132, 199, 0.35)";
         setTimeout(function() {
-          el.style.borderColor = origBorder || "";
-          el.style.boxShadow = origShadow || "";
-        }, 2200);
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.focus();
+          var origBorder = el.style.borderColor;
+          var origShadow = el.style.boxShadow;
+          el.style.borderColor = "#0284c7";
+          el.style.boxShadow = "0 0 0 3px rgba(2, 132, 199, 0.35)";
+          setTimeout(function() {
+            el.style.borderColor = origBorder || "";
+            el.style.boxShadow = origShadow || "";
+          }, 2200);
+        }, 120);
       }
     };
 
@@ -11080,7 +11306,8 @@ What specific section would you like to strengthen next?`;
     window.syncLiveEditorToAgent = function() {
       // 1. Read live text from active proposal editor
       var liveTitle = document.getElementById("proposal-title-input") ? document.getElementById("proposal-title-input").value.trim() : "";
-      var liveAbstract = document.getElementById("proposal-abstract-input") ? document.getElementById("proposal-abstract-input").value.trim() : (document.getElementById("section-2-1-unified") ? document.getElementById("section-2-1-unified").value.trim() : (document.getElementById("abstract-input") ? document.getElementById("abstract-input").value.trim() : ""));
+      var liveAbstract = document.getElementById("proposal-abstract-input") ? document.getElementById("proposal-abstract-input").value.trim() : (document.getElementById("abstract-input") ? document.getElementById("abstract-input").value.trim() : "");
+      var liveIntro = document.getElementById("section-2-1-unified") ? document.getElementById("section-2-1-unified").value.trim() : "";
       var liveChassis = document.getElementById("pillar-chassis") ? document.getElementById("pillar-chassis").value.trim() : "";
       var liveTool = document.getElementById("pillar-tool") ? document.getElementById("pillar-tool").value.trim() : "";
       var liveTarget = document.getElementById("pillar-target") ? document.getElementById("pillar-target").value.trim() : "";
@@ -11111,7 +11338,7 @@ What specific section would you like to strengthen next?`;
       var partTitle = document.getElementById("part-title-text");
       if (partTitle) partTitle.innerText = liveTitle || "⚠️ [Blank] Please formulate your tripartite title in Step 1 of the Studio editor.";
       var partAbs = document.getElementById("part-abstract-text");
-      if (partAbs) partAbs.innerText = liveAbstract || "⚠️ [Blank] Write your structured abstract in Section 2.1 to enable grounded review.";
+      if (partAbs) partAbs.innerText = liveAbstract || "⚠️ [Blank] Write your structured abstract in Step 4 (Section 1) to enable grounded review.";
       var partAim1 = document.getElementById("part-aim1-text");
       if (partAim1) partAim1.innerText = liveAim1 || "⚠️ [Blank] Formulate Specific Aim 1 in Section 3 of the Studio editor.";
       var partAim2 = document.getElementById("part-aim2-text");
@@ -11211,7 +11438,7 @@ What specific section would you like to strengthen next?`;
       if (!liveAbstract) {
         aScore = 0;
         aEval = "⚪ Blank / Not Entered";
-        aFeedback = "<strong>💡 Co-Pilot Action:</strong> Abstract is currently empty. In Section 2.1, compose a 150-250 word summary addressing the 5 core elements to unlock automated structure scoring.";
+        aFeedback = "<strong>💡 Co-Pilot Action:</strong> Executive Abstract is currently empty. In Step 4 (Section 1), compose a 150-250 word summary addressing the 5 core elements to unlock automated structure scoring.";
       } else if (wordCount < 35) {
         aScore = 45;
         aEval = "⚠️ Under-developed (" + wordCount + " words)";
@@ -11227,7 +11454,7 @@ What specific section would you like to strengthen next?`;
       }
 
       var cAbsText = document.getElementById("coach-abstract-text");
-      if (cAbsText) cAbsText.innerText = liveAbstract || "Abstract is currently empty. Write a brief overview in Section 2.1 of the editor.";
+      if (cAbsText) cAbsText.innerText = liveAbstract || "Executive Abstract is currently empty. Write a 150–250 word summary in Step 4 (Section 1) of the editor.";
       var cAbsEval = document.getElementById("badge-coach-abstract-eval");
       if (cAbsEval) { cAbsEval.innerText = aEval; cAbsEval.style.color = aEvalColor; cAbsEval.style.background = aEvalBg; }
       var cAbsFb = document.getElementById("coach-abstract-feedback");
@@ -11241,7 +11468,7 @@ What specific section would you like to strengthen next?`;
       var aimFeedback = "";
 
       var aimCount = [liveAim1, liveAim2, liveAim3].filter(Boolean).length;
-      var hasAim2Numbers = /\d+|lod|mic|mbc|ic50|%|fold|kcat|km|µm|nm|pm|min|hours?|days?|yield|purity/i.test(liveAim2);
+      var hasAim2Numbers = /\b\d+(\.\d+)?\s*(%|µg\/ml|ug\/ml|mg\/ml|mg\/g|µm|um|nm|mm|pm|hours?|hrs?|days?|fold|kcat|km|mic|mbc|ic50|cc50|si\b)|(>|<|≥|≤)\s*\d+/i.test(liveAim2);
       var isPhytoOrTopical = /extract|plant|herb|phytochem|topical|cream|gel|nanoemulsion|wound|skin|essential oil|deliver|formulat/i.test(liveTitle + " " + liveTool);
 
       if (aimCount === 0) {
@@ -11288,26 +11515,45 @@ What specific section would you like to strengthen next?`;
       var mEval = "⚪ Blank / Not Entered";
       var mEvalColor = "#64748b";
       var mEvalBg = "#f1f5f9";
-      var chkNegEl = document.getElementById("chk-control-negative");
-      var chkPosEl = document.getElementById("chk-control-positive");
-      var hasNegControl = (chkNegEl && chkNegEl.checked) || /negative\s+control|wild-type|wt\s+|DH5|non-pathogenic|empty\s+vector|scrambled|vehicle\s+control|no-template/i.test(liveMethodology);
-      var hasPosControl = (chkPosEl && chkPosEl.checked) || /positive\s+control|reference\s+standard|plasmid\s+control|purified|benchmark\s+control/i.test(liveMethodology);
+      var negSpecEl = document.getElementById("ctrl-negative-spec");
+      var posSpecEl = document.getElementById("ctrl-positive-spec");
+      var negSpecVal = negSpecEl ? negSpecEl.value.trim() : "";
+      var posSpecVal = posSpecEl ? posSpecEl.value.trim() : "";
+
+      // Strict verification: requires explicit text in specification input (>=5 chars) OR explicit mention in methodology text
+      var hasNegControl = (negSpecVal.length >= 5) || /vehicle\s+control|blank\s+cream|blank\s+emulsion|empty\s+vehicle|untreated\s+control|untransformed|no-template/i.test(liveMethodology);
+      var hasPosControl = (posSpecVal.length >= 5) || /positive\s+control|hydrocortisone|corticosteroid|diclofenac|indomethacin|dexamethasone|ascorbic\s+acid|reference\s+standard|commercial\s+cream/i.test(liveMethodology);
+
+      // Check anti-inflammatory readout mismatch
+      var combinedAimsAndTitle = (liveTitle + " " + liveAim1 + " " + liveAim2 + " " + liveAim3).toLowerCase();
+      var isInflammatoryScope = /(inflamm|anti-inflamm|erythema|dermatitis|eczema|wound)/i.test(combinedAimsAndTitle);
+      var hasInflammatoryAssayInMeth = /(lps|lipopolysaccharide|raw\s*264|thp-1|macrophage|tnf|tumor\s+necrosis|il-6|il-1|interleukin|nitric\s+oxide|\bno\b|griess|cox-2|prostaglandin|pge2)/i.test(liveMethodology);
 
       var btnInsertCtrl = document.getElementById("btn-insert-control");
       var missingLine = document.getElementById("coach-control-missing-line");
 
-      if (!liveMethodology) {
+      if (!liveMethodology || liveMethodology.length < 40) {
         mScore = 0;
         mEval = "⚪ Methodology Not Entered";
         if (missingLine) missingLine.innerHTML = "⚠️ No experimental methodology or scientific controls entered.";
         if (btnInsertCtrl) { btnInsertCtrl.disabled = true; btnInsertCtrl.style.background = "#94a3b8"; }
+      } else if (isInflammatoryScope && !hasInflammatoryAssayInMeth) {
+        mScore = 35;
+        mEval = "🚨 Readout Mismatch: No Inflammatory Assay";
+        mEvalColor = "#991b1b";
+        mEvalBg = "#fee2e2";
+        if (missingLine) {
+          missingLine.innerHTML = "🚨 <strong>Readout Mismatch:</strong> Proposal targets inflammation, but Section 4 lacks an in vitro inflammatory assay (LPS-stimulated RAW 264.7 measuring TNF-α / NO). Antioxidant assays alone do not prove anti-inflammatory activity.";
+          missingLine.style.color = "#991b1b";
+        }
+        if (btnInsertCtrl) { btnInsertCtrl.disabled = false; btnInsertCtrl.style.background = "#0284c7"; btnInsertCtrl.innerHTML = "<span>+</span> <span>Insert Anti-Inflammatory Assays & Controls</span>"; }
       } else if (!hasNegControl) {
-        mScore = 60;
-        mEval = "⚠️ Action Recommended: Missing Negative Control";
+        mScore = 45;
+        mEval = "⚠️ Action Needed: Missing Negative Vehicle Control";
         mEvalColor = "#92400e";
         mEvalBg = "#fef3c7";
         if (missingLine) {
-          missingLine.innerHTML = "⚠️ <strong>Missing Negative Control:</strong> Specify a negative/vehicle baseline control (e.g. empty vector, no-template control, or wild-type strain) to rule out background signal.";
+          missingLine.innerHTML = "⚠️ <strong>Missing Negative Control:</strong> Specify an unloaded vehicle baseline control (blank cream base without extract) to rule out formulation background artifacts.";
           missingLine.style.color = "#b45309";
         }
         if (btnInsertCtrl) {
@@ -11316,7 +11562,7 @@ What specific section would you like to strengthen next?`;
           btnInsertCtrl.innerHTML = "<span>+</span> <span>Insert Recommended Control into Methodology</span>";
         }
       } else {
-        mScore = 95;
+        mScore = 92;
         mEval = "✅ Controls Architecture Verified";
         mEvalColor = "#15803d";
         mEvalBg = "#dcfce7";
@@ -11427,10 +11673,76 @@ What specific section would you like to strengthen next?`;
       var cPitFb = document.getElementById("coach-pitfalls-feedback");
       if (cPitFb) cPitFb.innerHTML = pFeedback;
 
-      // --- OVERALL READINESS SCORECARD ---
-      var allScores = [tScore, aScore, aimScore, mScore, bScore, pScore];
-      var hasAnyContent = (liveTitle || liveAbstract || liveAim1 || liveMethodology || livePitfalls);
-      var totalScore = hasAnyContent ? Math.round(allScores.reduce(function(a, b) { return a + b; }, 0) / 6) : 0;
+      // --- OVERALL READINESS SCORECARD (HONEST 10-SECTION + COVER AUDIT) ---
+      // Read Section 2 Introduction
+      var introScore = 0;
+      if (!liveIntro || liveIntro.length < 40) {
+        introScore = 0;
+      } else {
+        introScore = 40;
+        if (liveIntro.length >= 150) introScore += 20;
+        if (liveIntro.length >= 300) introScore += 15;
+        if (/peer-reviewed|gold standard|prior art|benchmark|comparator/i.test(liveIntro)) introScore += 10;
+        if (/hypothesis|we hypothesize|mechanism/i.test(liveIntro)) introScore += 10;
+        // Penalties for naive phrasing
+        if (colloquialMatch) introScore = Math.max(20, introScore - 20);
+        if (naturalMatch) introScore = Math.max(20, introScore - 20);
+        if (studyGapMatch) introScore = Math.max(20, introScore - 15);
+      }
+
+      // Read Section 6 Ansoff Matrix
+      var ansoffPen = document.getElementById("ansoff-penetration")?.value.trim() || "";
+      var ansoffProd = document.getElementById("ansoff-prod-dev")?.value.trim() || "";
+      var ansoffMkt = document.getElementById("ansoff-mkt-dev")?.value.trim() || "";
+      var ansoffDiv = document.getElementById("ansoff-diversification")?.value.trim() || "";
+      var ansoffCount = [ansoffPen, ansoffProd, ansoffMkt, ansoffDiv].filter(function(v) { return v.length >= 10; }).length;
+      var ansoffScore = ansoffCount >= 2 ? 90 : (ansoffCount === 1 ? 50 : 0);
+
+      // Read Section 7 SWOT Analysis
+      var swotS = document.getElementById("swot-strengths")?.value.trim() || "";
+      var swotW = document.getElementById("swot-weaknesses")?.value.trim() || "";
+      var swotO = document.getElementById("swot-opportunities")?.value.trim() || "";
+      var swotT = document.getElementById("swot-threats")?.value.trim() || "";
+      var swotCount = [swotS, swotW, swotO, swotT].filter(function(v) { return v.length >= 10; }).length;
+      var swotScore = swotCount >= 4 ? 95 : (swotCount >= 2 ? 60 : (swotCount === 1 ? 35 : 0));
+
+      // Read Section 8 PESTEL Analysis
+      var pestelPol = document.getElementById("pestel-political")?.value.trim() || "";
+      var pestelEco = document.getElementById("pestel-economic")?.value.trim() || "";
+      var pestelSoc = document.getElementById("pestel-social")?.value.trim() || "";
+      var pestelTech = document.getElementById("pestel-tech")?.value.trim() || "";
+      var pestelEnv = document.getElementById("pestel-env")?.value.trim() || "";
+      var pestelLeg = document.getElementById("pestel-legal")?.value.trim() || "";
+      var pestelCount = [pestelPol, pestelEco, pestelSoc, pestelTech, pestelEnv, pestelLeg].filter(function(v) { return v.length >= 10; }).length;
+      var pestelScore = pestelCount >= 6 ? 95 : (pestelCount >= 3 ? 65 : (pestelCount >= 1 ? 35 : 0));
+
+      // Read Section 9 Project Timeline & Budget in EGP
+      var budgetNarr = document.getElementById("budget-input")?.value.trim() || "";
+      var budgetEgpEl = document.getElementById("budget-egp-grand-total");
+      var budgetEgpText = budgetEgpEl ? budgetEgpEl.innerText.replace("Total:", "").trim() : "";
+      var budgetRowsCount = document.querySelectorAll("#budget-egp-tbody tr").length;
+      var budgetScore = 0;
+      if (budgetRowsCount >= 3 || (budgetEgpText && budgetEgpText !== "0 EGP" && !budgetEgpText.includes("NaN"))) {
+        budgetScore = 80;
+        if (budgetNarr.length >= 40) budgetScore += 15;
+      } else if (budgetNarr.length >= 30) {
+        budgetScore = 35;
+      }
+
+      // Read Section 10 References Cited
+      var refText = document.getElementById("proposal-references-input")?.value.trim() || "";
+      var refRowsCount = document.querySelectorAll("#references-cited-tbody tr").length;
+      var refScore = 0;
+      if (refRowsCount >= 3 || (refText && refText.split(/\n+/).filter(function(l) { return l.length > 20; }).length >= 3)) {
+        refScore = 90;
+      } else if (refRowsCount >= 1 || (refText && refText.length >= 30)) {
+        refScore = 45;
+      }
+
+      // All 11 Sections evaluated (Cover + 10 Sections)
+      var allScores = [tScore, aScore, introScore, aimScore, mScore, pScore, ansoffScore, swotScore, pestelScore, budgetScore, refScore];
+      var hasAnyContent = (liveTitle || liveAbstract || liveIntro || liveAim1 || liveMethodology || livePitfalls || swotCount > 0 || ansoffCount > 0);
+      var totalScore = hasAnyContent ? Math.round(allScores.reduce(function(a, b) { return a + b; }, 0) / 11) : 0;
 
       var oScore = document.getElementById("coach-overall-score");
       if (oScore) oScore.innerText = totalScore;
@@ -11445,90 +11757,46 @@ What specific section would you like to strengthen next?`;
           gBadge.innerText = "A • Grant-Review Ready";
           gBadge.style.background = "#dcfce7";
           gBadge.style.color = "#166534";
-        } else if (totalScore >= 60) {
+        } else if (totalScore >= 70) {
           gBadge.innerText = "B • Good Draft — Refinements Recommended";
+          gBadge.style.background = "#eff6ff";
+          gBadge.style.color = "#1e40af";
+        } else if (totalScore >= 50) {
+          gBadge.innerText = "C • Developing Draft — Resolve Flagged Gaps";
           gBadge.style.background = "#fef3c7";
           gBadge.style.color = "#92400e";
         } else {
-          gBadge.innerText = "C • Early Draft — Complete Required Sections";
+          gBadge.innerText = "D/F • Early Draft — Major Revisions Needed";
           gBadge.style.background = "#fee2e2";
           gBadge.style.color = "#991b1b";
         }
       }
 
       // Update Individual Score Badges
-      var sTitle = document.getElementById("coach-score-title"); if (sTitle) { sTitle.innerText = tScore + "%"; sTitle.style.color = tScore >= 80 ? "#059669" : (tScore > 0 ? "#d97706" : "#64748b"); }
-      var bTitle = document.getElementById("coach-bar-title"); if (bTitle) { bTitle.style.width = tScore + "%"; bTitle.style.background = tScore >= 80 ? "#10b981" : (tScore > 0 ? "#f59e0b" : "#cbd5e1"); }
+      var sTitle = document.getElementById("coach-score-title"); if (sTitle) { sTitle.innerText = tScore + "%"; sTitle.style.color = tEvalColor; }
+      var bTitle = document.getElementById("badge-coach-title-eval"); if (bTitle) { bTitle.innerText = tEval; bTitle.style.background = tEvalBg; bTitle.style.color = tEvalColor; }
+      var sAbs = document.getElementById("coach-score-abstract"); if (sAbs) { sAbs.innerText = aScore + "%"; sAbs.style.color = aEvalColor; }
+      var bAbs = document.getElementById("badge-coach-abstract-eval"); if (bAbs) { bAbs.innerText = aEval; bAbs.style.background = aEvalBg; bAbs.style.color = aEvalColor; }
+      var sAim = document.getElementById("coach-score-aims"); if (sAim) { sAim.innerText = aimScore + "%"; sAim.style.color = aimEvalColor; }
+      var bAim = document.getElementById("badge-coach-aims-eval"); if (bAim) { bAim.innerText = aimEval; bAim.style.background = aimEvalBg; bAim.style.color = aimEvalColor; }
+      var sMeth = document.getElementById("coach-score-methods"); if (sMeth) { sMeth.innerText = mScore + "%"; sMeth.style.color = mEvalColor; }
+      var bMeth = document.getElementById("badge-coach-methods-eval"); if (bMeth) { bMeth.innerText = mEval; bMeth.style.background = mEvalBg; bMeth.style.color = mEvalColor; }
+      var sBio = document.getElementById("coach-score-bio"); if (sBio) { sBio.innerText = bScore + "%"; }
+      var sPit = document.getElementById("coach-score-pitfalls"); if (sPit) { sPit.innerText = pScore + "%"; }
 
-      var sAbs = document.getElementById("coach-score-abstract"); if (sAbs) { sAbs.innerText = aScore + "%"; sAbs.style.color = aScore >= 80 ? "#059669" : (aScore > 0 ? "#d97706" : "#64748b"); }
-      var bAbs = document.getElementById("coach-bar-abstract"); if (bAbs) { bAbs.style.width = aScore + "%"; bAbs.style.background = aScore >= 80 ? "#10b981" : (aScore > 0 ? "#f59e0b" : "#cbd5e1"); }
-
-      var sAims = document.getElementById("coach-score-aims"); if (sAims) { sAims.innerText = aimScore + "%"; sAims.style.color = aimScore >= 80 ? "#059669" : (aimScore > 0 ? "#d97706" : "#64748b"); }
-      var bAims = document.getElementById("coach-bar-aims"); if (bAims) { bAims.style.width = aimScore + "%"; bAims.style.background = aimScore >= 80 ? "#10b981" : (aimScore > 0 ? "#f59e0b" : "#cbd5e1"); }
-
-      var sMeth = document.getElementById("coach-score-methods"); if (sMeth) { sMeth.innerText = mScore + "%"; sMeth.style.color = mScore >= 80 ? "#059669" : (mScore > 0 ? "#d97706" : "#64748b"); }
-      var bMeth = document.getElementById("coach-bar-methods"); if (bMeth) { bMeth.style.width = mScore + "%"; bMeth.style.background = mScore >= 80 ? "#10b981" : (mScore > 0 ? "#f59e0b" : "#cbd5e1"); }
-
-      var sBio = document.getElementById("coach-score-bio"); if (sBio) { sBio.innerText = bScore + "%"; sBio.style.color = bScore >= 80 ? "#059669" : (bScore > 0 ? "#d97706" : "#64748b"); }
-      var bBio = document.getElementById("coach-bar-bio"); if (bBio) { bBio.style.width = bScore + "%"; bBio.style.background = bScore >= 80 ? "#10b981" : (bScore > 0 ? "#f59e0b" : "#cbd5e1"); }
-
-      var sPit = document.getElementById("coach-score-pitfalls"); if (sPit) { sPit.innerText = pScore + "%"; sPit.style.color = pScore >= 80 ? "#059669" : (pScore > 0 ? "#d97706" : "#64748b"); }
-      var bPit = document.getElementById("coach-bar-pitfalls"); if (bPit) { bPit.style.width = pScore + "%"; bPit.style.background = pScore >= 80 ? "#10b981" : (pScore > 0 ? "#f59e0b" : "#cbd5e1"); }
-
-      // 5. Update Triggers Subview (Parameters & Contradictions)
-      var cCh = document.getElementById("scen-param-chassis"); if (cCh) cCh.innerText = liveChassis || (liveMethodology ? "Inferred from Methodology" : "Undeclared Host / Matrix");
-      var cTl = document.getElementById("scen-param-tool"); if (cTl) cTl.innerText = liveTool || (liveMethodology ? "Inferred from Methodology" : "Undeclared Molecular Tool");
-      var cCt = document.getElementById("scen-param-containment"); if (cCt) cCt.innerText = bScore === 0 ? "Undeclared" : (bScore <= 50 ? "Preliminary Flag: BSL-2 Review Needed" : "Preliminary Candidate: Teaching Lab Containment (Pending IBC)");
-      var cHm = document.getElementById("scen-param-human"); if (cHm) cHm.innerText = isContradiction ? "Flagged (Source Clarification Needed)" : (isHumanChecked ? "True (Institutional IRB Review Required)" : "False (No Human Subjects Declared — Pending Faculty Check)");
-
-      var cBox = document.getElementById("scen-contradiction-container");
-      if (cBox) {
-        if (isContradiction) {
-          cBox.innerHTML = '<div style="background: #fff5f5; border: 1.5px solid #fca5a5; border-radius: 8px; padding: 14px;">' +
-            '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">' +
-            '<span style="background: #fee2e2; color: #991b1b; font-weight: 800; font-size: 0.74rem; padding: 3px 8px; border-radius: 4px; border: 1px solid #f87171;">🚨 CROSS-FIELD CONTRADICTION DETECTED</span>' +
-            '<span style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Advisory Pre-Check • Rule-Based Auditor</span>' +
-            '</div>' +
-            '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">' +
-            '<div style="background: #ffffff; border: 1px solid #fecaca; border-radius: 6px; padding: 10px;">' +
-            '<div style="font-size: 0.7rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Form Metadata (Intake Checkbox)</div>' +
-            '<div style="font-size: 0.82rem; font-weight: 600; color: #1e293b; margin-top: 3px;">human_subjects: false</div>' +
-            '<div style="font-size: 0.7rem; color: #64748b; margin-top: 4px;">Declared by researcher in intake overview.</div>' +
-            '</div>' +
-            '<div style="background: #ffffff; border: 1px solid #fecaca; border-radius: 6px; padding: 10px;">' +
-            '<div style="font-size: 0.7rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Proposal Text (Unstructured Grounding)</div>' +
-            '<div style="font-size: 0.8rem; font-style: italic; color: #1e293b; margin-top: 3px;">"...clinical specimens / patient isolates in text..."</div>' +
-            '<div style="font-size: 0.7rem; color: #64748b; margin-top: 4px;">Extracted from active proposal narrative.</div>' +
-            '</div>' +
-            '</div>' +
-            '<div style="background: #fef2f2; border-radius: 6px; padding: 8px 12px; font-size: 0.76rem; color: #7f1d1d; border-left: 3px solid #ef4444;">' +
-            '<strong>Zero-Hallucination Safe Guardrail:</strong> The agent does NOT assume whether repository strains or live clinical samples are used. It pauses progression and issues Socratic Clarification <code>[CLAR-HUMAN-01]</code>.' +
-            '</div></div>';
-        } else {
-          cBox.innerHTML = '<div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 14px;">' +
-            '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">' +
-            '<span style="background: #dcfce7; color: #166534; font-weight: 800; font-size: 0.74rem; padding: 3px 8px; border-radius: 4px; border: 1px solid #86efac;">✓ CONCORDANT SPECIFICATION</span>' +
-            '<span style="font-size: 0.7rem; color: #15803d; font-weight: 600;">Pre-Check Concordant</span>' +
-            '</div>' +
-            '<div style="font-size: 0.78rem; color: #166534;">Intake declarations match text. No contradictions detected.</div></div>';
-        }
-      }
-
-      // 6. Update Tab 5 Dossier with live proposal data
-      var dTitle = document.getElementById("scen-dossier-title");
-      if (dTitle) dTitle.innerText = liveTitle || "Untitled Proposal Draft";
-
-      // Update Drawer Score & Guidance
       var dScorePill = document.getElementById("drawer-score-pill");
       var dProgFill = document.getElementById("drawer-progress-fill");
       if (dScorePill) {
-        dScorePill.innerText = totalScore + "/100 • " + (totalScore >= 85 ? "A Grade" : (totalScore >= 60 ? "B Grade" : "Incomplete"));
-        dScorePill.style.background = totalScore >= 85 ? "#dcfce7" : (totalScore >= 60 ? "#fef3c7" : "#fee2e2");
-        dScorePill.style.color = totalScore >= 85 ? "#166534" : (totalScore >= 60 ? "#92400e" : "#991b1b");
+        var pillGrade = totalScore >= 85 ? "A Grade" : (totalScore >= 70 ? "B Grade" : (totalScore >= 50 ? "C Grade" : "Incomplete"));
+        var pillBg = totalScore >= 85 ? "#dcfce7" : (totalScore >= 70 ? "#eff6ff" : (totalScore >= 50 ? "#fef3c7" : "#fee2e2"));
+        var pillColor = totalScore >= 85 ? "#166534" : (totalScore >= 70 ? "#1e40af" : (totalScore >= 50 ? "#92400e" : "#991b1b"));
+        dScorePill.innerText = totalScore + "/100 • " + pillGrade;
+        dScorePill.style.background = pillBg;
+        dScorePill.style.color = pillColor;
       }
       if (dProgFill) {
-        dProgFill.style.width = totalScore + "%";
-        dProgFill.style.background = totalScore >= 85 ? "linear-gradient(90deg, #10b981, #059669)" : (totalScore >= 60 ? "linear-gradient(90deg, #f59e0b, #d97706)" : "#ef4444");
+        dProgFill.style.width = Math.max(5, totalScore) + "%";
+        dProgFill.style.background = totalScore >= 85 ? "linear-gradient(90deg, #10b981, #059669)" : (totalScore >= 70 ? "linear-gradient(90deg, #3b82f6, #1d4ed8)" : (totalScore >= 50 ? "linear-gradient(90deg, #f59e0b, #d97706)" : "#ef4444"));
       }
 
       var dGuidance = document.getElementById("drawer-live-guidance");
@@ -11643,14 +11911,47 @@ What specific section would you like to strengthen next?`;
         `;
 
         // =========================================================================
-        // LENS 2: 🧠 SOCRATIC CHALLENGE (DEVIL'S ADVOCATE)
+        // LENS 2: 🧠 SOCRATIC CHALLENGE (DEVIL'S ADVOCATE & RIGOROUS TRAP DETECTION)
         // =========================================================================
-        var allLiveText = liveTitle + " " + liveAbstract + " " + liveAim1 + " " + liveMethodology;
+        var allLiveText = liveTitle + " " + liveAbstract + " " + liveIntro + " " + liveAim1 + " " + liveAim2 + " " + liveMethodology;
         var ungroundedRegex = /(faster\s+and\s+cheaper|cheaper\s+and\s+faster|much\s+cheaper|significantly\s+faster|superior\s+specificity|unprecedented|completely\s+eliminates|zero\s+off-target|revolutionary\s+breakthrough|100%\s+accurate)/i;
-        var ungroundedMatch = allLiveText.match(ungroundedRegex);
+        var naturalFallacyRegex = /(natural,\s+so\s+it\s+could\s+be\s+safer|safer\s+than\s+chemical|natural\s+plant\s+instead\s+of\s+chemicals|plants\s+are\s+safer|chemical\s+products\s+are\s+harmful|natural\s+treatments)/i;
+        var studyGapRegex = /(not\s+enough\s+studies|more\s+studies\s+are\s+needed|few\s+studies\s+about|lack\s+of\s+studies|nobody\s+has\s+studied)/i;
+        var colloquialRegex = /(bad\s+for\s+the\s+skin|people\s+need\s+natural\s+treatments|make\s+a\s+cream\s+from\s+it|two\s+benefits|find\s+the\s+best\s+concentration)/i;
 
-        if (ungroundedMatch) {
-          var matchedSnippet = ungroundedMatch[0];
+        var ungroundedMatch = allLiveText.match(ungroundedRegex);
+        var naturalMatch = allLiveText.match(naturalFallacyRegex);
+        var studyGapMatch = allLiveText.match(studyGapRegex);
+        var colloquialMatch = allLiveText.match(colloquialRegex);
+
+        var challengeItem = null;
+        if (naturalMatch) {
+          challengeItem = {
+            title: "Naturalistic Fallacy Detected",
+            claim: naturalMatch[0],
+            question: "Asserting that botanical extracts are inherently 'safer than chemical products' is an appeal to nature without toxicological proof. Herbal extracts contain unpurified allergens and variable active metabolites. Reviewers demand in vitro cytotoxicity benchmarking (MTT keratinocyte viability >85%, Selectivity Index ≥ 3.0) against commercial Hydrocortisone 1%."
+          };
+        } else if (studyGapMatch) {
+          challengeItem = {
+            title: "False Literature Gap ('Not Enough Studies')",
+            claim: studyGapMatch[0],
+            question: "Grant committees reject 'not enough studies'—over 1,500 papers exist on Calendula. You must ground the gap in a specific formulation bottleneck: unstandardized faradiol monoester markers, poor stratum corneum permeation, or absent clinical comparator benchmarking."
+          };
+        } else if (colloquialMatch) {
+          challengeItem = {
+            title: "Informal School-Lab Tone Detected",
+            claim: colloquialMatch[0],
+            question: "Phrases like 'bad for the skin' and 'make a cream' lower grant authority. Use formal academic terminology: 'pathological cutaneous inflammation', 'formulate an oil-in-water topical emulsion', and 'dose-response kinetic optimization'."
+          };
+        } else if (ungroundedMatch) {
+          challengeItem = {
+            title: "Ungrounded Superlative Detected",
+            claim: ungroundedMatch[0],
+            question: "Grant committees challenge claims like '" + ungroundedMatch[0] + "' without citing a comparator. What exact gold standard is this faster/cheaper than, and by what quantified margin?"
+          };
+        }
+
+        if (challengeItem) {
           actionsHtml += `
             <div style="background: #ffffff; border: 1.5px solid #fed7aa; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
@@ -11658,38 +11959,39 @@ What specific section would you like to strengthen next?`;
                 <span style="font-size: 0.65rem; background: #fef3c7; color: #b45309; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Devil's Advocate</span>
               </div>
               <div style="font-size: 0.73rem; color: #1e293b; margin-bottom: 5px;">
-                <strong>Claim Detected:</strong> <span style="background: #fef08a; padding: 1px 4px; border-radius: 3px; font-weight: 600;">"${matchedSnippet}"</span>
+                <strong>${challengeItem.title}:</strong> <span style="background: #fef08a; padding: 1px 4px; border-radius: 3px; font-weight: 600;">"${challengeItem.claim}"</span>
               </div>
               <div style="font-size: 0.71rem; color: #78350f; background: #fffbeb; padding: 6px 8px; border-radius: 4px; border: 1px solid #fde68a; margin-bottom: 6px;">
-                <strong>Challenge Question:</strong> Grant committees will challenge this claim without citing a comparator. What exact gold standard is this faster/cheaper than, and by what quantified margin?
+                <strong>Faculty Reviewer Defense:</strong> ${challengeItem.question}
               </div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button type="button" onclick="promptSubstantiateClaim('claim-challenge', '${matchedSnippet}')" style="background: #fff7ed; border: 1px solid #f97316; color: #c2410c; font-size: 0.72rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
-                  💡 How to Substantiate
+                <button type="button" onclick="promptSubstantiateClaim('claim-challenge', '${challengeItem.claim}')" style="background: #fff7ed; border: 1px solid #f97316; color: #c2410c; font-size: 0.72rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
+                  💡 How to Defend
                 </button>
                 <button type="button" onclick="jumpToEditorSection('section-2-1-unified')" style="background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; font-size: 0.72rem; font-weight: 600; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
-                  ✏️ Edit in Abstract
+                  ✏️ Edit in Editor
                 </button>
               </div>
             </div>
           `;
-        } else if (liveAbstract || liveMethodology) {
+        } else if (liveAbstract || liveIntro || liveMethodology) {
           actionsHtml += `
             <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-left: 4px solid #10b981; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 0.74rem; font-weight: 700; color: #166534;">🧠 Lens 2 • Grounded Scientific Claims</span>
                 <span style="font-size: 0.65rem; background: #dcfce7; color: #15803d; padding: 1px 5px; border-radius: 4px; font-weight: 700;">Verified</span>
               </div>
-              <div style="font-size: 0.70rem; color: #15803d; margin-top: 3px;">No ungrounded superlatives detected. Narrative maintains academic objectivity.</div>
+              <div style="font-size: 0.70rem; color: #15803d; margin-top: 3px;">No ungrounded superlatives or naive fallacies detected. Narrative maintains academic objectivity.</div>
             </div>
           `;
         }
 
         // =========================================================================
-        // LENS 3: 🧪 SCIENTIFIC REVIEWER (METHODOLOGICAL RIGOR)
+        // LENS 3: 🧪 SCIENTIFIC REVIEWER (METHODOLOGICAL RIGOR & HONEST AUDIT)
         // =========================================================================
-        var chkTrips = document.getElementById("chk-control-triplicates") || document.getElementById("ctrl-triplicates");
-        var isTrips = (chkTrips && chkTrips.checked) || /triplicate|n\s*>?=\s*3|three\s+independent/i.test(liveMethodology);
+        var tripSpecEl = document.getElementById("ctrl-triplicates-spec");
+        var tripSpecVal = tripSpecEl ? tripSpecEl.value.trim() : "";
+        var isTrips = (tripSpecVal.length >= 5) || /triplicate|n\s*=\s*3|biological\s+replicate|independent\s+batches|three\s+independent/i.test(liveMethodology);
 
         actionsHtml += `
           <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-left: 4px solid #6366f1; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
@@ -11699,32 +12001,32 @@ What specific section would you like to strengthen next?`;
             </div>
             
             <!-- Check 1: Controls -->
-            <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 5px; background: ${mScore >= 85 ? '#f0fdf4' : '#fff7ed'}; border: 1px solid ${mScore >= 85 ? '#bbf7d0' : '#fed7aa'};">
+            <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 5px; background: ${hasNegControl && hasPosControl ? '#f0fdf4' : '#fff7ed'}; border: 1px solid ${hasNegControl && hasPosControl ? '#bbf7d0' : '#fed7aa'};">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; font-weight: 700; color: ${mScore >= 85 ? '#166534' : '#9a3412'};">${mScore >= 85 ? '✓ Negative Baseline Control' : '⚠️ Missing Negative Control'}</span>
-                ${mScore >= 85 ? '<span style="font-size: 0.65rem; color: #166534; font-weight: 700;">Verified</span>' : ''}
+                <span style="font-size: 0.72rem; font-weight: 700; color: ${hasNegControl && hasPosControl ? '#166534' : '#9a3412'};">${hasNegControl && hasPosControl ? '✓ Negative &amp; Positive Controls' : (!hasNegControl ? '⚠️ Missing Negative Vehicle Control' : '⚠️ Missing Positive Comparator')}</span>
+                ${hasNegControl && hasPosControl ? '<span style="font-size: 0.65rem; color: #166534; font-weight: 700;">Verified</span>' : '<span style="font-size: 0.65rem; color: #9a3412; font-weight: 700;">Action Needed</span>'}
               </div>
-              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${mScore >= 85 ? 'Negative & positive baseline controls verified in Section 4.' : 'Add a negative/vehicle baseline control for grant-panel rigor.'}</div>
-              ${mScore < 85 ? '<button type="button" onclick="insertRecommendedNegativeControl()" style="background: #ecfdf5; border: 1px solid #059669; color: #065f46; font-size: 0.71rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+ Insert Negative Control</button>' : ''}
+              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${hasNegControl && hasPosControl ? 'Negative vehicle baseline and clinical comparator verified in Section 4.' : (!hasNegControl ? 'Specify an unloaded vehicle control (blank cream base) in Section 4 to prove zero excipient interference.' : 'Specify a clinical comparator (e.g. Hydrocortisone 1% cream) for non-inferiority benchmarking.')}</div>
+              ${!hasNegControl ? '<button type="button" onclick="insertRecommendedNegativeControl()" style="background: #ecfdf5; border: 1px solid #059669; color: #065f46; font-size: 0.71rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+ Insert Negative Vehicle Control</button>' : ''}
             </div>
 
             <!-- Check 2: Quantitative Milestone -->
-            <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 5px; background: ${aimScore >= 80 ? '#f0fdf4' : '#eff6ff'}; border: 1px solid ${aimScore >= 80 ? '#bbf7d0' : '#bfdbfe'};">
+            <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 5px; background: ${hasAim2Numbers ? '#f0fdf4' : '#eff6ff'}; border: 1px solid ${hasAim2Numbers ? '#bbf7d0' : '#bfdbfe'};">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; font-weight: 700; color: ${aimScore >= 80 ? '#166534' : '#1e40af'};">${aimScore >= 80 ? '✓ Measurable Aim Milestone' : '⚠️ Quantitative Aim Milestone'}</span>
-                ${aimScore >= 80 ? '<span style="font-size: 0.65rem; color: #166534; font-weight: 700;">Verified</span>' : ''}
+                <span style="font-size: 0.72rem; font-weight: 700; color: ${hasAim2Numbers ? '#166534' : '#1e40af'};">${hasAim2Numbers ? '✓ Measurable Aim Milestone' : '⚠️ Quantitative Aim Milestone'}</span>
+                ${hasAim2Numbers ? '<span style="font-size: 0.65rem; color: #166534; font-weight: 700;">Verified</span>' : '<span style="font-size: 0.65rem; color: #1e40af; font-weight: 700;">Missing Numbers</span>'}
               </div>
-              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${aimScore >= 80 ? 'Numerical threshold / benchmark detected in Aims.' : 'Specific Aim 2 lacks a measurable threshold (e.g. LOD, IC50, or kcat).'}</div>
-              ${aimScore < 80 ? '<button type="button" onclick="insertRecommendedAim2Milestone()" style="background: #eff6ff; border: 1px solid #3b82f6; color: #1e40af; font-size: 0.71rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+ Insert Numerical Milestone</button>' : ''}
+              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${hasAim2Numbers ? 'Numerical threshold / benchmark detected in Specific Aims.' : 'Specific Aim 2 lacks an explicit target number or threshold (e.g. IC50 < 25 µg/mL, >70% release over 12 h, or Selectivity Index ≥ 3.0).'}</div>
+              ${!hasAim2Numbers ? '<button type="button" onclick="insertRecommendedAim2Milestone()" style="background: #eff6ff; border: 1px solid #3b82f6; color: #1e40af; font-size: 0.71rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+ Insert Numerical Milestone</button>' : ''}
             </div>
 
             <!-- Check 3: Replicates -->
             <div style="padding: 6px 8px; border-radius: 5px; background: ${isTrips ? '#f0fdf4' : '#faf5ff'}; border: 1px solid ${isTrips ? '#bbf7d0' : '#e9d5ff'};">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; font-weight: 700; color: ${isTrips ? '#166534' : '#6b21a8'};">${isTrips ? '✓ Biological Replicates Enabled' : '⚪ Biological Replicates'}</span>
+                <span style="font-size: 0.72rem; font-weight: 700; color: ${isTrips ? '#166534' : '#6b21a8'};">${isTrips ? '✓ Biological Replicates Enabled' : '⚪ Biological Replicates Undeclared'}</span>
                 ${isTrips ? '<span style="font-size: 0.65rem; color: #166534; font-weight: 700;">Active</span>' : ''}
               </div>
-              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${isTrips ? 'Independent biological and technical replicates enabled for statistical variance.' : 'Specify replicate structure appropriate to experimental power.'}</div>
+              <div style="font-size: 0.69rem; color: #475569; margin: 2px 0 4px 0;">${isTrips ? 'Independent biological and technical replicates enabled for statistical variance.' : 'Specify biological replicates (n=3 independent batches) × technical repeats for statistical validity.'}</div>
               ${!isTrips ? '<button type="button" onclick="enableTriplicateDesign()" style="background: #faf5ff; border: 1px solid #a855f7; color: #6b21a8; font-size: 0.71rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">✓ Enable Replicate Design</button>' : ''}
             </div>
           </div>

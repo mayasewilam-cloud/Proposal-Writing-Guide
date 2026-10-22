@@ -265,6 +265,17 @@
       "course_id": "BT_301",
       "created_at": "Oct 22, 2026 - 21:37",
       "updated_at": "Oct 22, 2026 - 21:37"
+    },
+    "TEST-USER-1B26E2": {
+      "student_id": "TEST-USER-1B26E2",
+      "student_name": "Test Student Dynamic",
+      "email": "test-user-1b26e2@student.edu.eg",
+      "lab_group": "",
+      "team_id": null,
+      "semester": "Fall 2026",
+      "course_id": "BT_301",
+      "created_at": "Oct 23, 2026 - 00:15",
+      "updated_at": "Oct 23, 2026 - 00:15"
     }
   },
   "lab_groups": {

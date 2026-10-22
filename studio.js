@@ -3226,6 +3226,9 @@ function goToStep(stepNumber) {
   renderLiveManuscript();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+window.goToStep = goToStep;
+window.switchStudioStep = goToStep;
+
 
 function initPresetSelector() {
   const select = document.getElementById("search-example-select");

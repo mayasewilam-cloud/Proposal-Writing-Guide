@@ -12,7 +12,7 @@
     "student_name": "Sara Ahmed & Team BioDetect",
     "password_hash": "pbkdf2:sha256:1000000$RTKudf8FRGGnLpvx$cabcaace1b6bab95c9890fc3cfa230d88f010edba0d6bd3c8ec8190d581ebf21",
     "created_at": "Sep 20, 2026 - 10:00",
-    "last_login": "Oct 22, 2026 - 21:37",
+    "last_login": "Oct 23, 2026 - 00:15",
     "role": "student"
   },
   "20230001": {
@@ -151,6 +151,16 @@
     "password_hash": "pbkdf2:sha256:1000000$bpF9PfexNXETwbYg$df09d4b9350272c45d93f818782a6605dc24da49b3f9e45137aad423770b8ef5",
     "created_at": "Oct 22, 2026 - 21:37",
     "last_login": "Oct 22, 2026 - 21:37",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-1B26E2": {
+    "student_id": "TEST-USER-1B26E2",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$nwvSCnIMlB0MaLYf$09d82c34c48d2a239ea087f828e02085d69ca0584f5f8c4e41395b825f0ea0e2",
+    "created_at": "Oct 23, 2026 - 00:15",
+    "last_login": "Oct 23, 2026 - 00:15",
     "role": "student",
     "pre_enrolled_by_faculty": false,
     "account_claimed": true
