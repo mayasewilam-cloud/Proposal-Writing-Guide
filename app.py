@@ -34,6 +34,7 @@ from core.impact_novelty_engine import (
 from core.paper_summarizer import (
     fetch_paper_abstract_and_meta,
     deconstruct_paper,
+    decode_paper_analyst,
     SAMPLE_PAPERS,
     JARGON_LEXICON
 )
@@ -138,15 +139,18 @@ app.register_blueprint(agent_bp, url_prefix="/agent")
 def add_cors_headers(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
+    response.headers["Access-Control-Allow-Private-Network"] = "true"
     return response
 
+@app.route("/api/<path:subpath>", methods=["OPTIONS"])
 @app.route("/agent/api/<path:subpath>", methods=["OPTIONS"])
-def agent_api_cors_preflight(subpath):
+def universal_api_cors_preflight(subpath):
     resp = jsonify({"status": "ok"})
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
+    resp.headers["Access-Control-Allow-Private-Network"] = "true"
     return resp
 
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
@@ -265,12 +269,9 @@ def serve_root_images(filename="detectr_aqua_figure2.png"):
     return jsonify({"error": "Image not found"}), 404
 
 @app.route("/studio.js")
+@app.route("/static/studio.js")
 def serve_root_js():
-    """Fail-safe direct JS route bypassing any proxy or web-server /static/ interceptors."""
-    if os.path.exists(os.path.join(BASE_DIR, "studio.js")):
-        return send_from_directory(BASE_DIR, "studio.js", mimetype="application/javascript")
-    if os.path.exists(os.path.join(STATIC_DIR, "studio.js")):
-        return send_from_directory(STATIC_DIR, "studio.js", mimetype="application/javascript")
+    """Serves the single canonical studio.js file from static/js/."""
     return send_from_directory(os.path.join(STATIC_DIR, "js"), "studio.js", mimetype="application/javascript")
 
 
@@ -345,8 +346,8 @@ def api_build_search():
     system = data.get("chassis") or data.get("system", "")
     tool = data.get("tool", "")
     target = data.get("target", "")
-    synonyms = data.get("synonyms", {})
-    result = build_boolean_query(system, tool, target, synonyms)
+    synonyms = data.get("synonyms") if isinstance(data.get("synonyms"), dict) else {}
+    result = build_boolean_query(system=system, tool=tool, target=target, synonyms=synonyms)
     return jsonify(result)
 
 
@@ -845,20 +846,73 @@ def api_fetch_paper():
 
 @app.route("/api/paper/summarize", methods=["POST"])
 def api_summarize_paper():
-    data = request.get_json() or {}
-    text = data.get("text", "")
-    title = data.get("title", "")
-    identifier = data.get("identifier", "")
-    authors = data.get("authors", "")
-    year = data.get("year")
-    journal = data.get("journal", "")
+    pdf_bytes = None
+    if request.content_type and "multipart/form-data" in request.content_type:
+        text = request.form.get("text", "")
+        title = request.form.get("title", "")
+        identifier = request.form.get("identifier", "")
+        authors = request.form.get("authors", "")
+        year = request.form.get("year")
+        journal = request.form.get("journal", "")
+        proposal_context = request.form.get("proposal_context") or request.form.get("context")
+        f = request.files.get("file") or request.files.get("pdf_file")
+        if f:
+            pdf_bytes = f.read()
+    else:
+        data = request.get_json(silent=True) or {}
+        text = data.get("text", "")
+        title = data.get("title", "")
+        identifier = data.get("identifier", "")
+        authors = data.get("authors", "")
+        year = data.get("year")
+        journal = data.get("journal", "")
+        proposal_context = data.get("proposal_context") or data.get("context")
+
     return jsonify(deconstruct_paper(
         text=text,
         title=title,
         identifier=identifier,
         authors=authors,
         year=year,
-        journal=journal
+        journal=journal,
+        proposal_context=proposal_context,
+        pdf_bytes=pdf_bytes
+    ))
+
+
+@app.route("/api/paper/decode", methods=["POST"])
+def api_decode_paper():
+    pdf_bytes = None
+    if request.content_type and "multipart/form-data" in request.content_type:
+        text = request.form.get("text", "")
+        title = request.form.get("title", "")
+        identifier = request.form.get("identifier", "")
+        authors = request.form.get("authors", "")
+        year = request.form.get("year")
+        journal = request.form.get("journal", "")
+        proposal_context = request.form.get("proposal_context") or request.form.get("context")
+        f = request.files.get("file") or request.files.get("pdf_file")
+        if f:
+            pdf_bytes = f.read()
+    else:
+        data = request.get_json(silent=True) or {}
+        text = data.get("text", "")
+        title = data.get("title", "")
+        identifier = data.get("identifier", "")
+        authors = data.get("authors", "")
+        year = data.get("year")
+        journal = data.get("journal", "")
+        proposal_context = data.get("proposal_context") or data.get("context")
+
+    return jsonify(decode_paper_analyst(
+        text=text,
+        title=title,
+        identifier=identifier,
+        authors=authors,
+        year=year,
+        journal=journal,
+        proposal_context=proposal_context,
+        pdf_bytes=pdf_bytes
     ))
 
 

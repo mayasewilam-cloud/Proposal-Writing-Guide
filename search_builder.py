@@ -15,9 +15,13 @@ def build_boolean_query(system: str = "", tool: str = "", target: str = "", chas
     Pillar 2 (tool): Enzyme, molecular probe, gene editor, therapeutic cargo, or algorithm.
     Pillar 3 (target): Target biomarker, pollutant, disease phenotype, or quantitative metric.
     """
-    system = (system or chassis).strip()
-    tool = tool.strip()
-    target = target.strip()
+    if isinstance(chassis, dict) and synonyms is None:
+        synonyms = chassis
+        chassis = ""
+    
+    system = str(system or chassis or "").strip() if not isinstance(system or chassis, (dict, list)) else ""
+    tool = str(tool or "").strip() if not isinstance(tool, (dict, list)) else ""
+    target = str(target or "").strip() if not isinstance(target, (dict, list)) else ""
 
     # Pillar 1: System / Context
     system_part = f'"{system}"' if " " in system and not system.startswith('"') else system

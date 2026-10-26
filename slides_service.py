@@ -43,10 +43,27 @@ def create_defense_presentation(data: Dict[str, Any], audit: Dict[str, Any] = No
 
     title_text = data.get("title") or "Untitled Biotechnology Research Grant Proposal"
     student_name = data.get("student_name") or "BT_301 Principal Investigator"
-    funnel = data.get("funnel", {})
-    aims = data.get("aims", {})
-    swot = data.get("swot", {})
-    pestel = data.get("pestel", {})
+    funnel_raw = data.get("funnel", {})
+    if isinstance(funnel_raw, dict):
+        funnel = funnel_raw
+    elif isinstance(funnel_raw, str):
+        funnel = {"tier1": funnel_raw, "tier2": "", "tier3": "", "tier4": ""}
+    else:
+        funnel = {}
+
+    aims_raw = data.get("aims", {})
+    if isinstance(aims_raw, dict):
+        aims = aims_raw
+    elif isinstance(aims_raw, str):
+        aims = {"aim1": aims_raw, "aim2": "", "aim3": ""}
+    else:
+        aims = {}
+
+    swot_raw = data.get("swot", {})
+    swot = swot_raw if isinstance(swot_raw, dict) else {}
+
+    pestel_raw = data.get("pestel", {})
+    pestel = pestel_raw if isinstance(pestel_raw, dict) else {}
 
     def add_header(slide, section_tag: str, main_title: str):
         header_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.7), Inches(1.1))
@@ -293,7 +310,7 @@ def create_defense_presentation(data: Dict[str, Any], audit: Dict[str, Any] = No
         f"• Current Standard ({inc_name}): Constrained by high cost, centralized machinery, and 24-48h turnaround.\n"
         f"• Emerging Alternative ({emg_name}): Offers moderate improvements but suffers from low stability or regulatory hurdles.\n"
         f"• Proposed Innovation: Combines engineered molecular tools to deliver high throughput at low unit cost.\n\n"
-        f"Unique Selling Proposition (USP):\n{data.get('usps') or 'Unlike existing commercial benchmarks, our platform delivers 4-fold higher catalytic activity under ambient conditions, cutting operational expenditures by 60%.'}"
+        f"Unique Selling Proposition (USP):\n{(data.get('usps') or data.get('usp') or data.get('unique_selling_proposition')) or 'Unlike existing commercial benchmarks, our platform delivers 4-fold higher catalytic activity under ambient conditions, cutting operational expenditures by 60%.'}"
     )
     p_comp2.font.size = Pt(13)
     p_comp2.font.color.rgb = SLATE_TEXT

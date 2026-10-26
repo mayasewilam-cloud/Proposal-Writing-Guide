@@ -1,6 +1,6 @@
 """
 BT301 Complete Student Guide Engine & Knowledge Provider.
-Loads, indexes, searches, and serves the 29-chapter BT301 Course Guide
+Loads, indexes, searches, and serves the 31-chapter BT301 Course Guide
 ("From Zero to a Fundable Research Proposal").
 
 Integrates:
@@ -8,8 +8,8 @@ Integrates:
 - Part B: Find & Shape Your Project (Chapters 6–11)
 - Part C: Learn to Write (Chapters 12–18)
 - Part D: Write the Proposal (Chapters 19–26)
-- Part E: Review & Submit (Chapters 27–30)
-- Part F: Reference & Templates (Chapters 31–34)
+- Part E: Review & Submit (Chapters 27–28)
+- Part F: Reference & Templates (Chapters 29–31)
 """
 
 import json
@@ -22,7 +22,7 @@ _DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "bt301_guide.
 
 
 def load_guide_data() -> List[Dict[str, Any]]:
-    """Loads and caches the 29-chapter BT301 guide."""
+    """Loads and caches the 31-chapter BT301 guide."""
     global _GUIDE_CACHE
     if _GUIDE_CACHE is not None:
         return _GUIDE_CACHE
@@ -64,7 +64,7 @@ def load_guide_data() -> List[Dict[str, Any]]:
 
 
 def get_all_chapters() -> List[Dict[str, Any]]:
-    """Returns metadata for all 29 chapters."""
+    """Returns metadata for all 31 chapters."""
     guide = load_guide_data()
     summary_list = []
     for ch in guide:
@@ -80,7 +80,7 @@ def get_all_chapters() -> List[Dict[str, Any]]:
 
 
 def get_chapter(number: int) -> Optional[Dict[str, Any]]:
-    """Retrieves full text and details for a specific chapter number (1-34)."""
+    """Retrieves full text and details for a specific chapter number (1-31)."""
     guide = load_guide_data()
     for ch in guide:
         if ch.get("number") == number:
@@ -94,7 +94,7 @@ def get_quick_finder() -> List[Dict[str, Any]]:
         {
             "problem": "I don't understand a word in a paper",
             "solution": "Check vocabulary definitions and the full alphabetical glossary.",
-            "chapters": [2, 32],
+            "chapters": [2, 30],
             "action": "open_chapter",
             "icon": "📖"
         },
@@ -111,6 +111,13 @@ def get_quick_finder() -> List[Dict[str, Any]]:
             "chapters": [7],
             "action": "open_chapter",
             "icon": "🔍"
+        },
+        {
+            "problem": "I don't know how to cite in APA or format my references",
+            "solution": "Use the complete APA 7th Edition citation handbook (in-text parenthetical/narrative, 11 source templates A–K, DOI rules, reference managers).",
+            "chapters": [5],
+            "action": "open_chapter",
+            "icon": "📚"
         },
         {
             "problem": "I don't know what topic to choose",
@@ -142,7 +149,7 @@ def get_quick_finder() -> List[Dict[str, Any]]:
         },
         {
             "problem": "I don't know what goes in each proposal section",
-            "solution": "Follow the 7-section architecture and step-by-step drafting rules.",
+            "solution": "Follow the 10-section architecture and step-by-step scientific proposal drafting rules.",
             "chapters": [19, 20, 21, 22, 23, 24, 25, 26],
             "action": "open_chapter",
             "icon": "📐"
@@ -157,14 +164,14 @@ def get_quick_finder() -> List[Dict[str, Any]]:
         {
             "problem": "I want to audit and check before submitting",
             "solution": "Grade your draft against the official rubric and master 30-item checklist.",
-            "chapters": [28, 29, 30],
+            "chapters": [27, 28],
             "action": "open_chapter",
             "icon": "✅"
         },
         {
             "problem": "I need fill-in templates",
             "solution": "Copy standardized fill-in proposal templates and budget tables.",
-            "chapters": [31, 33],
+            "chapters": [29, 31],
             "action": "open_chapter",
             "icon": "📝"
         }
@@ -302,25 +309,25 @@ def get_sentence_formulation_guide() -> Dict[str, Any]:
 
 def get_glossary_terms() -> Dict[str, Dict[str, Any]]:
     """
-    Parses and returns all structured glossary terms from Chapter 32 of the guide.
+    Parses and returns all structured glossary terms from Chapter 30 of the guide.
     Maps lowercase terms and aliases to their definition, standard formula, and guide reference.
     """
-    ch32 = get_chapter(32)
-    if not ch32 or "content" not in ch32:
+    ch30 = next((c for c in load_guide_data() if "glossary" in c.get("title", "").lower()), None) or get_chapter(30)
+    if not ch30 or "content" not in ch30:
         return {}
     
     terms = {}
-    lines = ch32["content"].split("\n")
+    lines = ch30["content"].split("\n")
     for line in lines:
         parts = line.split("\t")
         if len(parts) >= 2:
             t = parts[0].strip()
-            if not t or t == "Term" or t.startswith("Chapter") or t.startswith("32."):
+            if not t or t == "Term" or t.startswith("Chapter") or t.startswith("30.") or t.startswith("31."):
                 continue
             d = parts[1].strip()
-            r = parts[2].strip() if len(parts) > 2 else "Chapter 32"
+            r = parts[2].strip() if len(parts) > 2 else "Chapter 30"
             ch_m = re.search(r'Chapter\s*(\d+)', r)
-            ch_num = int(ch_m.group(1)) if ch_m else 32
+            ch_num = int(ch_m.group(1)) if ch_m else 30
             
             clean_t = t.lower()
             core_t = re.sub(r'\(.*?\)', '', clean_t).strip()
@@ -349,7 +356,7 @@ def get_glossary_terms() -> Dict[str, Dict[str, Any]]:
 
 
 def get_glossary_term(query: str) -> Optional[Dict[str, Any]]:
-    """Matches a term query against all Chapter 32 glossary definitions."""
+    """Matches a term query against all Chapter 30 glossary definitions."""
     if not query:
         return None
     lower = query.lower().strip()

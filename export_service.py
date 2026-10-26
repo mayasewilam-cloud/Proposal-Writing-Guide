@@ -292,15 +292,44 @@ def generate_markdown_portfolio(data: Dict[str, Any], audit_results: Dict[str, A
         md.append(exp_outcomes + "\n")
 
     table_items = data.get("expected_results_table", [])
+    custom_cols = data.get("table2_columns")
     if isinstance(table_items, list) and table_items:
-        valid_items = [r for r in table_items if r.get("metric") or r.get("method") or r.get("criterion")]
+        if isinstance(custom_cols, list) and len(custom_cols) >= 2:
+            cols = custom_cols
+        elif any(isinstance(r, dict) and (r.get("comparator") or r.get("value")) for r in table_items):
+            cols = [
+                {"id": "obj", "label": "Target / Parameter (Obj)"},
+                {"id": "method", "label": "Experimental Assay & Condition"},
+                {"id": "comparator", "label": "Baseline / Comparator"},
+                {"id": "value", "label": "Anticipated Value (± SD / Unit)"},
+                {"id": "criterion", "label": "Acceptance Criterion & Benchmark"}
+            ]
+        else:
+            cols = [
+                {"id": "obj", "label": "Obj."},
+                {"id": "metric", "label": "Metric"},
+                {"id": "method", "label": "Method"},
+                {"id": "criterion", "label": "Expected result / acceptance criterion"}
+            ]
+
+        valid_items = [r for r in table_items if isinstance(r, dict) and any(r.get(c.get("id")) for c in cols)]
         if valid_items:
-            md.append("### Table 2. Expected results and acceptance criteria.\n")
-            md.append("| Obj. | Metric | Method | Expected result / acceptance criterion |")
-            md.append("| :---: | :--- | :--- | :--- |")
+            md.append("### Table 2. Analytical validation and expected results (Formulated Table).\n")
+            headers = [c.get("label", c.get("id", "Column")) for c in cols]
+            md.append("| " + " | ".join(headers) + " |")
+            md.append("| " + " | ".join([":---" for _ in headers]) + " |")
             for r in valid_items:
-                md.append(f"| {r.get('obj', '—')} | {r.get('metric', '—')} | {r.get('method', '—')} | {r.get('criterion', '—')} |")
-            md.append("")
+                row_vals = []
+                for c in cols:
+                    cid = c.get("id", "")
+                    val = r.get(cid)
+                    if not val and cid == "value":
+                        val = r.get("metric", "—")
+                    elif not val and cid == "metric":
+                        val = r.get("value", "—")
+                    row_vals.append(str(val or "—").replace("|", "\|").replace("\n", " "))
+                md.append("| " + " | ".join(row_vals) + " |")
+            md.append("\n*Note: Values represent hypothesized targets grounded in peer-reviewed literature, evaluated across biological replicates with pre-specified acceptance criteria.*\n")
 
     img_data, img_cap = _extract_image_info(data)
     if img_data:
@@ -312,6 +341,27 @@ def generate_markdown_portfolio(data: Dict[str, Any], audit_results: Dict[str, A
     if exp_contingency:
         md.append(f"*{exp_contingency}*\n")
     md.append("---\n")
+
+    # 5.4 Structured Risk Assessment & Plan B Matrix (Table 3)
+    risks_list = data.get("biotech_risks") or data.get("risks") or []
+    if isinstance(risks_list, list) and risks_list:
+        valid_risks = [r for r in risks_list if isinstance(r, dict) and (r.get("failure_mode") or r.get("plan_b"))]
+        if valid_risks:
+            md.append("### Table 3. Structured Risk Assessment & Contingency Plan B Matrix.\n")
+            md.append("| Potential Failure Mode | Severity Level | Contingency Plan B |")
+            md.append("| :--- | :---: | :--- |")
+            for r in valid_risks:
+                fm = str(r.get("failure_mode") or "—").replace("|", "\\|").replace("\n", " ")
+                sev = str(r.get("severity") or "Moderate").replace("|", "\\|")
+                pb = str(r.get("plan_b") or "—").replace("|", "\\|").replace("\n", " ")
+                md.append(f"| {fm} | **{sev}** | {pb} |")
+            md.append("\n*Pre-specified technical failure modes, risk levels, and pre-approved Plan B fallbacks.*\n")
+
+    # Strategic Positioning: Unique Selling Points (USPs) & Pre-Ansoff Foundation
+    usp_val = data.get("usps") or data.get("usp") or data.get("unique_selling_proposition")
+    if usp_val:
+        md.append("# Strategic Positioning: Unique Selling Points (USPs) & Competitive Value Proposition\n")
+        md.append(f"**Unique Selling Proposition (Pre-Ansoff Foundation):**\n\n{str(usp_val).strip()}\n\n---\n")
 
     # 6. Ansoff Matrix for Biotechnology
     md.append("# 6. Ansoff Matrix for Biotechnology")
@@ -620,29 +670,52 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
         p_exp.add_run("The study is expected to deliver validated protocols, analytical performance datasets, and comparative benchmark data.")
 
     table_items = data.get("expected_results_table", [])
+    custom_cols = data.get("table2_columns")
     if isinstance(table_items, list) and table_items:
-        valid_items = [r for r in table_items if r.get("metric") or r.get("method") or r.get("criterion")]
+        if isinstance(custom_cols, list) and len(custom_cols) >= 2:
+            cols = custom_cols
+        elif any(isinstance(r, dict) and (r.get("comparator") or r.get("value")) for r in table_items):
+            cols = [
+                {"id": "obj", "label": "Target / Parameter (Obj)"},
+                {"id": "method", "label": "Experimental Assay & Condition"},
+                {"id": "comparator", "label": "Baseline / Comparator"},
+                {"id": "value", "label": "Anticipated Value (± SD / Unit)"},
+                {"id": "criterion", "label": "Acceptance Criterion & Benchmark"}
+            ]
+        else:
+            cols = [
+                {"id": "obj", "label": "Obj."},
+                {"id": "metric", "label": "Metric"},
+                {"id": "method", "label": "Method"},
+                {"id": "criterion", "label": "Expected result / acceptance criterion"}
+            ]
+
+        valid_items = [r for r in table_items if isinstance(r, dict) and any(r.get(c.get("id")) for c in cols)]
         if valid_items:
             p_t2 = doc.add_paragraph()
-            r_t2 = p_t2.add_run("Table 2. Expected results and acceptance criteria.")
+            r_t2 = p_t2.add_run("Table 2. Analytical validation and expected results.")
             r_t2.font.bold = True
 
-            res_table = doc.add_table(rows=len(valid_items) + 1, cols=4)
+            res_table = doc.add_table(rows=len(valid_items) + 1, cols=len(cols))
             res_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-            for idx, h in enumerate(["Obj.", "Metric", "Method", "Expected result / acceptance criterion"]):
-                c = res_table.rows[0].cells[idx]
-                c.text = h
-                _set_cell_background(c, "1E293B")
-                c.paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
-                c.paragraphs[0].runs[0].font.bold = True
-            for idx, r in enumerate(valid_items, 1):
-                row = res_table.rows[idx]
-                row.cells[0].text = str(r.get("obj", idx))
-                row.cells[1].text = str(r.get("metric", "—"))
-                row.cells[2].text = str(r.get("method", "—"))
-                row.cells[3].text = str(r.get("criterion", "—"))
-                if idx % 2 == 0:
-                    for c_idx in range(4):
+            for idx, c in enumerate(cols):
+                cell = res_table.rows[0].cells[idx]
+                cell.text = c.get("label", c.get("id", "Column"))
+                _set_cell_background(cell, "1E293B")
+                cell.paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
+                cell.paragraphs[0].runs[0].font.bold = True
+
+            for r_idx, r in enumerate(valid_items, 1):
+                row = res_table.rows[r_idx]
+                for c_idx, c in enumerate(cols):
+                    cid = c.get("id", "")
+                    val = r.get(cid)
+                    if not val and cid == "value":
+                        val = r.get("metric", "—")
+                    elif not val and cid == "metric":
+                        val = r.get("value", "—")
+                    row.cells[c_idx].text = str(val or "—")
+                    if r_idx % 2 == 0:
                         _set_cell_background(row.cells[c_idx], "F8FAFC")
 
     # Results Figure / Photo Insertion
@@ -656,6 +729,43 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
         add_formatted_runs(p_cont, exp_contingency, base_italic=True)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(14)
+
+    # 5.4 Structured Risk Assessment & Plan B Matrix (Table 3)
+    risks_list = data.get("biotech_risks") or data.get("risks") or []
+    if isinstance(risks_list, list) and risks_list:
+        valid_risks = [r for r in risks_list if isinstance(r, dict) and (r.get("failure_mode") or r.get("plan_b"))]
+        if valid_risks:
+            p_t3 = doc.add_paragraph()
+            r_t3 = p_t3.add_run("Table 3. Structured Risk Assessment & Contingency Plan B Matrix.")
+            r_t3.font.bold = True
+
+            t3_table = doc.add_table(rows=len(valid_risks) + 1, cols=3)
+            t3_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+            for idx, h in enumerate(["Potential Failure Mode", "Severity Level", "Contingency Plan B"]):
+                c = t3_table.rows[0].cells[idx]
+                c.text = h
+                _set_cell_background(c, "1E293B")
+                c.paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
+                c.paragraphs[0].runs[0].font.bold = True
+
+            for r_idx, r in enumerate(valid_risks, 1):
+                row = t3_table.rows[r_idx]
+                row.cells[0].text = str(r.get("failure_mode") or "—")
+                row.cells[1].text = str(r.get("severity") or "Moderate")
+                row.cells[2].text = str(r.get("plan_b") or "—")
+                if r_idx % 2 == 0:
+                    for c_idx in range(3):
+                        _set_cell_background(row.cells[c_idx], "F8FAFC")
+            doc.add_paragraph().paragraph_format.space_after = Pt(10)
+
+    # Strategic Positioning: Unique Selling Points (USPs) & Pre-Ansoff Foundation
+    usp_val = data.get("usps") or data.get("usp") or data.get("unique_selling_proposition")
+    if usp_val:
+        doc.add_heading("Strategic Positioning: Unique Selling Points (USPs)", level=1)
+        p_usp = doc.add_paragraph()
+        p_usp.add_run("Unique Selling Proposition (Pre-Ansoff Foundation):\n").bold = True
+        add_formatted_runs(p_usp, str(usp_val).strip())
+        p_usp.paragraph_format.space_after = Pt(14)
 
     # 6. Ansoff Matrix for Biotechnology
     doc.add_heading("6. Ansoff Matrix for Biotechnology", level=1)

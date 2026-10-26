@@ -3932,7 +3932,7 @@ p, li { font-size: 11pt; line-height: 1.5; }
     window.loadStudentDraft = loadStudentDraft;
     window.applyStudentDraftToUI = applyStudentDraftToUI;
   </script>
-  <script src="faculty_cohort.js" onerror="this.src='/static/faculty_cohort.js'"></script>
+  <script src="faculty_cohort.js" onerror="if(!this._s1){this._s1=1;this.src='static/faculty_cohort.js';}else if(this._s1===1){this._s1=2;this.src='../faculty_cohort.js';}else if(this._s1===2){this._s1=3;this.src='/static/faculty_cohort.js';}"></script>
 </body>
 </html>
 
