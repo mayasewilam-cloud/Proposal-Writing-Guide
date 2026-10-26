@@ -1857,21 +1857,26 @@ body {
 }
 
 @media print {
-  body * {
+  /* Print isolation for modal pitch-sheet if active */
+  body.printing-pitch-sheet * {
     visibility: hidden;
   }
-  .pitch-sheet-wrapper, .pitch-sheet-wrapper * {
+  body.printing-pitch-sheet .pitch-sheet-wrapper,
+  body.printing-pitch-sheet .pitch-sheet-wrapper * {
     visibility: visible;
   }
-  .pitch-sheet-wrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    max-width: 100%;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+
+  /* Document & Manuscript print visibility */
+  .manuscript-paper, .manuscript-paper *,
+  .official-doc-container, .official-doc-container * {
+    visibility: visible !important;
+  }
+
+  /* Section 10 References visibility in print */
+  #manu-references, #manu-references *,
+  .manuscript-refs, .manuscript-refs * {
+    visibility: visible !important;
+    display: block !important;
   }
 }
 
@@ -6397,26 +6402,47 @@ textarea:focus {
 @media print {
   @page {
     size: letter;
-    margin: 1in;
+    margin: 0.8in;
   }
   body, html {
     background: #ffffff !important;
     color: #000000 !important;
+    visibility: visible !important;
   }
   .app-header, .stepper-bar-container, .wizard-header, .step-nav-footer, 
   .guide-card-header button, .nature-actions-group, .proposal-format-bar,
-  #copilot-docked-drawer, #btn-nav-agent-compliance {
+  #copilot-docked-drawer, #btn-nav-agent-compliance,
+  .top-navbar, .step-navigation, .drawer-container,
+  .btn-manu-action, .fmt-toolbar, .btn-secondary {
     display: none !important;
   }
   .official-doc-container, .manuscript-paper {
+    visibility: visible !important;
+    display: block !important;
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     max-width: 100% !important;
     width: 100% !important;
-    font-size: 12pt !important;
+    font-size: 11pt !important;
     line-height: 1.5 !important;
+  }
+  .official-doc-container *, .manuscript-paper * {
+    visibility: visible !important;
+  }
+  .manuscript-panel {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: static !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  #manu-references, .manuscript-refs {
+    page-break-inside: avoid;
+    visibility: visible !important;
+    display: block !important;
   }
   .official-doc-sec-h1 {
     page-break-after: avoid;
@@ -7032,4 +7058,30 @@ body, p, span, div, label, input, textarea, select {
   background: #334155 !important;
   border-color: #94a3b8 !important;
   color: #ffffff !important;
+}
+
+
+/* Responsive Mobile & Tablet Optimizations (Fix Negative 3) */
+@media (max-width: 768px) {
+  #copilot-drawer {
+    width: 100vw !important;
+    max-width: 100% !important;
+    right: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.3) !important;
+  }
+  .table-responsive-container,
+  #expected-results-table,
+  #budget-egp-table,
+  .budget-egp-table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .res-cell-input {
+    min-width: 130px !important;
+    font-size: 0.75rem !important;
+    padding: 4px 6px !important;
+  }
 }
