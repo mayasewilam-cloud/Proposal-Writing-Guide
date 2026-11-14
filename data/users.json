@@ -1,0 +1,352 @@
+{
+  "13989": {
+    "student_id": "13989",
+    "student_name": "Maya Abdelrazek",
+    "password_hash": "pbkdf2:sha256:1000000$6zP9pWnASb48MwRk$403c4bb9f7ab4d5313226c8fb59a99ded6407655b64133402df9c2e19ff92dae",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 05, 2026 - 20:13",
+    "role": "student"
+  },
+  "ST-2026-01": {
+    "student_id": "ST-2026-01",
+    "student_name": "Sara Ahmed & Team BioDetect",
+    "password_hash": "pbkdf2:sha256:1000000$RTKudf8FRGGnLpvx$cabcaace1b6bab95c9890fc3cfa230d88f010edba0d6bd3c8ec8190d581ebf21",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Nov 09, 2026 - 19:20",
+    "role": "student"
+  },
+  "20230001": {
+    "student_id": "20230001",
+    "student_name": "Ahmed Ali",
+    "password_hash": "pbkdf2:sha256:1000000$crxD4yTqYInE6i5O$9156607e7045b51c8e0866f123e0ee950da5ea8fd5fbc55b5495c427d23f0421",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Nov 09, 2026 - 21:06",
+    "role": "student",
+    "lab_group": "L3",
+    "semester": "Fall 2026",
+    "course_id": "BT_301",
+    "email": "ahmed.ali@student.edu.eg",
+    "pre_enrolled_by_faculty": true,
+    "account_claimed": false
+  },
+  "20230002": {
+    "student_id": "20230002",
+    "student_name": "Sara Mohamed",
+    "password_hash": "pbkdf2:sha256:1000000$udFmezvBV91CEOAO$ebaeb8cc0ffb56bd4a0ce33c4d3a331faae4b8622ae215d200035300da2a3e62",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Nov 09, 2026 - 21:05",
+    "role": "student"
+  },
+  "20230003": {
+    "student_id": "20230003",
+    "student_name": "Mariam Hassan",
+    "password_hash": "pbkdf2:sha256:1000000$wEklZZZA7ZL5Mpq2$9c4fe30a35750b3406bc6d45b137b192319b98641a9125041d5d60635fbbc84f",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230004": {
+    "student_id": "20230004",
+    "student_name": "Karim Adel",
+    "password_hash": "pbkdf2:sha256:1000000$FI8REJYw5KKcHf5l$2b109be7b9138303a4f3c77a8355fc6339985f1182005e7dbabae24d8e940290",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230005": {
+    "student_id": "20230005",
+    "student_name": "Omar Khaled",
+    "password_hash": "pbkdf2:sha256:1000000$g147hpolCdqEcqmk$eb64779d35e4e6b22dcd77ea2c4d38dec013071572314d1a7acfef84b0c1b1a8",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230006": {
+    "student_id": "20230006",
+    "student_name": "Nour Hany",
+    "password_hash": "pbkdf2:sha256:1000000$HeGnGXXkmWb597Xp$ffaa6408dac5ac17b80b904dc17ed519f1c0b83a3efda19cd5fe6b2cabd92c88",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Oct 08, 2026 - 13:59",
+    "role": "student"
+  },
+  "20230007": {
+    "student_id": "20230007",
+    "student_name": "Youssef Tarek",
+    "password_hash": "pbkdf2:sha256:1000000$18VSjJKaQ4q0omc7$969c298ee8cb85e00bf1e2150a6af1d8d77532e0931f817f2e6e11e6ff4a5fe4",
+    "created_at": "Sep 20, 2026 - 10:00",
+    "last_login": "Nov 09, 2026 - 21:05",
+    "role": "student"
+  },
+  "TEST-USER-B4224E": {
+    "student_id": "TEST-USER-B4224E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$8s3oWO3WH5wDCTHI$46ad09401090e435b44fb578d146bd734a7ac4ad28c76db7099a79e32dc53f97",
+    "created_at": "Oct 19, 2026 - 23:47",
+    "last_login": "Oct 19, 2026 - 23:47",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-C3777E": {
+    "student_id": "TEST-USER-C3777E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$uFf7LJre3DDn1l6K$b20ed8cf638a4c84affa3dfa6dd013a3e75eb008f29fe899adfb9de702109dba",
+    "created_at": "Oct 21, 2026 - 22:33",
+    "last_login": "Oct 21, 2026 - 22:33",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-34D270": {
+    "student_id": "TEST-USER-34D270",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$gJ8jnZY7q0XKcFOx$21685003b7475ae14aeb269e8a906254769bc424b10e34beaee94c7b68304198",
+    "created_at": "Oct 21, 2026 - 22:43",
+    "last_login": "Oct 21, 2026 - 22:43",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-37473E": {
+    "student_id": "TEST-USER-37473E",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$xIBk9WeEgLuEDjIp$e22a192182355e4fb3587baa9796e4b80b192c803d7460cd6877c696c0a8eaaf",
+    "created_at": "Oct 22, 2026 - 20:45",
+    "last_login": "Oct 22, 2026 - 20:45",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-796760": {
+    "student_id": "TEST-USER-796760",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$LPs0D1OaRhLKl4Yt$240790c7db36050d750a5a71ef26e0e232bffbe45bc370a92015e5077dd2d687",
+    "created_at": "Oct 22, 2026 - 21:02",
+    "last_login": "Oct 22, 2026 - 21:02",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-C33D9F": {
+    "student_id": "TEST-USER-C33D9F",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$zUu5oy4VSbqTcDXb$321c55143533c8c7f94b1a8af1b088e93ee616c5a3756c2c26e1cefeba391234",
+    "created_at": "Oct 22, 2026 - 21:14",
+    "last_login": "Oct 22, 2026 - 21:14",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-71C2C2": {
+    "student_id": "TEST-USER-71C2C2",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$wRUGuMnkjuhH0uLz$eec348beaa07e3103054c915a5ec3a965e43c6c24224c01bd03eb0e924714928",
+    "created_at": "Oct 22, 2026 - 21:16",
+    "last_login": "Oct 22, 2026 - 21:16",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-0235FC": {
+    "student_id": "TEST-USER-0235FC",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$bpF9PfexNXETwbYg$df09d4b9350272c45d93f818782a6605dc24da49b3f9e45137aad423770b8ef5",
+    "created_at": "Oct 22, 2026 - 21:37",
+    "last_login": "Oct 22, 2026 - 21:37",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-1B26E2": {
+    "student_id": "TEST-USER-1B26E2",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$nwvSCnIMlB0MaLYf$09d82c34c48d2a239ea087f828e02085d69ca0584f5f8c4e41395b825f0ea0e2",
+    "created_at": "Oct 23, 2026 - 00:15",
+    "last_login": "Oct 23, 2026 - 00:15",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-2DA8FB": {
+    "student_id": "TEST-USER-2DA8FB",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$pGpOA4Kt5lgizGsX$7b9ced9dbfb2ca2b5076a643c2b12eab19a20814fc6020ed069850af4d2a83ee",
+    "created_at": "Oct 24, 2026 - 11:40",
+    "last_login": "Oct 24, 2026 - 11:40",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-6442AB": {
+    "student_id": "TEST-USER-6442AB",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$X1cPwYoIakykPHqJ$b7c5212b89cd950a5b17c3a1358d01faadaa9df337f235c4933697fd568f94cf",
+    "created_at": "Oct 24, 2026 - 12:47",
+    "last_login": "Oct 24, 2026 - 12:47",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-22D5E0": {
+    "student_id": "TEST-USER-22D5E0",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$NIAN4CboBVyqc5yC$17f0657edac844d3770dc7c0508c9b1c4bcdbf0792efe2045d83b37f8bc2fb35",
+    "created_at": "Oct 25, 2026 - 21:31",
+    "last_login": "Oct 25, 2026 - 21:31",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-9D7D6C": {
+    "student_id": "TEST-USER-9D7D6C",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$3S77CR2YcNVJ3VJg$72c793c7e4c25dd34a011903d5336d73f178aa2c31793a7123817dd9d6919052",
+    "created_at": "Nov 09, 2026 - 13:34",
+    "last_login": "Nov 09, 2026 - 13:34",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "AUDIT-STU-1794224480": {
+    "student_id": "AUDIT-STU-1794224480",
+    "student_name": "Audit Student Tester",
+    "password_hash": "pbkdf2:sha256:1000000$ck1XYlKRTHU7Okha$06b21f51b3dc93c55efe7d42a96f4dd2b28719f8697b0f81e3ecff29bce21269",
+    "created_at": "Nov 09, 2026 - 13:41",
+    "last_login": "Nov 09, 2026 - 13:41",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "AUDIT-STU-1794224581": {
+    "student_id": "AUDIT-STU-1794224581",
+    "student_name": "Audit Student Tester",
+    "password_hash": "pbkdf2:sha256:1000000$nnasXpvijLBiHq5C$635cb2b7fe00ccacc34908292054aa932f7320b8f5dcb2d849353c443de98ae8",
+    "created_at": "Nov 09, 2026 - 13:43",
+    "last_login": "Nov 09, 2026 - 13:43",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-118F2D": {
+    "student_id": "TEST-USER-118F2D",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$p5AxXb0Fllie2T7y$138bacb6747b4c6f7ccc1b389c1bcbe5d3e4ff894bf34339d453d8473fbf1b03",
+    "created_at": "Nov 09, 2026 - 15:01",
+    "last_login": "Nov 09, 2026 - 15:01",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-C9A7A8": {
+    "student_id": "TEST-USER-C9A7A8",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$rAMtsBmb4dihqgDD$738a889d21f1743cbfc048d54f96b374128764f92ee7ab1e289da37341a29d24",
+    "created_at": "Nov 09, 2026 - 15:20",
+    "last_login": "Nov 09, 2026 - 15:20",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-6EE271": {
+    "student_id": "TEST-USER-6EE271",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$jv1Sdn6AuN5DtpuY$cd73bcc7f1fbc3ed6fd0958d06a005466ceb009593182c9f9a95bf1773269ea8",
+    "created_at": "Nov 09, 2026 - 15:30",
+    "last_login": "Nov 09, 2026 - 15:30",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-860239": {
+    "student_id": "TEST-USER-860239",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$32sJYKTiPHEsl0B7$ad557dc1d70a68c9a07fd41d951d01e612a4d16086ed99a99728dd57aa43425a",
+    "created_at": "Nov 09, 2026 - 15:32",
+    "last_login": "Nov 09, 2026 - 15:32",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-55B4F8": {
+    "student_id": "TEST-USER-55B4F8",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$pGT4BBFQTM3Xt7sa$a234316debd69e3fe21ae251638bd643b14d1d65d9a280581d0dd8196ffc3ea8",
+    "created_at": "Nov 09, 2026 - 15:34",
+    "last_login": "Nov 09, 2026 - 15:34",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-AE0152": {
+    "student_id": "TEST-USER-AE0152",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$rDXj08T9XmW9vVKp$705685c93d0642e63b59107b566b5e49f861fb9d06d356f4c82fb9f6efdf9258",
+    "created_at": "Nov 09, 2026 - 18:33",
+    "last_login": "Nov 09, 2026 - 18:33",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-802A02": {
+    "student_id": "TEST-USER-802A02",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$qFIWq01Q9FZFFfmk$147c45d09e5435ba9c4167ba003ba440dea82658796f30bfede0d4bec6cfbf1f",
+    "created_at": "Nov 09, 2026 - 18:34",
+    "last_login": "Nov 09, 2026 - 18:34",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "TEST-USER-DD129D": {
+    "student_id": "TEST-USER-DD129D",
+    "student_name": "Test Student Dynamic",
+    "password_hash": "pbkdf2:sha256:1000000$95qAw5qMDqIZoo3l$8dffd2ece3bfa9be212f3d092c5ba6a726ee6db1064d77e0a8ac73ddc03b259d",
+    "created_at": "Nov 09, 2026 - 19:20",
+    "last_login": "Nov 09, 2026 - 19:20",
+    "role": "student",
+    "pre_enrolled_by_faculty": false,
+    "account_claimed": true
+  },
+  "20230901": {
+    "student_id": "20230901",
+    "student_name": "Hana Tarek",
+    "email": "hana.tarek@student.edu.eg",
+    "lab_group": "L4",
+    "semester": "Fall 2026",
+    "course_id": "BT_301",
+    "password_hash": "pbkdf2:sha256:1000000$v7u1htz0tKPcU8kQ$cace888e91affd016ba8c3952bdeb77772135b4f2b5c48a77f5352c4551c3caa",
+    "created_at": "Nov 09, 2026 - 21:05",
+    "last_login": "Nov 09, 2026 - 21:06",
+    "role": "student",
+    "pre_enrolled_by_faculty": true,
+    "account_claimed": true
+  },
+  "20230902": {
+    "student_id": "20230902",
+    "student_name": "Ziad Adel",
+    "email": "ziad.adel@student.edu.eg",
+    "lab_group": "L4",
+    "semester": "Fall 2026",
+    "course_id": "BT_301",
+    "password_hash": "pbkdf2:sha256:1000000$BHlj2kjB9jEFHGjB$fbbbf5b25c457faadb2fec4833c3f06e6e3c52c128294127cd2067c2db4aab24",
+    "created_at": "Nov 09, 2026 - 21:05",
+    "last_login": "Nov 09, 2026 - 21:05",
+    "role": "student",
+    "pre_enrolled_by_faculty": true,
+    "account_claimed": false
+  },
+  "20230903": {
+    "student_id": "20230903",
+    "student_name": "Nouran Sameh",
+    "email": "nouran.sameh@student.edu.eg",
+    "lab_group": "L4",
+    "semester": "Fall 2026",
+    "course_id": "BT_301",
+    "password_hash": "pbkdf2:sha256:1000000$FwiQKeebSPEEIaYm$84deec66ad4c8fe01bb019ff6016362f18252015fd9183294153eab552a2a681",
+    "created_at": "Nov 09, 2026 - 21:06",
+    "last_login": "Nov 09, 2026 - 21:06",
+    "role": "student",
+    "pre_enrolled_by_faculty": true,
+    "account_claimed": false
+  }
+}

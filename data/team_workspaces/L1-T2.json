@@ -1,0 +1,122 @@
+{
+  "proposal_draft": {
+    "student_id": "L1-T2",
+    "student_name": "Team 2 — PhytoNano",
+    "title": "Plant-Derived Compounds and Anti-Inflammatory Nanocarriers",
+    "abstract": "",
+    "chassis": "",
+    "tool": "",
+    "target": "",
+    "funnel": {
+      "tier1": "",
+      "tier2": "",
+      "tier3": "",
+      "tier4": ""
+    },
+    "aims": {
+      "overarching": "",
+      "aim1": "",
+      "aim2": "",
+      "aim3": ""
+    },
+    "methodology": "",
+    "matrix": {
+      "yellow": "",
+      "blue": "",
+      "green": "",
+      "purple": "",
+      "red": "",
+      "citation": ""
+    },
+    "impact_data": {
+      "academic": "",
+      "economic": "",
+      "societal": ""
+    },
+    "competitor_data": {
+      "usp": ""
+    },
+    "swot": {
+      "s": "",
+      "w": "",
+      "o": "",
+      "t": ""
+    },
+    "pestel": {
+      "political": "",
+      "economic": "",
+      "social": "",
+      "technological": "",
+      "environmental": "",
+      "legal": ""
+    },
+    "time_plan": "",
+    "budget": "",
+    "budget_egp_items": [],
+    "references": "",
+    "team_roster": [
+      {
+        "name": "Mariam Hassan",
+        "id": "20230003",
+        "email": "mariam.hassan@student.edu.eg",
+        "role": "Principal Investigator"
+      },
+      {
+        "name": "Karim Adel",
+        "id": "20230004",
+        "email": "karim.adel@student.edu.eg",
+        "role": "Co-Investigator"
+      }
+    ],
+    "team_members": [
+      {
+        "name": "Mariam Hassan",
+        "id": "20230003",
+        "email": "mariam.hassan@student.edu.eg",
+        "role": "Principal Investigator"
+      },
+      {
+        "name": "Karim Adel",
+        "id": "20230004",
+        "email": "karim.adel@student.edu.eg",
+        "role": "Co-Investigator"
+      }
+    ],
+    "team_id": "L1-T2",
+    "team_name": "Team 2 — PhytoNano",
+    "lab_group": "L1",
+    "pi_name": "Dr. Ahmed Hassan",
+    "assigned_topic": "Plant-Derived Compounds and Anti-Inflammatory Nanocarriers"
+  },
+  "team_id": "L1-T2",
+  "team_name": "Team 2 — PhytoNano",
+  "lab_group": "L1",
+  "semester": "Fall 2026",
+  "course_id": "BT_301",
+  "pi_id": "PI-AHMED",
+  "pi_name": "Dr. Ahmed Hassan",
+  "pi_email": "a.hassan@nu.edu.eg",
+  "topic_title": "Plant-Derived Compounds and Anti-Inflammatory Nanocarriers",
+  "topic_description": "Targeted liposomal delivery of standardized plant secondary metabolites for NF-kB modulation.",
+  "topic_category": "Nanobiotechnology",
+  "members": [
+    {
+      "student_id": "20230003",
+      "student_name": "Mariam Hassan",
+      "email": "mariam.hassan@student.edu.eg",
+      "lab_group": "L1"
+    },
+    {
+      "student_id": "20230004",
+      "student_name": "Karim Adel",
+      "email": "karim.adel@student.edu.eg",
+      "lab_group": "L1"
+    }
+  ],
+  "shared_notes": "",
+  "important_info": "",
+  "task_board": [],
+  "updates_feed": [],
+  "last_updated_by": "System",
+  "last_updated_at": "Nov 09, 2026 - 20:47"
+}

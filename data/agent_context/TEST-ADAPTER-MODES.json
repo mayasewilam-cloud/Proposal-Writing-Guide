@@ -1,0 +1,205 @@
+{
+  "project_id": "TEST-ADAPTER-MODES",
+  "title": "Minimal Assay for Mode Test",
+  "researcher_name": "Student Researcher",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-13T14:39:03.158541+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "Minimal Assay for Mode Test",
+    "chassis": "Escherichia coli",
+    "tool": "Cas12a",
+    "target": "",
+    "abstract_word_count": 0,
+    "methodology_word_count": 6,
+    "human_subjects_declared": null,
+    "recombinant_dna_declared": null,
+    "pathogen_work_declared": null,
+    "input_fingerprint": "ce9ca1a6f18e7567"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Escherichia coli",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Escherichia coli",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "Cas12a",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "Cas12a",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Laboratory Reagent / Unspecified Sample",
+    "source": "unspecified",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "evidence": "",
+    "rationale": "No explicit biological sample origin identified."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant vectors or genetic editing methods identified."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant DNA manipulation indicated."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": true,
+    "source": "proposal.methodology",
+    "status": "REQUIRES_HUMAN_REVIEW",
+    "confidence": 0.88,
+    "evidence": "Form: False [proposal.human_subjects] | Contradicting text: 'Standard laboratory testing without patient materials.' [proposal.methodology]",
+    "rationale": "Contradiction detected: Form specifies NO human subjects [proposal.human_subjects], but text specifies clinical/human materials 'patient' [proposal.methodology]."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No high-consequence pathogen keywords detected."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No antimicrobial resistance determinants detected."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2 (Potentially Required)",
+    "source": "regulatory.bsl_inference",
+    "status": "INFERRED",
+    "confidence": 0.8,
+    "evidence": "Clinical isolates or antimicrobial resistant determinants detected without explicit BSL specification.",
+    "rationale": "Institutional guidelines mandate BSL-2 containment for clinical isolates and pathogenic bacteria."
+  },
+  "evidence_log": [
+    {
+      "agent_run_id": "RUN-D6F44CB0",
+      "step_index": 1,
+      "tool_id": "search_pubmed",
+      "query": "Escherichia coli",
+      "records_count": 3,
+      "records": [
+        {
+          "pmid": "43021955",
+          "title": "An exploratory study on the influence of (60)Co irradiation on the volatile organic components and antibacterial activity of Artemisia argyi Folium",
+          "journal": "Frontiers in chemistry",
+          "pubdate": "2026",
+          "authors": "Xie P, Tian C, Liu Y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021955/"
+        },
+        {
+          "pmid": "43021872",
+          "title": "Qingqiao polyphenols may alleviate multi-organ inflammatory injury caused by Escherichia coli infection in chickens by regulating pyroptosis in a gut microbiota-independent manner",
+          "journal": "Frontiers in veterinary science",
+          "pubdate": "2026",
+          "authors": "Chao L, Feng Y, Liang Y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021872/"
+        },
+        {
+          "pmid": "43021847",
+          "title": "Engineering probiotics for mucosal vaccination: from the Escherichia coli Nissle 1917 paradigm to a translational vaccine platform",
+          "journal": "Frontiers in gastroenterology (Lausanne, Switzerland)",
+          "pubdate": "2026",
+          "authors": "Palenca I, Esposito G, Pesce M",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021847/"
+        }
+      ],
+      "provenance": {
+        "source_system": "NCBI PubMed E-utilities",
+        "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "query_executed": "Escherichia coli",
+        "pmid_list": [
+          "43021955",
+          "43021872",
+          "43021847"
+        ],
+        "timestamp": "2026-11-13T14:39:05.476931+00:00",
+        "elapsed_ms": 2193.47
+      },
+      "timestamp": "2026-11-13T14:39:03.285419+00:00"
+    }
+  ],
+  "uncertainties": [
+    {
+      "field": "human_subjects",
+      "issue": "Contradiction detected: Form specifies NO human subjects [proposal.human_subjects], but text specifies clinical/human materials 'patient' [proposal.methodology].",
+      "requires_human_review": true
+    },
+    {
+      "field": "biosafety_containment",
+      "issue": "Pathogen or clinical isolate detected, but physical containment protocol (BSL-2) is not explicitly detailed."
+    }
+  ],
+  "proposal_sections": {
+    "title": "Minimal Assay for Mode Test",
+    "abstract": "",
+    "chassis": "Escherichia coli",
+    "tool": "Cas12a",
+    "target": "",
+    "methodology": "Standard laboratory testing without patient materials.",
+    "pitfalls": "",
+    "expected_outcomes": "",
+    "aims": {},
+    "funnel": {}
+  }
+}

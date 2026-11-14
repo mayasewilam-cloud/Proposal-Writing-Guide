@@ -1,0 +1,195 @@
+{
+  "project_id": "TEST-LOOP-01",
+  "title": "Field Assay for Colistin Resistance",
+  "researcher_name": "Student Researcher",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-13T14:39:07.903153+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "Field Assay for Colistin Resistance",
+    "chassis": "Bacterial Isolates",
+    "tool": "CRISPR-Cas12a with crRNA",
+    "target": "",
+    "abstract_word_count": 0,
+    "methodology_word_count": 12,
+    "human_subjects_declared": null,
+    "recombinant_dna_declared": null,
+    "pathogen_work_declared": null,
+    "input_fingerprint": "4e5d3ed8ab7eec76"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Bacterial Isolates",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Bacterial Isolates",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "CRISPR-Cas12a with crRNA",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "CRISPR-Cas12a with crRNA",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Clinical isolates",
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "Clinical isolates will be tested for mcr-1 resistance. St...",
+    "rationale": "Identified specimen/matrix descriptor 'Clinical isolates' in proposal.methodology."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": true,
+    "source": "proposal.tool",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "CRISPR-Cas12a with crRNA",
+    "rationale": "Triggered by recombinant/cloning keyword 'crRNA' in proposal.tool."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": true,
+    "source": "proposal.tool",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "CRISPR-Cas12a with crRNA",
+    "rationale": "Molecular genetic manipulation indicator 'crRNA' present in proposal.tool."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": false,
+    "source": "researcher.answer[CLAR-HUMAN-01]",
+    "status": "CONFIRMED",
+    "confidence": 0.88,
+    "evidence": "Researcher Clarification: Reference strains obtained from ATCC repository (ATCC 25922), not human patients.",
+    "rationale": "Researcher clarified sample origin: 'Reference strains obtained from ATCC repository (ATCC 25922), not human patients.'. Confirmed de-identified repository strain (exempt from patient consent, requires biosafety only)."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": true,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.92,
+    "evidence": "Clinical isolates will be tested for mcr-1 resistance. Standard BSL precautions ap...",
+    "rationale": "Triggered by pathogen/AMR indicator 'mcr-1' in proposal.methodology."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": true,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "Clinical isolates will be tested for mcr-1 resistance. Standard BSL precautions ap...",
+    "rationale": "Explicit drug-resistant determinant 'mcr-1' recognized in proposal.methodology."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2",
+    "source": "researcher.answer[CLAR-BIO-01]",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Testing conducted inside certified Class II BSL-2 biosafety cabinet.",
+    "rationale": "Researcher specified containment parameters: 'Testing conducted inside certified Class II BSL-2 biosafety cabinet.'."
+  },
+  "evidence_log": [
+    {
+      "agent_run_id": "RUN-68F2C21B",
+      "step_index": 1,
+      "tool_id": "search_pubmed",
+      "query": "Bacterial Isolates biosafety containment",
+      "records_count": 3,
+      "records": [
+        {
+          "pmid": "42759163",
+          "title": "Comparative genomic and phenotypic biosafety assessment of plant-associated Klebsiella pneumoniae species complex strains isolated from faba bean root nodules",
+          "journal": "Microbiological research",
+          "pubdate": "2027 Jan",
+          "authors": "Youseif SH, Abd El-Megeed FH, Soliman MS",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759163/"
+        },
+        {
+          "pmid": "42511554",
+          "title": "Beyond the Usual Suspects: Emerging Pseudomonas Species in Clinical and Environmental Niches",
+          "journal": "International journal of molecular sciences",
+          "pubdate": "2026 Jul 11",
+          "authors": "Marino A, Stracquadanio S, Cosentino F",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42511554/"
+        },
+        {
+          "pmid": "41938762",
+          "title": "Evaluation of Escherichia coli drug resistance of relict gull (Larus relictus) in Hongjian Nur, Shaanxi, China",
+          "journal": "Frontiers in veterinary science",
+          "pubdate": "2026",
+          "authors": "He A, Wu D, Zhao N",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41938762/"
+        }
+      ],
+      "provenance": {
+        "source_system": "NCBI PubMed E-utilities",
+        "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "query_executed": "Bacterial Isolates biosafety containment",
+        "pmid_list": [
+          "42759163",
+          "42511554",
+          "41938762"
+        ],
+        "timestamp": "2026-11-13T14:39:07.676819+00:00",
+        "elapsed_ms": 1848.25
+      },
+      "timestamp": "2026-11-13T14:39:05.835655+00:00"
+    }
+  ],
+  "uncertainties": [],
+  "proposal_sections": {
+    "title": "Field Assay for Colistin Resistance",
+    "abstract": "",
+    "chassis": "Bacterial Isolates",
+    "tool": "CRISPR-Cas12a with crRNA",
+    "target": "",
+    "methodology": "Clinical isolates will be tested for mcr-1 resistance. Standard BSL precautions apply.",
+    "pitfalls": "",
+    "expected_outcomes": "",
+    "aims": {},
+    "funnel": {}
+  }
+}

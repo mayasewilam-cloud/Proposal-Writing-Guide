@@ -1,0 +1,104 @@
+{
+  "proposal_draft": {
+    "student_id": "L2-T1",
+    "student_name": "Team 1 — BioCatalyst",
+    "title": "Thermostable PETase Variants for Industrial Polyester Depolymerization",
+    "abstract": "",
+    "chassis": "",
+    "tool": "",
+    "target": "",
+    "funnel": {
+      "tier1": "",
+      "tier2": "",
+      "tier3": "",
+      "tier4": ""
+    },
+    "aims": {
+      "overarching": "",
+      "aim1": "",
+      "aim2": "",
+      "aim3": ""
+    },
+    "methodology": "",
+    "matrix": {
+      "yellow": "",
+      "blue": "",
+      "green": "",
+      "purple": "",
+      "red": "",
+      "citation": ""
+    },
+    "impact_data": {
+      "academic": "",
+      "economic": "",
+      "societal": ""
+    },
+    "competitor_data": {
+      "usp": ""
+    },
+    "swot": {
+      "s": "",
+      "w": "",
+      "o": "",
+      "t": ""
+    },
+    "pestel": {
+      "political": "",
+      "economic": "",
+      "social": "",
+      "technological": "",
+      "environmental": "",
+      "legal": ""
+    },
+    "time_plan": "",
+    "budget": "",
+    "budget_egp_items": [],
+    "references": "",
+    "team_roster": [
+      {
+        "name": "Youssef Tarek",
+        "id": "20230007",
+        "email": "youssef.tarek@student.edu.eg",
+        "role": "Principal Investigator"
+      }
+    ],
+    "team_members": [
+      {
+        "name": "Youssef Tarek",
+        "id": "20230007",
+        "email": "youssef.tarek@student.edu.eg",
+        "role": "Principal Investigator"
+      }
+    ],
+    "team_id": "L2-T1",
+    "team_name": "Team 1 — BioCatalyst",
+    "lab_group": "L2",
+    "pi_name": "Dr. Tarek El-Sayed",
+    "assigned_topic": "Thermostable PETase Variants for Industrial Polyester Depolymerization"
+  },
+  "team_id": "L2-T1",
+  "team_name": "Team 1 — BioCatalyst",
+  "lab_group": "L2",
+  "semester": "Fall 2026",
+  "course_id": "BT_301",
+  "pi_id": "PI-TARIK",
+  "pi_name": "Dr. Tarek El-Sayed",
+  "pi_email": "t.elsayed@nu.edu.eg",
+  "topic_title": "Thermostable PETase Variants for Industrial Polyester Depolymerization",
+  "topic_description": "Directed evolution of Ideonella sakaiensis PETase for bioreactor-scale plastic recycling.",
+  "topic_category": "Industrial Biotechnology",
+  "members": [
+    {
+      "student_id": "20230007",
+      "student_name": "Youssef Tarek",
+      "email": "youssef.tarek@student.edu.eg",
+      "lab_group": "L2"
+    }
+  ],
+  "shared_notes": "",
+  "important_info": "",
+  "task_board": [],
+  "updates_feed": [],
+  "last_updated_by": "System",
+  "last_updated_at": "Nov 09, 2026 - 20:47"
+}

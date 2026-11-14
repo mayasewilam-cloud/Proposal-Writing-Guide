@@ -1,0 +1,138 @@
+{
+  "project_id": "DEMO-DETECTR-AQUA-2026",
+  "title": "DETECTR-Aqua: CRISPR-Cas12a Molecular Diagnostic Assay for Rapid Field Detection of Colistin-Resistant mcr-1 Pathogens in Aquaculture Water",
+  "researcher_name": "Dr. Sarah Mansour (Synthetic Early-Career Fellow)",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-09-30T16:15:35.510468+00:00",
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Clinical Bacterial Isolates and Aquaculture Water Matrix",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Clinical Bacterial Isolates and Aquaculture Water Matrix",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "LbaCas12a with crRNA reporter and RPA amplification",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "LbaCas12a with crRNA reporter and RPA amplification",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    },
+    {
+      "field": "molecular_tool",
+      "value": "CRISPR-Cas12a",
+      "source": "proposal.title",
+      "status": "INFERRED",
+      "confidence": 0.85,
+      "evidence": "DETECTR-Aqua: CRISPR-Cas12a Molecular Diagnostic Assay for Rapid Fi...",
+      "rationale": "Detected from text matching 'crispr-cas12a'."
+    },
+    {
+      "field": "molecular_tool",
+      "value": "Cross-Linked Enzyme Aggregates (CLEA)",
+      "source": "proposal.methodology",
+      "status": "INFERRED",
+      "confidence": 0.85,
+      "evidence": "...ill be tested. Recombinant Cas12a endonuclease will be complexed with synthetic guid...",
+      "rationale": "Detected from text matching 'clea'."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "clinical isolates",
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "...ture facilities and multidrug-resistant clinical isolates will be tested. Recombinant Cas12a endo...",
+    "rationale": "Identified specimen/matrix descriptor 'clinical isolates' in proposal.methodology."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": true,
+    "source": "proposal.tool",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "LbaCas12a with crRNA reporter and RPA amplification",
+    "rationale": "Triggered by recombinant/cloning keyword 'crRNA' in proposal.tool."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": true,
+    "source": "proposal.tool",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "LbaCas12a with crRNA reporter and RPA amplification",
+    "rationale": "Molecular genetic manipulation indicator 'crRNA' present in proposal.tool."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": false,
+    "source": "researcher.answer[CLAR-HUMAN-01]",
+    "status": "CONFIRMED",
+    "confidence": 0.88,
+    "evidence": "Researcher Clarification: [SYNTHETIC DEMONSTRATION DATA] The clinical isolates are verified, de-identified reference repository strains obtained from ATCC (ATCC BAA-2469), not collected directly from human patients.",
+    "rationale": "Researcher clarified sample origin: '[SYNTHETIC DEMONSTRATION DATA] The clinical isolates are verified, de-identified reference repository strains obtained from ATCC (ATCC BAA-2469), not collected directly from human patients.'. Confirmed de-identified repository strain (exempt from patient consent, requires biosafety only)."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": true,
+    "source": "proposal.title",
+    "status": "CONFIRMED",
+    "confidence": 0.92,
+    "evidence": "...d Field Detection of Colistin-Resistant mcr-1 Pathogens in Aquaculture Water",
+    "rationale": "Triggered by pathogen/AMR indicator 'mcr-1' in proposal.title."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": true,
+    "source": "proposal.title",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "...d Field Detection of Colistin-Resistant mcr-1 Pathogens in Aquaculture Water",
+    "rationale": "Explicit drug-resistant determinant 'mcr-1' recognized in proposal.title."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2",
+    "source": "researcher.answer[CLAR-BIO-01]",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "[SYNTHETIC DEMONSTRATION DATA] All live bacterial testing will be conducted strictly within a certified Class II BSL-2 laminar flow biosafety cabinet with subsequent autoclaving of biohazard waste.",
+    "rationale": "Researcher specified containment parameters: '[SYNTHETIC DEMONSTRATION DATA] All live bacterial testing will be conducted strictly within a certified Class II BSL-2 laminar flow biosafety cabinet with subsequent autoclaving of biohazard waste.'."
+  },
+  "evidence_log": [],
+  "uncertainties": [],
+  "proposal_sections": {
+    "title": "DETECTR-Aqua: CRISPR-Cas12a Molecular Diagnostic Assay for Rapid Field Detection of Colistin-Resistant mcr-1 Pathogens in Aquaculture Water",
+    "abstract": "",
+    "chassis": "Clinical Bacterial Isolates and Aquaculture Water Matrix",
+    "tool": "LbaCas12a with crRNA reporter and RPA amplification",
+    "target": "Femtomolar LOD detection of mcr-1 antibiotic resistance gene",
+    "methodology": "Water samples from aquaculture facilities and multidrug-resistant clinical isolates will be tested. Recombinant Cas12a endonuclease will be complexed with synthetic guide RNA to trigger collateral ssDNA cleavage. Target DNA amplification will use isothermal RPA. Biosafety precautions follow standard lab rules.",
+    "aims": {},
+    "funnel": {}
+  }
+}

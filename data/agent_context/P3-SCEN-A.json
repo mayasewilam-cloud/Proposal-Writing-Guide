@@ -1,0 +1,148 @@
+{
+  "project_id": "P3-SCEN-A",
+  "title": "Spectrophotometric Calibration of Purified GFP in Tris Buffer",
+  "researcher_name": "Student Researcher",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-13T14:51:39.217609+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "Spectrophotometric Calibration of Purified GFP in Tris Buffer",
+    "chassis": "Cell-Free Buffer Matrix",
+    "tool": "Purified GFP Standard",
+    "target": "Fluorescence Linearity",
+    "abstract_word_count": 9,
+    "methodology_word_count": 16,
+    "human_subjects_declared": false,
+    "recombinant_dna_declared": false,
+    "pathogen_work_declared": false,
+    "input_fingerprint": "e648a36e05d30762"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Cell-Free Buffer Matrix",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Cell-Free Buffer Matrix",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "Purified GFP Standard",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "Purified GFP Standard",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Laboratory Reagent / Unspecified Sample",
+    "source": "unspecified",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "evidence": "",
+    "rationale": "No explicit biological sample origin identified."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant vectors or genetic editing methods identified."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant DNA manipulation indicated."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No human participant or clinical tissue keywords found."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No high-consequence pathogen keywords detected."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No antimicrobial resistance determinants detected."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-1",
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "...ris-HCl buffer measured at 488 nm under BSL-1.",
+    "rationale": "Biosafety level/containment explicitly referenced: 'BSL-1' in proposal.methodology."
+  },
+  "evidence_log": [],
+  "uncertainties": [],
+  "proposal_sections": {
+    "title": "Spectrophotometric Calibration of Purified GFP in Tris Buffer",
+    "abstract": "Cell-free calibration of purified GFP protein in Tris-HCl buffer.",
+    "chassis": "Cell-Free Buffer Matrix",
+    "tool": "Purified GFP Standard",
+    "target": "Fluorescence Linearity",
+    "methodology": "Serial dilutions of purified GFP in 50 mM Tris-HCl buffer measured at 488 nm under BSL-1.",
+    "pitfalls": "",
+    "expected_outcomes": "",
+    "aims": {},
+    "funnel": {}
+  }
+}

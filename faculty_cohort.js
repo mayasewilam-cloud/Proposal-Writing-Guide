@@ -1708,6 +1708,16 @@
                   ➕ Assign Team
                 </button>
               `}
+              ${st.account_claimed ? `
+                <span class="status-pill" style="background:#dcfce7; color:#166534; font-size:0.72rem;">✅ Claimed</span>
+              ` : `
+                <button type="button" class="btn-student-nav btn-issue-token"
+                        data-id="${esc(st.student_id)}"
+                        data-name="${esc(st.student_name)}"
+                        style="font-size:0.74rem; padding:4px 8px; color:#b45309; border-color:#fde68a; background:#fffbeb;">
+                  🔑 Issue Activation Token
+                </button>
+              `}
             </div>
           </td>
         </tr>
@@ -1735,6 +1745,36 @@
       btn.addEventListener("click", () => {
         state.selectedLabGroup = btn.getAttribute("data-lg") || "L1";
         switchCohortSubTab("teams");
+      });
+    });
+
+    tbody.querySelectorAll(".btn-issue-token").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const sid = btn.getAttribute("data-id");
+        const sname = btn.getAttribute("data-name");
+        btn.disabled = true;
+        try {
+          const resp = await fetch(`/api/faculty/students/${encodeURIComponent(sid)}/activation-token`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+          const res = await resp.json();
+          if (res.success && res.activation_token) {
+            window.prompt(
+              `Activation Token for ${sname} (${sid}):\n\n${res.activation_token}\n\nIMPORTANT: Copy this token now. It cannot be retrieved again.`,
+              res.activation_token
+            );
+            if (typeof loadStudentsDirectory === "function") {
+              await loadStudentsDirectory();
+            }
+          } else {
+            alert(`Failed to issue activation token: ${res.error || "Unknown error"}`);
+          }
+        } catch (err) {
+          alert(`Network error issuing activation token: ${err.message}`);
+        } finally {
+          btn.disabled = false;
+        }
       });
     });
   }

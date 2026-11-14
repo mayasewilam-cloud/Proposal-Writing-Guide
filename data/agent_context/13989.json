@@ -1,0 +1,160 @@
+{
+  "project_id": "13989",
+  "title": "Authoritative Researcher Title \u2014 Do Not Modify",
+  "researcher_name": "Student Researcher",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-14T20:04:58.404795+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "Authoritative Researcher Title \u2014 Do Not Modify",
+    "chassis": "Escherichia coli BL21(DE3)",
+    "tool": "CRISPR-Cas12a",
+    "target": "blaNDM-1",
+    "abstract_word_count": 11,
+    "methodology_word_count": 12,
+    "human_subjects_declared": false,
+    "recombinant_dna_declared": true,
+    "pathogen_work_declared": true,
+    "input_fingerprint": "9b330e80d1a12585"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Escherichia coli BL21(DE3)",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Escherichia coli BL21(DE3)",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "CRISPR-Cas12a",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "CRISPR-Cas12a",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    },
+    {
+      "field": "molecular_tool",
+      "value": "Recombinase Polymerase Amplification (RPA)",
+      "source": "proposal.methodology",
+      "status": "INFERRED",
+      "confidence": 0.85,
+      "evidence": "Perform isothermal RPA at 37C in certified Class II BSL-2 bios...",
+      "rationale": "Detected from text matching 'rpa'."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Laboratory Reagent / Unspecified Sample",
+    "source": "unspecified",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "evidence": "",
+    "rationale": "No explicit biological sample origin identified."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": true,
+    "source": "proposal.pitfalls",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "Potential secondary structure in crRNA.",
+    "rationale": "Triggered by recombinant/cloning keyword 'crRNA' in proposal.pitfalls."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": true,
+    "source": "proposal.pitfalls",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "Potential secondary structure in crRNA.",
+    "rationale": "Molecular genetic manipulation indicator 'crRNA' present in proposal.pitfalls."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No human participant or clinical tissue keywords found."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": true,
+    "source": "proposal.pathogen_work",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "pathogen_work=True (intake declaration)",
+    "rationale": "Explicitly declared via proposal intake flag."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No antimicrobial resistance determinants detected."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2",
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "...hermal RPA at 37C in certified Class II BSL-2 biosafety cabinet.",
+    "rationale": "Biosafety level/containment explicitly referenced: 'BSL-2' in proposal.methodology."
+  },
+  "evidence_log": [],
+  "uncertainties": [],
+  "proposal_sections": {
+    "title": "Authoritative Researcher Title \u2014 Do Not Modify",
+    "abstract": "Verbatim researcher abstract text that must remain untouched by the agent.",
+    "chassis": "Escherichia coli BL21(DE3)",
+    "tool": "CRISPR-Cas12a",
+    "target": "blaNDM-1",
+    "methodology": "Perform isothermal RPA at 37C in certified Class II BSL-2 biosafety cabinet.",
+    "pitfalls": "Potential secondary structure in crRNA.",
+    "expected_outcomes": "Limit of detection below 10 fM.",
+    "aims": {
+      "aim1": "Design crRNA guides.",
+      "objectives": "Measure fluorescence kinetics."
+    },
+    "funnel": {}
+  }
+}

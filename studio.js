@@ -127,6 +127,122 @@ function compressImageForStorage(file, maxWidth, maxHeight, quality, callback) {
   reader.readAsDataURL(file);
 }
 
+// Robust IndexedDB binary storage helper for images & figures (BioWriterPhotoDB)
+const BioWriterPhotoDB = {
+  dbName: "BioWriterStorageDB",
+  dbVersion: 1,
+  storeName: "photos",
+  _dbPromise: null,
+
+  getDB() {
+    if (this._dbPromise) return this._dbPromise;
+    this._dbPromise = new Promise((resolve, reject) => {
+      if (typeof window === "undefined" || !window.indexedDB) {
+        return resolve(null);
+      }
+      try {
+        const req = window.indexedDB.open(this.dbName, this.dbVersion);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(this.storeName)) {
+            db.createObjectStore(this.storeName);
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => {
+          console.warn("IndexedDB open error:", e.target.error);
+          resolve(null);
+        };
+      } catch (err) {
+        console.warn("IndexedDB initialization error:", err);
+        resolve(null);
+      }
+    });
+    return this._dbPromise;
+  },
+
+  async savePhoto(key, dataUrl) {
+    if (!key || !dataUrl) return false;
+    try {
+      const db = await this.getDB();
+      if (!db) return false;
+      return new Promise((resolve) => {
+        const tx = db.transaction(this.storeName, "readwrite");
+        let reqSuccess = false;
+        tx.oncomplete = () => resolve(reqSuccess);
+        tx.onerror = (e) => {
+          console.warn("PhotoDB transaction error:", e);
+          resolve(false);
+        };
+        tx.onabort = (e) => {
+          console.warn("PhotoDB transaction aborted:", e);
+          resolve(false);
+        };
+        const store = tx.objectStore(this.storeName);
+        const req = store.put(dataUrl, key);
+        req.onsuccess = () => { reqSuccess = true; };
+        req.onerror = (e) => {
+          console.warn("PhotoDB store put error:", e);
+          reqSuccess = false;
+        };
+      });
+    } catch (e) {
+      console.warn("PhotoDB savePhoto error:", e);
+      return false;
+    }
+  },
+
+  async getPhoto(key) {
+    if (!key) return null;
+    try {
+      const db = await this.getDB();
+      if (!db) return null;
+      return new Promise((resolve) => {
+        const tx = db.transaction(this.storeName, "readonly");
+        const store = tx.objectStore(this.storeName);
+        const req = store.get(key);
+        req.onsuccess = (e) => resolve(e.target.result || null);
+        req.onerror = () => resolve(null);
+      });
+    } catch (e) {
+      console.warn("PhotoDB getPhoto error:", e);
+      return null;
+    }
+  },
+
+  async deletePhoto(key) {
+    if (!key) return false;
+    try {
+      const db = await this.getDB();
+      if (!db) return false;
+      return new Promise((resolve) => {
+        const tx = db.transaction(this.storeName, "readwrite");
+        let reqSuccess = false;
+        tx.oncomplete = () => resolve(reqSuccess);
+        tx.onerror = (e) => {
+          console.warn("PhotoDB delete transaction error:", e);
+          resolve(false);
+        };
+        tx.onabort = (e) => {
+          console.warn("PhotoDB delete transaction aborted:", e);
+          resolve(false);
+        };
+        const store = tx.objectStore(this.storeName);
+        const req = store.delete(key);
+        req.onsuccess = () => { reqSuccess = true; };
+        req.onerror = () => { reqSuccess = false; };
+      });
+    } catch (e) {
+      console.warn("PhotoDB deletePhoto error:", e);
+      return false;
+    }
+  }
+};
+if (typeof window !== "undefined") {
+  window.BioWriterPhotoDB = BioWriterPhotoDB;
+}
+
+
 
 // Standard Publication-Format Table 2 Columns (Interactive Table Formulator)
 window.DEFAULT_TABLE2_COLUMNS = [
@@ -1484,6 +1600,10 @@ function initResultsPhotoHandlers() {
       e.preventDefault();
       delete projectState.results_figure;
       delete projectState.results_photo;
+      const storageKey = getStudentStorageKey();
+      if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.deletePhoto === "function") {
+        window.BioWriterPhotoDB.deletePhoto(storageKey + "_results_photo");
+      }
       if (fileInput) fileInput.value = "";
       updateResultsPhotoUI();
       renderLiveManuscript();
@@ -1520,6 +1640,10 @@ function handleResultsPhotoFile(file) {
     projectState.results_figure.filename = file.name;
     if (!projectState.results_figure.caption) {
       projectState.results_figure.caption = "Figure 2: Experimental results and analytical validation.";
+    }
+    const storageKey = getStudentStorageKey();
+    if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.savePhoto === "function") {
+      window.BioWriterPhotoDB.savePhoto(storageKey + "_results_photo", dataUrl);
     }
     updateResultsPhotoUI();
     renderLiveManuscript();
@@ -1953,22 +2077,176 @@ function getStudentStorageKey(studentId) {
   return "bt301_biowriter_guest_draft";
 }
 
-function saveToStorage() {
-  const key = getStudentStorageKey();
-  try {
-    localStorage.setItem(key, JSON.stringify(projectState));
-  } catch (e) {
-    console.warn("localStorage save failed", e);
-    if (e && (e.name === "QuotaExceededError" || e.code === 22)) {
-      if (typeof showToast === "function") {
-        showToast("⚠️ Storage quota reached! Large images detected. Please click 'Save Draft to Portal' to preserve data on the cloud.", "warning");
+// Photo rehydration state and save sequence tracking
+let isRehydratingPhotos = false;
+let photoRehydrationPromise = null;
+let currentSaveSequence = 0;
+
+class PhotoRecoveryError extends Error {
+  constructor(message, photoKey, photoField) {
+    super(message);
+    this.name = "PhotoRecoveryError";
+    this.photoKey = photoKey;
+    this.photoField = photoField;
+  }
+}
+if (typeof window !== "undefined") {
+  window.PhotoRecoveryError = PhotoRecoveryError;
+}
+
+async function prepareDraftPayloadForServer(state, sid) {
+  if (isRehydratingPhotos && photoRehydrationPromise) {
+    try {
+      await photoRehydrationPromise;
+    } catch (_) {}
+  }
+  const payload = JSON.parse(JSON.stringify(state));
+  const key = getStudentStorageKey(sid);
+
+  // Results figure rehydration verification
+  if (payload.results_figure) {
+    const rfUrl = payload.results_figure.data_url;
+    if (rfUrl === "[stored_in_idb]" || (typeof rfUrl === "string" && rfUrl.startsWith("[stored_in_idb"))) {
+      if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.getPhoto === "function") {
+        const recovered = await window.BioWriterPhotoDB.getPhoto(key + "_results_photo");
+        if (recovered) {
+          payload.results_figure.data_url = recovered;
+          if (state.results_figure) state.results_figure.data_url = recovered;
+        } else {
+          throw new PhotoRecoveryError("Failed to recover results figure from IndexedDB.", key + "_results_photo", "results_figure");
+        }
+      } else {
+        throw new PhotoRecoveryError("BioWriterPhotoDB not available to recover results figure.", key + "_results_photo", "results_figure");
       }
     }
   }
-  const saveIndicator = document.getElementById("save-status");
-  if (saveIndicator) {
-    saveIndicator.innerText = (typeof currentAuthUser !== "undefined" && currentAuthUser && currentAuthUser.is_guest) ? "● Local Draft Saved (Guest)" : "● All progress saved";
+
+  // Flowchart img rehydration verification
+  const fcUrl = payload.flowchart_img;
+  if (fcUrl === "[stored_in_idb]" || (typeof fcUrl === "string" && fcUrl.startsWith("[stored_in_idb"))) {
+    if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.getPhoto === "function") {
+      const recovered = await window.BioWriterPhotoDB.getPhoto(key + "_flowchart_img");
+      if (recovered) {
+        payload.flowchart_img = recovered;
+        state.flowchart_img = recovered;
+      } else {
+        throw new PhotoRecoveryError("Failed to recover flowchart image from IndexedDB.", key + "_flowchart_img", "flowchart_img");
+      }
+    } else {
+      throw new PhotoRecoveryError("BioWriterPhotoDB not available to recover flowchart image.", key + "_flowchart_img", "flowchart_img");
+    }
   }
+
+  return payload;
+}
+
+async function saveToStorage() {
+  if (isRehydratingPhotos && photoRehydrationPromise) {
+    try {
+      await photoRehydrationPromise;
+    } catch (_) {}
+  }
+
+  const seq = ++currentSaveSequence;
+  const key = getStudentStorageKey();
+  const saveIndicator = document.getElementById("save-status");
+  let saveSuccess = false;
+  let quotaError = false;
+
+  // Set visual in-progress indicator state
+  if (saveIndicator && !saveIndicator.innerText.includes("⏳")) {
+    saveIndicator.innerText = "⏳ Saving progress...";
+    saveIndicator.style.color = "#6b7280";
+  }
+
+  try {
+    localStorage.setItem(key, JSON.stringify(projectState));
+    saveSuccess = true;
+  } catch (e) {
+    console.warn("localStorage save failed", e);
+    if (e && (e.name === "QuotaExceededError" || e.code === 22 || e.number === -2147024882)) {
+      quotaError = true;
+      // Storage quota exhausted: preserve text in LocalStorage and offload binary images to IndexedDB
+      try {
+        const lightweightState = JSON.parse(JSON.stringify(projectState));
+        const idbPromises = [];
+
+        if (lightweightState.results_figure && lightweightState.results_figure.data_url && lightweightState.results_figure.data_url.length > 500 && lightweightState.results_figure.data_url !== "[stored_in_idb]") {
+          if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.savePhoto === "function") {
+            idbPromises.push(window.BioWriterPhotoDB.savePhoto(key + "_results_photo", projectState.results_figure.data_url));
+          }
+          lightweightState.results_figure.data_url = "[stored_in_idb]";
+        }
+        if (lightweightState.flowchart_img && lightweightState.flowchart_img.length > 500 && lightweightState.flowchart_img !== "[stored_in_idb]") {
+          if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.savePhoto === "function") {
+            idbPromises.push(window.BioWriterPhotoDB.savePhoto(key + "_flowchart_img", projectState.flowchart_img));
+          }
+          lightweightState.flowchart_img = "[stored_in_idb]";
+        }
+
+        let allIdbOk = true;
+        if (idbPromises.length > 0) {
+          const results = await Promise.all(idbPromises);
+          allIdbOk = results.every(res => res === true);
+        }
+
+        if (allIdbOk) {
+          // Condition 3 / Repair C1: Recheck seq !== currentSaveSequence immediately before writing to LocalStorage
+          if (seq !== currentSaveSequence) {
+            console.warn("Stale save sequence detected before writing to localStorage; aborting write.");
+            return false;
+          }
+          localStorage.setItem(key, JSON.stringify(lightweightState));
+          saveSuccess = true;
+        } else {
+          console.error("IndexedDB photo offloading failed.");
+          saveSuccess = false;
+        }
+      } catch (innerErr) {
+        console.error("Lightweight localStorage save also failed", innerErr);
+        saveSuccess = false;
+      }
+    } else {
+      saveSuccess = false;
+    }
+  }
+
+  // Prevent older asynchronous saves from overwriting newer save status
+  if (seq !== currentSaveSequence) {
+    return false;
+  }
+
+  if (saveIndicator) {
+    if (saveSuccess) {
+      if (quotaError) {
+        saveIndicator.innerText = "● Saved (Photos offloaded to IndexedDB)";
+        saveIndicator.style.color = "#059669";
+        saveIndicator.style.cursor = "default";
+        saveIndicator.onclick = null;
+        saveIndicator.title = "Local storage quota was reached; images were safely offloaded to browser IndexedDB.";
+      } else {
+        saveIndicator.innerText = (typeof currentAuthUser !== "undefined" && currentAuthUser && currentAuthUser.is_guest) ? "● Local Draft Saved (Guest)" : "● All progress saved";
+        saveIndicator.style.color = "#059669";
+        saveIndicator.style.cursor = "default";
+        saveIndicator.onclick = null;
+        saveIndicator.title = "All changes saved locally.";
+      }
+    } else {
+      // Save completely failed: NEVER display 'All progress saved'
+      saveIndicator.innerText = quotaError ? "⚠️ Save Failed - Storage Quota Exceeded (Retry)" : "⚠️ Save Failed - Storage Error (Retry)";
+      saveIndicator.style.color = "#dc2626";
+      saveIndicator.style.cursor = "pointer";
+      saveIndicator.title = "Changes could not be persisted to browser storage. Click to retry or sync to cloud.";
+      saveIndicator.onclick = function() {
+        saveToStorage();
+      };
+      if (typeof showToast === "function") {
+        showToast(quotaError ? "⚠️ Save failed: LocalStorage quota exceeded or photo write failed. Click to retry." : "⚠️ Save failed: Browser storage error. Changes not saved.", "warning");
+      }
+    }
+  }
+
+  return saveSuccess;
 }
 
 function loadFromStorage(studentId) {
@@ -2003,6 +2281,58 @@ function loadFromStorage(studentId) {
     projectState = getEmptyProjectState(studentId);
   }
   if (typeof window !== "undefined") window.projectState = projectState;
+
+  // Rehydrate offloaded figures asynchronously from IndexedDB
+  const rehydrationTasks = [];
+  isRehydratingPhotos = true;
+
+  if (projectState.results_figure) {
+    const rfUrl = projectState.results_figure.data_url;
+    if (!rfUrl || rfUrl === "[stored_in_idb]" || (typeof rfUrl === "string" && rfUrl.startsWith("[stored_in_idb"))) {
+      if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.getPhoto === "function") {
+        const task = window.BioWriterPhotoDB.getPhoto(key + "_results_photo").then((photoUrl) => {
+          if (photoUrl && projectState && projectState.results_figure) {
+            projectState.results_figure.data_url = photoUrl;
+            if (typeof updateResultsPhotoUI === "function") updateResultsPhotoUI();
+            if (typeof renderLiveManuscript === "function") renderLiveManuscript();
+          } else if (!photoUrl && projectState && projectState.results_figure) {
+            console.warn("Referenced results photo not found in IndexedDB for key:", key + "_results_photo");
+            projectState.results_figure._photo_missing = true;
+          }
+        }).catch((err) => {
+          console.warn("Error rehydrating results photo:", err);
+        });
+        rehydrationTasks.push(task);
+      }
+    }
+  }
+
+  const fcUrl = projectState.flowchart_img;
+  if (!fcUrl || fcUrl === "[stored_in_idb]" || (typeof fcUrl === "string" && fcUrl.startsWith("[stored_in_idb"))) {
+    if (window.BioWriterPhotoDB && typeof window.BioWriterPhotoDB.getPhoto === "function") {
+      const task = window.BioWriterPhotoDB.getPhoto(key + "_flowchart_img").then((imgUrl) => {
+        if (imgUrl && projectState) {
+          projectState.flowchart_img = imgUrl;
+          const previewImg = document.getElementById("flowchart-preview-img");
+          if (previewImg) previewImg.src = imgUrl;
+          const previewContainer = document.getElementById("flowchart-preview-container");
+          if (previewContainer) previewContainer.style.display = "block";
+          if (typeof renderLiveManuscript === "function") renderLiveManuscript();
+        } else if (!imgUrl && projectState) {
+          console.warn("Referenced flowchart image not found in IndexedDB for key:", key + "_flowchart_img");
+          projectState._flowchart_missing = true;
+        }
+      }).catch((err) => {
+        console.warn("Error rehydrating flowchart photo:", err);
+      });
+      rehydrationTasks.push(task);
+    }
+  }
+
+  photoRehydrationPromise = Promise.all(rehydrationTasks).finally(() => {
+    isRehydratingPhotos = false;
+  });
+
   populateFormFields();
   if (typeof renderInstructorReviewBanner === "function") {
     renderInstructorReviewBanner(projectState.faculty_review || null);
@@ -2022,7 +2352,7 @@ function triggerServerSyncDebounced() {
 
 async function syncDraftToServer(showNotification = true) {
   if (isStaticEnvironment()) {
-    saveToStorage();
+    await saveToStorage();
     if (showNotification) showToast("Draft saved locally (Offline/Static Mode)", "info");
     return;
   }
@@ -2033,19 +2363,57 @@ async function syncDraftToServer(showNotification = true) {
     if (idEl) idEl.focus();
     return;
   }
+
+  // Condition 3 / Repair C2: Require successful local persistence before cloud sync
+  const localOk = await saveToStorage();
+  if (!localOk) {
+    if (showNotification) showToast("⚠️ Cannot sync to server: Local browser save failed.", "warning");
+    const saveIndicator = document.getElementById("save-status");
+    if (saveIndicator) {
+      saveIndicator.innerText = "⚠️ Local Save Failed - Storage Error (Click to retry)";
+      saveIndicator.style.color = "#dc2626";
+      saveIndicator.style.cursor = "pointer";
+      saveIndicator.onclick = () => syncDraftToServer(showNotification);
+    }
+    return false;
+  }
+
+  // Condition 2 / Repair B: Handle PhotoRecoveryError during payload preparation
+  let payloadState;
+  try {
+    payloadState = await prepareDraftPayloadForServer(projectState, sid);
+  } catch (photoErr) {
+    console.error("Photo recovery failed during server sync:", photoErr);
+    if (showNotification) {
+      showToast(`⚠️ Sync halted: Unable to recover photograph (${photoErr.photoField || "attached image"}). Please re-upload or retry.`, "warning");
+    }
+    const saveIndicator = document.getElementById("save-status");
+    if (saveIndicator) {
+      saveIndicator.innerText = "⚠️ Sync halted: Image recovery error (Click to retry)";
+      saveIndicator.style.color = "#dc2626";
+      saveIndicator.style.cursor = "pointer";
+      saveIndicator.onclick = () => syncDraftToServer(true);
+    }
+    return false;
+  }
+
   try {
     const resp = await fetch("/api/student/save_draft", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         student_id: sid,
-        student_data: projectState
+        student_data: payloadState
       })
     });
     const res = await resp.json();
     if (res.success) {
       if (showNotification) {
-        showToast(`✅ Proposal draft synced to server under ID ${res.student_id} (${res.updated_at})!`);
+        if (res.has_retracted_citations) {
+          showToast(`⚠️ Draft synced, but contains RETRACTED citations! Submission will be blocked.`, 6000);
+        } else {
+          showToast(`✅ Proposal draft synced to server under ID ${res.student_id} (${res.updated_at})!`);
+        }
       }
       const stEl = document.querySelector(".save-status-text");
       if (stEl) stEl.innerText = `Synced to Server (${res.updated_at})`;
@@ -4096,28 +4464,83 @@ function initDoiResolver() {
       });
       const data = await resp.json();
       if (data.success) {
-        const badgeColor = data.is_recent ? "#059669" : "#dc2626";
-        const badgeText = data.is_recent ? "✅ Recent (2021–2026)" : "⚠️ Older than 5 Years";
+        const titleSafe = typeof escapeHtml === "function" ? escapeHtml(data.title || "Untitled") : (data.title || "Untitled");
+        const authorsSafe = typeof escapeHtml === "function" ? escapeHtml(data.authors || "Unknown Authors") : (data.authors || "Unknown Authors");
+        const journalSafe = typeof escapeHtml === "function" ? escapeHtml(data.journal || "Unknown Journal") : (data.journal || "Unknown Journal");
+        const yearSafe = data.year || "n.d.";
+
+        let cardBg = "#f0fdf4";
+        let cardBorder = "#bbf7d0";
+        let statusBadge = "";
+        let alertBanner = "";
+        let allowInsert = true;
+
+        if (data.is_retracted) {
+          cardBg = "#fef2f2";
+          cardBorder = "#f87171";
+          statusBadge = '<span style="background:#dc2626; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:800; text-transform:uppercase;">⛔ RETRACTED</span>';
+          alertBanner = '<div style="background:#fee2e2; border:1px solid #ef4444; color:#991b1b; padding:8px 12px; border-radius:6px; margin-top:8px; font-weight:700; font-size:0.82rem;">❌ CRITICAL INTEGRITY WARNING: This publication has been RETRACTED according to CrossRef/Crossmark records. Insertion into references is strictly blocked to prevent citing invalid scientific evidence.</div>';
+          allowInsert = false;
+        } else if (data.is_expression_of_concern) {
+          cardBg = "#fffbeb";
+          cardBorder = "#fcd34d";
+          statusBadge = '<span style="background:#d97706; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:800; text-transform:uppercase;">⚠️ EXPRESSION OF CONCERN</span>';
+          alertBanner = '<div style="background:#fef3c7; border:1px solid #f59e0b; color:#92400e; padding:8px 12px; border-radius:6px; margin-top:8px; font-weight:700; font-size:0.82rem;">⚠️ FORMAL INVESTIGATION NOTICE: This publication is subject to an active Expression of Concern. Normal one-click insertion is disabled pending institutional inquiry.</div>';
+          allowInsert = false;
+        } else if (data.is_preprint) {
+          cardBg = "#fff7ed";
+          cardBorder = "#fdba74";
+          const recColor = data.is_recent ? "#059669" : "#dc2626";
+          const recText = data.is_recent ? "✅ Recent (2021–2026)" : "⚠️ Older than 5 Years";
+          statusBadge = `
+            <span style="background:#ea580c; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:700; margin-right:6px;">📄 PREPRINT (Unreviewed)</span>
+            <span style="background:${recColor}; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:700;">${recText}</span>
+          `;
+          alertBanner = '<div style="background:#ffedd5; border:1px solid #fb923c; color:#9a3412; padding:6px 10px; border-radius:4px; margin-top:8px; font-size:0.82rem;"><strong>Notice:</strong> This reference is an unreviewed preprint (posted-content) and has not undergone formal journal peer review.</div>';
+        } else {
+          const recColor = data.is_recent ? "#059669" : "#dc2626";
+          const recText = data.is_recent ? "✅ Recent (2021–2026)" : "⚠️ Older than 5 Years";
+          statusBadge = `<span style="background:${recColor}; color:white; font-size:0.75rem; padding:3px 8px; border-radius:4px; font-weight:700;">${recText}</span>`;
+          if (data.is_corrected) {
+            alertBanner = '<div style="background:#eff6ff; border:1px solid #93c5fd; color:#1e40af; padding:6px 10px; border-radius:4px; margin-top:8px; font-size:0.82rem;"><strong>Notice:</strong> Publisher corrections, corrigenda, or errata are on record for this article in Crossmark.</div>';
+          } else {
+            alertBanner = '<div style="font-size:0.78rem; color:#64748b; margin-top:6px;">Status: No retraction or update notices identified in available CrossRef metadata.</div>';
+          }
+        }
+
+        let actionButtonHtml = "";
+        if (allowInsert) {
+          actionButtonHtml = '<button id="btn-insert-doi-ref" class="btn-insert-template" style="font-size:0.8rem;">+ Insert into References List</button>';
+        } else if (data.is_retracted) {
+          actionButtonHtml = '<button disabled style="background:#cbd5e1; color:#64748b; cursor:not-allowed; font-size:0.8rem; padding:6px 12px; border-radius:4px; border:none; font-weight:700;">⛔ Insertion Blocked (Retracted Publication)</button>';
+        } else {
+          actionButtonHtml = '<button disabled style="background:#cbd5e1; color:#64748b; cursor:not-allowed; font-size:0.8rem; padding:6px 12px; border-radius:4px; border:none; font-weight:700;">⚠️ Insertion Blocked (Expression of Concern)</button>';
+        }
+
         resultsBox.innerHTML = `
-          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>${data.title}</strong>
-              <span style="background:${badgeColor}; color:white; font-size:0.75rem; padding:2px 8px; border-radius:4px; font-weight:700;">${badgeText}</span>
+          <div style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <strong>${titleSafe}</strong>
+              <div>${statusBadge}</div>
             </div>
-            <div style="font-size:0.85rem; color:#475569; margin-top:4px;">${data.authors} (${data.year}) • <em>${data.journal}</em></div>
-            <div style="margin-top:8px;">
-              <button id="btn-insert-doi-ref" class="btn-insert-template" style="font-size:0.8rem;">+ Insert into References List</button>
+            <div style="font-size:0.85rem; color:#475569; margin-top:4px;">${authorsSafe} (${yearSafe}) • <em>${journalSafe}</em></div>
+            ${alertBanner}
+            <div style="margin-top:10px;">
+              ${actionButtonHtml}
             </div>
           </div>
         `;
-        document.getElementById("btn-insert-doi-ref").addEventListener("click", () => {
-          const refsEl = document.getElementById("references-input");
-          if (refsEl) {
-            refsEl.value = (refsEl.value ? refsEl.value + "\n" : "") + data.formatted_citation;
-            refsEl.dispatchEvent(new Event("input"));
-            showToast("Citation appended to References!");
-          }
-        });
+        const insertBtn = document.getElementById("btn-insert-doi-ref");
+        if (insertBtn && allowInsert) {
+          insertBtn.addEventListener("click", () => {
+            const refsEl = document.getElementById("references-input");
+            if (refsEl) {
+              refsEl.value = (refsEl.value ? refsEl.value + "\n" : "") + data.formatted_citation;
+              refsEl.dispatchEvent(new Event("input"));
+              showToast("Citation appended to References!");
+            }
+          });
+        }
       } else {
         resultsBox.innerHTML = `<p style="color:#dc2626;">Error: ${data.error}</p>`;
       }
@@ -4575,6 +4998,48 @@ function initImpactAndNoveltySuite() {
         if (data.strengths && data.strengths.length > 0) {
           html += `<ul style="font-size: 0.78rem; color: #15803d; margin-top: 6px; padding-left: 18px;">${data.strengths.map(s => `<li>${s}</li>`).join("")}</ul>`;
         }
+
+        if (data.prior_approaches && data.prior_approaches.length > 0) {
+          html += `<div style="margin-top: 14px; border-top: 1px solid #e5e7eb; padding-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <strong style="color: #1e3a8a; font-size: 0.88rem;">📚 Relevant Prior Art & Supporting Literature (${data.prior_approaches.length})</strong>
+              <span style="font-size: 0.72rem; color: #6b7280;">Classified by Research Contribution</span>
+            </div>`;
+          data.prior_approaches.forEach(p => {
+            let relBadge = "";
+            if (p.relationship_type === "direct_prior_art") {
+              relBadge = `<span class="badge" style="background:#fee2e2; color:#991b1b; border:1px solid #f87171; font-size:0.7rem; font-weight:700;">Direct Competitive Prior Art</span>`;
+            } else if (p.relationship_type === "enabling_technology") {
+              relBadge = `<span class="badge" style="background:#dbeafe; color:#1e40af; border:1px solid #93c5fd; font-size:0.7rem; font-weight:700;">General Enabling Technology</span>`;
+            } else if (p.relationship_type === "target_biology") {
+              relBadge = `<span class="badge" style="background:#ede9fe; color:#5b21b6; border:1px solid #c4b5fd; font-size:0.7rem; font-weight:700;">Biological Target Baseline</span>`;
+            } else if (p.relationship_type === "adjacent_background") {
+              relBadge = `<span class="badge" style="background:#f3f4f6; color:#374151; border:1px solid #d1d5db; font-size:0.7rem; font-weight:700;">Adjacent Supporting Literature</span>`;
+            } else {
+              relBadge = `<span class="badge" style="background:#f3f4f6; color:#374151; font-size:0.7rem;">Reference Literature</span>`;
+            }
+
+            html += `
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                  <strong style="color: #0f172a;">${escapeHtml(p.id)}: ${escapeHtml(p.title)}</strong>
+                  ${relBadge}
+                </div>
+                <div style="color: #475569; font-size: 0.75rem; margin-bottom: 4px;">
+                  <em>${escapeHtml(p.authors)}</em> • DOI: <code>${escapeHtml(p.doi)}</code>
+                </div>
+                ${p.relevance_explanation ? `<div style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-size:0.75rem; color:#334155; margin-bottom:4px;">
+                  <strong>Scientific Relevance:</strong> ${escapeHtml(p.relevance_explanation)}
+                </div>` : ''}
+                <div style="color: #334155; font-size: 0.75rem;">
+                  <strong>Reported Baseline:</strong> ${escapeHtml(p.reported_benchmark || 'N/A')}
+                </div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+        }
+
         html += `</div>`;
         gapResultsBox.innerHTML = html;
         showToast("Novelty & Soundness audit complete!");
@@ -5984,7 +6449,7 @@ function generateClientWordDoc(st) {
       <div class="manuscript-gantt-chart" style="margin: 14px 0;">
         ${typeof renderGanttTimelineHtml === "function" ? renderGanttTimelineHtml() : ""}
       </div>
-      <h3>9.2 Budget & Resource Allocation (Egyptian Pounds - EGP)</h3>
+      <h3>9.2 Budget & Resource Allocation (Local Currency)</h3>
       <table>
         <thead><tr><th>Item Description &amp; Specs</th><th>Official Category</th><th>Scientific Justification</th><th>Qty</th><th>Unit Cost (EGP)</th><th>Total Cost (EGP)</th></tr></thead>
         <tbody>
@@ -6304,7 +6769,7 @@ async function fetchPaperMetadataClient(rawId) {
   // Tier 1: Try Flask Backend if reachable (/api/paper/fetch)
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
     const resp = await fetch("/api/paper/fetch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -6853,20 +7318,27 @@ async function runDecodePaper(payload) {
 
       // Tier 1: Try Python Flask Backend if reachable
       try {
-        const resp = await fetch("/api/paper/decode", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const contentType = resp.headers.get("content-type") || "";
-        if (resp.ok && contentType.includes("json")) {
-          const json = await resp.json();
-          if (json && json.status !== "error") {
-            data = json;
+        const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+        const timeoutId = controller ? setTimeout(() => controller.abort(), 30000) : null;
+        try {
+          const resp = await fetch("/api/paper/decode", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+            signal: controller ? controller.signal : undefined
+          });
+          const contentType = resp.headers.get("content-type") || "";
+          if (resp.ok && contentType.includes("json")) {
+            const json = await resp.json();
+            if (json && json.status !== "error") {
+              data = json;
+            }
           }
+        } finally {
+          if (timeoutId) clearTimeout(timeoutId);
         }
       } catch (beErr) {
-        console.warn("Backend /api/paper/decode unreachable or static host, switching to client NLP decoder:", beErr);
+        console.warn("Backend /api/paper/decode unreachable or timed out, switching to client NLP decoder:", beErr);
       }
 
       // Tier 2: Universal Client-Side Discourse NLP Engine (Seamless offline & GitHub Pages)
@@ -7312,6 +7784,7 @@ async function runDecodePaper(payload) {
         btnMatrixDecode.textContent = "⏳ Reading & Decoding PDF...";
       }
       showToast(`Uploading & reading "${file.name}" for full-text decoding...`);
+      let decodeSucceeded = false;
       try {
         const formData = new FormData();
         formData.append("file", file);
@@ -7322,17 +7795,60 @@ async function runDecodePaper(payload) {
         }
 
         const decodeUrl = apiUrl("/api/paper/decode");
-        const resp = await fetch(decodeUrl, {
-          method: "POST",
-          body: formData
-        });
-        const data = await resp.json();
-        if (!resp.ok || !data || data.status === "error") {
+        let resp;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+          controller.abort("TIMEOUT");
+        }, 30000); // 30-second request timeout
+
+        try {
+          resp = await fetch(decodeUrl, {
+            method: "POST",
+            body: formData,
+            signal: controller.signal
+          });
+        } catch (fetchErr) {
+          if (fetchErr.name === "AbortError" || controller.signal.aborted) {
+            throw new Error("PDF decoding timed out after 30 seconds. The server may be busy processing a large document; please try again.");
+          }
+          throw new Error("PDF decoding requires the BioWriter application server. The backend service is currently unreachable (network error).");
+        } finally {
+          clearTimeout(timeoutId);
+        }
+
+        const contentType = (resp.headers && resp.headers.get("content-type")) || "";
+        if (!resp.ok) {
+          let errorDetail = "";
+          if (contentType.includes("application/json")) {
+            try {
+              const errJson = await resp.json();
+              errorDetail = (errJson && (errJson.error || errJson.message)) || "";
+            } catch (je) {}
+          }
+          if (errorDetail) {
+            throw new Error(`PDF decoding failed: ${errorDetail} (HTTP ${resp.status})`);
+          }
+          throw new Error(`PDF decoding requires the BioWriter application server. The backend service is currently unreachable (HTTP ${resp.status}).`);
+        }
+
+        if (!contentType.includes("application/json")) {
+          throw new Error(`PDF decoding requires the BioWriter application server. The backend service is currently unreachable (HTTP ${resp.status}).`);
+        }
+
+        let data;
+        try {
+          data = await resp.json();
+        } catch (jsonErr) {
+          throw new Error(`PDF decoding requires the BioWriter application server. The backend service returned invalid non-JSON data (HTTP ${resp.status}).`);
+        }
+
+        if (!data || data.status === "error" || data.success === false) {
           throw new Error((data && (data.error || data.message)) || `Server returned ${resp.status}`);
         }
         currentDecodedData = data;
         applyDecodedDataToMatrix(data);
         showToast("Full PDF paper decoded across all sections! Evidence Matrix populated.");
+        decodeSucceeded = true;
       } catch (err) {
         console.error("PDF decode error:", err);
         showToast(`PDF decode failed: ${err.message || String(err)}`);
@@ -7341,7 +7857,9 @@ async function runDecodePaper(payload) {
           btnMatrixDecode.disabled = false;
           btnMatrixDecode.textContent = "🔍 Decode Paper (Analyst Mode)";
         }
-        matrixPdfInput.value = "";
+        if (decodeSucceeded) {
+          matrixPdfInput.value = "";
+        }
       }
     });
   }
@@ -8064,7 +8582,7 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
       <li><strong>Social:</strong> ${escapeHtml(pe.social || "Public acceptance of engineered biological products")}</li>
       <li><strong>Technological:</strong> ${escapeHtml(pe.technological || pe.tech || "Advances in synthetic biology and screening")}</li>
       <li><strong>Environmental:</strong> ${escapeHtml(pe.environmental || pe.env || "Zero-toxic byproduct generation")}</li>
-      <li><strong>Legal:</strong> ${escapeHtml(pe.legal || "Compliance with Egyptian biosafety regulations")}</li>
+      <li><strong>Legal:</strong> ${escapeHtml(pe.legal || "Compliance with applicable institutional biosafety and regulatory guidelines")}</li>
     </ul>
   `;
   setHtml("manu-pestel", pestelHtml);
@@ -8932,7 +9450,7 @@ function renderDonutHtml() {
 
   return `
     <div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; width: 100%; max-width: 680px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-      <div style="font-size: 0.95rem; font-weight: 800; color: #1e1b4b; margin-bottom: 4px;">Milestone Budget Allocation (Egyptian Pounds - EGP)</div>
+      <div style="font-size: 0.95rem; font-weight: 800; color: #1e1b4b; margin-bottom: 4px;">Milestone Budget Allocation (Local Currency / Institutional Budget)</div>
       <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 18px;">Total Proposal Budget: <strong style="color: #059669;">${grandTotal.toLocaleString()} EGP (${grandTotal.toLocaleString()} ج.م)</strong></div>
 
       <div class="donut-layout" style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
@@ -9233,20 +9751,21 @@ function initAuthManager() {
       const sname = (document.getElementById("gate-reg-name").value || "").trim();
       const pwd = (document.getElementById("gate-reg-pwd").value || "").trim();
       const pwdConf = (document.getElementById("gate-reg-pwd-confirm").value || "").trim();
+      const token = (document.getElementById("gate-reg-token")?.value || "").trim();
 
       if (!sid || !sname || !pwd) {
         showGateAlert("Please fill in all required fields.", "error");
         return;
       }
-      if (pwd.length < 4) {
-        showGateAlert("Password must be at least 4 characters.", "error");
+      if (pwd.length < 8) {
+        showGateAlert("Password must be at least 8 characters.", "error");
         return;
       }
       if (pwd !== pwdConf) {
         showGateAlert("Passwords do not match. Please re-check.", "error");
         return;
       }
-      handleRegisterSubmit(sid, sname, pwd, true);
+      handleRegisterSubmit(sid, sname, pwd, true, token);
     });
   }
 
@@ -9338,20 +9857,21 @@ function initAuthManager() {
       const sname = (document.getElementById("reg-student-name").value || "").trim();
       const pwd = (document.getElementById("reg-password").value || "").trim();
       const pwdConf = (document.getElementById("reg-password-confirm").value || "").trim();
+      const token = (document.getElementById("reg-activation-token")?.value || "").trim();
 
       if (!sid || !sname || !pwd) {
         showAuthAlert("Please fill in all required fields.", "error");
         return;
       }
-      if (pwd.length < 4) {
-        showAuthAlert("Password must be at least 4 characters.", "error");
+      if (pwd.length < 8) {
+        showAuthAlert("Password must be at least 8 characters.", "error");
         return;
       }
       if (pwd !== pwdConf) {
         showAuthAlert("Passwords do not match.", "error");
         return;
       }
-      handleRegisterSubmit(sid, sname, pwd, false);
+      handleRegisterSubmit(sid, sname, pwd, false, token);
     });
   }
 
@@ -9842,7 +10362,7 @@ async function handleSignInSubmit(studentId, password, isGate = false) {
   }
 }
 
-async function handleRegisterSubmit(studentId, studentName, password, isGate = false) {
+async function handleRegisterSubmit(studentId, studentName, password, isGate = false, activationToken = "") {
   const btn = isGate ? document.getElementById("btn-gate-submit-register") : document.getElementById("btn-submit-register");
   if (btn) btn.disabled = true;
 
@@ -9854,7 +10374,8 @@ async function handleRegisterSubmit(studentId, studentName, password, isGate = f
         body: JSON.stringify({
           student_id: studentId,
           student_name: studentName,
-          password: password
+          password: password,
+          activation_token: activationToken
         })
       });
       const res = await resp.json();
@@ -10164,9 +10685,24 @@ function applyCloudDraftToWorkspace(draft) {
 
 async function saveStudentDraftToServer(userInitiated = false) {
   scrapeAllDomInputsToProjectState();
-  saveToStorage();
+  const saveIndicator = document.getElementById("save-status");
+
+  // Condition 3 / Repair C2: Require successful local persistence before cloud sync
+  const localOk = await saveToStorage();
+  if (!localOk) {
+    if (saveIndicator) {
+      saveIndicator.innerText = "⚠️ Local Save Failed - Storage Error (Click to retry)";
+      saveIndicator.style.color = "#dc2626";
+      saveIndicator.style.cursor = "pointer";
+      saveIndicator.onclick = () => saveStudentDraftToServer(userInitiated);
+    }
+    if (userInitiated) {
+      showToast("⚠️ Could not persist draft to local browser storage. Server sync halted.", "warning");
+    }
+    return false;
+  }
+
   if (isStaticEnvironment() || (currentAuthUser && currentAuthUser.is_guest)) {
-    const saveIndicator = document.getElementById("save-status");
     if (saveIndicator) {
       saveIndicator.innerText = "🟡 Local Browser Storage Only (Not Synced to Server)";
       saveIndicator.style.color = "#b45309";
@@ -10177,11 +10713,28 @@ async function saveStudentDraftToServer(userInitiated = false) {
 
   const sid = (projectState.student_id || (currentAuthUser ? currentAuthUser.student_id : "") || "ST-2026-01").trim();
   const btn = document.getElementById("btn-sync-server-draft");
-  const saveIndicator = document.getElementById("save-status");
 
   if (btn && userInitiated) {
     btn.disabled = true;
     btn.innerHTML = `<span>⏳</span> <span>Saving...</span>`;
+  }
+
+  // Condition 2 / Repair B: Handle PhotoRecoveryError during payload preparation
+  let payloadState;
+  try {
+    payloadState = await prepareDraftPayloadForServer(projectState, sid);
+  } catch (photoErr) {
+    console.error("Photo recovery failed during server sync:", photoErr);
+    if (saveIndicator) {
+      saveIndicator.innerText = "⚠️ Server Sync Halted: Image recovery error (Click to retry)";
+      saveIndicator.style.color = "#dc2626";
+      saveIndicator.style.cursor = "pointer";
+      saveIndicator.onclick = () => saveStudentDraftToServer(userInitiated);
+    }
+    if (userInitiated) {
+      showToast(`⚠️ Sync halted: Unable to recover photograph (${photoErr.photoField || "attached image"}) from browser storage. Your text draft is safe locally. Please re-upload the photo or click to retry.`, "warning");
+    }
+    return false;
   }
 
   try {
@@ -10190,7 +10743,7 @@ async function saveStudentDraftToServer(userInitiated = false) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         student_id: sid,
-        student_data: projectState
+        student_data: payloadState
       })
     });
     const res = await resp.json();
@@ -12658,7 +13211,7 @@ function initBudgetEGP() {
       projectState.budget_egp_items = JSON.parse(JSON.stringify(DEFAULT_EGP_BUDGET_ITEMS));
       saveToStorage();
       renderBudgetEGPTable();
-      showToast("Loaded standard calibrated Egyptian Pounds (EGP) budget.");
+      showToast("Loaded standard calibrated institutional budget.");
     });
   }
 }
@@ -13413,12 +13966,12 @@ function renderOfficialDocumentPreview() {
     <div style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid #e2e8f0;">
       <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">8. PESTEL Analysis</h2>
       <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
-        <div>• <strong>Political:</strong> ${escapeHtml(pe.political || "National biotechnology research initiatives in Egypt")}</div>
+        <div>• <strong>Political:</strong> ${escapeHtml(pe.political || "National and institutional biotechnology research initiatives")}</div>
         <div>• <strong>Economic:</strong> ${escapeHtml(pe.economic || "Cost competitiveness against chemical synthesis in EGP")}</div>
         <div>• <strong>Social:</strong> ${escapeHtml(pe.social || "Public acceptance of biosafety-certified solutions")}</div>
         <div>• <strong>Technological:</strong> ${escapeHtml(pe.technological || pe.tech || "Advances in synthetic biology and point-of-care assays")}</div>
         <div>• <strong>Environmental:</strong> ${escapeHtml(pe.environmental || pe.env || "Zero-toxic chemical byproduct footprint")}</div>
-        <div>• <strong>Legal:</strong> ${escapeHtml(pe.legal || "Compliance with Egyptian Ministry of Health and IBC regulations")}</div>
+        <div>• <strong>Legal:</strong> ${escapeHtml(pe.legal || "Compliance with institutional biosafety and ethics guidelines")}</div>
       </div>
     </div>
 
@@ -15183,7 +15736,7 @@ window.STARTER_PROPOSAL_TEMPLATES = {
       { aim: "Aim 3: 72-Hour PET Film Depolymerization & Reverse-Phase HPLC", metric: "HPLC Monomer Release (mM TPA + MHET at 240 nm) & Gravimetric Mass Loss (%, n=3)", target: "≥3.5-fold increase in TPA/MHET yield over wild-type (p < 0.01; R² > 0.998 standard curve)", go_no_go: "Confirm mass balance between HPLC monomer molarity and gravimetric film weight loss" }
     ],
     interpretations: "Technical Failure Mode 1 (Insoluble Inclusion Bodies): If overexpression produces insoluble aggregates, expression will be performed in E. coli SHuffle T7 at 16°C with 0.1 mM IPTG or fused to an N-terminal SUMO tag.\n\nTechnical Failure Mode 2 (Acidic Product Inhibition by Released TPA): Because Terephthalic Acid accumulation lowers buffer pH and protonates the catalytic histidine, buffer molarity will be increased to 100 mM glycine-phosphate (pH 8.5) with periodic buffer exchange.",
-    commercial_potential: "Provides a scalable domestic biocatalyst for Egyptian textile and packaging recycling plants to convert post-consumer PET waste into virgin-grade terephthalic acid monomers without high-emission thermal glycolysis.",
+    commercial_potential: "Provides a scalable domestic biocatalyst for regional textile and packaging recycling plants to convert post-consumer PET waste into virgin-grade terephthalic acid monomers without high-emission thermal glycolysis.",
     gantt_tasks: [
       { id: "T1", name: "Phase 1: FoldX Disulfide Modeling, Site-Directed Mutagenesis & Sanger QC", start: 1, end: 3, milestone: false, deliverable: "Sequence-verified pET-28a(+) mutant constructs" },
       { id: "T2", name: "Phase 2: SHuffle T7 Expression, Ni-NTA Purification & SDS-PAGE/DTNB QC (M1)", start: 3, end: 5, milestone: true, deliverable: "M1: >6 mg/L purified enzyme (>90% purity)" },

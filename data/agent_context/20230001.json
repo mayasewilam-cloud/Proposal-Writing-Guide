@@ -1,0 +1,171 @@
+{
+  "project_id": "20230001",
+  "title": "DETECTR-Aqua Team Updated Proposal Title",
+  "researcher_name": "Ahmed Ali",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-09T21:26:04.821264+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "DETECTR-Aqua Team Updated Proposal Title",
+    "chassis": "Hospital wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "tool": "Recombinase Polymerase Amplification (RPA) coupled with LbCas12a-crRNA trans-cleavage and FAM-quencher ssDNA reporter",
+    "target": "Plasmid-borne colistin-resistance gene mcr-1 (phosphoethanolamine transferase)",
+    "abstract_word_count": 11,
+    "methodology_word_count": 193,
+    "human_subjects_declared": null,
+    "recombinant_dna_declared": null,
+    "pathogen_work_declared": null,
+    "input_fingerprint": "71e59df2c682a29d"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Hospital wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Hospital wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "rationale": "Explicitly declared by researcher in Chassis/System field."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "Recombinase Polymerase Amplification (RPA) coupled with LbCas12a-crRNA trans-cleavage and FAM-quencher ssDNA reporter",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "Recombinase Polymerase Amplification (RPA) coupled with LbCas12a-crRNA trans-cleavage and FAM-quencher ssDNA reporter",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "effluent",
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "Hospital wastewater effluent matrix containing plasmid-borne mcr-1 G...",
+    "rationale": "Identified specimen/matrix descriptor 'effluent' in proposal.chassis."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": true,
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "...l wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "rationale": "Triggered by recombinant/cloning keyword 'plasmid' in proposal.chassis."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": true,
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "...l wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "rationale": "Molecular genetic manipulation indicator 'plasmid' present in proposal.chassis."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": true,
+    "source": "proposal.chassis",
+    "status": "REQUIRES_HUMAN_REVIEW",
+    "confidence": 0.88,
+    "evidence": "Form: False [proposal.human_subjects] | Contradicting text: 'Hospital wastewater effluent matrix containing p...' [proposal.chassis]",
+    "rationale": "Contradiction detected: Form specifies NO human subjects [proposal.human_subjects], but text specifies clinical/human materials 'Hospital' [proposal.chassis]."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": true,
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 0.92,
+    "evidence": "...ffluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "rationale": "Triggered by pathogen/AMR indicator 'mcr-1' in proposal.chassis."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": true,
+    "source": "proposal.chassis",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "...ffluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "rationale": "Explicit drug-resistant determinant 'mcr-1' recognized in proposal.chassis."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2 (Potentially Required)",
+    "source": "regulatory.bsl_inference",
+    "status": "INFERRED",
+    "confidence": 0.8,
+    "evidence": "Clinical isolates or antimicrobial resistant determinants detected without explicit BSL specification.",
+    "rationale": "Institutional guidelines mandate BSL-2 containment for clinical isolates and pathogenic bacteria."
+  },
+  "evidence_log": [],
+  "uncertainties": [
+    {
+      "field": "human_subjects",
+      "issue": "Contradiction detected: Form specifies NO human subjects [proposal.human_subjects], but text specifies clinical/human materials 'Hospital' [proposal.chassis].",
+      "requires_human_review": true
+    },
+    {
+      "field": "biosafety_containment",
+      "issue": "Pathogen or clinical isolate detected, but physical containment protocol (BSL-2) is not explicitly detailed."
+    }
+  ],
+  "proposal_sections": {
+    "title": "DETECTR-Aqua Team Updated Proposal Title",
+    "abstract": "Shared team abstract updated by Student A for all L1-T1 teammates.",
+    "chassis": "Hospital wastewater effluent matrix containing plasmid-borne mcr-1 Gram-negative bacteria",
+    "tool": "Recombinase Polymerase Amplification (RPA) coupled with LbCas12a-crRNA trans-cleavage and FAM-quencher ssDNA reporter",
+    "target": "Plasmid-borne colistin-resistance gene mcr-1 (phosphoethanolamine transferase)",
+    "methodology": "The project is a method-development and analytical-evaluation study that will run for 12 months in five phases. In Phase 1, we will design primers and crRNAs in silico targeting a conserved mcr-1 region with a TTTV PAM, and optimise RPA (TwistAmp Basic at 37 \u00b0C, 20 min) and LbCas12a cleavage (50 nM LbCas12a, 62.5 nM crRNA, 500 nM FAM\u2013quencher reporter). In Phase 2, we will validate detection limit (1, 3, 10, 30, 100, 1,000 copies, 20 replicates each), specificity against mcr-2 to mcr-5, and repeatability across 3 days with synthetic DNA. In Phase 3, we will collect 200 mL grab effluent samples weekly from 3 hospitals (30 samples) and 6 community sewer controls, filter through 0.22 \u00b5m membranes, extract DNA via silica-column kits, and quantify matrix effects neat and at 1:10 dilution alongside the internal amplification control (IAC). In Phase 4, 36 paired extracts will be tested in triplicate with DETECTR-Aqua and reference TaqMan qPCR (Chabou et al., 2016) by blinded analysts. In Phase 5, we will analyse data in R using probit regression for LoD, Wilson 95% intervals and Cohen's \u03ba for qPCR concordance, and compute hands-on time and itemised reagent costs.",
+    "pitfalls": "",
+    "expected_outcomes": "The study is expected to deliver (i) an optimised, documented RPA\u2013Cas12a protocol for mcr-1; (ii) a dataset of analytical performance in buffer and wastewater extracts; (iii) a paired comparison with qPCR on 36 samples; and (iv) measured time and cost per sample. Table 2 links each objective to its measurable result and acceptance criterion. The values are hypotheses grounded in published performance (Gong et al., 2022; Wang et al., 2024), not results.",
+    "aims": {
+      "overarching": "To develop an RPA\u2013Cas12a assay for the colistin-resistance gene mcr-1 and to evaluate its analytical performance and practicality in hospital wastewater against a reference qPCR method.",
+      "aim1": "Aim 1: Design and optimise an RPA\u2013Cas12a assay targeting a conserved mcr-1 region by selecting the best of three primer pairs and crRNAs and tuning magnesium, temperature, and time (Months 2\u20134).",
+      "aim1_title": "Assay Design & Isothermal Reaction Optimization",
+      "aim2": "Aim 2: Determine 95% LoD in buffer (\u2264 10 copies/reaction), evaluate analytical specificity against mcr-2 to mcr-5, and quantify wastewater extract matrix effects and IAC validity (Months 5\u20138).",
+      "aim2_title": "Analytical Validation & Matrix Effect Quantification",
+      "aim3": "Aim 3: Compare DETECTR-Aqua with TaqMan qPCR on 36 paired hospital wastewater samples (agreement \u2265 90%, Cohen's \u03ba \u2265 0.80), and measure hands-on time, time to result, and itemised cost (Months 8\u201312).",
+      "aim3_title": "Paired qPCR Benchmarking & Practical Evaluation"
+    },
+    "funnel": {
+      "tier1": "Antimicrobial resistance threatens the treatment of common infections, and Gram-negative bacteria that resist many drugs are a particular concern. Colistin (polymyxin E) is one of the few remaining options against these organisms (Osei Sekyere et al., 2016). Resistance to colistin was long attributed to chromosomal mutations, which spread only vertically. That changed in 2015, when Liu et al. (2016) identified mcr-1 on a conjugative plasmid in Escherichia coli from pigs and humans in China, showing that colistin resistance could move between bacteria. A systematic review of clinical E. coli isolates found mcr-1 to be the most widespread mcr variant worldwide (Dadashi et al., 2022).",
+      "tier2": "Hospitals concentrate antibiotic use, resistant bacteria, and resistance genes, and their wastewater carries all three toward the wider environment. Where treatment is incomplete, these contaminants can enter surface water and reach other bacterial communities (Serweci\u0144ska, 2020), and resistance genes have been shown to pollute aquatic systems on a continental scale (Zhu et al., 2017). Wastewater therefore serves two roles: a route by which resistance spreads and a pooled, non-invasive sample that reflects many patients at once. Monitoring mcr-1 in hospital effluent could give infection-control teams an early signal without testing individual patients.",
+      "tier3": "Current detection methods do not fit routine effluent monitoring well. Culture-based screening takes more than 24 hours, and PCR-based methods, although specific, take about two hours or more and require thermal cyclers and trained operators (Wang et al., 2024). A TaqMan qPCR assay for mcr-1 (Chabou et al., 2016) is a widely used reference, but it is confined to laboratories with this equipment.",
+      "tier4": "CRISPR-based diagnostics offer an alternative. When Cas12a binds its DNA target through a guide RNA, it begins cutting any nearby single-stranded DNA, so a quenched fluorescent reporter can be used to signal the presence of the target (Chen et al., 2018; Kaminski et al., 2021). Coupled to RPA, which amplifies DNA at 37\u201342 \u00b0C without a thermal cycler, this approach has been applied to mcr-1 (Gong et al., 2022; Wang et al., 2024; Lin et al., 2022). We propose DETECTR-Aqua: an RPA\u2013Cas12a fluorescence assay tailored for hospital effluent with an internal amplification control, concentration-plus-extraction workflow, and paired qPCR benchmarking."
+    }
+  }
+}

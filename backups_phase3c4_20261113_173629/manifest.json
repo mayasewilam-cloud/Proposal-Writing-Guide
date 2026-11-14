@@ -1,0 +1,22 @@
+{
+  "backup_dir": "C:\\Users\\Lenovo\\Downloads\\Joint Platform\\upload\\backups_phase3c4_20261113_173629",
+  "timestamp": "20261113_173629",
+  "source_hashes": {
+    "upload/app.py": {
+      "size": 72759,
+      "sha256": "0c5fab40381024102ed05141c3c5a1ff1d215c6f9be147f138cbfff360bd5aa8",
+      "backup_path": "C:\\Users\\Lenovo\\Downloads\\Joint Platform\\upload\\backups_phase3c4_20261113_173629\\app.py"
+    },
+    "upload/.env.example": {
+      "size": 695,
+      "sha256": "2fa12734f6d9d0fe2297af766ddf449bd8e959febc7f4f35a759f519f616e831",
+      "backup_path": "C:\\Users\\Lenovo\\Downloads\\Joint Platform\\upload\\backups_phase3c4_20261113_173629\\.env.example"
+    },
+    "upload/tests/test_phase3c2_security_repairs.py": {
+      "size": 20085,
+      "sha256": "b67bd8bb529804a88a13affd132ddc2d7a2ee9d96a771385cb8976c713fc9c7f",
+      "backup_path": "C:\\Users\\Lenovo\\Downloads\\Joint Platform\\upload\\backups_phase3c4_20261113_173629\\test_phase3c2_security_repairs.py"
+    }
+  },
+  "data_file_count": 54
+}

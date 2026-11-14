@@ -1,0 +1,16 @@
+{
+  "student_name": "Test Student 99",
+  "title": "Novel Biosensor Development",
+  "modality": "Cell-Free Diagnostics",
+  "chassis": "Cell-free lysate",
+  "tool": "Cas12a",
+  "student_id": "TEST_STUDENT_99",
+  "updated_at": "2026-11-09T19:16:20.937313",
+  "updated_at_readable": "Nov 09, 2026 - 19:16",
+  "faculty_review": null,
+  "summary": {
+    "completed_nodes": 1,
+    "completion_percentage": 10,
+    "word_count": 3
+  }
+}

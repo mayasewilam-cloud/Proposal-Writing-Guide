@@ -1,0 +1,32 @@
+{
+  "petase": {
+    "id": "petase",
+    "label": "Biocatalysis: Engineered PETase for Plastic Recycling (Nature, 2020)",
+    "title": "An engineered PET depolymerase to break down and recycle plastic bottles",
+    "authors": "Tournier, V. et al.",
+    "year": 2020,
+    "journal": "Nature",
+    "doi": "10.1038/s41586-020-2149-4",
+    "abstract": "Poly(ethylene terephthalate) (PET) is the most abundant polyester plastic manufactured worldwide. However, natural enzymatic depolymerization is severely restricted by enzyme thermolability; wild-type leaf-branch compost cutinase (LCC) undergoes irreversible thermal denaturation above 65°C, well below the glass transition temperature of post-consumer amorphous PET (Tg ~ 70°C). Here, we engineered a cutinase variant incorporating rational disulfide bridges and active-site mutations (W159H/F238Y). Expressed in Escherichia coli BL21(DE3) with IPTG induction, the engineered variant exhibited a melting temperature (Tm) increase of 9.8°C (Tm = 94.7°C vs 84.9°C wild-type). In a 100-L bioreactor fed-batch system, the biocatalyst achieved 90% depolymerization of post-consumer amorphous PET flakes into pure terephthalic acid monomer within 10 hours, with a productivity of 16.7 g/L/h. Unmodified wild-type enzyme served as the baseline control, and empty-plasmid lysate served as the negative control. Despite this success, high crystalline opaque PET films (crystallinity > 35%) resisted catalytic hydrolysis, requiring initial energy-intensive thermal extrusion preprocessing."
+  },
+  "crispr_dx": {
+    "id": "crispr_dx",
+    "label": "Diagnostics: CRISPR-Cas12a for Pathogen Detection (Science, 2018)",
+    "title": "CRISPR-Cas12a target binding unleashes indiscriminate single-stranded DNase activity",
+    "authors": "Chen, J.S. et al.",
+    "year": 2018,
+    "journal": "Science",
+    "doi": "10.1126/science.aar6245",
+    "abstract": "Point-of-care diagnosis of infectious pathogens is fundamentally impeded by the requirement for centralized thermal cyclers and multi-hour PCR turnaround times. In this study, we discovered that Cas12a (Cpf1) from Lachnospiraceae bacterium (LbCas12a), upon crRNA-guided binding to double-stranded DNA targets, unleashes robust, non-specific collateral single-stranded DNA (ssDNA) trans-cleavage activity exceeding 1,200 turnovers per second. We coupled this activity with isothermal Recombinase Polymerase Amplification (RPA) at 37°C and a fluorophore-quencher ssDNA reporter (DETECTR). The assay detected human papillomavirus (HPV) genotypes HPV16 and HPV18 in crude clinical crude swab extracts with attomolar sensitivity (limit of detection, LOD = 2.5 copies/uL) within 30 minutes. Non-targeting guide RNAs served as negative controls, and synthetic target plasmids served as positive controls. However, severe background fluorescence quenching occurred in whole blood containing high hemoglobin concentrations, limiting direct field deployment without prior sample dilution or silica column purification."
+  },
+  "drought_wheat": {
+    "id": "drought_wheat",
+    "label": "Agri-Biotech: Salt Tolerance Transporter in Wheat (Nature Biotech, 2012)",
+    "title": "Breeding salt-tolerant wheat using the TaHKT1;5 sodium transporter",
+    "authors": "Munns, R. et al.",
+    "year": 2012,
+    "journal": "Nature Biotechnology",
+    "doi": "10.1038/nbt.2120",
+    "abstract": "Soil salinity drastically decreases global cereal production, incurring over $27 billion annually in lost agricultural output. Modern durum wheat (Triticum turgidum) lacks effective sodium exclusion mechanisms from leaf blades, leading to toxic Na+ accumulation and premature leaf senescence. We introgressed the ancestral Nax2 locus encoding the sodium-selective transporter TaHKT1;5 from ancestral Triticum monococcum into commercial durum wheat via marker-assisted backcrossing. TaHKT1;5 localized specifically to root cortical xylem parenchyma cells, unloading toxic Na+ from xylem vessels before it could reach photosynthetic tissues. In saline field trials (salinity ~ 12 dS/m), transgenic backcrossed lines reduced leaf blade Na+ concentration by 55% compared to wild-type controls, resulting in a 25% grain yield increase under severe salinity stress. Non-saline irrigated plots and wild-type non-introgressed parent cultivars served as comparative controls. Nevertheless, under non-saline conditions, lines exhibited a mild 3% biomass penalty due to constitutive ion transporter metabolic load, and introgression into hexaploid bread wheat proved difficult due to homeologous gene silencing."
+  }
+}

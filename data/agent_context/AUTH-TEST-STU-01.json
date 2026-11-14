@@ -1,0 +1,190 @@
+{
+  "project_id": "AUTH-TEST-STU-01",
+  "title": "BioEthics Test Project",
+  "researcher_name": "Test Student",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-13T14:38:51.214983+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "BioEthics Test Project",
+    "chassis": "",
+    "tool": "",
+    "target": "",
+    "abstract_word_count": 0,
+    "methodology_word_count": 3,
+    "human_subjects_declared": null,
+    "recombinant_dna_declared": null,
+    "pathogen_work_declared": null,
+    "input_fingerprint": "c80b4ca246849dd5"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": "No standard biological host or reaction matrix detected."
+  },
+  "molecular_tools": [],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Laboratory Reagent / Unspecified Sample",
+    "source": "unspecified",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "evidence": "",
+    "rationale": "No explicit biological sample origin identified."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant vectors or genetic editing methods identified."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant DNA manipulation indicated."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No human participant or clinical tissue keywords found."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No high-consequence pathogen keywords detected."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No antimicrobial resistance determinants detected."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-1",
+    "source": "system.default",
+    "status": "CONFIRMED",
+    "confidence": 0.75,
+    "evidence": "Standard non-pathogenic laboratory model.",
+    "rationale": "Standard baseline for educational/non-pathogenic host organisms."
+  },
+  "evidence_log": [
+    {
+      "agent_run_id": "RUN-41008646",
+      "step_index": 1,
+      "tool_id": "search_pubmed",
+      "query": "Escherichia coli",
+      "records_count": 3,
+      "records": [
+        {
+          "pmid": "43021955",
+          "title": "An exploratory study on the influence of (60)Co irradiation on the volatile organic components and antibacterial activity of Artemisia argyi Folium",
+          "journal": "Frontiers in chemistry",
+          "pubdate": "2026",
+          "authors": "Xie P, Tian C, Liu Y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021955/"
+        },
+        {
+          "pmid": "43021872",
+          "title": "Qingqiao polyphenols may alleviate multi-organ inflammatory injury caused by Escherichia coli infection in chickens by regulating pyroptosis in a gut microbiota-independent manner",
+          "journal": "Frontiers in veterinary science",
+          "pubdate": "2026",
+          "authors": "Chao L, Feng Y, Liang Y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021872/"
+        },
+        {
+          "pmid": "43021847",
+          "title": "Engineering probiotics for mucosal vaccination: from the Escherichia coli Nissle 1917 paradigm to a translational vaccine platform",
+          "journal": "Frontiers in gastroenterology (Lausanne, Switzerland)",
+          "pubdate": "2026",
+          "authors": "Palenca I, Esposito G, Pesce M",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/43021847/"
+        }
+      ],
+      "provenance": {
+        "source_system": "NCBI PubMed E-utilities",
+        "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "query_executed": "Escherichia coli",
+        "pmid_list": [
+          "43021955",
+          "43021872",
+          "43021847"
+        ],
+        "timestamp": "2026-11-13T14:38:53.109072+00:00",
+        "elapsed_ms": 1784.36
+      },
+      "timestamp": "2026-11-13T14:38:51.328808+00:00"
+    }
+  ],
+  "uncertainties": [
+    {
+      "field": "organism_or_chassis",
+      "issue": "Missing biological host organism or chassis declaration."
+    }
+  ],
+  "proposal_sections": {
+    "title": "BioEthics Test Project",
+    "abstract": "",
+    "chassis": "",
+    "tool": "",
+    "target": "",
+    "methodology": "Incubation in buffer.",
+    "pitfalls": "",
+    "expected_outcomes": "",
+    "aims": {},
+    "funnel": {}
+  }
+}

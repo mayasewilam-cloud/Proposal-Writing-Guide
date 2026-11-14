@@ -6,8 +6,9 @@ PowerPoint Slides Service, Socratic Engine, Rubric Audits, and Instructor Studio
 """
 
 import os
+import sys
 import json
-from flask import Flask, render_template, request, jsonify, send_file, send_from_directory, session
+from flask import Flask, render_template, request, jsonify, send_file, send_from_directory, session, redirect, url_for
 from core.search_builder import build_boolean_query, get_curated_examples
 from core.socratic_engine import analyze_student_draft, generate_viva_defense_questions
 from core.audit_rules import (
@@ -20,7 +21,12 @@ from core.audit_rules import (
 from core.funnel_scaffolder import get_sentence_starters, assemble_background_narrative
 from core.export_service import generate_docx_portfolio, generate_markdown_portfolio
 from core.paraphrase_engine import audit_paraphrase_rhev
-from core.reference_service import fetch_doi_metadata, audit_bibliography_recency
+from core.reference_service import (
+    fetch_doi_metadata,
+    audit_bibliography_recency,
+    validate_citation_text,
+    evaluate_submission_gate
+)
 from core.slides_service import create_defense_presentation
 from core.instructor_engine import get_rapid_comment_bank, compile_instructor_feedback_report
 from core.impact_novelty_engine import (
@@ -60,7 +66,11 @@ from core.auth_store import (
     verify_faculty_passcode,
     check_faculty_rate_limit,
     record_faculty_attempt,
-    reset_faculty_rate_limit
+    reset_faculty_rate_limit,
+    FacultyAuthBusyError,
+    issue_student_activation_token,
+    is_student_session_valid,
+    get_student_account_status
 )
 from core.draft_store import (
     save_student_draft,
@@ -69,7 +79,8 @@ from core.draft_store import (
     seed_default_drafts,
     toggle_draft_lock,
     dispatch_faculty_feedback,
-    delete_student_draft
+    delete_student_draft,
+    compute_draft_fingerprint
 )
 from core.copilot_brain import generate_socratic_thinking_response
 from core.web_search import execute_multi_search
@@ -116,7 +127,104 @@ app = Flask(
     template_folder=TEMPLATES_DIR,
     static_url_path="/static"
 )
-app.secret_key = os.environ.get("SECRET_KEY", "biowriter-studio-session-secret-2026")
+KNOWN_INSECURE_SECRETS = {
+    "biowriter-studio-session-secret-2026",
+    "replace-with-your-production-secret-key",
+    "secret",
+    "changeme",
+    "dev",
+    "development",
+    "test",
+    "testing",
+    "password",
+    "12345678",
+}
+
+
+def configure_session_secret(flask_app) -> str:
+    """Configures and enforces Flask session secret security.
+
+    In production mode (default), requires an explicit, strong, non-default SECRET_KEY
+    environment variable (minimum 32 characters / 256 bits). Fails startup immediately
+    with a clear RuntimeError if missing or insecure.
+
+    In designated development mode (BIOWRITER_ENV=development or FLASK_ENV=development),
+    permits fallback secrets with a logged warning.
+
+    In designated testing mode (explicitly configured Flask testing application or
+    BIOWRITER_ENV=test/testing or FLASK_TESTING=1/TESTING=1), permits test secrets.
+    Ambient module imports (such as importing unittest or pytest) or ambient environment
+    variables (such as PYTEST_CURRENT_TEST) NEVER activate testing mode.
+    """
+    raw_secret = os.environ.get("SECRET_KEY", "").strip()
+
+    # Explicit testing mode detection ONLY - NO ambient module imports or test runner vars
+    env_mode = os.environ.get("BIOWRITER_ENV", os.environ.get("FLASK_ENV", "")).lower().strip()
+    is_explicit_test_env = env_mode in ("test", "testing")
+    is_explicit_flask_testing = bool(
+        getattr(flask_app, "testing", False)
+        or flask_app.config.get("TESTING", False)
+        or os.environ.get("FLASK_TESTING", "").lower().strip() in ("1", "true", "yes")
+        or os.environ.get("TESTING", "").lower().strip() in ("1", "true", "yes")
+    )
+    is_testing = is_explicit_flask_testing or is_explicit_test_env
+
+    is_development = env_mode in ("development", "dev")
+
+    if is_testing:
+        secret = raw_secret or "biowriter-test-secret-key-32chars-min-len!!"
+        flask_app.secret_key = secret
+        return secret
+
+    if is_development:
+        is_placeholder = bool(raw_secret and raw_secret.lower() in KNOWN_INSECURE_SECRETS)
+        if not raw_secret or is_placeholder or len(raw_secret) < 32:
+            secret = raw_secret or "biowriter-dev-insecure-fallback-secret-2026-minimum-32chars"
+            print(
+                "[SECURITY WARNING] Running in DEVELOPMENT mode with an insecure or fallback SECRET_KEY. "
+                "Never use this configuration in production!",
+                file=sys.stderr,
+            )
+        else:
+            secret = raw_secret
+        flask_app.secret_key = secret
+        return secret
+
+    # Production Mode (Default)
+    # 1. Reject empty or whitespace-only
+    # 2. Reject known insecure placeholders (case-insensitive)
+    # 3. Reject keys shorter than 32 characters (256 bits)
+    is_insecure_placeholder = bool(raw_secret and raw_secret.lower() in KNOWN_INSECURE_SECRETS)
+    if not raw_secret or is_insecure_placeholder or len(raw_secret) < 32:
+        reason = (
+            "SECRET_KEY is unset or empty."
+            if not raw_secret
+            else "SECRET_KEY matches a known insecure placeholder."
+            if is_insecure_placeholder
+            else f"SECRET_KEY is too short ({len(raw_secret)} chars; minimum 32 required)."
+        )
+        err_msg = (
+            "\n" + "=" * 78 + "\n"
+            "CRITICAL SECURITY CONFIGURATION ERROR: Invalid SECRET_KEY in production mode.\n"
+            "BioWriter Studio requires a cryptographically strong, explicit SECRET_KEY in\n"
+            "production to protect user session integrity and HMAC cookie signing.\n\n"
+            f"Current status: {reason}\n\n"
+            "REMEDIATION:\n"
+            "1. Generate a cryptographically secure random secret key (minimum 32 characters / 256 bits):\n"
+            '   python -c "import secrets; print(secrets.token_hex(32))"\n'
+            "2. Set the SECRET_KEY environment variable before starting the application:\n"
+            '   export SECRET_KEY="<generated-random-key>"\n'
+            "3. If running locally for development/debugging ONLY, explicitly enable dev mode:\n"
+            '   export BIOWRITER_ENV=development\n'
+            "=" * 78 + "\n"
+        )
+        raise RuntimeError(err_msg)
+
+    flask_app.secret_key = raw_secret
+    return raw_secret
+
+
+configure_session_secret(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
@@ -197,7 +305,11 @@ def faculty_view():
 @app.route("/test_maya_runner")
 @app.route("/test_maya_runner.html")
 def test_maya_runner_view():
-    return render_template("test_maya_runner.html")
+    """
+    Legacy test runner route. Redirects to the canonical primary workspace view
+    with Maya's benchmark draft (ID: 13989) loaded, preventing TemplateNotFound errors.
+    """
+    return redirect("/?student_id=13989", code=302)
 
 
 @app.route("/favicon.ico")
@@ -247,26 +359,69 @@ def serve_root_guide_data():
     return jsonify({"error": "bt301_guide_data.js not found"}), 404
 
 
-@app.route("/data/<path:filename>")
-def serve_data_directory(filename):
-    """Serves files from upload/data directory."""
-    data_dir = os.path.join(BASE_DIR, "data")
-    if os.path.exists(os.path.join(data_dir, filename)):
-        mimetype = "application/javascript" if filename.endswith(".js") else "application/json" if filename.endswith(".json") else None
-        return send_from_directory(data_dir, filename, mimetype=mimetype)
-    return jsonify({"error": f"File {filename} not found in data"}), 404
+ALLOWED_IMAGE_EXTENSIONS = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+}
 
 
 @app.route("/detectr_aqua_figure2.png")
+def serve_detectr_figure():
+    """Serves detectr_aqua_figure2.png safely from static/images directory."""
+    images_dir = os.path.realpath(os.path.join(STATIC_DIR, "images"))
+    target_path = os.path.realpath(os.path.join(images_dir, "detectr_aqua_figure2.png"))
+
+    norm_images_dir = os.path.normcase(images_dir)
+    norm_target = os.path.normcase(target_path)
+
+    try:
+        common = os.path.commonpath([norm_images_dir, norm_target])
+    except ValueError:
+        return jsonify({"error": "Image not found"}), 404
+
+    if common != norm_images_dir or not os.path.isfile(target_path):
+        return jsonify({"error": "Image not found"}), 404
+
+    return send_from_directory(images_dir, "detectr_aqua_figure2.png", mimetype="image/png")
+
+
 @app.route("/images/<path:filename>")
-def serve_root_images(filename="detectr_aqua_figure2.png"):
-    """Serves diagram images with multiple directory fallbacks."""
-    for p in [os.path.join(BASE_DIR, filename),
-              os.path.join(STATIC_DIR, filename),
-              os.path.join(STATIC_DIR, "images", filename)]:
-        if os.path.exists(p):
-            return send_from_directory(os.path.dirname(p), os.path.basename(p), mimetype="image/png")
-    return jsonify({"error": "Image not found"}), 404
+def serve_static_images(filename):
+    """Serves static diagram and UI images strictly from static/images/.
+
+    Enforces canonical realpath resolution, symlink/junction escape prevention,
+    directory traversal protection, and strict file extension whitelisting
+    (.png, .jpg, .jpeg, .webp, .svg). Never falls back to BASE_DIR or data directories.
+    """
+    if ".." in filename or filename.startswith("/") or "\\" in filename:
+        return jsonify({"error": "Invalid image path"}), 404
+
+    _, ext = os.path.splitext(filename)
+    mime = ALLOWED_IMAGE_EXTENSIONS.get(ext.lower())
+    if not mime:
+        return jsonify({"error": "Unsupported or prohibited file type"}), 404
+
+    images_dir = os.path.realpath(os.path.join(STATIC_DIR, "images"))
+    raw_target = os.path.join(images_dir, filename)
+    target_path = os.path.realpath(raw_target)
+
+    norm_images_dir = os.path.normcase(images_dir)
+    norm_target = os.path.normcase(target_path)
+
+    try:
+        common = os.path.commonpath([norm_images_dir, norm_target])
+    except ValueError:
+        return jsonify({"error": "Invalid path"}), 404
+
+    if common != norm_images_dir or not os.path.isfile(target_path):
+        return jsonify({"error": "Image not found"}), 404
+
+    rel_dir = os.path.relpath(os.path.dirname(target_path), images_dir)
+    safe_dir = images_dir if rel_dir == "." else os.path.join(images_dir, rel_dir)
+    return send_from_directory(safe_dir, os.path.basename(target_path), mimetype=mime)
 
 @app.route("/studio.js")
 @app.route("/static/studio.js")
@@ -375,10 +530,21 @@ def api_lookup_reference():
 
 @app.route("/api/reference/audit_recency", methods=["POST"])
 def api_audit_recency():
-    data = request.get_json() or {}
-    refs = data.get("references", "")
-    result = audit_bibliography_recency(refs)
-    return jsonify(result)
+    if not request.is_json:
+        return jsonify({"success": False, "error": "Request body must be valid JSON."}), 400
+    data = request.get_json(silent=True)
+    if data is None or not isinstance(data, dict):
+        return jsonify({"success": False, "error": "Invalid JSON body. Expected a JSON object."}), 400
+    if "references" not in data:
+        return jsonify({"success": False, "error": "Missing required field: 'references'"}), 400
+    refs = data["references"]
+    try:
+        result = audit_bibliography_recency(refs)
+        return jsonify(result), 200
+    except (ValueError, TypeError) as err:
+        return jsonify({"success": False, "error": str(err)}), 400
+    except Exception as err:
+        return jsonify({"success": False, "error": "Internal server error auditing references."}), 500
 
 
 @app.route("/api/starters", methods=["GET"])
@@ -434,10 +600,50 @@ def api_create_instructor_report():
 # Faculty Authentication Routes
 # ==========================================================================
 def _get_client_ip() -> str:
+    """
+    Returns the verified client IP address.
+    Strictly secure by default: Forwarding headers (X-Forwarded-For) are completely
+    ignored unless:
+      1. An explicit trusted proxy peer set is configured via TRUSTED_PROXY_IPS.
+      2. The direct socket peer (request.remote_addr) is in TRUSTED_PROXY_IPS.
+      3. TRUSTED_PROXY_COUNT is configured to a positive integer (default: 1 when proxy peer is trusted).
+
+    A positive TRUSTED_PROXY_COUNT alone NEVER establishes proxy trust.
+    If request.remote_addr is NOT in TRUSTED_PROXY_IPS, request.remote_addr is ALWAYS
+    returned, unconditionally ignoring any incoming X-Forwarded-For headers.
+    """
+    direct_ip = request.remote_addr or "127.0.0.1"
+
+    # 1. Parse configured trusted proxy peer IP set
+    trusted_proxy_ips_raw = os.environ.get("TRUSTED_PROXY_IPS", "")
+    trusted_proxy_ips = {ip.strip() for ip in trusted_proxy_ips_raw.split(",") if ip.strip()}
+
+    # If no trusted proxy set is configured, or direct socket peer is not in the set:
+    # Always return direct_ip (secure standalone behavior).
+    if not trusted_proxy_ips or direct_ip not in trusted_proxy_ips:
+        return direct_ip
+
+    # 2. Direct socket peer is confirmed trusted. Now parse proxy hop count:
+    try:
+        trusted_proxy_count = int(os.environ.get("TRUSTED_PROXY_COUNT", "1"))
+    except ValueError:
+        trusted_proxy_count = 1
+
+    if trusted_proxy_count <= 0:
+        return direct_ip
+
+    # 3. Extract forwarded client IP from verified proxy chain
     forwarded = request.headers.get("X-Forwarded-For")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
-    return request.remote_addr or "127.0.0.1"
+    if not forwarded:
+        return direct_ip
+
+    hops = [h.strip() for h in forwarded.split(",") if h.strip()]
+    if not hops:
+        return direct_ip
+
+    # Select the client address at index (len(hops) - trusted_proxy_count)
+    idx = max(0, len(hops) - max(1, trusted_proxy_count))
+    return hops[idx]
 
 
 @app.route("/api/faculty/login", methods=["POST"])
@@ -458,7 +664,18 @@ def api_faculty_login():
     passcode = data.get("passcode") or data.get("password", "")
 
     # 2. Cryptographically verify passcode against PBKDF2 salted hashes
-    if verify_faculty_passcode(passcode):
+    try:
+        authenticated = verify_faculty_passcode(passcode, raise_on_busy=True)
+    except FacultyAuthBusyError:
+        # Load shedding: clear in-flight flag without penalizing failed attempt counter
+        record_faculty_attempt(client_ip, success=False, increment_attempt=False)
+        return jsonify({
+            "success": False,
+            "error": "Authentication verification capacity reached. Please wait a moment and try again.",
+            "busy": True
+        }), 429
+
+    if authenticated:
         record_faculty_attempt(client_ip, success=True)
         # Clear student session if one was active
         session.pop("student_id", None)
@@ -506,7 +723,9 @@ def api_auth_register():
     sid = data.get("student_id", "").strip()
     name = data.get("student_name", "").strip()
     pwd = data.get("password", "")
-    result = register_student(sid, name, pwd)
+    token = (data.get("activation_token") or data.get("token") or data.get("activation_code") or "").strip()
+    client_ip = _get_client_ip()
+    result = register_student(sid, name, pwd, activation_token=token, client_ip=client_ip)
     if result.get("success"):
         session["student_id"] = result["user"]["student_id"]
         session["student_name"] = result["user"]["student_name"]
@@ -581,10 +800,10 @@ def api_auth_me():
     sid = session.get("student_id")
     if not sid:
         return jsonify({"authenticated": False})
-    user = get_student_user(sid)
-    if not user:
+    valid, user = is_student_session_valid(sid)
+    if not valid or not user or not user.get("account_claimed", True):
         session.clear()
-        return jsonify({"authenticated": False})
+        return jsonify({"authenticated": False, "error": "Session invalidated: Account has not been activated or claimed."}), 401
     ctx = get_student_project_context(sid)
     draft = get_student_draft(sid)
     if ctx.get("workspace") and ctx["workspace"].get("proposal_draft"):
@@ -600,62 +819,250 @@ def api_auth_me():
     })
 
 
+PROTECTED_EXEMPLAR_IDS = {"13989", "CUSTOM-TOPIC-01", "BT301-NANOMED", "BT301-BIOCAT"}
+
+
+def _is_testing_mode() -> bool:
+    """Returns True ONLY when the active Flask app explicitly has testing enabled.
+    Never relies on environment variables as the sole security boundary."""
+    try:
+        from flask import current_app
+        return bool(current_app and getattr(current_app, "testing", False))
+    except Exception:
+        return False
+
+
 def _is_authorized_for_student_draft(target_id: str, write_access: bool = False) -> bool:
     """Verifies whether the current session is authorized to read or write a student draft."""
     clean_target = (target_id or "").strip().upper()
     if not clean_target:
         return False
-    # Faculty has full read/write access
-    if session.get("faculty_authenticated") and session.get("role") == "faculty":
+
+    is_faculty = bool(session.get("faculty_authenticated") and session.get("role") == "faculty")
+
+    # Faculty administrators have full read and write access to all drafts and exemplars
+    if is_faculty:
         return True
-    # Public demo exemplars (13989, ST-2026-01, guest/custom starter IDs)
-    if clean_target in ("13989", "ST-2026-01", "CUSTOM-TOPIC-01", "BT301-NANOMED", "BT301-BIOCAT"):
+
+    # Protected Public Demo Exemplars:
+    # Read-only for all students and guests. Modification is STRICTLY forbidden for non-faculty.
+    if clean_target in PROTECTED_EXEMPLAR_IDS:
+        if write_access:
+            return False
         return True
+
     session_sid = (session.get("student_id") or "").strip().upper()
-    if session_sid and session_sid == clean_target:
-        return True
-    # Also allow if session_sid and clean_target belong to the same active project team
+
+    # Authenticated Student
     if session_sid:
+        valid, user = is_student_session_valid(session_sid)
+        if not valid:
+            session.clear()
+            return False
+        # A student can read and write their own draft
+        if session_sid == clean_target:
+            return True
+        # A student can access their team workspace / teammates
         ctx = get_student_project_context(session_sid)
         my_proj = ctx.get("my_project") or {}
         member_ids = [str(m.get("student_id", "")).upper() for m in my_proj.get("members", [])]
         if clean_target in member_ids or clean_target == str(my_proj.get("team_id", "")).upper():
             return True
-    # If the target ID belongs to a registered student account, block unauthenticated or cross-student access
+        # For ANY other student ID, access is strictly denied
+        return False
+
+    # Unauthenticated Guest Session
+    # 1. Unauthenticated users can NEVER access drafts belonging to registered students
     registered_owner = get_student_user(clean_target)
     if registered_owner is not None:
         return False
-    # Allow unauthenticated local/guest custom IDs that are not registered accounts
-    return not bool(session_sid)
+
+    # 2. Synthetic test prefixes (TEST-*, ST_API_*) are strictly prohibited in production.
+    # They are only allowed when the application is explicitly running in testing mode.
+    is_test_prefix = clean_target.startswith("TEST-") or clean_target.startswith("ST_API_")
+    if is_test_prefix:
+        if not _is_testing_mode():
+            return False
+        return True
+
+    # 3. For write access: guests can ONLY write to their own session-assigned guest draft,
+    # or create a recognized local/guest/audit draft (e.g. GUEST-*, LOCAL-*, AUDIT-*).
+    # Writing to arbitrary unregistered non-guest IDs is strictly forbidden.
+    guest_sid = (session.get("guest_draft_id") or "").strip().upper()
+    if write_access:
+        if guest_sid and clean_target == guest_sid:
+            return True
+        if clean_target.startswith("GUEST-") or clean_target.startswith("LOCAL-") or clean_target.startswith("AUDIT-"):
+            return True
+        return False
+
+    # 4. For read access: guests can read their own guest draft, local guest drafts, or public exemplars
+    if guest_sid and clean_target == guest_sid:
+        return True
+    if clean_target.startswith("GUEST-") or clean_target.startswith("LOCAL-") or clean_target.startswith("AUDIT-"):
+        return True
+
+    return False
 
 
 @app.route("/api/student/save_draft", methods=["POST"])
 def api_save_student_draft():
     data = request.get_json() or {}
-    student_id = data.get("student_id", "").strip() or session.get("student_id", "")
+    session_sid = (session.get("student_id") or "").strip()
+    is_faculty = bool(session.get("faculty_authenticated") and session.get("role") == "faculty")
+
+    # If student is authenticated, their student_id is strictly locked to their session identity
+    # (preventing payload tampering to modify another student's draft)
+    if session_sid and not is_faculty:
+        student_id = session_sid
+    else:
+        student_id = data.get("student_id", "").strip() or session.get("student_id", "") or session.get("guest_draft_id", "")
+
     if not _is_authorized_for_student_draft(student_id, write_access=True):
-        return jsonify({"success": False, "error": "Unauthorized: You cannot overwrite another registered student's proposal draft."}), 403
+        return jsonify({"success": False, "error": "Unauthorized: You do not have write permissions for this proposal draft."}), 403
+
     student_data = data.get("student_data", data)
+
+    # Server-side citation status validation (without blocking draft saving)
+    ref_text = student_data.get("references")
+    if ref_text and isinstance(ref_text, (str, list)):
+        try:
+            val = validate_citation_text(ref_text, use_network=True)
+            student_data["citation_validation"] = val
+            student_data["has_retracted_citations"] = bool(val.get("has_retracted"))
+            student_data["has_expression_of_concern_citations"] = bool(val.get("has_expression_of_concern"))
+        except Exception as e:
+            student_data["citation_validation"] = {
+                "total_citations": 0,
+                "has_retracted": False,
+                "has_unknown": True,
+                "warning": f"Citation validation encountered error: {str(e)}",
+                "references": []
+            }
+            student_data["has_retracted_citations"] = False
+            student_data["has_expression_of_concern_citations"] = False
+    else:
+        student_data["citation_validation"] = None
+        student_data["has_retracted_citations"] = False
+        student_data["has_expression_of_concern_citations"] = False
+
     result = save_student_draft(student_id, student_data)
     # Synchronize with shared Team Workspace if student belongs to an active team
     sync_student_draft_with_team_workspace(student_id, student_data)
     if not session.get("student_id") and result.get("student_id"):
         session["guest_draft_id"] = str(result["student_id"]).strip().upper()
+
+    # Surface validation report in response for frontend display
+    result["citation_validation"] = student_data.get("citation_validation")
+    result["has_retracted_citations"] = student_data.get("has_retracted_citations", False)
+    result["has_expression_of_concern_citations"] = student_data.get("has_expression_of_concern_citations", False)
     return jsonify(result)
 
 
+@app.route("/api/student/lock", methods=["POST"])
 @app.route("/api/student/toggle_lock", methods=["POST"])
 def api_student_toggle_lock():
     data = request.get_json() or {}
-    student_id = data.get("student_id", "").strip() or session.get("student_id", "")
-    is_locked = bool(data.get("is_locked", True))
+    session_sid = (session.get("student_id") or "").strip()
+    is_faculty = bool(session.get("faculty_authenticated") and session.get("role") == "faculty")
+
+    if session_sid and not is_faculty:
+        student_id = session_sid
+    else:
+        student_id = data.get("student_id", "").strip() or session.get("student_id", "") or session.get("guest_draft_id", "")
+
     if not student_id:
         return jsonify({"success": False, "error": "Student ID required."}), 400
     if not _is_authorized_for_student_draft(student_id, write_access=True):
-        return jsonify({"success": False, "error": "Unauthorized: Cannot modify lock state for another student's draft."}), 403
-    res = toggle_draft_lock(student_id, is_locked)
-    return jsonify(res)
+        return jsonify({"success": False, "error": "Unauthorized: Cannot modify lock state for this draft."}), 403
 
+    # REPAIR D: Strict lock-state input validation.
+    # Accept explicit booleans only. Reject arbitrary strings, 'INVALID', null, 0, arrays, objects.
+    # Support documented legacy payload parameter 'lock' if 'is_locked' is omitted.
+    raw_lock = data.get("is_locked")
+    if raw_lock is None and "lock" in data:
+        raw_lock = data.get("lock")
+
+    if raw_lock is None or not isinstance(raw_lock, bool):
+        return jsonify({
+            "success": False,
+            "error": "Invalid lock state. Expected an explicit boolean (true or false). Strings, numbers, nulls, arrays, and objects are not permitted.",
+            "status": "invalid_lock_parameter"
+        }), 400
+
+    is_locked = raw_lock
+
+    # If submitting proposal (locking for grading), strictly re-evaluate current authoritative references
+    if is_locked:
+        existing_draft = get_student_draft(student_id)
+        if not existing_draft:
+            return jsonify({"success": False, "error": f"Student draft '{student_id}' not found."}), 404
+
+        # Capture snapshot version and content fingerprint BEFORE network validation
+        snapshot_version = existing_draft.get("version", 1)
+        snapshot_fingerprint = existing_draft.get("content_fingerprint") or compute_draft_fingerprint(existing_draft)
+
+        # Retrieve canonical reference content directly from authoritative draft snapshot
+        ref_text = existing_draft.get("references")
+        if not ref_text and existing_draft.get("references_text"):
+            ref_text = existing_draft.get("references_text")
+        if not ref_text and existing_draft.get("bibliography"):
+            ref_text = existing_draft.get("bibliography")
+
+        # Perform live re-validation against current citation service (never hold file lock across network requests)
+        val = validate_citation_text(ref_text or "", use_network=True)
+        gate = evaluate_submission_gate(val)
+
+        if not gate["allow_submission"]:
+            if gate.get("status") == "blocked_retraction":
+                return jsonify({
+                    "success": False,
+                    "error": "Submission blocked: Proposal contains 1 or more retracted or withdrawn citations. Retracted publications must be removed or replaced before official submission for grading.",
+                    "status": "blocked_retraction",
+                    "retracted_citations": gate.get("retracted_citations", []),
+                    "citation_validation": val
+                }), 400
+
+            if gate.get("verification_pending"):
+                return jsonify({
+                    "success": False,
+                    "error": "Submission pending: Citation verification could not be completed (external verification service unreachable or status unknown). The draft remains safely saved, but cannot be officially locked for grading until citation integrity is verified.",
+                    "status": "verification_pending",
+                    "verification_pending": True,
+                    "unknown_citations": gate.get("unknown_citations", []),
+                    "citation_validation": val
+                }), 400
+
+            return jsonify({
+                "success": False,
+                "error": "Submission blocked: " + "; ".join(gate.get("reasons", ["Citation integrity check failed."])),
+                "status": gate.get("status", "blocked"),
+                "citation_validation": val
+            }), 400
+
+        # REPAIR A: Concurrency-Safe Atomic Commit with Optimistic Concurrency Control
+        # Commits validation results and lock state ONLY if draft version and fingerprint match the snapshot
+        res = toggle_draft_lock(
+            student_id,
+            is_locked=True,
+            expected_version=snapshot_version,
+            expected_fingerprint=snapshot_fingerprint,
+            validation_data=val
+        )
+
+        if not res.get("success"):
+            if res.get("conflict") or res.get("status") == "draft_changed_retry":
+                return jsonify(res), 409
+            return jsonify(res), 400
+
+        return jsonify(res), 200
+
+    else:
+        # Unlocking for revisions
+        res = toggle_draft_lock(student_id, is_locked=False)
+        if not res.get("success"):
+            return jsonify(res), 400
+        return jsonify(res), 200
 
 @app.route("/api/student/drafts", methods=["GET"])
 def api_list_student_drafts():
@@ -663,9 +1070,19 @@ def api_list_student_drafts():
     if session.get("faculty_authenticated") and session.get("role") == "faculty":
         return jsonify(all_drafts)
     # For students or unauthenticated requests, only expose their own draft + public demo exemplar 13989
+    # Validate session student_id against authoritative account status (DEFECT 02 remediation)
     session_sid = (session.get("student_id") or "").strip().upper()
-    guest_sid = (session.get("guest_draft_id") or "").strip().upper() if not session_sid else ""
-    allowed_ids = {s for s in (session_sid, guest_sid, "13989", "ST-2026-01") if s}
+    valid_sid = ""
+    if session_sid:
+        valid, user = is_student_session_valid(session_sid)
+        if valid and user and user.get("account_claimed", True):
+            valid_sid = session_sid
+        else:
+            session.clear()
+            session_sid = ""
+
+    guest_sid = (session.get("guest_draft_id") or "").strip().upper() if not valid_sid else ""
+    allowed_ids = {s for s in (valid_sid, guest_sid, "13989") if s}
     filtered = [
         d for d in (all_drafts if isinstance(all_drafts, list) else all_drafts.get("drafts", []))
         if str(d.get("student_id", "")).upper() in allowed_ids
@@ -677,15 +1094,22 @@ def api_list_student_drafts():
 
 @app.route("/api/student/draft/<student_id>", methods=["GET"])
 def api_get_student_draft(student_id):
-    if not _is_authorized_for_student_draft(student_id, write_access=False):
-        return jsonify({"success": False, "error": "Unauthorized access to another student's proposal draft."}), 403
-    draft = get_student_draft(student_id)
-    if draft:
-        # If faculty is requesting, return full draft; if student is requesting, redact numeric grades
-        is_faculty = bool(session.get("faculty_authenticated"))
-        payload = draft if is_faculty else sanitize_draft_for_student(draft)
-        return jsonify({"success": True, "draft": payload})
-    return jsonify({"success": False, "error": f"Student draft '{student_id}' not found."}), 404
+    clean_id = (student_id or "").strip()
+    if not clean_id:
+        return jsonify({"success": False, "error": "Student ID required."}), 400
+
+    # Authorization check MUST precede draft existence lookup to prevent account enumeration
+    if not _is_authorized_for_student_draft(clean_id, write_access=False):
+        return jsonify({"success": False, "error": "Unauthorized access to proposal draft."}), 403
+
+    draft = get_student_draft(clean_id)
+    if not draft:
+        return jsonify({"success": False, "error": "Proposal draft not found."}), 404
+
+    # If faculty is requesting, return full draft; if student is requesting, redact numeric grades
+    is_faculty = bool(session.get("faculty_authenticated"))
+    payload = draft if is_faculty else sanitize_draft_for_student(draft)
+    return jsonify({"success": True, "draft": payload})
 
 
 @app.route("/api/instructor/dispatch_feedback", methods=["POST"])
@@ -720,9 +1144,12 @@ def api_faculty_delete_submission(student_id):
     if not session.get("faculty_authenticated") or session.get("role") != "faculty":
         return jsonify({"success": False, "error": "Faculty authorization required to remove submissions."}), 403
 
-    clean_id = (student_id or "").strip()
+    clean_id = (student_id or "").strip().upper()
     if not clean_id:
         return jsonify({"success": False, "error": "Student ID is required."}), 400
+
+    if clean_id in PROTECTED_EXEMPLAR_IDS:
+        return jsonify({"success": False, "error": "Exemplar benchmark proposals cannot be deleted."}), 403
 
     result = delete_student_draft(clean_id)
     status_code = 200 if result.get("success") else 404
@@ -904,16 +1331,24 @@ def api_decode_paper():
         journal = data.get("journal", "")
         proposal_context = data.get("proposal_context") or data.get("context")
 
-    return jsonify(decode_paper_analyst(
-        text=text,
-        title=title,
-        identifier=identifier,
-        authors=authors,
-        year=year,
-        journal=journal,
-        proposal_context=proposal_context,
-        pdf_bytes=pdf_bytes
-    ))
+    try:
+        result = decode_paper_analyst(
+            text=text,
+            title=title,
+            identifier=identifier,
+            authors=authors,
+            year=year,
+            journal=journal,
+            proposal_context=proposal_context,
+            pdf_bytes=pdf_bytes
+        )
+        status_code = 200 if result.get("status") != "error" else 400
+        return jsonify(result), status_code
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "error": f"Server error decoding paper: {str(e)}"
+        }), 500
 
 
 @app.route("/api/breakthroughs", methods=["GET"])
@@ -1064,8 +1499,12 @@ def _get_session_actor():
         return ("faculty", "FACULTY", session.get("faculty_name", "Faculty Coordinator"))
     if _is_pi_session():
         return ("pi", session.get("pi_id", "PI"), session.get("pi_name", "Project Supervisor"))
-    if session.get("student_id"):
-        return ("student", session.get("student_id"), session.get("student_name", session.get("student_id")))
+    sid = session.get("student_id")
+    if sid:
+        valid, user = is_student_session_valid(sid)
+        if valid and user:
+            return ("student", sid, user.get("student_name", sid))
+        session.clear()
     return ("guest", "", "Unauthenticated Visitor")
 
 
@@ -1202,6 +1641,28 @@ def api_faculty_students():
         search_query=q,
     )
     return jsonify(res)
+
+
+@app.route("/api/faculty/students/<student_id>/activation_token", methods=["POST"])
+@app.route("/api/faculty/students/<student_id>/activation-token", methods=["POST"])
+def api_faculty_student_activation_token(student_id):
+    if not _is_faculty_session():
+        return jsonify({"success": False, "error": "Forbidden: Only Faculty/Coordinators can generate activation tokens."}), 403
+    clean_id = (student_id or "").strip().upper()
+    if not clean_id:
+        return jsonify({"success": False, "error": "Student ID is required."}), 400
+    _, _, actor_name = _get_session_actor()
+    ok, msg, token_info = issue_student_activation_token(clean_id, faculty_id=actor_name)
+    if not ok:
+        return jsonify({"success": False, "error": msg}), 400
+    return jsonify({
+        "success": True,
+        "student_id": token_info["student_id"],
+        "student_name": token_info.get("student_name", clean_id),
+        "activation_token": token_info["activation_token"],
+        "expires_at": token_info["expires_at"],
+        "message": "Activation token generated successfully. Present this token to the student. It cannot be retrieved again."
+    })
 
 
 # 3. LAB GROUP MANAGEMENT & STUDENT LAB GROUP MOVE
@@ -1454,10 +1915,21 @@ def api_pi_my_teams():
 # 8. STUDENT 'MY PROJECT' & SHARED TEAM WORKSPACE (PERSISTED BY TEAM ID)
 @app.route("/api/student/my_project", methods=["GET"])
 def api_student_my_project():
-    sid = request.args.get("student_id") if (_is_faculty_session() or _is_pi_session()) else None
+    is_faculty_or_pi = _is_faculty_session() or _is_pi_session()
+    sid = request.args.get("student_id") if is_faculty_or_pi else None
     sid = sid or session.get("student_id")
     if not sid:
         return jsonify({"success": False, "error": "Student authentication required."}), 401
+
+    # Validate student session against authoritative account status (DEFECT 01 remediation)
+    if not is_faculty_or_pi:
+        valid, user = is_student_session_valid(sid)
+        if not valid or not user or not user.get("account_claimed", True):
+            session.clear()
+            return jsonify({
+                "success": False,
+                "error": "Session invalidated: Account has not been activated or claimed."
+            }), 401
 
     ctx = get_student_project_context(sid)
     if ctx.get("workspace") and session.get("role") == "student":

@@ -1,0 +1,24 @@
+{
+  "student_id": "ST-2026-02",
+  "student_name": "Zaid Ibrahim",
+  "title": "Thermostable Engineered PETase for Municipal Plastic Waste Depolymerization",
+  "modality": "Cellular Expression",
+  "chassis": "Pseudomonas putida KT2440",
+  "tool": "Engineered IsPETase (S121C-D186C Disulfide Variant)",
+  "target": "Post-Consumer Polyethylene Terephthalate (PET)",
+  "abstract": "Bacterial PETase undergoes thermal unfolding above 45°C, restricting deployment in industrial recycling. This project engineers thermostable disulfide variants expressed in P. putida for continuous biorecycling.",
+  "aims": {
+    "aim1": "Introduce rational disulfide bridges into IsPETase catalytic cleft.",
+    "aim2": "Express recombinant variants in P. putida and purify via Ni-NTA.",
+    "aim3": "Quantify depolymerization rate at 65°C using reverse-phase HPLC."
+  },
+  "methodology": "Mutant constructs will be cloned into pBBR1MCS-2 and expressed in P. putida KT2440. PET film degradation will be monitored by HPLC against wild-type control.",
+  "references": "1. Austin, H. P. et al. (PNAS 2018). Characterization and engineering of PETase.",
+  "updated_at": "2026-09-30T22:44:30.159044",
+  "updated_at_readable": "Sep 30, 2026 - 22:44",
+  "summary": {
+    "completed_nodes": 5,
+    "completion_percentage": 50,
+    "word_count": 83
+  }
+}

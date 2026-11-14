@@ -1,0 +1,119 @@
+{
+  "project_id": "13989",
+  "current_state": "READY_FOR_ETHICS_HANDOFF",
+  "previous_state": "REQUIREMENT_CHECK",
+  "last_transition_time": "2026-11-14T20:04:58.534979+00:00",
+  "pending_clarifications": [],
+  "answered_clarifications": [],
+  "requirements_summary": [
+    {
+      "rule_id": "REQ-BIO-01",
+      "category": "biosafety",
+      "title": "Recombinant DNA & Genetic Manipulation Oversight",
+      "description": "Use of engineered plasmids, viral or bacterial vectors, or CRISPR genetic alterations necessitates institutional biosafety committee (IBC) registration and containment assessment.",
+      "status": "potentially_relevant",
+      "applicable_annex": "Annex C: Genetic Modification & Recombinant Vectors",
+      "evidence": "Recombinant indicator: 'Potential secondary structure in crRNA.'",
+      "human_action_required": "Institutional Biosafety Officer must confirm vector safety profile and host containment verification."
+    },
+    {
+      "rule_id": "REQ-BIO-02",
+      "category": "biosafety",
+      "title": "Antimicrobial Resistance Determinants & Pathogen Containment",
+      "description": "Work with multidrug-resistant isolates (e.g. mcr-1 colistin resistance) or opportunistic pathogens presents dual-use and laboratory-acquired infection risks requiring minimum BSL-2 precautions.",
+      "status": "potentially_relevant",
+      "applicable_annex": "Annex C: Biosafety Level 2 Protocol Verification",
+      "evidence": "Recombinant indicator: 'Potential secondary structure in crRNA.'",
+      "human_action_required": "Biosafety Officer must inspect standard operating procedures (SOPs) for biohazard autoclaving and barrier protection."
+    }
+  ],
+  "dossier_generated": true,
+  "human_decision": null,
+  "is_locked": false,
+  "last_agent_run": {
+    "agent_run_id": "RUN-2D17B076",
+    "project_id": "13989",
+    "input_fingerprint": "9b330e80d1a12585",
+    "planner_mode": "deterministic_fallback",
+    "model_provider": "deterministic_fallback",
+    "model_version": "observation-driven-fallback-v1",
+    "final_decision": "HUMAN_REVIEW",
+    "tool_calls_count": 0,
+    "tools_called": [],
+    "observations": [],
+    "added_clarifications": [],
+    "human_escalation": {
+      "required_role": "biosafety_officer",
+      "reason": "All researcher clarifications are resolved, but triggered institutional biosafety/ethics requirements mandate human officer review.",
+      "risk_level": "HIGH",
+      "autonomous_approval_blocked": true,
+      "timestamp": "2026-11-14T20:04:58.484128+00:00"
+    },
+    "limits_enforced": {
+      "max_tool_calls_per_run": 3,
+      "max_execution_time_sec": 15.0,
+      "max_repeated_calls_same_tool": 1,
+      "allowed_tool_whitelist": [
+        "search_pubmed",
+        "search_europe_pmc",
+        "search_openalex",
+        "ask_researcher",
+        "request_human_review"
+      ],
+      "no_arbitrary_urls": true,
+      "no_arbitrary_code_execution": true,
+      "no_proposal_rewriting": true,
+      "no_governance_approval": true,
+      "no_modification_of_human_gate_state": true,
+      "no_bypassing_deterministic_safety_checks": true
+    },
+    "elapsed_ms": 13.92,
+    "steps": [
+      {
+        "agent_run_id": "RUN-2D17B076",
+        "step_index": 1,
+        "project_id": "13989",
+        "current_workflow_state": "REQUIREMENT_CHECK",
+        "input_fingerprint": "9b330e80d1a12585",
+        "available_tools": [
+          "search_pubmed",
+          "search_europe_pmc",
+          "search_openalex",
+          "ask_researcher",
+          "request_human_review"
+        ],
+        "selected_tool": null,
+        "tool_arguments": {},
+        "tool_execution_status": "not_applicable",
+        "tool_result_provenance": null,
+        "observation_summary": "Assessed extracted state directly; no external tool call required.",
+        "decision_outcome": "HUMAN_REVIEW",
+        "reason": "All researcher clarifications are resolved, but triggered institutional biosafety/ethics requirements mandate human officer review.",
+        "confidence": 0.92,
+        "uncertainty": "0 uncertainty item(s); 0 pending clarification(s)",
+        "policy_validation_result": {
+          "allowed": true,
+          "status": "ALLOWED",
+          "reason": "Decision conforms to structured contract and bounded governance policy.",
+          "violation_code": null,
+          "enforced_fallback_action": null,
+          "safeguards_triggered": []
+        },
+        "next_action": "AWAIT_HUMAN_GOVERNANCE_REVIEW",
+        "human_escalation": {
+          "required_role": "biosafety_officer",
+          "reason": "All researcher clarifications are resolved, but triggered institutional biosafety/ethics requirements mandate human officer review.",
+          "risk_level": "HIGH",
+          "autonomous_approval_blocked": true,
+          "timestamp": "2026-11-14T20:04:58.484128+00:00"
+        },
+        "timestamp": "2026-11-14T20:04:58.484128+00:00",
+        "model_provider": "deterministic_fallback",
+        "model_version": "observation-driven-fallback-v1",
+        "planner_mode": "deterministic_fallback",
+        "deterministic_safeguards_triggered": [],
+        "concise_provenance": "Decision: HUMAN_REVIEW | Action: none | Reason: All researcher clarifications are resolved, but triggered institutional biosafety/ethics requirements mandate human officer review. | Policy: ALLOWED | Observation: None | Next decision: AWAIT_HUMAN_GOVERNANCE_REVIEW"
+      }
+    ]
+  }
+}

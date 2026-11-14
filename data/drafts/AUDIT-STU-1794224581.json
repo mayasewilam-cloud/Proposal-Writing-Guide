@@ -1,0 +1,32 @@
+{
+  "student_id": "AUDIT-STU-1794224581",
+  "student_name": "Audit Student Tester",
+  "title": "Bioengineering of Thermostable PET Hydrolase for Circular Upcycling",
+  "system": "Escherichia coli BL21(DE3)",
+  "chassis": "Escherichia coli",
+  "tool": "Engineered IsPETase Cutinase",
+  "target": "Post-consumer PET depolymerization",
+  "aims": {
+    "aim1": "Construct expression vector and express enzyme variant",
+    "aim2": "Determine kinetic parameters and catalytic efficiency",
+    "aim3": "Evaluate monomer depolymerization yields"
+  },
+  "matrix": {
+    "yellow": "359 million tons of plastics produced annually worldwide",
+    "blue": "Wild-type enzyme exhibits T_m of 48.8 C",
+    "green": "Low thermostability precludes reaction at polymer glass transition temperature",
+    "purple": "Positive control: LCC cutinase; Negative control: empty pET-26b(+) vector",
+    "red": "Engineered disulfide bridge (D206C/S242C)",
+    "citation": "Tournier et al. (2020). Nature."
+  },
+  "updated_at": "2026-11-09T13:43:06.634006",
+  "updated_at_readable": "Nov 09, 2026 - 13:43",
+  "faculty_review": null,
+  "summary": {
+    "completed_nodes": 4,
+    "completion_percentage": 40,
+    "word_count": 25
+  },
+  "is_locked_for_grading": true,
+  "locked_at": "Nov 09, 2026 - 13:43"
+}

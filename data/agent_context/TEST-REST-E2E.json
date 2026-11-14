@@ -1,0 +1,200 @@
+{
+  "project_id": "TEST-REST-E2E",
+  "title": "Aptamer MicroRNA Detection",
+  "researcher_name": "Student Researcher",
+  "research_area": "Biotechnology",
+  "last_updated": "2026-11-13T14:39:00.145849+00:00",
+  "extraction_mode": "deterministic_rules",
+  "llm_available": false,
+  "checks_performed": [
+    "organism_taxonomy_scan",
+    "molecular_tool_lexicon_scan",
+    "specimen_origin_scan",
+    "human_clinical_trigger_and_contradiction_check",
+    "vertebrate_animal_trigger_check",
+    "recombinant_dna_gmo_trigger_check",
+    "pathogen_amr_trigger_check",
+    "biosafety_containment_conflict_check",
+    "acellular_vs_living_specimen_conflict_check",
+    "proposal_specification_completeness_check"
+  ],
+  "input_summary": {
+    "title": "Aptamer MicroRNA Detection",
+    "chassis": "Paper Lateral Flow Matrix",
+    "tool": "DNA Aptamer Probe",
+    "target": "",
+    "abstract_word_count": 0,
+    "methodology_word_count": 12,
+    "human_subjects_declared": null,
+    "recombinant_dna_declared": null,
+    "pathogen_work_declared": null,
+    "input_fingerprint": "d41d48ebbe3dc4ca"
+  },
+  "organism_or_chassis": {
+    "field": "organism_or_chassis",
+    "value": "Verified clinical volunteer cohort following institutional informed consent protocols.",
+    "source": "researcher.answer[CLAR-CHASSIS-01]",
+    "status": "CONFIRMED",
+    "confidence": 1.0,
+    "evidence": "Verified clinical volunteer cohort following institutional informed consent protocols.",
+    "rationale": "Declared by researcher via Socratic clarification response."
+  },
+  "molecular_tools": [
+    {
+      "field": "molecular_tool",
+      "value": "DNA Aptamer Probe",
+      "source": "proposal.tool",
+      "status": "CONFIRMED",
+      "confidence": 1.0,
+      "evidence": "DNA Aptamer Probe",
+      "rationale": "Explicitly declared by researcher in Tool field."
+    }
+  ],
+  "sample_origin": {
+    "field": "sample_origin",
+    "value": null,
+    "source": "unspecified",
+    "status": "MISSING",
+    "confidence": 0.0,
+    "evidence": "",
+    "rationale": ""
+  },
+  "sample_type": {
+    "field": "sample_type",
+    "value": "Laboratory Reagent / Unspecified Sample",
+    "source": "unspecified",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "evidence": "",
+    "rationale": "No explicit biological sample origin identified."
+  },
+  "genetic_modification": {
+    "field": "genetic_modification",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant vectors or genetic editing methods identified."
+  },
+  "recombinant_dna": {
+    "field": "recombinant_dna",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.85,
+    "evidence": "",
+    "rationale": "No recombinant DNA manipulation indicated."
+  },
+  "human_subjects": {
+    "field": "human_subjects",
+    "value": true,
+    "source": "researcher.answer[CLAR-HUMAN-01]",
+    "status": "CONFIRMED",
+    "confidence": 0.88,
+    "evidence": "Researcher Clarification: Verified clinical volunteer cohort following institutional informed consent protocols.",
+    "rationale": "Researcher clarified sample origin: 'Verified clinical volunteer cohort following institutional informed consent protocols.'."
+  },
+  "animal_subjects": {
+    "field": "animal_subjects",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.95,
+    "evidence": "",
+    "rationale": "No vertebrate or invertebrate animal research terms identified."
+  },
+  "pathogen_work": {
+    "field": "pathogen_work",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No high-consequence pathogen keywords detected."
+  },
+  "antimicrobial_resistance": {
+    "field": "antimicrobial_resistance",
+    "value": false,
+    "source": "proposal.methodology",
+    "status": "CONFIRMED",
+    "confidence": 0.9,
+    "evidence": "",
+    "rationale": "No antimicrobial resistance determinants detected."
+  },
+  "biosafety_containment": {
+    "field": "biosafety_containment",
+    "value": "BSL-2 (Potentially Required)",
+    "source": "regulatory.bsl_inference",
+    "status": "INFERRED",
+    "confidence": 0.8,
+    "evidence": "Clinical isolates or antimicrobial resistant determinants detected without explicit BSL specification.",
+    "rationale": "Institutional guidelines mandate BSL-2 containment for clinical isolates and pathogenic bacteria."
+  },
+  "evidence_log": [
+    {
+      "agent_run_id": "RUN-D4151AE6",
+      "step_index": 1,
+      "tool_id": "search_pubmed",
+      "query": "Paper Lateral Flow Matrix",
+      "records_count": 3,
+      "records": [
+        {
+          "pmid": "42992710",
+          "title": "A Paper-Based Electrochemiluminescence Lateral Flow Immunoassay Using Ruthenium Complex Labeling for the Detection of Naja Naja Venom",
+          "journal": "Journal of visualized experiments : JoVE",
+          "pubdate": "2026 Nov 5",
+          "authors": "Gan Y, Yuan S, Chen W",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42992710/"
+        },
+        {
+          "pmid": "42971082",
+          "title": "Cascade fluorescence-to-thermal photothermal lateral flow immunoassay with simplified sample preparation for procymidone detection in vegetables",
+          "journal": "Talanta",
+          "pubdate": "2026 Oct 29",
+          "authors": "Gao YM, Huang HW, Huang S",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42971082/"
+        },
+        {
+          "pmid": "42951531",
+          "title": "Machine learning-assisted fluorescence immunochromatographic detection of Salmonella typhimurium in complex food matrices via tannic acid-enhanced AIE nanoprobes",
+          "journal": "Analytica chimica acta",
+          "pubdate": "2026 Dec 1",
+          "authors": "Ji C, Li Y, Cheng Y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42951531/"
+        }
+      ],
+      "provenance": {
+        "source_system": "NCBI PubMed E-utilities",
+        "endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "query_executed": "Paper Lateral Flow Matrix",
+        "pmid_list": [
+          "42992710",
+          "42971082",
+          "42951531"
+        ],
+        "timestamp": "2026-11-13T14:38:59.831460+00:00",
+        "elapsed_ms": 1853.97
+      },
+      "timestamp": "2026-11-13T14:38:57.981723+00:00"
+    }
+  ],
+  "uncertainties": [
+    {
+      "field": "biosafety_containment",
+      "issue": "Pathogen or clinical isolate detected, but physical containment protocol (BSL-2) is not explicitly detailed."
+    }
+  ],
+  "proposal_sections": {
+    "title": "Aptamer MicroRNA Detection",
+    "abstract": "",
+    "chassis": "Paper Lateral Flow Matrix",
+    "tool": "DNA Aptamer Probe",
+    "target": "",
+    "methodology": "Patient blood and serum samples will be collected following informed consent protocols.",
+    "pitfalls": "",
+    "expected_outcomes": "",
+    "aims": {},
+    "funnel": {}
+  }
+}
