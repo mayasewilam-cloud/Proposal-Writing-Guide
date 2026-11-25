@@ -137,7 +137,6 @@ window.switchMatrixViewTab = function(tab) {
 
       <!-- Backward-compatible hidden elements for internal references -->
       <button id="btn-nav-instant-demo" style="display: none;"></button>
-      <button id="btn-open-paper-decoder" style="display: none;"></button>
       <a href="faculty.html" id="btn-top-faculty-link" style="display: none;"></a>
       <button id="btn-open-visual-hub" style="display: none;"></button>
     </div>
@@ -613,61 +612,25 @@ window.switchMatrixViewTab = function(tab) {
           <span class="step-badge">Phase 1 of 4 • Topic & Context Formulation</span>
           <h1 class="step-heading">Topic Formulation, Project Header & Context Background</h1>
           <p class="step-subheading">
-            Follow the natural scientific journey: <strong>1. Define your 3 Core Building Blocks</strong> (System / Model, Active Substance / Tool, Target Goal / Baseline) & search queries &rarr; <strong>2. Decode research papers</strong> to discover baseline metrics and gaps &rarr; <strong>3. Synthesize your grant title</strong> and team roster &rarr; <strong>4. Paraphrase evidence into Section 2</strong> (Problem Narrative, Multi-Domain Impact, and Target Beneficiaries).
+            Follow 3 simple steps: <strong>1. Formulate your project idea &amp; search literature</strong> (PubMed, Europe PMC, Google Scholar) &rarr; <strong>2. Set your project title &amp; team roster</strong> &rarr; <strong>3. Draft Section 2 in your own words</strong> (Problem Narrative, Impact, and Target Beneficiaries).
           </p>
         </div>
 
-        <!-- 1. Official Project Information & Team Roster Card -->
+        <!-- 1. Topic Search & Simple Project Formulation -->
         
 <div class="guide-card" style="border-left: 4px solid var(--primary); margin-bottom: 24px;">
           <div class="guide-card-header">
-            <div class="guide-card-title">🔬 Step 1 • Topic Formulation & The 3 Core Building Blocks</div>
-            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 1 of 4 • Core Building Blocks</span>
+            <div class="guide-card-title">🔍 Step 1 • Search for a Topic &amp; Formulate Your Project Idea</div>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 1 of 3 • Topic &amp; Literature Search</span>
           </div>
 
-          <!-- Plain-English Analogies Callout Grid -->
-          <div class="analogy-callout-grid">
-            <div class="analogy-card">
-              <div class="analogy-icon">🌿</div>
-              <div class="analogy-body">
-                <h4>Your System, Plant, or Model: Where Your Solution Works</h4>
-                <p>This is the biological organism, plant, skin tissue model, cell line, or test matrix where your solution works (e.g. <em>plant extract matrix</em>, <em>topical skin model</em>, <em>water sample</em>, or <em>microbial host</em>). It provides a realistic, concrete setting for your proposal.</p>
-              </div>
-            </div>
-
-            <div class="analogy-card benchmark-analogy">
-              <div class="analogy-icon">🎯</div>
-              <div class="analogy-body">
-                <h4>The Current Standard: What Existing Solutions Achieve Today</h4>
-                <p>This is the benchmark in science today—the standard rate, current healing time, commercial product efficacy, or detection limit that exists today (e.g. <em>"current commercial creams achieve 50% healing in 14 days"</em> or <em>"existing tests detect at 100 ng/mL"</em>). Your proposal proves why your new approach is better or safer than this current standard.</p>
-              </div>
-            </div>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-            <div>
-              <label class="field-label" for="project-model-select"><strong>Select Research Modality:</strong></label>
-              <select id="project-model-select" class="form-select" style="font-size: 0.95rem; font-weight: 600; padding: 8px 12px;">
-                <option value="cellular">1. Cellular / Host Organism Expression (Bacteria, Yeast, Plant, Mammalian)</option>
-                <option value="cell_free">2. In Vitro / Cell-Free Diagnostic / Biosensor (No Living Host)</option>
-                <option value="nanotech">3. Biomaterials / Nanotechnology / Drug Delivery Formulations</option>
-                <option value="environmental">4. Environmental Biotechnology / Bioremediation Matrix / Effluents</option>
-                <option value="computational">5. Computational Biology / In Silico Modeling Pipeline</option>
-                <option value="custom">6. Custom Interdisciplinary Modality (Specify Your Own)</option>
-              </select>
-              <input type="text" id="custom-modality-input" class="form-input" style="display: none; margin-top: 8px;" placeholder="Type your custom research modality...">
-              <div id="model-description-tip" class="field-tip" style="margin-top: 6px; color: #1e3a8a;"></div>
-            </div>
-            <div>
-              <label class="field-label" for="project-keywords-input"><strong>Custom Project Keywords & Focus Disciplines:</strong></label>
-              <input type="text" id="project-keywords-input" class="form-input" placeholder="Type custom keywords separated by commas...">
-              <div id="keywords-tags-container" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;"></div>
-            </div>
+          <div class="subtitle-guide-box" style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 6px; font-size: 0.84rem; color: #0c4a6e; margin-bottom: 14px; line-height: 1.5;">
+            <strong>How to start:</strong> Fill in the 3 simple boxes below to define your idea, then click <strong>Search PubMed</strong> or <strong>Google Scholar</strong> to see published papers and shape your project title.
           </div>
 
           <!-- Curated Presets -->
-          <div class="preset-box">
-            <span class="preset-label">💡 Load a curated proposal model:</span>
+          <div class="preset-box" style="margin-bottom: 14px;">
+            <span class="preset-label">💡 Need an example? Load a sample topic:</span>
             <select id="search-example-select" class="form-select preset-select">
               <option value="">-- Choose Example --</option>
               <option value="0">Cell-Free Diagnostics: Colistin Resistance (mcr-1 / Cas12a in Effluent)</option>
@@ -678,474 +641,102 @@ window.switchMatrixViewTab = function(tab) {
             </select>
           </div>
 
-          <!-- 3 Dynamic Pillars -->
+          <!-- 3 Simple Project Formulation Inputs -->
           <div class="nouns-grid">
             <div class="noun-card noun-chassis">
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar1">🧫</span>
                 <div>
-                  <div class="noun-title" id="label-pillar1">1. System, Plant, or Model (Where Your Work Takes Place)</div>
-                  <div class="noun-desc" id="desc-pillar1">The living organism, plant tissue, skin model, or test matrix.</div>
+                  <div class="noun-title" id="label-pillar1">1. Subject, Sample, or Model</div>
+                  <div class="noun-desc" id="desc-pillar1">What organism, tissue, or sample are you studying?</div>
                 </div>
               </div>
-              <input type="text" id="pillar-chassis" class="form-input noun-input" placeholder="e.g. Topical cream matrix, skin model, plant extract, or bacterial host">
-              <div class="noun-example" id="example-pillar1">Examples: <code>Skin model</code>, <code>Plant extract matrix</code>, <code>E. coli</code>, <code>Wheat crop</code></div>
+              <input type="text" id="pillar-chassis" class="form-input noun-input" placeholder="e.g. Skin wound model, wastewater sample, E. coli">
+              <div class="noun-example" id="example-pillar1">Examples: <code>Skin model</code>, <code>Wastewater</code>, <code>E. coli</code>, <code>Wheat crop</code></div>
             </div>
 
             <div class="noun-card noun-tool">
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar2">🛠️</span>
                 <div>
-                  <div class="noun-title" id="label-pillar2">2. Active Substance, Tool, or Formulation (What You Are Testing)</div>
-                  <div class="noun-desc" id="desc-pillar2">The active compound, formulated cream, enzyme, nanoparticle, or molecular tool.</div>
+                  <div class="noun-title" id="label-pillar2">2. Solution, Tool, or Treatment</div>
+                  <div class="noun-desc" id="desc-pillar2">What compound, enzyme, or method are you testing?</div>
                 </div>
               </div>
-              <input type="text" id="pillar-tool" class="form-input noun-input" placeholder="e.g. Bioactive Calendula extract, nano-carrier, or engineered enzyme">
-              <div class="noun-example" id="example-pillar2">Examples: <code>Calendula extract cream</code>, <code>Nano-carrier</code>, <code>Enzyme variant</code>, <code>Aptamer</code></div>
+              <input type="text" id="pillar-tool" class="form-input noun-input" placeholder="e.g. Calendula extract cream, CRISPR-Cas12a, PETase">
+              <div class="noun-example" id="example-pillar2">Examples: <code>Calendula cream</code>, <code>Nano-carrier</code>, <code>Cas12a</code>, <code>PETase</code></div>
             </div>
 
             <div class="noun-card noun-target">
               <div class="noun-header">
                 <span class="noun-icon" id="icon-pillar3">🎯</span>
                 <div>
-                  <div class="noun-title" id="label-pillar3">3. Target Goal & Comparison Standard (What You Aim to Improve)</div>
-                  <div class="noun-desc" id="desc-pillar3">The specific disease symptom, healing rate, or standard baseline you will improve.</div>
+                  <div class="noun-title" id="label-pillar3">3. Goal or Expected Outcome</div>
+                  <div class="noun-desc" id="desc-pillar3">What result or improvement do you want to measure?</div>
                 </div>
               </div>
-              <input type="text" id="pillar-target" class="form-input noun-input" placeholder="e.g. Skin erythema reduction vs standard hydrocortisone cream (beat current healing baseline)">
-              <div class="noun-example" id="example-pillar3">Examples: <code>Wound closure rate</code>, <code>IC50 reduction</code>, <code>% contaminant clearance</code></div>
+              <input type="text" id="pillar-target" class="form-input noun-input" placeholder="e.g. Faster wound healing, detect mcr-1 gene, reduce dye">
+              <div class="noun-example" id="example-pillar3">Examples: <code>Wound closure rate</code>, <code>Detection limit</code>, <code>% removal</code></div>
             </div>
           </div>
 
-          <!-- Boolean Search Query Generator -->
-          <div style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
-            <label class="field-label"><strong>PubMed / Europe PMC Boolean Search Query:</strong></label>
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
-              <div id="boolean-query-output" style="font-family: monospace; font-size: 0.88rem; color: #1e293b; word-break: break-all; margin-bottom: 8px;">
-                ("biotechnology") AND ("enzyme") AND ("yield")
-              </div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <a id="link-pubmed" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.78rem; text-decoration: none;">🔗 Search PubMed ↗</a>
-                <a id="link-europepmc" href="https://europepmc.org/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.78rem; text-decoration: none;">🔗 Search Europe PMC ↗</a>
-                <button type="button" id="btn-copy-query" class="btn-secondary" style="font-size: 0.78rem;">📋 Copy Query</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- 2. Literature Intelligence & 6-Parameter Scientific Evidence Matrix -->
-      
-<div class="guide-card" id="card-evidence-matrix" style="border: 2px solid #10b981; border-radius: 12px; margin-bottom: 24px; background: #ffffff;">
-        <div class="guide-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <div class="guide-card-title" style="color: #065f46; display: flex; align-items: center; gap: 8px;">
-            <span>🔬 Step 2 • Literature Intelligence &amp; Decode Research Papers (6-Step Evidence)</span>
-            <span style="background: #d1fae5; color: #065f46; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;">Step 2 of 4 • Decode Papers</span>
-          </div>
-          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <button id="btn-open-novelty-radar" type="button" onclick="runNoveltyRadarAssessment()" class="btn-secondary" style="font-size: 0.8rem; background: #e0e7ff; border-color: #a5b4fc; color: #4338ca; font-weight: 700; box-shadow: 0 1px 3px rgba(67, 56, 202, 0.15);">
-              🔬 Novelty &amp; Prior-Art Radar
-            </button>
-            <button id="btn-toggle-matrix-paper-tools" type="button" class="btn-secondary" style="font-size: 0.8rem; background: #eff6ff; border-color: #93c5fd; color: #1e40af;">
-              📄 Put / Decode Paper
-            </button>
-            <button id="btn-autofill-matrix" type="button" class="btn-secondary" style="font-size: 0.8rem; background: #f0fdf4; border-color: #86efac; color: #166534;">
-              💡 Apply Paper to Evidence Cards
-            </button>
-          </div>
-        </div>
-
-        <div class="subtitle-guide-box" style="background: #f0fdf4; border-left: 3px solid #059669; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 14px; line-height: 1.5;">
-          <div style="margin-bottom: 4px;"><strong>📌 Analyst Paper Decoder:</strong> An analytical deconstruction engine designed for researchers writing grant proposals. Extracts what a paper actually reports with evidence location tags (e.g. <code>(Abstract)</code>, <code>(Methods)</code>), quantifies sample sizes ($N$) and effect sizes, flags stated and unstated limitations, grades evidence strength (High/Moderate/Low/Very Low), and maps findings directly into proposal sections. Neutral, critical, and unhyped.</div>
-          <div><strong>✍️ How to use:</strong> Paste a paper DOI, PubMed ID, or text/abstract below. Optionally supply your proposal context to contextualize gaps and milestones. Review the 6 analytical cards and click the direct insertion buttons to map claims into your proposal introduction, methodology, or milestones.</div>
-        </div>
-
-        <!-- Section 2 Dedicated Quick Paper Input & Presets Bar -->
-        <div class="matrix-paper-tools-bar" id="matrix-paper-tools-bar">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-            <span style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">
-              📄 Put a Paper to Analyze &amp; Auto-Fill:
-            </span>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <span style="font-size: 0.74rem; color: #64748b; align-self: center;">Quick Presets:</span>
-              <button type="button" class="btn-preset btn-matrix-preset" data-preset="petase" style="font-size: 0.75rem; padding: 2px 8px;">🧪 PETase (Nature 2020)</button>
-              <button type="button" class="btn-preset btn-matrix-preset" data-preset="crispr_dx" style="font-size: 0.75rem; padding: 2px 8px;">🧬 Cas12a (Science 2018)</button>
-              <button type="button" class="btn-preset btn-matrix-preset" data-preset="drought_wheat" style="font-size: 0.75rem; padding: 2px 8px;">🌾 Wheat (Nat Biotech)</button>
-              <button type="button" class="btn-preset btn-matrix-preset" data-preset="golden_rice" style="font-size: 0.75rem; padding: 2px 8px;">🍚 Golden Rice (J Nutr 2002)</button>
-            </div>
-          </div>
-          <div class="matrix-paper-input-row" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-            <input type="text" id="matrix-quick-paper-input" class="form-input" style="flex: 1; min-width: 240px; font-size: 0.84rem;" placeholder="Paste DOI (e.g. 10.1038/s41586-020-2149-4), PubMed ID, or paper title...">
-            <button type="button" id="btn-matrix-decode-paper" class="btn-primary" style="background: #059669; border-color: #059669; font-size: 0.82rem; white-space: nowrap;">
-              🔍 Decode Paper (Full Text)
-            </button>
-            <label class="btn-secondary" style="margin: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; padding: 7px 12px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; color: #1e293b; font-weight: 600;" title="Upload PDF paper for complete full-text section decoding">
-              📄 Upload PDF
-              <input type="file" id="matrix-quick-pdf-input" accept=".pdf" style="display: none;">
-            </label>
-          </div>
-          <!-- Proposal Context (Optional — for targeted gap & milestone mapping) -->
-          <div style="margin-top: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <label for="matrix-paper-context-input" style="font-size: 0.74rem; font-weight: 700; color: #334155; margin-bottom: 0;">
-                🎯 Proposal Context (Optional — for targeted gap &amp; milestone mapping):
-              </label>
-              <span style="font-size: 0.68rem; color: #64748b;">Contextualizes aim &amp; evidence mapping</span>
-            </div>
-            <input type="text" id="matrix-paper-context-input" class="form-input" style="font-size: 0.8rem; width: 100%; border-color: #cbd5e1; padding: 6px 10px;" placeholder="e.g. Microbial pathogen detection &amp; environmental AMR surveillance, RPA-Cas12a fluorescent assay, aim sub-nanomolar LOD">
-          </div>
-          <details id="matrix-abstract-toggle" open style="margin-top: 8px; font-size: 0.8rem; color: #475569;">
-            <summary style="cursor: pointer; font-weight: 600; color: #047857; user-select: none;">
-              📝 Or paste paper full text / sections (Introduction, Methods, Results, Discussion) ▾
+          <!-- Optional Advanced Research Field & Keywords -->
+          <details style="margin-top: 12px; font-size: 0.82rem; color: #475569;">
+            <summary style="cursor: pointer; font-weight: 600; color: #334155; user-select: none;">
+              ⚙️ Optional: Choose Research Field &amp; Extra Keywords
             </summary>
-            <div style="margin-top: 6px;">
-              <textarea id="matrix-quick-abstract-input" class="form-textarea" style="min-height: 110px; font-size: 0.82rem; width: 100%; border-color: #a7f3d0;" placeholder="Paste full manuscript text here with sections (e.g. 1. Introduction, 2. Materials & Methods, 3. Results, 4. Discussion)..."></textarea>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <div>
+                <label class="field-label" for="project-model-select"><strong>Research Field (Optional):</strong></label>
+                <select id="project-model-select" class="form-select" style="font-size: 0.9rem; font-weight: 600; padding: 7px 10px;">
+                  <option value="cellular">1. Cellular / Host Organism (Bacteria, Yeast, Plant, Mammalian)</option>
+                  <option value="cell_free">2. In Vitro / Cell-Free Diagnostic / Biosensor</option>
+                  <option value="nanotech">3. Biomaterials / Nanotechnology / Drug Delivery</option>
+                  <option value="environmental">4. Environmental Biotechnology / Bioremediation</option>
+                  <option value="computational">5. Computational Biology / In Silico Modeling</option>
+                  <option value="custom">6. Custom Interdisciplinary Modality</option>
+                </select>
+                <input type="text" id="custom-modality-input" class="form-input" style="display: none; margin-top: 8px;" placeholder="Type your custom research modality...">
+                <div id="model-description-tip" class="field-tip" style="margin-top: 6px; color: #1e3a8a;"></div>
+              </div>
+              <div>
+                <label class="field-label" for="project-keywords-input"><strong>Extra Search Keywords (Optional):</strong></label>
+                <input type="text" id="project-keywords-input" class="form-input" placeholder="Type keywords separated by commas...">
+                <div id="keywords-tags-container" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;"></div>
+              </div>
             </div>
           </details>
-        </div>
 
-        <!-- Novelty & Prior-Art Radar Results Box -->
-        <div id="novelty-radar-results-box" style="display: none; margin: 14px 0; background: #ffffff; border: 1.5px solid #a5b4fc; border-radius: 8px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);"></div>
-
-        <!-- Initial Placeholder Banner -->
-        <div id="matrix-tab-understand-empty" style="text-align: center; padding: 24px 18px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; margin: 14px 0;">
-          <div style="font-size: 2rem; margin-bottom: 6px;">🔬</div>
-          <div style="font-weight: 700; color: #1e293b; font-size: 0.92rem;">Put a Research Paper Above or Choose a Quick Preset</div>
-          <p style="font-size: 0.82rem; color: #64748b; max-width: 540px; margin: 4px auto 0 auto; line-height: 1.45;">
-            The Analyst Paper Decoder will extract verified quantitative findings, classify the study design, grade evidence strength, separate stated vs unstated limitations, and map evidence directly into proposal sections.
-          </p>
-        </div>
-
-        <!-- High-Level Decoded Paper Intelligence Panel (Scientific Analyst Mode) -->
-        <div id="matrix-paper-explainer-panel" class="matrix-paper-explainer-panel" style="display: none; margin-top: 14px; border: 1.5px solid #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.09); background: #ffffff;">
-          <!-- Card Header Bar -->
-          <div class="matrix-explainer-header" style="background: #0f172a; color: #ffffff; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <div class="matrix-explainer-title-group" style="flex: 1; min-width: 280px;">
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-                <span class="matrix-explainer-badge-tag" style="background: #0ea5e9; color: #082f49; font-weight: 800; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px;">🔬 PAPER DECODER • ALL-IN-ONE CARD</span>
-                <span id="matrix-analyst-classification" style="background: #334155; color: #f8fafc; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; border: 1px solid #475569;">Paper Classification</span>
-                <span id="matrix-analyst-overall-grade" style="background: #334155; color: #cbd5e1; font-weight: 800; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; border: 1px solid #64748b;">Evidence Grade: Pending</span>
-                <span id="matrix-analyst-coverage-pill" style="background: #1e293b; color: #38bdf8; font-weight: 700; font-size: 0.70rem; padding: 2px 8px; border-radius: 4px; border: 1px solid #0284c7;">Coverage: Checking...</span>
+          <!-- Simple Literature Search Bar -->
+          <div style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+            <label class="field-label"><strong>Search Literature to Refine Your Title:</strong></label>
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+              <div id="boolean-query-output" style="font-family: monospace; font-size: 0.88rem; color: #1e293b; word-break: break-all; margin-bottom: 10px;">
+                ("biotechnology") AND ("enzyme") AND ("yield")
               </div>
-              <div class="matrix-explainer-paper-title" id="matrix-exp-title" style="font-size: 1.10rem; font-weight: 700; color: #ffffff; line-height: 1.4;">Paper Title</div>
-              <div class="matrix-explainer-paper-meta" style="font-size: 0.76rem; color: #94a3b8; display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px;">
-                <span id="matrix-exp-authors">👥 Authors</span>
-                <span id="matrix-exp-journal">🏛️ Journal</span>
-                <span id="matrix-exp-year">📅 Year</span>
-                <span id="matrix-exp-recency" class="matrix-recency-badge">ℹ️ Verified Reference</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-              <button type="button" id="btn-copy-analyst-tldr" onclick="window.copyAnalystTLDR && window.copyAnalystTLDR()" class="btn-secondary" style="font-size: 0.76rem; padding: 5px 10px; background: #0284c7; color: #ffffff; border-color: #0369a1; font-weight: 700; cursor: pointer;">
-                ⚡ Copy TL;DR
-              </button>
-              <button type="button" id="btn-copy-analyst-report" onclick="window.copyAnalystFullReport && window.copyAnalystFullReport()" class="btn-secondary" style="font-size: 0.76rem; padding: 5px 10px; background: #1e293b; color: #f1f5f9; border-color: #475569; font-weight: 600; cursor: pointer;">
-                📋 Copy Full Report
-              </button>
-              <button type="button" id="btn-toggle-matrix-exp-details" class="btn-secondary" style="font-size: 0.76rem; padding: 5px 10px; background: #334155; color: #f1f5f9; border-color: #64748b; cursor: pointer;">
-                👁️ Hide Summary View
-              </button>
-            </div>
-          </div>
-
-          <div id="matrix-exp-content-collapsible" style="display: block; background: #ffffff; padding: 16px;">
-            <!-- Executive Summary / TL;DR Callout Box -->
-            <div id="matrix-analyst-snapshot-box" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 5px solid #0284c7; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span style="font-size: 0.76rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">⚡ EXECUTIVE SUMMARY / TL;DR</span>
-                <span style="font-size: 0.70rem; color: #64748b; font-weight: 600;">Unified Paper Decoder Intelligence</span>
-              </div>
-              <div id="matrix-analyst-snapshot" style="font-size: 0.88rem; color: #0f172a; line-height: 1.6; font-weight: 500;">
-                Select or paste a research paper above to generate the grounded executive summary.
-              </div>
-            </div>
-
-            <!-- Dynamic Coverage & Source Mode Banner -->
-            <div id="matrix-analyst-coverage-warning" style="display: none; margin-bottom: 12px; padding: 10px 14px; border-radius: 6px; font-size: 0.82rem;"></div>
-
-            <!-- Relevance Warning Alert (Rule 9) -->
-            <div id="matrix-analyst-relevance-warning" style="display: none; margin-bottom: 12px; background: #fff7ed; border: 1.5px solid #fed7aa; border-left: 4px solid #ea580c; padding: 10px 14px; border-radius: 6px; font-size: 0.82rem; color: #9a3412; font-weight: 600;"></div>
-
-            <!-- Source Integrity & Evidence Discrepancy Alert Banner -->
-            <div id="matrix-exp-discrepancy-banner" style="display: none; margin-bottom: 12px; background: #fff7ed; border: 1.5px solid #fed7aa; border-left: 4px solid #f97316; padding: 12px 14px; border-radius: 6px;">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-                <span style="font-size: 0.76rem; font-weight: 800; color: #c2410c; display: flex; align-items: center; gap: 6px;">
-                  <span>⚠️</span> <span>EVIDENCE INTEGRITY &amp; INTERNAL DATA CONFLICT DETECTED</span>
-                </span>
-                <span style="font-size: 0.65rem; background: #ffedd5; color: #9a3412; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Source Quality Alert</span>
-              </div>
-              <div id="matrix-exp-discrepancy-title" style="font-size: 0.82rem; font-weight: 700; color: #9a3412; margin-bottom: 3px;">
-                Internal Evidence Discrepancy
-              </div>
-              <div id="matrix-exp-discrepancy-detail" style="font-size: 0.76rem; color: #7c2d12; line-height: 1.45; margin-bottom: 6px;">
-                Discrepancy details will appear here.
-              </div>
-              <div id="matrix-exp-discrepancy-guidance" style="font-size: 0.72rem; color: #431407; background: #fffaf0; padding: 6px 8px; border-radius: 4px; border: 1px solid #fed7aa;">
-                <strong>Faculty Review Guidance:</strong> When citing this paper as evidence, explicitly note this data conflict.
-              </div>
-            </div>
-
-            <!-- Main Structured 2-Column Unified Card Dashboard -->
-            <div class="matrix-exp-story-grid" id="matrix-exp-story-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 14px; margin-bottom: 14px;">
-
-              <!-- COLUMN 1: Foundations, Model Architecture & Intervention -->
-              <div style="display: flex; flex-direction: column; gap: 12px;">
-
-                <!-- CARD 1: 🟡 Problem & Real-World Burden -->
-                <div class="story-pillar-card pillar-problem" style="background: #fefce8; border: 1px solid #fef08a; border-left: 4px solid #eab308; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span style="font-size: 0.74rem; font-weight: 800; color: #854d0e; text-transform: uppercase; letter-spacing: 0.5px;">🟡 1. PROBLEM &amp; REAL-WORLD BURDEN</span>
-                    <span id="matrix-exp-card1-loc" style="font-size: 0.68rem; font-weight: 700; color: #854d0e; background: #fef08a; padding: 2px 7px; border-radius: 4px; border: 1px solid #fde047;">(Introduction)</span>
-                  </div>
-                  <div id="matrix-exp-card1-evidence" style="font-size: 0.83rem; color: #1e293b; line-height: 1.5; margin-bottom: 6px;">
-                    The real-world problem and cited severity figures will appear here.
-                  </div>
-                  <div style="font-size: 0.72rem; color: #854d0e; border-top: 1px dashed #fef08a; padding-top: 4px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                    <span><strong>Source Cited:</strong> <span id="matrix-exp-card1-source">Not reported in paper.</span></span>
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec21_problem')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #854d0e; background: #fef08a; border-color: #fde047; cursor: pointer;">
-                      Insert into Sec 2.1 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-exp-problem" style="display: none;"></div>
-                </div>
-
-                <!-- CARD 2: 🔵 Baseline Standard & Comparator -->
-                <div class="story-pillar-card pillar-benchmark" style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #3b82f6; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span id="matrix-exp-card2-header" style="font-size: 0.74rem; font-weight: 800; color: #1e40af; text-transform: uppercase; letter-spacing: 0.5px;">🔵 2. CURRENT STANDARD &amp; BASELINE</span>
-                    <span id="matrix-exp-card2-loc" style="font-size: 0.68rem; font-weight: 700; color: #1e40af; background: #dbeafe; padding: 2px 7px; border-radius: 4px; border: 1px solid #bfdbfe;">(Methods)</span>
-                  </div>
-                  <div id="matrix-exp-card2-subheader" style="font-size: 0.74rem; font-weight: 600; color: #1e40af; margin-bottom: 4px;">
-                    Existing comparator, standard of care &amp; baseline performance numbers
-                  </div>
-                  <div id="matrix-exp-card2-evidence" style="font-size: 0.83rem; color: #1e293b; line-height: 1.5; margin-bottom: 6px;">
-                    The comparator or standard method performance baseline will appear here.
-                  </div>
-                  <div style="text-align: right; border-top: 1px dashed #bfdbfe; padding-top: 4px;">
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec21_baseline')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #1e40af; background: #dbeafe; border-color: #bfdbfe; cursor: pointer;">
-                      Insert into Sec 2.1 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-exp-benchmark" style="display: none;"></div>
-                </div>
-
-                <!-- CARD 4: 🟣 Study Architecture & Evidence Base -->
-                <div class="story-pillar-card pillar-controls" style="background: #faf5ff; border: 1px solid #e9d5ff; border-left: 4px solid #a855f7; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span id="matrix-exp-card4-header" style="font-size: 0.74rem; font-weight: 800; color: #7e22ce; text-transform: uppercase; letter-spacing: 0.5px;">🟣 3. STUDY ARCHITECTURE &amp; MODEL SYSTEM</span>
-                    <span id="matrix-exp-card4-loc" style="font-size: 0.68rem; font-weight: 700; color: #7e22ce; background: #f3e8ff; padding: 2px 7px; border-radius: 4px; border: 1px solid #e9d5ff;">(Methods)</span>
-                  </div>
-                  <div id="matrix-exp-card4-subheader" style="font-size: 0.74rem; font-weight: 600; color: #581c87; margin-bottom: 6px;">
-                    Model system, sample size (N), intervention &amp; experimental controls
-                  </div>
-                  <div style="background: #ffffff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 8px 10px; font-size: 0.78rem; line-height: 1.45; margin-bottom: 6px;">
-                    <div><strong id="matrix-exp-card4-lbl-model">Model / Chassis:</strong> <span id="matrix-exp-card4-model">Not reported in paper.</span></div>
-                    <div><strong id="matrix-exp-card4-lbl-samplesize">Sample Size (N) / Cohort:</strong> <span id="matrix-exp-card4-samplesize">Not reported in paper.</span></div>
-                    <div><strong id="matrix-exp-card4-lbl-posctrl">Positive Control:</strong> <span id="matrix-exp-card4-posctrl">Not reported in paper.</span></div>
-                    <div><strong id="matrix-exp-card4-lbl-negctrl">Negative Control:</strong> <span id="matrix-exp-card4-negctrl">Not reported in paper.</span></div>
-                    <div><strong id="matrix-exp-card4-lbl-endpoints">Endpoints &amp; Stats:</strong> <span id="matrix-exp-card4-endpoints">Not reported in paper.</span></div>
-                  </div>
-                  <div style="text-align: right; border-top: 1px dashed #e9d5ff; padding-top: 4px;">
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec41_controls')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #7e22ce; background: #f3e8ff; border-color: #e9d5ff; cursor: pointer;">
-                      Insert into Sec 4.1 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-exp-controls" style="display: none;"></div>
-                  <div id="matrix-exp-card4-evidence" style="display: none;"></div>
-                </div>
-
-                <!-- CARD 5: 🔴 Intervention & Molecular Mechanism -->
-                <div class="story-pillar-card pillar-innovation" style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span id="matrix-exp-card5-header" style="font-size: 0.74rem; font-weight: 800; color: #991b1b; text-transform: uppercase; letter-spacing: 0.5px;">🔴 4. CORE INTERVENTION &amp; MECHANISM</span>
-                    <div style="display: flex; gap: 4px; align-items: center;">
-                      <span id="matrix-exp-card5-status" style="font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; background: #fee2e2; color: #991b1b; font-weight: 800; border: 1px solid #fca5a5;">[Demonstrated]</span>
-                      <span id="matrix-exp-card5-loc" style="font-size: 0.68rem; font-weight: 700; color: #991b1b; background: #fee2e2; padding: 2px 7px; border-radius: 4px; border: 1px solid #fca5a5;">(Results)</span>
-                    </div>
-                  </div>
-                  <div id="matrix-exp-card5-subheader" style="display: none;">
-                    <span id="matrix-exp-card5-subtext">Specific construct, dose, strain or pathway</span>
-                  </div>
-                  <div id="matrix-exp-card5-evidence" style="font-size: 0.83rem; color: #1e293b; line-height: 1.5; margin-bottom: 6px;">
-                    The specific engineered molecular construct, strain, or biological intervention will appear here.
-                  </div>
-                  <div style="text-align: right; border-top: 1px dashed #fecaca; padding-top: 4px;">
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec32_mechanism')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #991b1b; background: #fee2e2; border-color: #fca5a5; cursor: pointer;">
-                      Insert into Sec 3.1 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-exp-solution" style="display: none;"></div>
-                </div>
-
-              </div>
-
-              <!-- COLUMN 2: Findings, Rigor, Limitations & Review Synthesis -->
-              <div style="display: flex; flex-direction: column; gap: 12px;">
-
-                <!-- CARD 6: ⚪ Key Results & Quantitative Effect Sizes -->
-                <div class="story-pillar-card pillar-proof" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #0f172a; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span style="font-size: 0.74rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;">📊 5. KEY RESULTS &amp; QUANTITATIVE EFFECT SIZES</span>
-                    <span id="matrix-exp-card6-loc" style="font-size: 0.68rem; font-weight: 700; color: #334155; background: #e2e8f0; padding: 2px 7px; border-radius: 4px; border: 1px solid #cbd5e1;">(Results)</span>
-                  </div>
-                  <div id="matrix-exp-card6-evidence" style="font-size: 0.84rem; color: #0f172a; font-weight: 600; line-height: 1.55; margin-bottom: 6px;">
-                    Quantitative findings will appear here.
-                  </div>
-                  <div style="text-align: right; border-top: 1px dashed #cbd5e1; padding-top: 4px;">
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec5_milestones')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #334155; background: #f1f5f9; border-color: #cbd5e1; cursor: pointer;">
-                      Insert into Sec 5 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-analyst-consistency" style="display: none;"></div>
-                  <div id="matrix-exp-proof" style="display: none;"></div>
-                  <div id="matrix-exp-finding" style="display: none;"></div>
-                </div>
-
-                <!-- CARD 3: 🟢 Critical Gaps & Boundaries -->
-                <div class="story-pillar-card pillar-gap" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span id="matrix-exp-card3-header" style="font-size: 0.74rem; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">🟢 6. CRITICAL GAPS &amp; LIMITATIONS</span>
-                    <span id="matrix-exp-card3-loc" style="font-size: 0.68rem; font-weight: 700; color: #166534; background: #dcfce7; padding: 2px 7px; border-radius: 4px; border: 1px solid #bbf7d0;">(Discussion)</span>
-                  </div>
-                  <div id="matrix-exp-card3-subheader" style="display: none;">
-                    Unsolved scientific bottleneck (Authors' Stated vs Analyst Inferred)
-                  </div>
-                  <div style="background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 0.78rem; line-height: 1.45;">
-                    <div style="margin-bottom: 4px;">
-                      <strong style="color: #166534; text-transform: uppercase; font-size: 0.70rem;">🔍 Authors' Stated Gap:</strong>
-                      <div id="matrix-exp-card3-stated-gap" style="color: #1e293b; margin-top: 1px;">The specific limitation declared by the study authors.</div>
-                    </div>
-                    <div style="margin-bottom: 4px; border-top: 1px dashed #bbf7d0; padding-top: 4px;">
-                      <strong style="color: #b45309; text-transform: uppercase; font-size: 0.70rem;">⚠️ Stated Limitations:</strong>
-                      <div id="matrix-analyst-stated-limits" style="color: #78350f; margin-top: 1px;">None explicitly stated in paper.</div>
-                    </div>
-                    <div style="border-top: 1px dashed #bbf7d0; padding-top: 4px;">
-                      <strong style="color: #b91c1c; text-transform: uppercase; font-size: 0.70rem;">🛡️ Analyst-Inferred Boundaries:</strong>
-                      <div id="matrix-exp-card3-inferred-gap" style="display: none;"></div>
-                      <ul id="matrix-analyst-unstated-limits" style="margin: 2px 0 0 16px; padding: 0; color: #7f1d1d; font-size: 0.74rem;">
-                        <li>Methodological boundaries specific to experimental chassis.</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div style="text-align: right; border-top: 1px dashed #bbf7d0; padding-top: 4px;">
-                    <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec22_gap')" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 700; color: #166534; background: #dcfce7; border-color: #bbf7d0; cursor: pointer;">
-                      Insert into Sec 2.2 ➔
-                    </button>
-                  </div>
-                  <div id="matrix-exp-gap" style="display: none;"></div>
-                </div>
-
-                <!-- CARD 7: 🛡️ Evidence Grade & Methodological Audit -->
-                <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-left: 4px solid #475569; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span style="font-size: 0.74rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px;">🛡️ 7. EVIDENCE RIGOR &amp; METHODOLOGICAL GRADE</span>
-                    <span id="matrix-analyst-evidence-grade" style="font-size: 0.68rem; padding: 1px 7px; border-radius: 4px; background: #334155; color: #cbd5e1; font-weight: 800; border: 1px solid #64748b;">Pending</span>
-                  </div>
-                  <div id="matrix-analyst-grade-justification" style="font-size: 0.78rem; color: #334155; line-height: 1.45; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;">
-                    Evidence appraisal based on reported methodology and comparative controls.
-                  </div>
-                </div>
-
-                <!-- CARD 8: 📚 Review Article Synthesis (Shown for Review Articles) -->
-                <div id="matrix-review-synthesis-card" style="display: none; background: #fffbeb; border: 1.5px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span style="font-size: 0.74rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px;">📚 REVIEW ARTICLE SYNTHESIS</span>
-                    <span style="font-size: 0.68rem; font-weight: 700; color: #92400e; background: #fef3c7; padding: 2px 7px; border-radius: 4px; border: 1px solid #fde68a;">Systematic Evidence</span>
-                  </div>
-                  <div style="background: #ffffff; border: 1px solid #fde68a; border-radius: 6px; padding: 8px 10px; font-size: 0.78rem; line-height: 1.45;">
-                    <div style="margin-bottom: 3px;"><strong>Review Type:</strong> <span id="matrix-review-type">Literature Review</span></div>
-                    <div style="margin-bottom: 3px;"><strong>Search Strategy:</strong> <span id="matrix-review-search">Screened indexed biomedical databases</span></div>
-                    <div style="margin-bottom: 3px;"><strong>Studies Synthesized:</strong> <span id="matrix-review-count">Cohort of published studies</span></div>
-                    <div><strong>Quality / Bias Appraisal:</strong> <span id="matrix-review-rob">Qualitative narrative synthesis</span></div>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-            <!-- Integrated Proposal Mapping Toolbar & Batch Actions -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-top: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 0.76rem; color: #334155; font-weight: 600;">
-                <span>✍️ Map to Proposal:</span>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec21_problem')" style="font-size: 0.72rem; padding: 3px 8px; background: #fef9c3; color: #854d0e; border-color: #fde047;">Sec 2.1 Problem</button>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec21_baseline')" style="font-size: 0.72rem; padding: 3px 8px; background: #dbeafe; color: #1e40af; border-color: #bfdbfe;">Sec 2.1 Baseline</button>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec22_gap')" style="font-size: 0.72rem; padding: 3px 8px; background: #dcfce7; color: #166534; border-color: #bbf7d0;">Sec 2.2 Gap</button>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec41_controls')" style="font-size: 0.72rem; padding: 3px 8px; background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff;">Sec 4.1 Methods</button>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec32_mechanism')" style="font-size: 0.72rem; padding: 3px 8px; background: #fee2e2; color: #991b1b; border-color: #fecaca;">Sec 3.1 Mechanism</button>
-                <button type="button" class="btn-secondary" onclick="window.insertAnalystIntoSection && window.insertAnalystIntoSection('sec5_milestones')" style="font-size: 0.72rem; padding: 3px 8px; background: #e2e8f0; color: #334155; border-color: #cbd5e1;">Sec 5 Milestones</button>
-              </div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button type="button" id="btn-copy-analyst-report-bar" onclick="window.copyAnalystFullReport && window.copyAnalystFullReport()" class="btn-secondary" style="font-size: 0.76rem; background: #1e293b; color: #f8fafc; border-color: #334155; font-weight: 700;">
-                  📋 Copy Full Report
-                </button>
-                <button type="button" id="btn-copy-all-matrix" class="btn-secondary" style="font-size: 0.76rem;">
-                  📋 Copy All 6 Parameters
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <a id="link-pubmed" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size: 0.8rem; text-decoration: none; padding: 6px 12px;">🔎 Search PubMed ↗</a>
+                <a id="link-europepmc" href="https://europepmc.org/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.8rem; text-decoration: none;">🔎 Search Europe PMC ↗</a>
+                <a id="link-scholar" href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.8rem; text-decoration: none;">🎓 Google Scholar ↗</a>
+                <button type="button" id="btn-copy-query" class="btn-secondary" style="font-size: 0.8rem;">📋 Copy Query</button>
+                <button id="btn-open-novelty-radar" type="button" onclick="runNoveltyRadarAssessment()" class="btn-secondary" style="font-size: 0.8rem; background: #e0e7ff; border-color: #a5b4fc; color: #4338ca; font-weight: 700;">
+                  🔬 Check Novelty
                 </button>
               </div>
             </div>
-
-            <!-- Legacy compatibility hidden elements -->
-            <div class="pathway-ribbon" style="display:none;"></div>
-            <input type="hidden" id="matrix-yellow">
-            <input type="hidden" id="matrix-blue">
-            <input type="hidden" id="matrix-green">
-            <input type="hidden" id="matrix-purple">
-            <input type="hidden" id="matrix-red">
-            <input type="hidden" id="matrix-citation">
-            <span id="matrix-insight-yellow-body" style="display:none;"></span>
-            <span id="matrix-insight-blue-body" style="display:none;"></span>
-            <span id="matrix-insight-green-body" style="display:none;"></span>
-            <span id="matrix-insight-purple-body" style="display:none;"></span>
-            <span id="matrix-insight-red-body" style="display:none;"></span>
-            <span id="matrix-insight-citation-body" style="display:none;"></span>
-            <div id="matrix-exp-pitch" style="display:none;"></div>
-            <div id="matrix-exp-theme" style="display:none;"></div>
-            <div id="matrix-exp-analogy" style="display:none;"></div>
-            <div id="matrix-exp-model-barrier" style="display:none;"></div>
-            <div id="matrix-exp-model-trick" style="display:none;"></div>
-            <div id="matrix-exp-model-takeaway" style="display:none;"></div>
           </div>
+
+          <!-- Novelty & Prior-Art Radar Results Box -->
+          <div id="novelty-radar-results-box" style="display: none; margin-top: 12px; background: #ffffff; border: 1.5px solid #a5b4fc; border-radius: 8px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);"></div>
         </div>
-
-
-
-        <!-- Key Extracted Benchmark Numbers -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-top: 1px dashed #bbf7d0; padding-top: 10px; margin-bottom: 14px;">
-          <div class="matrix-metrics-chips-bar" id="matrix-exp-metrics-bar">
-            <strong style="color: #166534; font-size: 0.78rem;">⚡ Extracted Numbers:</strong>
-            <span id="matrix-exp-metrics-chips"></span>
-          </div>
-          <div style="font-size: 0.76rem; color: #166534; font-weight: 600;">
-            ✅ Transferred into all 6 Parameters with individual explanations
-          </div>
-        </div>
-
-        <!-- Batch Transfer Actions Bar -->
-        <div class="matrix-batch-actions-bar" id="matrix-batch-actions" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" id="btn-copy-analyst-report-bar" onclick="window.copyAnalystFullReport && window.copyAnalystFullReport()" class="btn-secondary" style="font-size: 0.8rem; background: #1e293b; color: #f8fafc; border-color: #334155; font-weight: 700;">
-              📋 Copy Full Analyst Report
-            </button>
-            <button type="button" id="btn-copy-all-matrix" class="btn-secondary" style="font-size: 0.8rem;">
-              📋 Copy All 6 Parameters
-            </button>
-            <a href="#card-funnel" class="btn-primary" style="font-size: 0.8rem; background: #059669; border-color: #059669; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-              ✍️ Go to Proposal Canvas &amp; Write in Your Own Words ➔
-            </a>
-          </div>
-          <button type="button" id="btn-clear-matrix" class="btn-text-danger" style="font-size: 0.78rem;">
-            🧹 Clear All
-          </button>
-        </div>
-      </div>
-      
 <!-- 4. The RHEV Paraphrase Gym -->
       
 <div class="guide-card" style="border-top: 4px solid #4338ca; margin-bottom: 24px;">
           <div class="guide-card-header">
             <div class="guide-card-title" style="color: #312e81;">
-              📋 Step 3 • Synthesize Project Title & Official Team Roster
+              📋 Step 2 • Project Title & Official Team Roster
             </div>
-            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 3 of 4 • Synthesize Title & Team</span>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Step 2 of 3 • Title & Team</span>
           </div>
 
           <div class="subtitle-guide-box" style="background: #eef2ff; border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #312e81; margin-bottom: 14px; line-height: 1.5;">
@@ -1236,9 +827,9 @@ window.switchMatrixViewTab = function(tab) {
 <div class="guide-card" style="border: 2px solid #818cf8; background: #faf5ff;">
         <div class="guide-card-header">
           <div class="guide-card-title" style="color: #3730a3; display: flex; align-items: center; gap: 8px;">
-            <span>🏋️ Step 4A • Academic Integrity &amp; Paraphrase Coach</span>
+            <span>🏋️ Step 3A • Academic Integrity &amp; Paraphrase Coach</span>
           </div>
-          <span class="badge-box" style="background: #e0e7ff; color: #3730a3;">Step 4A • Anti-Plagiarism</span>
+          <span class="badge-box" style="background: #e0e7ff; color: #3730a3;">Step 3A • Anti-Plagiarism</span>
         </div>
 
         <div class="subtitle-guide-box" style="background: #ffffff; border-left: 3px solid #818cf8; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #3730a3; margin-bottom: 14px; line-height: 1.5;">
@@ -1283,9 +874,9 @@ window.switchMatrixViewTab = function(tab) {
 <div class="guide-card" style="border-top: 4px solid #f59e0b; margin-top: 24px;">
           <div class="guide-card-header">
             <div class="guide-card-title" style="color: #b45309;">
-              📖 Step 4B • Section 2. Introduction & Project Background
+              📖 Step 3B • Section 2. Introduction & Project Background
             </div>
-            <span class="badge-box" style="background:#fef3c7; color:#92400e;">Step 4B of 4 • Official Section 2</span>
+            <span class="badge-box" style="background:#fef3c7; color:#92400e;">Step 3B of 3 • Official Section 2</span>
           </div>
 
           <!-- 2.1 Problem Statement & Background -->

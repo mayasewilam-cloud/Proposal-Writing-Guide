@@ -1106,9 +1106,9 @@ let projectModels = {
   cellular: {
     name: "Cellular / Host Organism (Microbial, Yeast, Plant, Mammalian)",
     desc: "For projects studying active substances, plant extracts, enzymes, or traits in biological systems.",
-    p1: { label: "1. System, Plant, or Model", placeholder: "e.g. Plant tissue, skin model, bacterial culture, or crop variety", examples: "Calendula plant, skin model, E. coli, wheat crop" },
-    p2: { label: "2. Active Substance, Tool, or Formulation", placeholder: "e.g. Plant extract cream, enzyme, nanoparticle, or vector", examples: "Calendula extract cream, engineered enzyme, therapeutic peptide" },
-    p3: { label: "3. Target Outcome & Comparison Standard", placeholder: "e.g. Reduction in inflammation vs standard hydrocortisone cream", examples: "wound healing rate, IC50 reduction, depolymerization rate" }
+    p1: { label: "1. Subject, Sample, or Model", desc: "What organism, tissue, or sample are you studying?", placeholder: "e.g. Skin wound model, wastewater sample, E. coli", examples: "Skin model, Wastewater, E. coli, Wheat crop" },
+    p2: { label: "2. Solution, Tool, or Treatment", desc: "What compound, enzyme, or method are you testing?", placeholder: "e.g. Calendula extract cream, CRISPR-Cas12a, PETase", examples: "Calendula cream, Nano-carrier, Cas12a, PETase" },
+    p3: { label: "3. Goal or Expected Outcome", desc: "What result or improvement do you want to measure?", placeholder: "e.g. Faster wound healing, detect mcr-1 gene, reduce dye", examples: "Wound closure rate, Detection limit, % removal" }
   },
   cell_free: {
     name: "In Vitro / Cell-Free Diagnostic / Biosensor (No Living Host)",
@@ -3698,17 +3698,17 @@ function updateModelLabels(modelId) {
   const setAttr = (id, attr, val) => { const el = document.getElementById(id); if (el) el.setAttribute(attr, val); };
 
   setHtml("label-pillar1", m.p1.label);
-  setHtml("desc-pillar1", m.p1.placeholder);
+  setHtml("desc-pillar1", m.p1.desc || m.p1.placeholder);
   setAttr("pillar-chassis", "placeholder", m.p1.placeholder);
   setHtml("example-pillar1", `Examples: <code>${m.p1.examples}</code>`);
 
   setHtml("label-pillar2", m.p2.label);
-  setHtml("desc-pillar2", m.p2.placeholder);
+  setHtml("desc-pillar2", m.p2.desc || m.p2.placeholder);
   setAttr("pillar-tool", "placeholder", m.p2.placeholder);
   setHtml("example-pillar2", `Examples: <code>${m.p2.examples}</code>`);
 
   setHtml("label-pillar3", m.p3.label);
-  setHtml("desc-pillar3", m.p3.placeholder);
+  setHtml("desc-pillar3", m.p3.desc || m.p3.placeholder);
   setAttr("pillar-target", "placeholder", m.p3.placeholder);
   setHtml("example-pillar3", `Examples: <code>${m.p3.examples}</code>`);
 }
