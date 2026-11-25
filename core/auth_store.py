@@ -55,15 +55,22 @@ def _ensure_data_dir():
     os.makedirs(get_data_dir(), exist_ok=True)
 
 
+from .blob_store import is_blob_enabled, blob_get_json, blob_put_json
+
+
 def _load_users() -> Dict[str, Dict[str, Any]]:
     _ensure_data_dir()
     target_file = get_users_file()
     users = {}
-    if not os.path.exists(target_file):
+    if is_blob_enabled():
+        blob_users = blob_get_json("users.json")
+        if isinstance(blob_users, dict) and blob_users:
+            users = blob_users
+    if not users and not os.path.exists(target_file):
         bundled = os.path.join(BASE_DIR, "data", "users.json")
         if os.path.exists(bundled):
             target_file = bundled
-    if os.path.exists(target_file):
+    if not users and os.path.exists(target_file):
         try:
             with open(target_file, "r", encoding="utf-8") as f:
                 users = json.load(f)
@@ -114,6 +121,8 @@ def _save_users(users: Dict[str, Dict[str, Any]]):
             pass
     with open(target_file, "wb") as f:
         f.write(content.encode("utf-8"))
+    if is_blob_enabled():
+        blob_put_json("users.json", users)
 
 
 def normalize_student_id(student_id: str) -> str:

@@ -72,33 +72,36 @@
   "marking_scheme": {
     "total_raw_marks": 85,
     "max_gpa": 10.0,
+    "accepted_plagiarism_pct": 25,
+    "accepted_ai_text_pct": 20,
     "criteria": [
       {
         "id": "title",
         "name": "Title",
         "max_marks": 2,
         "type": "all_or_none",
-        "description": "Concise & descriptive of the molecular mechanism, experimental system, target metric, and application.",
+        "description": "Concise and descriptive of the model.",
         "formula": "[Molecular Mechanism / Tool] in [Experimental System / Matrix] to [Target Metric] for [Application]"
       },
       {
         "id": "abstract",
-        "name": "Structured Abstract",
+        "name": "Abstract (200-300 Words)",
         "max_marks": 5,
         "type": "scaled",
-        "max_words": 250,
-        "description": "Balanced across Problem/Significance (2%), Methodology (2%), Expected Outcomes (1%), and Concluding Relevance."
+        "min_words": 200,
+        "max_words": 300,
+        "description": "Outlining the main problem (2%), briefly describing the methodology (2%), stating potential key findings (1%), and concluding the study."
       },
       {
         "id": "background",
-        "name": "Background & Inverted Funnel Rationale",
+        "name": "Background (1-2 Pages)",
         "max_marks": 20,
         "type": "scaled",
         "subsections": [
-          {"name": "Epidemiological / Global Problem Burden", "marks": 5},
-          {"name": "State of the Art & Current Methodological Baselines", "marks": 5},
-          {"name": "Critical Scientific Knowledge Gap & Mechanistic Flaw", "marks": 5},
-          {"name": "Overall Project Aim, Mechanistic Hypothesis & Specific Objectives", "marks": 5}
+          {"name": "Problem description", "marks": 5},
+          {"name": "Understanding of previous literature", "marks": 5},
+          {"name": "Knowledge gap and scientific relevance", "marks": 5},
+          {"name": "Overall aim and objectives", "marks": 5}
         ]
       },
       {
@@ -106,56 +109,90 @@
         "name": "Methodology",
         "max_marks": 15,
         "type": "scaled",
-        "guidance": "Written strictly in FUTURE TENSE ('will be assayed', 'will be synthesized'). Must include positive/negative experimental controls and validated quantitative assays."
+        "subsections": [
+          {"name": "Steps are scientifically accurate", "marks": 5},
+          {"name": "Correct flow of the methodology", "marks": 5},
+          {"name": "Methods are relevant to the study", "marks": 5}
+        ],
+        "guidance": "Detailed methodology explanation and understanding. Written in FUTURE TENSE with positive/negative experimental controls."
       },
       {
-        "id": "aims_objectives",
-        "name": "Specific Objectives (Specific Aims)",
-        "max_marks": 5,
-        "type": "scaled",
-        "guidance": "3 discrete, decoupled objectives with quantitative Go/No-Go milestones, ensuring no Domino Collapse dependency."
-      },
-      {
-        "id": "expected_outcomes_impact",
-        "name": "Expected Outcomes & Long-Term Impact (Section 10)",
+        "id": "expected_outcomes",
+        "name": "Expected Outcomes (1-2 Pages)",
         "max_marks": 10,
         "type": "scaled",
-        "guidance": "5% for concrete visual deliverables and figures; 5% for long-term Academic, Translational, and Societal Impact answering 'Why do the results matter?'"
+        "subsections": [
+          {"name": "Expected results are well stated and match methodological steps", "marks": 5},
+          {"name": "Figures are used", "marks": 5}
+        ]
       },
       {
-        "id": "competitive_advantage",
-        "name": "Competitive Advantage, Competitor Analysis & USPs",
+        "id": "ansoff_usps",
+        "name": "Ansoff Matrix and USPs",
         "max_marks": 5,
         "type": "scaled",
-        "guidance": "2.5% for Competitor Analysis Matrix comparing Incumbent vs Emerging vs Proposed; 2.5% for specific USP naming a real competitor (no 'traditional methods' strawman)."
+        "subsections": [
+          {"name": "Accurately highlights the single relevant quadrant in the 2x2 matrix (product/market status), topic importance, and quadrant-specific risks", "marks": 2.5},
+          {"name": "USPs stated clearly", "marks": 2.5}
+        ]
       },
       {
         "id": "swot_pestel",
-        "name": "Biotechnology SWOT & PESTEL Analysis",
+        "name": "SWOT and PESTEL analyses",
         "max_marks": 10,
         "type": "scaled",
-        "guidance": "Authentic biochemical failure modes (e.g. inclusion bodies, protease sensitivity) avoiding student clichés ('we are students'). All 6 PESTEL dimensions."
+        "subsections": [
+          {"name": "SWOT analysis well prepared (Strength, Weaknesses, Opportunities, Threats)", "marks": 5},
+          {"name": "PESTEL analysis well prepared (Political 1%, Economical 1%, Social 1%, Technological 1%, Environmental and legal 1%)", "marks": 5}
+        ]
       },
       {
         "id": "time_plan",
-        "name": "Gantt Timeline & Feasibility Decision Gates",
+        "name": "Time Plan (Gantt Chart)",
         "max_marks": 5,
         "type": "scaled",
-        "guidance": "Clear monthly work package schedule with explicit Go/No-Go decision milestones."
+        "subsections": [
+          {"name": "Content and right steps", "marks": 2},
+          {"name": "Logical estimates", "marks": 2},
+          {"name": "Overall format", "marks": 1}
+        ]
       },
       {
         "id": "budget",
-        "name": "Tabulated Itemized Budget",
+        "name": "Budget",
         "max_marks": 5,
         "type": "scaled",
-        "guidance": "Itemized 5-category budget table (Consumables, Personnel, Equipment, Overhead, Travel) with justifications."
+        "subsections": [
+          {"name": "Consumables", "marks": 1},
+          {"name": "Incentives", "marks": 1},
+          {"name": "Utilities", "marks": 1},
+          {"name": "Equipment", "marks": 1},
+          {"name": "Total budget", "marks": 1}
+        ]
       },
       {
         "id": "references",
-        "name": "References & 60% Recency Rule",
+        "name": "References and in-text citations",
         "max_marks": 5,
         "type": "scaled",
-        "guidance": "At least 60% of peer-reviewed references published between 2021 and 2026. Consistent Harvard or Vancouver style."
+        "subsections": [
+          {"name": "Relevant references", "marks": 1},
+          {"name": "Up to date references (5 years back)", "marks": 1},
+          {"name": "Correct and consistent style", "marks": 1},
+          {"name": "Correct order", "marks": 1},
+          {"name": "In-text citations", "marks": 1}
+        ]
+      },
+      {
+        "id": "structure_coherence",
+        "name": "Structure and Coherence",
+        "max_marks": 3,
+        "type": "scaled",
+        "subsections": [
+          {"name": "Overall correct grammar and spelling", "marks": 1},
+          {"name": "Methods are written in future tense", "marks": 1},
+          {"name": "Overall structure", "marks": 1}
+        ]
       }
     ]
   }

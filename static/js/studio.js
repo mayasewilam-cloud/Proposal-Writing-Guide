@@ -4296,38 +4296,50 @@ window.goToStep = goToStep;
 window.switchStudioStep = goToStep;
 
 
+const STATIC_SEARCH_EXAMPLES = [
+  { model_id: "cell_free", category: "Cell-Free Diagnostics", topic: "Colistin Resistance (mcr-1 / Cas12a)", system: "Hospital wastewater effluent", tool: "CRISPR-Cas12a fluorescent assay", target: "Sub-nanomolar detection of mcr-1 gene" },
+  { model_id: "cellular", category: "Cellular Host", topic: "Plastic Depolymerization (PETase)", system: "Pseudomonas putida", tool: "Engineered thermostable PETase", target: "Accelerated PET plastic breakdown" },
+  { model_id: "nanotech", category: "Nanomaterials", topic: "LNP siRNA Delivery", system: "Breast cancer cell model", tool: "Lipid nanoparticle siRNA carrier", target: "Target oncogene silencing >80%" },
+  { model_id: "environmental", category: "Environmental", topic: "Laccase CLEAs Bioremediation", system: "Industrial textile wastewater", tool: "Cross-linked laccase aggregates (CLEAs)", target: "Azo dye decolorization >95%" },
+  { model_id: "cellular", category: "Green Biotech", topic: "Wheat Salinity Tolerance", system: "Triticum aestivum (wheat crop)", tool: "TaHKT1;5 base editing", target: "Improved grain yield under salt stress" }
+];
+
 function initPresetSelector() {
   const select = document.getElementById("search-example-select");
   if (!select) return;
   select.addEventListener("change", async (e) => {
     const val = e.target.value;
     if (!val) return;
+    let examples = STATIC_SEARCH_EXAMPLES;
     try {
       const resp = await fetch("/api/search/examples");
-      const examples = await resp.json();
-      const chosen = examples[parseInt(val)];
-      if (chosen) {
-        if (chosen.model_id) {
-          projectState.model_id = chosen.model_id;
-          const modelSelect = document.getElementById("project-model-select");
-          if (modelSelect) modelSelect.value = chosen.model_id;
-          updateModelLabels(chosen.model_id);
-        }
-        const sysVal = chosen.system || chosen.chassis;
-        document.getElementById("pillar-chassis").value = sysVal;
-        document.getElementById("pillar-tool").value = chosen.tool;
-        document.getElementById("pillar-target").value = chosen.target;
-
-        projectState.system = sysVal;
-        projectState.chassis = sysVal;
-        projectState.tool = chosen.tool;
-        projectState.target = chosen.target;
-        saveToStorage();
-        updateSearchLinksAndQuery();
-        showToast(`Loaded ${chosen.category}: ${chosen.topic}`);
+      if (resp.ok && (resp.headers.get("content-type") || "").includes("json")) {
+        const fetched = await resp.json();
+        if (Array.isArray(fetched) && fetched.length) examples = fetched;
       }
     } catch (err) {
-      console.error(err);
+      console.warn("Using static search examples fallback:", err);
+    }
+    const chosen = examples[parseInt(val, 10)];
+    if (chosen) {
+      if (chosen.model_id) {
+        projectState.model_id = chosen.model_id;
+        const modelSelect = document.getElementById("project-model-select");
+        if (modelSelect) modelSelect.value = chosen.model_id;
+        updateModelLabels(chosen.model_id);
+      }
+      const sysVal = chosen.system || chosen.chassis;
+      document.getElementById("pillar-chassis").value = sysVal;
+      document.getElementById("pillar-tool").value = chosen.tool;
+      document.getElementById("pillar-target").value = chosen.target;
+
+      projectState.system = sysVal;
+      projectState.chassis = sysVal;
+      projectState.tool = chosen.tool;
+      projectState.target = chosen.target;
+      saveToStorage();
+      updateSearchLinksAndQuery();
+      showToast(`Loaded ${chosen.category}: ${chosen.topic}`);
     }
   });
 }

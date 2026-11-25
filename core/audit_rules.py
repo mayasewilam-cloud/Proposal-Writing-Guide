@@ -344,9 +344,8 @@ def audit_title(title: str, system: str = "", tool: str = "", chassis: str = "",
 
 def audit_abstract(abstract: str) -> Dict[str, Any]:
     """
-    Rubric Item 2: Abstract (5% Scaled).
-    Strict 250-word ceiling.
-    Balances Problem (2%), Methodology (2%), Expected Outcomes (1%).
+    Rubric Item 2: Abstract (5% Scaled, 200-300 Words).
+    Balances Main Problem (2%), Brief Methodology (2%), Key Findings (1%).
     """
     abstract_clean = abstract.strip()
     words = abstract_clean.split()
@@ -362,21 +361,21 @@ def audit_abstract(abstract: str) -> Dict[str, Any]:
             "word_count": 0,
             "issues": ["Abstract is empty."],
             "strengths": [],
-            "feedback": "Abstract required (250-word maximum)."
+            "feedback": "Abstract required (200-300 words)."
         }
 
     penalty = 0.0
-    if word_count > 250:
-        penalty = min(2.0, (word_count - 250) * 0.05)
-        issues.append(f"Abstract exceeds the 250-word ceiling ({word_count} words). Shorten by {word_count - 250} words to adhere to strict submission guidelines.")
+    if word_count > 300:
+        penalty = min(2.0, (word_count - 300) * 0.05)
+        issues.append(f"Abstract exceeds the 300-word ceiling ({word_count} words). Shorten by {word_count - 300} words to adhere to BT_301 guidelines (200-300 words).")
     elif word_count < 40:
         penalty = 1.5
-        issues.append(f"Abstract is too brief ({word_count} words). Standard grant abstracts require 150–250 words to properly outline problem, methods, and outcomes.")
-    elif word_count < 75:
+        issues.append(f"Abstract is too brief ({word_count} words). BT_301 requires 200-300 words outlining problem, methodology, and key findings.")
+    elif word_count < 200:
         penalty = 0.0
-        strengths.append(f"Concise structured abstract draft ({word_count} words). Expanding towards 150–250 words is recommended for final submission.")
+        strengths.append(f"Concise abstract draft ({word_count} words). Expanding towards 200-300 words is recommended for final submission.")
     else:
-        strengths.append(f"Word count ({word_count} words) conforms to the 150–250 word guidance.")
+        strengths.append(f"Word count ({word_count} words) conforms to the 200-300 word guideline.")
 
     # 1. Problem / burden keywords (2%)
     problem_kw = ["crisis", "challenge", "burden", "mortality", "economic", "resistance", "loss", "patient", "threat", "pollution", "prevalence", "demand", "need", "limit", "cost", "inflamm", "disease", "adverse", "side effect"]
@@ -1054,14 +1053,25 @@ def calculate_full_rubric_audit(proposal_data: Dict[str, Any]) -> Dict[str, Any]
     swot_res = audit_swot_pestel(swot, pestel)
     outcomes_text = str(proposal_data.get("expected_outcomes") or "").strip()
     impact_text = str(proposal_data.get("impact") or "").strip()
-    deliverables_score = 5.0 if len(outcomes_text) > 50 else (2.5 if outcomes_text else 0.0)
-    impact_score = 5.0 if len(impact_text) > 40 else (2.5 if impact_text or len(outcomes_text) > 100 else 0.0)
-    outcomes_total = round(min(10.0, deliverables_score + impact_score), 1)
+    results_score = 5.0 if len(outcomes_text) > 50 else (2.5 if outcomes_text else 0.0)
+    has_figures = bool(proposal_data.get("figures") or re.search(r'\b(fig\.?|figure)\s*\d*', f"{outcomes_text} {impact_text}", re.I))
+    figures_score = 5.0 if has_figures else (2.5 if (impact_text or len(outcomes_text) > 100) else 0.0)
+    outcomes_total = round(min(10.0, results_score + figures_score), 1)
+
+    ansoff_raw = proposal_data.get("ansoff", {})
+    ansoff = ansoff_raw if isinstance(ansoff_raw, dict) else {}
     competitor_raw = proposal_data.get("competitor_data", {})
     competitor_data = competitor_raw if isinstance(competitor_raw, dict) else {}
-    usp_text = str(proposal_data.get("usps") or "")
+    usp_text = str(proposal_data.get("usps") or (competitor_data.get("usp", "") if isinstance(competitor_data, dict) else "") or "").strip()
     competitor_res = audit_competitor_matrix_and_usp(competitor_data, usp_text)
-    usps_score = competitor_res["score"]
+    if ansoff and any(str(v).strip() for v in ansoff.values()):
+        selected_quad = bool(str(ansoff.get("selected_quadrant") or ansoff.get("penetration") or ansoff.get("product_development") or ansoff.get("market_development") or ansoff.get("diversification") or "").strip())
+        has_risk_imp = bool(str(ansoff.get("risks") or "").strip() or str(ansoff.get("importance") or "").strip())
+        ansoff_part = 2.5 if (selected_quad and has_risk_imp) else (1.5 if selected_quad else 0.0)
+        usp_part = 2.5 if len(usp_text) >= 15 else (1.0 if usp_text else 0.0)
+        usps_score = round(min(5.0, ansoff_part + usp_part), 1)
+    else:
+        usps_score = competitor_res["score"]
 
     gap_res = audit_gap_statement(funnel.get("tier3", ""))
     novelty_res = audit_novelty_and_soundness(
@@ -1073,17 +1083,43 @@ def calculate_full_rubric_audit(proposal_data: Dict[str, Any]) -> Dict[str, Any]
         methodology=methodology_text
     )
 
-    timeline_text = proposal_data.get("time_plan", "").strip()
-    timeline_score = 4.0 if len(timeline_text) > 30 else (2.0 if timeline_text else 0.0)
+    timeline_text = str(proposal_data.get("time_plan") or "").strip()
+    timeline_score = 5.0 if len(timeline_text) > 60 else (3.5 if len(timeline_text) > 30 else (2.0 if timeline_text else 0.0))
 
-    budget_text = proposal_data.get("budget", "").strip()
-    budget_score = 4.0 if len(budget_text) > 30 else (2.0 if budget_text else 0.0)
+    budget_text = str(proposal_data.get("budget") or "").strip()
+    budget_lower = budget_text.lower()
+    budget_cats_hit = sum(1 for k in ("consumables", "incentives", "utilities", "equipment", "total") if k in budget_lower)
+    if budget_cats_hit >= 4:
+        budget_score = 5.0
+    elif len(budget_text) > 60:
+        budget_score = 4.0
+    elif len(budget_text) > 30:
+        budget_score = 3.0
+    else:
+        budget_score = 2.0 if budget_text else 0.0
 
-    refs = proposal_data.get("references", "")
-    refs_count = len([r for r in re.split(r'[\r\n]+', refs.strip()) if len(r.strip()) > 15]) if refs else 0
-    refs_score = min(5.0, round(refs_count * 1.0, 1))
+    refs = str(proposal_data.get("references") or "")
+    ref_lines = [r.strip() for r in re.split(r'[\r\n]+', refs.strip()) if len(r.strip()) > 15] if refs.strip() else []
+    refs_count = len(ref_lines)
+    if refs_count == 0:
+        refs_score = 0.0
+    else:
+        recent_hits = sum(1 for r in ref_lines if re.search(r'\b(202[1-6])\b', r))
+        recency_ok = (recent_hits / refs_count) >= 0.5
+        all_text_for_cites = f"{funnel.get('tier1', '')} {funnel.get('tier2', '')} {funnel.get('tier3', '')} {methodology_text}"
+        has_intext = bool(re.search(r'\([A-Z][A-Za-z\-]+.*?(?:19|20)\d{2}\)|\[\d+\]', all_text_for_cites))
+        refs_score = round(
+            min(5.0,
+                (1.0 if refs_count >= 1 else 0.0)
+                + (1.0 if recency_ok else 0.0)
+                + (1.0 if refs_count >= 3 else 0.5)
+                + (1.0 if refs_count >= 3 else 0.5)
+                + (1.0 if has_intext else 0.5)
+            ),
+            1,
+        )
 
-    structure_score = 2.0 + method_res.get("tense_mark", 0.0)
+    structure_score = round(min(3.0, 2.0 + method_res.get("tense_mark", 0.0)), 1)
 
     # Cross-Section Traceability & Controls Audits
     traceability_findings = audit_objective_method_traceability(aims, methodology_text, outcomes_text, res_type)
@@ -1127,7 +1163,7 @@ def calculate_full_rubric_audit(proposal_data: Dict[str, Any]) -> Dict[str, Any]
             scaled_score_85 = min(55.0, scaled_score_85)
         gpa_score = round((scaled_score_85 / 85.0) * 10.0, 1)
     else:
-        raw_total = (
+        raw_total = round(
             title_res["score"] +
             abstract_res["score"] +
             funnel_res["score"] +
@@ -1135,11 +1171,11 @@ def calculate_full_rubric_audit(proposal_data: Dict[str, Any]) -> Dict[str, Any]
             outcomes_total +
             usps_score +
             swot_res["score"] +
-            aims_res["score"] +
             timeline_score +
             budget_score +
             refs_score +
-            structure_score
+            structure_score,
+            1,
         )
         total_score_85 = min(85.0, raw_total)
         if has_critical_traceability_mismatch:

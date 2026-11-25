@@ -267,7 +267,7 @@ window.switchMatrixViewTab = function(tab) {
               <span class="sidebar-step-name">Phase 1: Topic & Context</span>
               <span class="phase-status-pill unlocked" id="phase-badge-1">● Open</span>
             </div>
-            <span class="sidebar-step-desc">Header, Nouns & Sec 2</span>
+            <span class="sidebar-step-desc">Topic Search, Title &amp; Sec 2</span>
           </div>
           <div class="sidebar-step-check">✓</div>
         </div>
@@ -571,7 +571,7 @@ window.switchMatrixViewTab = function(tab) {
           <span class="phase-tab-num">01</span>
           <div class="phase-tab-text">
             <span class="phase-tab-title">Phase 1: Topic & Context</span>
-            <span class="phase-tab-sub">Header, Nouns & Section 2</span>
+            <span class="phase-tab-sub">Topic Search, Title &amp; Section 2</span>
           </div>
           <span class="phase-tab-badge">● Open</span>
         </button>
@@ -750,7 +750,7 @@ window.switchMatrixViewTab = function(tab) {
                 <strong>Project Title:</strong>
               </label>
               <button type="button" class="btn-insert-template" id="btn-assemble-title-from-pillars">
-                💡 Guide Title from Pillars
+                ✨ Suggest Title from Step 1
               </button>
             </div>
             <!-- In-Step Guidance Card: Title -->
@@ -1959,7 +1959,28 @@ window.switchMatrixViewTab = function(tab) {
           </div>
 
           <div class="subtitle-guide-box" style="background: #f5f3ff; border-left: 3px solid #8b5cf6; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #5b21b6; margin-bottom: 12px; line-height: 1.5;">
-            <div><strong>📌 Biotechnology Translation:</strong> The Ansoff Matrix categorizes your proposal's innovation risk and commercial direction across four biological quadrants:</div>
+            <div><strong>📌 BT_301 Rubric Requirement (2.5%):</strong> Highlight the <strong>single relevant quadrant</strong> in the 2&times;2 matrix using clear definitions of product/market status, and clearly state the <strong>topic's importance</strong> and <strong>quadrant-specific risks</strong>.</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; background: #faf5ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 12px;">
+            <div>
+              <label class="field-label" for="ansoff-primary-quadrant" style="font-size: 0.8rem;"><strong>1. Primary Relevant Quadrant:</strong></label>
+              <select id="ansoff-primary-quadrant" class="form-select" style="font-size: 0.84rem;">
+                <option value="">-- Select 1 Quadrant --</option>
+                <option value="penetration">Market Penetration (Existing Tech • Existing Market)</option>
+                <option value="product_development">Product Development (New Tech • Existing Market)</option>
+                <option value="market_development">Market Development (Existing Tech • New Market)</option>
+                <option value="diversification">Diversification (New Tech • New Market)</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="ansoff-importance" style="font-size: 0.8rem;"><strong>2. Topic Importance:</strong></label>
+              <input type="text" id="ansoff-importance" class="form-input" style="font-size: 0.84rem;" placeholder="Why this product/market position matters...">
+            </div>
+            <div>
+              <label class="field-label" for="ansoff-risks" style="font-size: 0.8rem;"><strong>3. Quadrant-Specific Risks:</strong></label>
+              <input type="text" id="ansoff-risks" class="form-input" style="font-size: 0.84rem;" placeholder="e.g. Technical/regulatory risk for this quadrant...">
+            </div>
           </div>
 
           <!-- 2x2 Grid -->
@@ -2205,9 +2226,9 @@ window.switchMatrixViewTab = function(tab) {
             </div>
 
             <div class="subtitle-guide-box" style="background: #ecfdf5; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 12px; line-height: 1.5;">
-              <div><strong>📌 Official Categories A through F:</strong> Itemize your research costs across the 6 standard university categories in Egyptian Pounds:</div>
+              <div><strong>📌 Official BT_301 Budget Categories (5%):</strong> Itemize your research costs across the official rubric categories in Egyptian Pounds (EGP):</div>
               <div style="font-size: 0.76rem; margin-top: 4px; color: #14532d;">
-                <strong>A.</strong> Equipment & Hardware • <strong>B.</strong> Consumables, Kits & Reagents • <strong>C.</strong> Travel/Fieldwork • <strong>D.</strong> Personnel/Stipends • <strong>E.</strong> Training & Software Licenses • <strong>F.</strong> Other Direct Costs/Contingency
+                <strong>1.</strong> Consumables (1%) • <strong>2.</strong> Incentives (1%) • <strong>3.</strong> Utilities (1%) • <strong>4.</strong> Equipment (1%) • <strong>5.</strong> Total Budget Summary (1%)
               </div>
             </div>
 
@@ -2262,7 +2283,7 @@ window.switchMatrixViewTab = function(tab) {
           <span class="step-badge">Phase 4 of 4 • Synthesis, References & Submission</span>
           <h1 class="step-heading">Abstract, Peer-Reviewed References & Official Document Preview</h1>
           <p class="step-subheading">
-            Draft your concise 150–250 word Abstract (Section 1) and keywords, assemble your APA 7th reference list (Section 10), rehearse with the oral defense simulator, and preview your complete official BT_301 proposal.
+            Draft your concise 200–300 word Abstract (Section 1) and keywords, assemble your APA 7th reference list (Section 10), rehearse with the oral defense simulator, and preview your complete official BT_301 proposal.
           </p>
         </div>
 
@@ -2279,7 +2300,7 @@ window.switchMatrixViewTab = function(tab) {
           </div>
 
           <div class="subtitle-guide-box" style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 12px; line-height: 1.5;">
-            <div><strong>📌 Written Last, Read First:</strong> An abstract is drafted after completing your scientific plan so you can summarize the full project in <strong>150–250 words</strong>. Ensure your abstract touches on all 5 essential pillars:</div>
+            <div><strong>📌 Written Last, Read First:</strong> An abstract is drafted after completing your scientific plan so you can summarize the full project in <strong>200–300 words</strong>. Ensure your abstract touches on all 5 essential pillars:</div>
           </div>
 
           <!-- 5 Abstract Essentials Checklist -->
@@ -2305,7 +2326,7 @@ window.switchMatrixViewTab = function(tab) {
             </div>
             <div class="coach-body">
               <div class="coach-formula-box">
-                <strong>⚡ The 5-Sentence Structure (150–250 words total):</strong><br>
+                <strong>⚡ The 5-Sentence Structure (200–300 words total):</strong><br>
                 1. <strong>Problem &amp; Burden:</strong> What crisis or condition affects patients/industry?<br>
                 2. <strong>The Current Limit:</strong> Why do existing products/assays fail?<br>
                 3. <strong>Your Solution &amp; Number:</strong> What is your prediction, with your target number?<br>
@@ -2314,7 +2335,7 @@ window.switchMatrixViewTab = function(tab) {
               </div>
               <div class="coach-checkpoints">
                 <strong>🔍 Abstract Checkpoints:</strong>
-                <span>☑️ Word count: 150–250 words</span>
+                <span>☑️ Word count: 200–300 words</span>
                 <span>☑️ Numbers match your Title and Section 3</span>
                 <span>☑️ No unexplained acronyms</span>
               </div>
@@ -2328,7 +2349,7 @@ window.switchMatrixViewTab = function(tab) {
             <button type="button" class="btn-fmt" data-fmt="bullet" title="Add Bullet" style="padding: 2px 8px; font-size: 0.78rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">• List</button>
             <span style="font-size: 0.7rem; color: #64748b; margin-left: auto;">Format: **bold**, *italic*, &lt;u&gt;underline&lt;/u&gt; (Ctrl+B / Ctrl+I / Ctrl+U)</span>
           </div>
-          <textarea id="proposal-abstract-input" class="form-textarea" style="min-height: 140px; font-size: 0.9rem; line-height: 1.6;" placeholder="Write a concise 150–250 word summary of the proposed project introducing the problem, gap, proposed solution, methodology, and expected impact..."></textarea>
+          <textarea id="proposal-abstract-input" class="form-textarea" style="min-height: 140px; font-size: 0.9rem; line-height: 1.6;" placeholder="Write a concise 200–300 word summary of the proposed project introducing the problem, gap, proposed solution, methodology, and expected impact..."></textarea>
 
           <div class="field-block" style="margin-top: 14px;">
             <label class="field-label" for="abstract-keywords-input"><strong>Keywords (4 to 6 relevant terms):</strong></label>
@@ -4970,12 +4991,12 @@ window.switchMatrixViewTab = function(tab) {
       var kwCount = kw ? kw.split(/[,;]+/).filter(function(k) { return k.trim().length > 0; }).length : 0;
       var s1Missing = [];
       if (!abs) {
-        s1Missing.push("Missing Executive Abstract: In Step 4, compose a 150–250 word summary covering Problem, Benchmark Gap, Molecular Tool, Lab Matrix, and Societal Impact.");
+        s1Missing.push("Missing Executive Abstract: In Step 4, compose a 200–300 word summary covering Problem, Benchmark Gap, Molecular Tool, Lab Matrix, and Societal Impact.");
       } else {
-        if (absWords < 150) {
-          s1Missing.push(`Executive Abstract is under-developed (${absWords}/150 words): Official BT_301 rubric requires 150–250 words summarizing the completed scientific plan.`);
-        } else if (absWords > 250) {
-          s1Missing.push(`Executive Abstract exceeds word ceiling (${absWords}/250 words): Reviewers strictly penalize abstracts over 250 words.`);
+        if (absWords < 200) {
+          s1Missing.push(`Executive Abstract is under-developed (${absWords}/200 words): Official BT_301 rubric requires 200–300 words summarizing the completed scientific plan.`);
+        } else if (absWords > 300) {
+          s1Missing.push(`Executive Abstract exceeds word ceiling (${absWords}/300 words): Reviewers strictly penalize abstracts over 300 words.`);
         }
         var hasProb = /burden|challenge|threat|disease|cancer|pathogen|resistance|pollution|contamination|crisis|need|dermat|inflamm|mcr-1|pet/i.test(abs);
         var hasTool = /engineer|design|develop|crispr|cas|enzyme|rpa|nanoparticle|vector|construct|petase|assay|extract|formulat|cream|emulsion/i.test(abs);
@@ -5227,7 +5248,7 @@ window.switchMatrixViewTab = function(tab) {
           status: s1Status,
           snippet: s1Snippet,
           missing: s1Missing,
-          tip: "Written last, read first! Summarize in 150–250 words covering Problem, Benchmark Gap, Solution, Lab Model, and Tangible Impact.",
+          tip: "Written last, read first! Summarize in 200–300 words covering Problem, Benchmark Gap, Solution, Lab Model, and Tangible Impact.",
           quickBtnText: "🤖 Abstract Co-Writer",
           quickBtnAction: "triggerSectionAiAssist('abstract')"
         },
@@ -5724,22 +5745,22 @@ window.switchMatrixViewTab = function(tab) {
               "Articulates core project components and therapeutic intention."
             ],
             needsAttention: [
-              "Word count must adhere strictly to the 150–250 word limit.",
+              "Word count must adhere strictly to the 200–300 word limit.",
               "Must state the biological mechanism, experimental chassis, and primary quantitative endpoint."
             ],
             whyItMatters: [
-              "Review panels triage proposals that violate the 150–250 word limit or fail to state the active mechanism."
+              "Review panels triage proposals that violate the 200–300 word limit or fail to state the active mechanism."
             ],
             guidingQuestions: [
               "What is the single most important quantitative benchmark that defines project success?",
-              "How can you synthesize your problem burden, tool, model, and endpoint into a strict 150–250 word summary?"
+              "How can you synthesize your problem burden, tool, model, and endpoint into a strict 200–300 word summary?"
             ],
             revisionCriteria: [
-              "Strict 150–250 word length.",
+              "Strict 200–300 word length.",
               "Includes problem burden, proposed formulation tool, paired controls, and quantitative target milestone."
             ],
             selfCheck: [
-              "Is the abstract strictly between 150 and 250 words?",
+              "Is the abstract strictly between 200 and 300 words?",
               "Does it name the active intervention, biological model, and benchmark target?"
             ]
           },
@@ -5878,11 +5899,11 @@ window.switchMatrixViewTab = function(tab) {
           },
           reviewAbstract: {
             workingWell: ["Clear diagnostic scope."],
-            needsAttention: ["Word count must stay between 150 and 250 words."],
+            needsAttention: ["Word count must stay between 200 and 300 words."],
             whyItMatters: ["Abstract triage requires concise milestone metrics."],
             guidingQuestions: ["What is your turnaround time and target LoD?"],
-            revisionCriteria: ["Strict 150–250 words with quantified LoD."],
-            selfCheck: ["Is word count 150–250 words?"]
+            revisionCriteria: ["Strict 200–300 words with quantified LoD."],
+            selfCheck: ["Is word count 200–300 words?"]
           },
           reviewAims: {
             workingWell: ["Decoupled molecular diagnostic milestones."],
@@ -5952,11 +5973,11 @@ window.switchMatrixViewTab = function(tab) {
           },
           reviewAbstract: {
             workingWell: ["Core summary presented."],
-            needsAttention: ["Strict 150–250 word limit.", "Include paired controls and quantitative deliverable."],
+            needsAttention: ["Strict 200–300 word limit.", "Include paired controls and quantitative deliverable."],
             whyItMatters: ["Word limit violations result in administrative disqualification."],
             guidingQuestions: ["Does your abstract state your problem, tool, chassis, and benchmark endpoint?"],
-            revisionCriteria: ["Strict 150–250 word limit.", "Clear milestone benchmark."],
-            selfCheck: ["Is word count 150–250 words?"]
+            revisionCriteria: ["Strict 200–300 word limit.", "Clear milestone benchmark."],
+            selfCheck: ["Is word count 200–300 words?"]
           },
           reviewAims: {
             workingWell: ["Milestones outlined."],
@@ -6080,11 +6101,11 @@ window.switchMatrixViewTab = function(tab) {
         auditResults.status = score >= 85 ? "🌟 Grant-Ready" : (score >= 65 ? "⚠️ Revisions Recommended" : "Draft Incomplete");
         auditResults.statusClass = score >= 85 ? "status-grant-ready" : (score >= 65 ? "status-warning" : "status-incomplete");
         auditResults.items = [
-          { name: "Strict Word Count (150–250 words)", pass: wc >= 150 && wc <= 250, note: wc < 150 ? `Current length: ${wc} words (Under 150-word minimum).` : (wc > 250 ? `Current length: ${wc} words (Exceeds 250-word ceiling).` : `Compliant (${wc} words).`) },
+          { name: "Strict Word Count (200–300 words)", pass: wc >= 150 && wc <= 250, note: wc < 150 ? `Current length: ${wc} words (Under 150-word minimum).` : (wc > 250 ? `Current length: ${wc} words (Exceeds 250-word ceiling).` : `Compliant (${wc} words).`) },
           { name: "Problem Burden & Significance", pass: hasStats, note: hasStats ? "Real-world context specified." : "Add quantified context or problem scope." },
           { name: "Proposed Solution & Objective", pass: hasHypothesis, note: hasHypothesis ? "Proposed approach clearly stated." : "Explicitly state your solution and goal." }
         ];
-        auditResults.critique = "The Abstract must strictly stay between 150 and 250 words while summarizing problem, approach, and primary outcome.";
+        auditResults.critique = "The Abstract must strictly stay between 200 and 300 words while summarizing problem, approach, and primary outcome.";
       }
       else if (sectionKey === "sec2" || sectionKey === "background" || sectionKey === "problem") {
         mentorReview = tpl.reviewSec2;
@@ -10217,7 +10238,7 @@ Your current Section 4.1 Methodology (${methVal.trim() ? methVal.trim().split(/\
 | Component | Score | Status | Key Checkpoint |
 | :--- | :--- | :--- | :--- |
 | **Cover Sheet: Title & Pillars** | ${sTitle}/10 | ${sTitle >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sTitle >= 8 ? '4-Piece engineering formula verified' : 'Avoid passive "Study of"; specify quantitative milestone'} |
-| **Section 1: Executive Abstract** | ${sAbs}/10 | ${sAbs >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sAbs >= 8 ? 'Word count & quantitative metric verified' : 'Target 150–250 words; include explicit numerical metric'} |
+| **Section 1: Executive Abstract** | ${sAbs}/10 | ${sAbs >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sAbs >= 8 ? 'Word count & quantitative metric verified' : 'Target 200–300 words; include explicit numerical metric'} |
 | **Section 2: Introduction & Funnel** | ${sIntro}/10 | ${sIntro >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sIntro >= 8 ? 'Literature baseline & gap grounded' : 'Eliminate naive fallacies & colloquial phrases ("bad for skin")'} |
 | **Section 3: Project Aim & Objectives** | ${sAim}/10 | ${sAim >= 8 ? '✓ Satisfied' : '⚠️ Action Needed'} | ${sAim >= 8 ? 'Quantitative milestone number verified' : 'Specific Aim 2 requires explicit numerical threshold (MIC, %, LOD)'} |
 | **Section 4: Methodology & Controls** | ${sMeth}/20 | ${sMeth >= 15 ? '✓ Satisfied' : '⚠️ Critical Gap'} | ${sMeth >= 15 ? '5 phases, paired controls & triplicates verified' : 'Missing negative vehicle control, positive comparator, or bioassay'} |
@@ -11585,7 +11606,7 @@ What specific section would you like to strengthen next?`;
         aEval = "⚠️ Under-developed (" + wordCount + " words)";
         aEvalColor = "#92400e";
         aEvalBg = "#fef3c7";
-        aFeedback = "<strong>💡 Co-Pilot Review:</strong> Abstract contains only " + wordCount + " words. Reviewers require 150-250 words to properly evaluate experimental feasibility and scientific rationale.";
+        aFeedback = "<strong>💡 Co-Pilot Review:</strong> Abstract contains only " + wordCount + " words. Reviewers require 200-300 words to properly evaluate experimental feasibility and scientific rationale.";
       } else {
         aScore = (hasProb && hasTool && hasMatrix ? 92 : 75);
         aEval = aScore >= 90 ? "✅ Structured Narrative" : "⚠️ Partial Elements";
@@ -11595,7 +11616,7 @@ What specific section would you like to strengthen next?`;
       }
 
       var cAbsText = document.getElementById("coach-abstract-text");
-      if (cAbsText) cAbsText.innerText = liveAbstract || "Executive Abstract is currently empty. Write a 150–250 word summary in Step 4 (Section 1) of the editor.";
+      if (cAbsText) cAbsText.innerText = liveAbstract || "Executive Abstract is currently empty. Write a 200–300 word summary in Step 4 (Section 1) of the editor.";
       var cAbsEval = document.getElementById("badge-coach-abstract-eval");
       if (cAbsEval) { cAbsEval.innerText = aEval; cAbsEval.style.color = aEvalColor; cAbsEval.style.background = aEvalBg; }
       var cAbsFb = document.getElementById("coach-abstract-feedback");
@@ -12073,8 +12094,8 @@ What specific section would you like to strengthen next?`;
               <button type="button" onclick="runNoveltyRadarAssessment()" style="flex: 1; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; border: none; font-size: 0.72rem; font-weight: 700; padding: 5px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 1px 2px rgba(2, 132, 199, 0.25);">
                 <span>🔬</span> <span>Evaluate Novelty &amp; Prior-Art</span>
               </button>
-              <button type="button" onclick="if(window.switchStudioStep) window.switchStudioStep(1); document.getElementById('step-2')?.scrollIntoView({behavior:'smooth'});" style="background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 0.72rem; font-weight: 700; padding: 5px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                <span>🔎</span> <span>Step 2</span>
+              <button type="button" onclick="if(window.switchStudioStep) window.switchStudioStep(1); document.getElementById('boolean-query-output')?.scrollIntoView({behavior:'smooth'});" style="background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 0.72rem; font-weight: 700; padding: 5px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                <span>🔎</span> <span>Search Lit</span>
               </button>
             </div>
           </div>

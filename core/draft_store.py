@@ -136,6 +136,9 @@ def compute_draft_fingerprint(data: Dict[str, Any]) -> str:
     return hashlib.sha256(dumped.encode("utf-8")).hexdigest()
 
 
+from .blob_store import is_blob_enabled, blob_get_json, blob_put_json, blob_delete, blob_list_prefix
+
+
 def _atomic_write_draft(clean_id: str, data: Dict[str, Any]) -> None:
     """Writes draft JSON file atomically using a temporary file and os.replace."""
     target_dir = get_drafts_dir()
@@ -150,10 +153,21 @@ def _atomic_write_draft(clean_id: str, data: Dict[str, Any]) -> None:
         except Exception:
             pass
     os.replace(tmp_path, filepath)
+    if is_blob_enabled():
+        blob_put_json(f"drafts/{clean_id}.json", data)
 
 
 def _load_draft_raw(clean_id: str) -> Optional[Dict[str, Any]]:
-    """Loads raw draft dictionary from disk, assigning baseline version and fingerprint if missing."""
+    """Loads raw draft dictionary from Blob/disk, assigning baseline version and fingerprint if missing."""
+    if is_blob_enabled():
+        blob_data = blob_get_json(f"drafts/{clean_id}.json")
+        if isinstance(blob_data, dict):
+            if "version" not in blob_data:
+                blob_data["version"] = 1
+            if "content_fingerprint" not in blob_data:
+                blob_data["content_fingerprint"] = compute_draft_fingerprint(blob_data)
+            return blob_data
+
     target_dir = get_drafts_dir()
     filepath = os.path.join(target_dir, f"{clean_id}.json")
     if not os.path.exists(filepath):
@@ -450,6 +464,8 @@ def delete_student_draft(student_id: str) -> Dict[str, Any]:
 
     try:
         os.remove(filepath)
+        if is_blob_enabled():
+            blob_delete(f"drafts/{clean_id}.json")
         return {
             "success": True,
             "student_id": clean_id,
@@ -462,6 +478,20 @@ def delete_student_draft(student_id: str) -> Dict[str, Any]:
 def list_student_drafts() -> List[Dict[str, Any]]:
     _ensure_drafts_dir()
     seed_default_drafts()
+
+    if is_blob_enabled():
+        for b in blob_list_prefix("drafts/"):
+            pname = b.get("pathname", "")
+            if pname.endswith(".json"):
+                cid = os.path.basename(pname)[:-5]
+                bdata = blob_get_json(f"drafts/{cid}.json")
+                if isinstance(bdata, dict):
+                    local_path = os.path.join(get_drafts_dir(), f"{cid}.json")
+                    try:
+                        with open(local_path, "w", encoding="utf-8") as lf:
+                            json.dump(bdata, lf, indent=2, ensure_ascii=False)
+                    except Exception:
+                        pass
 
     roster = []
     for fname in os.listdir(get_drafts_dir()):

@@ -1146,6 +1146,9 @@
             <div class="fac-gpa-stat" id="fac-gpa-badge">0.00 / 10.0 GPA</div>
             <div class="fac-raw-stat" id="fac-raw-badge">0.0 / 85.0 Raw Rubric Points</div>
             <div class="status-pill status-grant-ready" id="fac-standing-badge">Evaluating...</div>
+            <div style="margin-top: 6px; font-size: 0.78rem; color: #475569; font-weight: 600;">
+              🛡️ Integrity Limits: Accepted Plagiarism <strong>&le; 25%</strong> &bull; Accepted AI-Generated Text <strong>&le; 20%</strong>
+            </div>
           </div>
         </div>
 
@@ -2171,10 +2174,10 @@
 
       const words = (d.abstract || "").trim().split(/\s+/).filter(Boolean).length;
       let absScore = 0.0;
-      let absFeedback = "Draft your 150-250w abstract.";
-      if (words >= 150 && words <= 250) { absScore = 5.0; absFeedback = "Compliant structured abstract (150-250 words)."; }
-      else if (words > 0 && words < 150) { absScore = 2.5; absFeedback = `Under minimum threshold (${words}/150w).`; }
-      else if (words > 250) { absScore = 2.0; absFeedback = `Exceeds 250-word cap (${words} words).`; }
+      let absFeedback = "Draft your 200-300w abstract.";
+      if (words >= 200 && words <= 300) { absScore = 5.0; absFeedback = "Compliant abstract (200-300 words)."; }
+      else if (words > 0 && words < 200) { absScore = 2.5; absFeedback = `Under minimum threshold (${words}/200w).`; }
+      else if (words > 300) { absScore = 2.0; absFeedback = `Exceeds 300-word cap (${words} words).`; }
       breakdown.abstract = { score: absScore, report: { feedback: absFeedback } };
       raw += absScore;
 
@@ -2183,52 +2186,58 @@
       if (fn.tier1 && fn.tier2 && fn.tier3 && fn.tier4) bgScore = 18.5;
       else if (fn.tier1 || fn.tier2) bgScore = 10.0;
       else if (d.problem_narrative) bgScore = 12.0;
-      breakdown.background = { score: bgScore, report: { feedback: bgScore > 15 ? "Complete 4-tier inverted funnel narrative." : "Incomplete funnel tiers or missing biophysical gap." } };
+      breakdown.background = { score: bgScore, report: { feedback: bgScore > 15 ? "Complete 4-tier background narrative, gap, and objectives." : "Incomplete background tiers, gap, or objectives." } };
       raw += bgScore;
 
-      const aims = d.aims || {};
-      const hasAims = Boolean(aims.aim1 && aims.aim2 && aims.aim3);
-      const aimsScore = hasAims ? 4.5 : (aims.aim1 ? 2.5 : 0.0);
-      breakdown.aims_independence = { score: aimsScore, report: { feedback: hasAims ? "3 decoupled parallel work packages formulated." : "Missing aims or potential domino dependency." } };
-      raw += aimsScore;
-
       const methLen = (d.methodology || "").trim().split(/\s+/).filter(Boolean).length;
-      const hasCtrl = Boolean(d.matrix && d.matrix.purple);
       let methScore = 0.0;
-      if (methLen > 50 && hasCtrl) methScore = 14.0;
+      if (methLen > 50) methScore = 14.0;
       else if (methLen > 30) methScore = 9.0;
       else if (methLen > 0) methScore = 5.0;
-      breakdown.methodology = { score: methScore, report: { feedback: hasCtrl ? "Methodology includes essential negative and reference controls." : "Missing explicit negative/reference controls." } };
+      breakdown.methodology = { score: methScore, report: { feedback: methLen > 50 ? "Detailed methodology steps provided." : "Methodology needs fuller step-by-step detail." } };
       raw += methScore;
 
+      const outText = (d.expected_outcomes || "").trim();
       const imp = d.impact_data || {};
-      const hasImp = Boolean(imp.academic && imp.economic && imp.societal);
-      const impScore = hasImp ? 9.5 : (imp.academic ? 5.0 : 2.0);
-      breakdown.expected_outcomes = { score: impScore, report: { feedback: hasImp ? "Comprehensive 3-tier academic, economic, and societal impact." : "Partial impact tier definitions." } };
-      raw += impScore;
+      const hasFigures = Boolean((d.figures && d.figures.length) || /fig\.?|figure/i.test(outText));
+      const outScore = (outText.length > 50 ? 5.0 : (outText ? 2.5 : 0.0)) + (hasFigures ? 5.0 : (imp.academic ? 2.5 : 0.0));
+      breakdown.expected_outcomes = { score: outScore, report: { feedback: hasFigures ? "Expected outcomes matched to methods with figures." : "Add figures to earn full 10/10 on Expected Outcomes." } };
+      raw += outScore;
 
+      const ansoff = d.ansoff || {};
       const comp = d.competitor_data || {};
+      const hasAnsoff = Boolean(ansoff.selected_quadrant || ansoff.penetration || ansoff.product_development || ansoff.market_development || ansoff.diversification);
       const hasUsp = Boolean(d.usps || comp.usp);
-      const compScore = hasUsp ? 4.5 : 1.5;
-      breakdown.competitive_advantage = { score: compScore, report: { feedback: hasUsp ? "Unique Selling Proposition (USP) clearly articulated." : "Missing USP or competitor differentiation." } };
+      const compScore = (hasAnsoff ? 2.5 : 0.0) + (hasUsp ? 2.5 : 0.0);
+      breakdown.competitive_advantage = { score: compScore, report: { feedback: (hasAnsoff && hasUsp) ? "Ansoff quadrant, risks, and USP articulated." : "Select single Ansoff quadrant, state risks/importance, and define USP." } };
       raw += compScore;
 
       const swot = d.swot || {};
       const hasSwot = Boolean(swot.s && swot.w && swot.o && swot.t);
       const swotScore = hasSwot ? 9.0 : 3.0;
-      breakdown.swot_pestel = { score: swotScore, report: { feedback: hasSwot ? "Balanced SWOT assessment with failure mode mitigations." : "Incomplete SWOT quadrants." } };
+      breakdown.swot_pestel = { score: swotScore, report: { feedback: hasSwot ? "SWOT & PESTEL sections drafted." : "Incomplete SWOT/PESTEL sections." } };
       raw += swotScore;
+
+      const timeLen = (d.time_plan || "").trim().length;
+      const timeScore = timeLen > 60 ? 5.0 : (timeLen > 20 ? 3.0 : 0.0);
+      breakdown.time_plan = { score: timeScore, report: { feedback: timeScore >= 4 ? "Gantt time plan provided." : "Incomplete Gantt timeline." } };
+      raw += timeScore;
+
+      const budLen = (d.budget || "").trim().length;
+      const budScore = budLen > 60 ? 5.0 : (budLen > 20 ? 3.0 : 0.0);
+      breakdown.budget = { score: budScore, report: { feedback: budScore >= 4 ? "Tabulated budget provided." : "Incomplete budget table (Consumables, Incentives, Utilities, Equipment, Total)." } };
+      raw += budScore;
 
       const refs = (d.references || "").trim().split(/\r?\n/).filter(Boolean).length;
       let refScore = 0.0;
       if (refs >= 4) refScore = 4.5;
       else if (refs >= 2) refScore = 2.5;
       else if (refs > 0) refScore = 1.0;
-      breakdown.references = { score: refScore, report: { feedback: refs >= 4 ? `Compliant bibliography with ${refs} citations.` : "Bibliography contains fewer than 4 citations." } };
+      breakdown.references = { score: refScore, report: { feedback: refs >= 4 ? `Bibliography with ${refs} citations (verify ≤5 yrs recency & in-text citations).` : "Bibliography contains fewer than 4 citations." } };
       raw += refScore;
 
       const structScore = 2.8;
-      breakdown.structure = { score: structScore, report: { feedback: "Official BT_301 nomenclature and scientific formatting adhered to." } };
+      breakdown.structure = { score: structScore, report: { feedback: "Grammar, future-tense methods, and overall structure." } };
       raw += structScore;
 
       return { raw_total: raw, breakdown: breakdown };
@@ -3043,16 +3052,17 @@
       tbody.innerHTML = "";
 
       const criteria = [
-        { key: "title", name: "1. Proposal Title (All-or-None Rule)", max: 2.0 },
-        { key: "abstract", name: "2. Structured Abstract (250-word limit)", max: 5.0 },
-        { key: "background", name: "3. Inverted Funnel & Knowledge Gap", max: 20.0 },
-        { key: "aims_independence", name: "4. 3 Decoupled Aims (Non-Contingency)", max: 5.0 },
-        { key: "methodology", name: "5. Experimental Methodology (Controls & Future Tense)", max: 15.0 },
-        { key: "expected_outcomes", name: "6. Deliverables & 3-Tier Impact", max: 10.0 },
-        { key: "competitive_advantage", name: "7. Competitor Matrix & Unique Selling Proposition", max: 5.0 },
-        { key: "swot_pestel", name: "8. Biotech SWOT & Failure Modes", max: 10.0 },
-        { key: "references", name: "9. Peer-Reviewed References (≥60% 2021-2026)", max: 5.0 },
-        { key: "structure", name: "10. Scientific Rigor & Format", max: 3.0 }
+        { key: "title", name: "1. Title (All or None)", max: 2.0 },
+        { key: "abstract", name: "2. Abstract (200-300 Words: Problem 2%, Methods 2%, Findings 1%)", max: 5.0 },
+        { key: "background", name: "3. Background (Problem 5%, Lit 5%, Gap 5%, Aim & Objectives 5%)", max: 20.0 },
+        { key: "methodology", name: "4. Methodology (Accuracy 5%, Flow 5%, Relevance 5%)", max: 15.0 },
+        { key: "expected_outcomes", name: "5. Expected Outcomes (Results 5%, Figures 5%)", max: 10.0 },
+        { key: "competitive_advantage", name: "6. Ansoff Matrix (Single Quadrant & Risks 2.5%) & USPs (2.5%)", max: 5.0 },
+        { key: "swot_pestel", name: "7. SWOT (5%) & PESTEL (5%) Analyses", max: 10.0 },
+        { key: "time_plan", name: "8. Time Plan / Gantt Chart (Steps 2%, Estimates 2%, Format 1%)", max: 5.0 },
+        { key: "budget", name: "9. Budget (Consumables, Incentives, Utilities, Equipment, Total)", max: 5.0 },
+        { key: "references", name: "10. References & In-Text Citations (≤5 yrs, Style, Order)", max: 5.0 },
+        { key: "structure", name: "11. Structure & Coherence (Grammar 1%, Future Tense 1%, Structure 1%)", max: 3.0 }
       ];
 
       criteria.forEach(c => {
@@ -3348,7 +3358,7 @@
       { code: "T-01", label: "Vague Title (All-or-None 0%)", comment: "Title is overly vague and fails the 4-anchor formula. Rephrase as: [Mechanism] in [Experimental System] to [Target Metric] for [Application]. Awarded: 0%." },
       { code: "T-02", label: "Missing System / Chassis", comment: "Title lacks experimental system, biological host organism, or delivery matrix. Specify the exact experimental model." },
       { code: "T-03", label: "Strong Descriptive Title", comment: "Concise, descriptive, and accurately conveys molecular mechanism, host, and application. Awarded: 2%." },
-      { code: "AB-01", label: "Exceeds 250 Words", comment: "Abstract exceeds the strict 250-word ceiling. Edit down concisely to prevent editorial desk rejection." },
+      { code: "AB-01", label: "Outside 200-300 Words", comment: "Abstract must be 200-300 words outlining the main problem (2%), brief methodology (2%), and key findings (1%)." },
       { code: "AB-02", label: "Unbalanced Components", comment: "Abstract must balance 4 distinct components: Problem burden (2%), brief methodology (2%), expected findings (1%), and concluding impact statement." },
       { code: "BG-01", label: "Missing Quantified Burden", comment: "Tier 1 problem statement lacks an empirical quantified statistic (annual metric tons, incidence rate, or monetary loss). Replace general assertions with hard numbers." },
       { code: "BG-02", label: "Missing Knowledge Gap Pivot", comment: "Missing an explicit pivot from existing literature to your knowledge gap. Use a formal transition ('However, widespread deployment remains critically constrained by...')." },
@@ -3580,7 +3590,7 @@
       const absText = d.abstract || "No structured abstract drafted yet.";
       setEl("manu-abstract", absText);
       const wCount = absText.trim().split(/\s+/).filter(Boolean).length;
-      setEl("manu-abstract-count", `${wCount} words (${wCount <= 250 ? 'Compliant' : 'Exceeds 250w'})`);
+      setEl("manu-abstract-count", `${wCount} words (${wCount >= 200 && wCount <= 300 ? 'Compliant' : (wCount > 300 ? 'Exceeds 300w' : 'Target 200-300w')})`);
 
       const fn = d.funnel || {};
       let bgHtml = "";

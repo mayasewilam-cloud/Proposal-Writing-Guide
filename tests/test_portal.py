@@ -85,10 +85,10 @@ class TestRubricAudits(unittest.TestCase):
         empty_res = audit_abstract("")
         self.assertEqual(empty_res["score"], 0.0)
 
-        # 280-word abstract penalized
-        long_abstract = "word " * 280
+        # 320-word abstract penalized (>300-word BT_301 limit)
+        long_abstract = "word " * 320
         long_res = audit_abstract(long_abstract)
-        self.assertTrue(any("250-word" in issue for issue in long_res["issues"]))
+        self.assertTrue(any("300-word" in issue for issue in long_res["issues"]))
 
     def test_methodology_future_tense(self):
         # Past tense violation

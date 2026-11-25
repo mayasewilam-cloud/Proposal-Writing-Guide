@@ -210,17 +210,24 @@ def _default_pis() -> Dict[str, Dict[str, Any]]:
 
 
 
+from .blob_store import is_blob_enabled, blob_get_json, blob_put_json
+
+
 def _load_db() -> Dict[str, Any]:
     _ensure_dirs()
     db: Dict[str, Any] = {}
+    if is_blob_enabled():
+        blob_db = blob_get_json("cohort_db.json")
+        if isinstance(blob_db, dict) and blob_db:
+            db = blob_db
     target_file = get_cohort_db_file()
-    if os.path.exists(target_file):
+    if not db and os.path.exists(target_file):
         try:
             with open(target_file, "r", encoding="utf-8") as f:
                 db = json.load(f)
         except Exception:
             db = {}
-    else:
+    elif not db:
         bundled = os.path.join(BASE_DIR, "data", "cohort_db.json")
         if os.path.exists(bundled):
             try:
@@ -374,6 +381,8 @@ def _save_db(db: Dict[str, Any]):
     target_file = get_cohort_db_file()
     with open(target_file, "w", encoding="utf-8") as f:
         json.dump(db, f, indent=2, ensure_ascii=False)
+    if is_blob_enabled():
+        blob_put_json("cohort_db.json", db)
 
 
 def _record_audit(
