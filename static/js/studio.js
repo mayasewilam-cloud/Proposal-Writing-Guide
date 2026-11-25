@@ -3492,6 +3492,14 @@ function populateFormFields() {
   setVal("customer-input", projectState.customer);
   setVal("market-input", projectState.market);
   setVal("usps-input", projectState.usps);
+  const uspAspects = projectState.usp_aspects || {};
+  ["novelty", "technical", "impact", "economic", "scalability", "ethical"].forEach(k => {
+    const row = uspAspects[k] || {};
+    const chk = document.getElementById(`usp-chk-${k}`);
+    const txt = document.getElementById(`usp-txt-${k}`);
+    if (chk) chk.checked = Boolean(row.relevant);
+    if (txt) txt.value = row.text || "";
+  });
 
   // Competitor Matrix (Exact 9 Dimensions)
   const cd = projectState.competitor_data || {};
@@ -3960,6 +3968,47 @@ function initFormBindings() {
   bind("customer-input", v => projectState.customer = v);
   bind("market-input", v => projectState.market = v);
   bind("usps-input", v => projectState.usps = v);
+  const USP_ASPECT_LABELS = {
+    novelty: "Scientific Novelty",
+    technical: "Technical Advantage",
+    impact: "Societal or Environmental Impact",
+    economic: "Economic Feasibility",
+    scalability: "Scalability & Future Potential",
+    ethical: "Ethical & Sustainable Edge"
+  };
+  const syncUspAspectsToState = () => {
+    if (!projectState.usp_aspects) projectState.usp_aspects = {};
+    const parts = [];
+    Object.keys(USP_ASPECT_LABELS).forEach(k => {
+      const chk = document.getElementById(`usp-chk-${k}`);
+      const txt = document.getElementById(`usp-txt-${k}`);
+      const relevant = Boolean(chk && chk.checked);
+      const val = (txt ? txt.value : "").trim();
+      projectState.usp_aspects[k] = { relevant, text: val };
+      if (relevant && val) {
+        parts.push(`${USP_ASPECT_LABELS[k]}: ${val}`);
+      }
+    });
+    if (parts.length > 0) {
+      const compiled = parts.join(" | ");
+      projectState.usps = compiled;
+      const uspsEl = document.getElementById("usps-input");
+      if (uspsEl) uspsEl.value = compiled;
+    }
+    saveToStorage();
+    if (typeof renderLiveManuscript === "function") renderLiveManuscript();
+  };
+  Object.keys(USP_ASPECT_LABELS).forEach(k => {
+    const chk = document.getElementById(`usp-chk-${k}`);
+    const txt = document.getElementById(`usp-txt-${k}`);
+    if (chk) chk.addEventListener("change", syncUspAspectsToState);
+    if (txt) {
+      txt.addEventListener("input", () => {
+        if (chk && txt.value.trim() && !chk.checked) chk.checked = true;
+        syncUspAspectsToState();
+      });
+    }
+  });
 
 
   // Competitor Matrix (Exact 9 Dimensions)
@@ -8579,7 +8628,20 @@ window.renderAcademicMethodologyHtml = renderAcademicMethodologyHtml;
 
   // 6. Ansoff Matrix
   const a = projectState.ansoff || {};
-  const ansoffHtml = `
+  const quadLabels = {
+    penetration: "Market Penetration (Existing Tech • Existing Market)",
+    product_development: "Product Development (New Tech • Existing Market)",
+    market_development: "Market Development (Existing Tech • New Market)",
+    diversification: "Diversification (New Tech • New Market)"
+  };
+  const primarySummary = a.selected_quadrant || a.importance || a.risks
+    ? `<div style="background:#faf5ff; border:1px solid #ddd6fe; border-radius:6px; padding:6px 8px; margin-bottom:6px; font-size:0.75rem;">
+         <div><strong>Primary Quadrant:</strong> ${escapeHtml(quadLabels[a.selected_quadrant] || a.selected_quadrant || "Not selected")}</div>
+         <div><strong>Topic Importance:</strong> ${escapeHtml(a.importance || "—")}</div>
+         <div><strong>Quadrant-Specific Risks:</strong> ${escapeHtml(a.risks || "—")}</div>
+       </div>`
+    : "";
+  const ansoffHtml = primarySummary + `
     <table style="width:100%; font-size:0.75rem; border-collapse:collapse; border:1px solid #cbd5e1; margin-top:4px;">
       <thead>
         <tr style="background:#f8fafc; text-align:left;">

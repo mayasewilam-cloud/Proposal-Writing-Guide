@@ -366,6 +366,10 @@ def generate_markdown_portfolio(data: Dict[str, Any], audit_results: Dict[str, A
     # 6. Ansoff Matrix for Biotechnology
     md.append("# 6. Ansoff Matrix for Biotechnology")
     ansoff = data.get("ansoff", {})
+    if ansoff.get("selected_quadrant") or ansoff.get("importance") or ansoff.get("risks"):
+        md.append(f"- **Primary Selected Quadrant:** {ansoff.get('selected_quadrant', 'Not specified')}")
+        md.append(f"- **Topic Importance:** {ansoff.get('importance', '—')}")
+        md.append(f"- **Quadrant-Specific Risks:** {ansoff.get('risks', '—')}\n")
     md.append("| Strategic Quadrant | Focus & Definition | Application to Proposed Research |")
     md.append("| :--- | :--- | :--- |")
     md.append(f"| **Market Penetration** | Existing Technology / Existing Market | {ansoff.get('penetration', 'Optimizing catalytic kinetics and bioprocess throughput')} |")
@@ -770,6 +774,11 @@ def generate_docx_portfolio(data: Dict[str, Any], audit_results: Dict[str, Any] 
     # 6. Ansoff Matrix for Biotechnology
     doc.add_heading("6. Ansoff Matrix for Biotechnology", level=1)
     ansoff = data.get("ansoff", {})
+    if ansoff.get("selected_quadrant") or ansoff.get("importance") or ansoff.get("risks"):
+        ap = doc.add_paragraph()
+        ap.add_run(f"Primary Quadrant: {ansoff.get('selected_quadrant', 'Not specified')}\n").bold = True
+        ap.add_run(f"Topic Importance: {ansoff.get('importance', '—')}\n")
+        ap.add_run(f"Quadrant-Specific Risks: {ansoff.get('risks', '—')}")
     ansoff_table = doc.add_table(rows=5, cols=3)
     ansoff_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     for idx, h in enumerate(["Quadrant", "Strategic Focus", "Proposal Application"]):

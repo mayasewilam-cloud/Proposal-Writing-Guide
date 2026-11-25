@@ -1827,59 +1827,83 @@ window.switchMatrixViewTab = function(tab) {
         </div>
 
         
-        <!-- Section 6.0: Unique Selling Points (USPs) & Competitive Value Proposition (Pre-Ansoff Foundation) -->
+        <!-- Section 6.0: Unique Selling Points (USPs) Table -->
         <div id="card-section-usp" class="guide-card" style="border-top: 4px solid #f59e0b; margin-bottom: 24px; background: #ffffff;">
           <div class="guide-card-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
             <div class="guide-card-title" style="color: #b45309; font-weight: 800; font-size: 1.05rem;">
-              ⭐ Strategic Positioning: Unique Selling Points (USPs) &amp; Competitive Value Proposition
+              ⭐ How to Identify Your USPs? (Unique Selling Points — 2.5%)
             </div>
-            <span id="sec-usp-track-badge" class="badge-box" style="background:#fef3c7; color:#92400e; font-weight: 700;">Foundational Translational Step • Pre-Ansoff</span>
+            <span id="sec-usp-track-badge" class="badge-box" style="background:#fef3c7; color:#92400e; font-weight: 700;">Fill Relevant Aspects</span>
           </div>
 
-          <div class="subtitle-guide-box" style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 12px 14px; border-radius: 6px; font-size: 0.83rem; color: #78350f; margin-bottom: 14px; line-height: 1.55;">
-            <div><strong>💡 Why define your USP before the Ansoff Matrix?</strong></div>
-            <div style="margin-top: 3px;">
-              Before you can decide whether your proposal is <em>Market Penetration</em> or <em>Product Development</em>, you must define the concrete technical superiority of your bio-engineered innovation. Reviewers reject proposals with vague commercial claims: you must state why clinicians, researchers, or industrial manufacturers would choose your solution over the existing gold standard.
-            </div>
-            <div style="margin-top: 6px; padding: 6px 10px; background: #fef3c7; border-radius: 4px; font-size: 0.80rem;">
-              <strong>⚠️ The Strawman Competitor Trap:</strong> Never say <em>"unlike traditional methods"</em> or <em>"unlike conventional approaches"</em>. Name the exact commercial benchmark or published assay (e.g. <em>TaqMan qPCR</em>, <em>broth microdilution AST</em>, <em>topical hydrocortisone 1%</em>, <em>wild-type PETase</em>).
-            </div>
+          <div class="subtitle-guide-box" style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #78350f; margin-bottom: 14px; line-height: 1.5;">
+            <strong>📌 Instructions:</strong> Check <strong>only the USP aspects relevant to your project</strong> and explain how your solution delivers them. Your checked rows automatically build your USP summary below.
           </div>
 
-          <!-- Formula guidance card -->
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;">
-            <div style="font-size: 0.80rem; font-weight: 700; color: #334155; margin-bottom: 4px;">
-              📐 The Winning 3-Part Biotechnology USP Formula:
-            </div>
-            <div style="font-family: monospace; font-size: 0.80rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 10px; color: #0f172a; line-height: 1.45;">
-              "Unlike <span style="color:#dc2626; font-weight:700;">[Named Commercial Benchmark / Gold Standard]</span>, our <span style="color:#2563eb; font-weight:700;">[Bio-Engineered Tool / Formulation]</span> <span style="color:#059669; font-weight:700;">[Specific Mechanistic / Technical Superiority]</span>, achieving <span style="color:#7c3aed; font-weight:700;">[Quantifiable Performance Metric]</span> and providing <span style="color:#b45309; font-weight:700;">[Concrete Stakeholder / Clinical Benefit]</span>."
-            </div>
-            <!-- Quick Domain Inspiration Chips -->
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-              <span style="font-size: 0.72rem; font-weight: 700; color: #64748b;">Quick Domain Presets:</span>
-              <button type="button" class="btn btn-sm" onclick="if(window.loadUspDomainPreset) window.loadUspDomainPreset('phyto');" style="font-size: 0.72rem; padding: 2px 8px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; border-radius: 4px; cursor: pointer;">🌿 Natural Extract / Nano</button>
-              <button type="button" class="btn btn-sm" onclick="if(window.loadUspDomainPreset) window.loadUspDomainPreset('crispr');" style="font-size: 0.72rem; padding: 2px 8px; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 4px; cursor: pointer;">🔬 CRISPR / Diagnostic</button>
-              <button type="button" class="btn btn-sm" onclick="if(window.loadUspDomainPreset) window.loadUspDomainPreset('enzyme');" style="font-size: 0.72rem; padding: 2px 8px; background: #f5f3ff; color: #5b21b6; border: 1px solid #ddd6fe; border-radius: 4px; cursor: pointer;">🧬 Recombinant Enzyme</button>
-              <button type="button" class="btn btn-sm" onclick="if(window.loadUspDomainPreset) window.loadUspDomainPreset('microbe');" style="font-size: 0.72rem; padding: 2px 8px; background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; border-radius: 4px; cursor: pointer;">🧫 Microbiology / Bioremediation</button>
-              <button type="button" class="btn btn-sm" onclick="if(window.loadUspDomainPreset) window.loadUspDomainPreset('comp');" style="font-size: 0.72rem; padding: 2px 8px; background: #f0fdfa; color: #115e59; border: 1px solid #99f6e4; border-radius: 4px; cursor: pointer;">💻 Computational / In Silico</button>
-            </div>
+          <!-- 6-Row Official USP Table -->
+          <div style="overflow-x: auto; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 14px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+              <thead>
+                <tr style="background: #f8fafc; color: #0f172a; text-align: left; border-bottom: 2px solid #cbd5e1;">
+                  <th style="padding: 8px 10px; width: 9%; text-align: center;">Relevant?</th>
+                  <th style="padding: 8px 10px; width: 23%;">USP Aspect</th>
+                  <th style="padding: 8px 10px; width: 32%;">What It Means</th>
+                  <th style="padding: 8px 10px; width: 36%;">Your Project's USP (Fill if relevant)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-novelty" class="usp-aspect-chk" data-aspect="novelty"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Scientific Novelty</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your idea introduces a new concept, mechanism, or interdisciplinary approach.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-novelty" class="form-input usp-aspect-txt" data-aspect="novelty" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="Describe your new concept or mechanism..."></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-technical" class="usp-aspect-chk" data-aspect="technical"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Technical Advantage</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your design, formulation, or process performs better, faster, safer, or more efficiently than others.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-technical" class="form-input usp-aspect-txt" data-aspect="technical" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="e.g. Faster, safer, or higher efficacy than..."></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-impact" class="usp-aspect-chk" data-aspect="impact"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Societal or Environmental Impact</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your idea addresses a pressing challenge, e.g., health, pollution, or sustainability.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-impact" class="form-input usp-aspect-txt" data-aspect="impact" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="Which health/environmental challenge does it solve?"></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-economic" class="usp-aspect-chk" data-aspect="economic"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Economic Feasibility</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your project is cost-effective, scalable, or commercially viable.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-economic" class="form-input usp-aspect-txt" data-aspect="economic" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="Why is it cost-effective or commercially viable?"></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-scalability" class="usp-aspect-chk" data-aspect="scalability"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Scalability &amp; Future Potential</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your idea can expand or adapt to broader contexts or markets.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-scalability" class="form-input usp-aspect-txt" data-aspect="scalability" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="How can it scale or adapt to other uses?"></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; text-align: center;"><input type="checkbox" id="usp-chk-ethical" class="usp-aspect-chk" data-aspect="ethical"></td>
+                  <td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">Ethical &amp; Sustainable Edge</td>
+                  <td style="padding: 8px 10px; color: #475569;">Your solution uses eco-friendly, cruelty-free, or socially responsible methods.</td>
+                  <td style="padding: 6px 8px;"><input type="text" id="usp-txt-ethical" class="form-input usp-aspect-txt" data-aspect="ethical" style="font-size: 0.80rem; padding: 6px 8px;" placeholder="e.g. Eco-friendly, cruelty-free, biodegradable..."></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <!-- USP Statement Textarea -->
+          <!-- Compiled USP Statement Textarea -->
           <div style="margin-bottom: 12px;">
             <label for="usps-input" style="font-size: 0.80rem; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">
-              Your Unique Selling Proposition (USP) Statement:
+              Compiled USP Summary Statement (Auto-updated from checked rows above, or edit directly):
             </label>
-            <textarea id="usps-input" class="form-textarea" style="min-height: 80px; font-size: 0.84rem; padding: 8px 10px;" placeholder="Draft your proposal's USP statement following the formula above..."></textarea>
+            <textarea id="usps-input" class="form-textarea" style="min-height: 75px; font-size: 0.84rem; padding: 8px 10px;" placeholder="Check and fill the relevant USP aspects in the table above..."></textarea>
           </div>
 
           <!-- Action Buttons Bar -->
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
-            <button type="button" id="btn-insert-usp-template" class="btn btn-secondary" style="font-size: 0.78rem; font-weight: 700; padding: 6px 12px; display: flex; align-items: center; gap: 5px;">
-              <span>📥</span> Insert Winning USP Formula
-            </button>
             <button type="button" id="btn-audit-usp" class="btn btn-primary" style="font-size: 0.78rem; font-weight: 700; padding: 6px 12px; background: #d97706; border-color: #b45309; display: flex; align-items: center; gap: 5px;">
-              <span>🔬</span> Audit USP &amp; Check Strawman Competitors
+              <span>🔬</span> Audit USP Clarity
             </button>
           </div>
 
@@ -2477,6 +2501,29 @@ window.switchMatrixViewTab = function(tab) {
           <!-- Live Results Container -->
           <div id="agent-results-container" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
             <!-- Dynamic content populated by agent_bridge.js -->
+          </div>
+        </div>
+
+        <!-- BT_301 Pre-Submit Rubric & Integrity Checklist (85 Marks) -->
+        <div class="guide-card" id="card-bt301-rubric-checklist" style="border-top: 4px solid #0284c7; margin-bottom: 24px; background: #ffffff;">
+          <div class="guide-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div class="guide-card-title" style="color: #0369a1; font-weight: 800;">
+              📋 BT_301 Pre-Submit Rubric &amp; Integrity Checklist (85 Marks → 10.0 GPA)
+            </div>
+            <span class="badge-box" style="background: #e0f2fe; color: #0369a1; font-weight: 700;">Plagiarism &le; 25% &bull; AI Text &le; 20%</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; font-size: 0.79rem; color: #1e293b;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>1. Title (2%):</strong> Concise &amp; descriptive (All or none).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>2. Abstract (5%):</strong> 200–300 words (Problem 2%, Methods 2%, Findings 1%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>3. Background (20%):</strong> 1–2 pages (Problem 5%, Lit 5%, Gap 5%, Aim/Objectives 5%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>4. Methodology (15%):</strong> Accurate steps (5%), logical flow (5%), relevant (5%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>5. Expected Outcomes (10%):</strong> Results match methods (5%) + Figures used (5%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>6. Ansoff &amp; USPs (5%):</strong> Single quadrant + risks/importance (2.5%) + USP table (2.5%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>7. SWOT &amp; PESTEL (10%):</strong> 4 SWOT sections (5%) + 6 PESTEL factors (5%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>8. Time Plan (5%):</strong> Gantt chart steps (2%), logical estimates (2%), format (1%).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>9. Budget (5%):</strong> Consumables, Incentives, Utilities, Equipment, Total (1% each).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>10. References (5%):</strong> Relevant, &le;5 yrs back, style, order, in-text (1% each).</div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px;"><strong>11. Structure &amp; Coherence (3%):</strong> Grammar/spelling (1%), future tense methods (1%), structure (1%).</div>
           </div>
         </div>
 
