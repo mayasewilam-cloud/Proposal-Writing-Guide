@@ -4,7 +4,7 @@ Generates targeted Socratic clarification prompts when ambiguities or missing
 regulatory details are identified. Evaluates researcher answers without ghostwriting.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import datetime
 import uuid
 from .models import ResearchContext, ClarificationQuestion, FieldStatus
