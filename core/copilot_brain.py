@@ -690,12 +690,17 @@ def generate_socratic_thinking_response(
         lower
     ))
 
-    is_guide_direct = bool(re.search(
-        r'\b(bt301\s+guide|course\s+guide|complete\s+guide|student\s+guide|'
-        r'pre-submission\s+checklist|master\s+checklist|grading\s+rubric|how\s+is\s+my\s+proposal\s+graded|'
-        r'how\s+will\s+it\s+be\s+graded|stuck\s+finder|quick\s+finder|fill-in\s+templates?)\b',
+    is_rubric_audit_intent = bool(re.search(
+        r'\b(grading\s+rubric|rubric|how\s+is\s+my\s+proposal\s+graded|how\s+will\s+my\s+proposal\s+be\s+graded|'
+        r'how\s+will\s+it\s+be\s+graded|check\s+my\s+score|estimated\s+gpa|plagiarism|ai\s+generated|ai\s+text)\b',
         lower
-    )) or bool(re.match(r'^(show|open|read|view)?\s*chapter\s*(\d+)', lower))
+    ))
+
+    is_guide_direct = (bool(re.search(
+        r'\b(bt301\s+guide|course\s+guide|complete\s+guide|student\s+guide|'
+        r'pre-submission\s+checklist|master\s+checklist|stuck\s+finder|quick\s+finder|fill-in\s+templates?)\b',
+        lower
+    )) or bool(re.match(r'^(show|open|read|view)?\s*chapter\s*(\d+)', lower))) and not is_rubric_audit_intent
 
     # Comprehensive Contextual Guidance & Co-Thinking Intent
     is_guidance_request = (bool(re.search(
@@ -1002,17 +1007,16 @@ Assemble your title using this active, publication-grade formula:
 
 ---
 
-### 1. 📐 Executive Abstract Criteria (BT301 Rubric Criterion 2):
-• **Strict Word Count:** Must remain strictly between **150 and 250 words**. Under 150 words is penalized as incomplete; over 250 words is disqualified by grant review systems.
-• **4-Component Structure:**
-  1. *Problem Burden (1–2 sentences):* Quantified real-world significance and clinical/environmental burden.
-  2. *Current Limitation & Gap (1–2 sentences):* Where existing standard methods fail.
-  3. *Proposed Tool & Methodology (2–3 sentences):* Your active intervention, model system, and paired controls.
-  4. *Expected Milestone (1 sentence):* Primary quantitative deliverable benchmarked against standard controls.
+### 1. 📐 Executive Abstract Criteria (BT301 Rubric Criterion 2 — 5%):
+• **Word Count:** Must be **200–300 words** (under 200 words is incomplete; over 300 words loses marks).
+• **3 Graded Elements:**
+  1. *Main Problem (2%):* Quantified real-world burden and why existing approaches fall short.
+  2. *Brief Methodology (2%):* Your active tool, model system, and key experimental steps/controls.
+  3. *Key Findings / Expected Outcomes (1%):* Primary quantitative deliverable and concluding relevance.
 
 ---
 
-### 2. ✍️ Fill-in-the-Blank Abstract Blueprint (150–250 words):
+### 2. ✍️ Fill-in-the-Blank Abstract Blueprint (200–300 words):
 • *Burden:* "[Condition] affects [quantified prevalence], resulting in [consequence]."
 • *Current Limitation:* "Current standard treatment using [comparator] is limited by [drawback]."
 • *Proposed Tool & Chassis:* "Here, we propose [active tool] formulated in [delivery system] evaluated in [model chassis]."
@@ -1036,48 +1040,38 @@ Assemble your title using this active, publication-grade formula:
             ]
 
         elif comp == "usp":
-            reply = f"""⭐ **Academic Mentor Guidance — Formulating Your Unique Selling Proposition (USP)**
+            reply = f"""⭐ **Academic Mentor Guidance — How to Identify Your USPs (2.5%)**
 
-⚠️ **Academic Integrity Notice:** As your academic research mentor, I do not invent commercial claims or generate market positioning on your behalf. Grant reviewers scrutinize your ability to identify the concrete technical and mechanistic differentiation of your proposed bio-innovation.
+⚠️ **Academic Integrity Notice:** As your academic mentor, I guide you on how to frame your Unique Selling Points (USPs) rather than inventing claims for you.
 
-Here is how we construct a winning biotechnology USP before filling the Ansoff Matrix:
-
----
-
-### 1. 📐 The 3-Part Winning Biotechnology USP Formula:
-Never use the 'Strawman Competitor' trap (*"unlike traditional methods"* or *"unlike conventional approaches"*). Name the exact commercial or published benchmark!
-
-**USP Template:**
-*"Unlike **[Named Gold Standard / Commercial Incumbent]**, our **[Bio-Engineered Tool / Formulation]** **[Specific Mechanistic / Technical Superiority]**, achieving **[Quantifiable Performance Metric]** and providing **[Concrete Stakeholder / Clinical Benefit]**."*
-
-• *Example (Phytochemical / Topical):* "Unlike conventional 1% hydrocortisone cream which causes skin thinning upon recurrent use, our standardized *Calendula officinalis* emulsion selectively suppresses TNF-α and NO by >65% without inducing epidermal cytotoxicity."
-• *Example (Recombinant Enzyme / White Biotech):* "Unlike commercial *Aspergillus niger* esterase which denatures rapidly above 55 °C, our engineered *Bacillus* E1 esterase retains >50% catalytic viability after 48 h at 60 °C, cutting industrial enzyme replenishment costs."
+In Phase 3's **USP Table**, check **only the aspects that genuinely apply** to {tool_label} and explain how your project delivers them:
 
 ---
 
-### 2. 💡 Guiding Socratic Questions to Formulate Your USP:
-1. What exact commercial benchmark or published method is currently the gold standard in your field?
-2. What specific biophysical or chemical failure mode of that standard does {tool_label} directly solve?
-3. What quantitative metric (e.g. % yield, IC50, thermal half-life, detection limit) proves your tool's superiority?
-4. Who is the tangible clinical, environmental, or manufacturing beneficiary?
+### 1. 📋 The 6 Official BT_301 USP Aspects:
+1. **Scientific Novelty:** Does your idea introduce a new concept, mechanism, or interdisciplinary approach?
+2. **Technical Advantage:** Does your design, formulation, or process perform better, faster, safer, or more efficiently than existing methods?
+3. **Societal or Environmental Impact:** Does it address a pressing health, pollution, or sustainability challenge?
+4. **Economic Feasibility:** Is your project cost-effective, scalable, or commercially viable?
+5. **Scalability & Future Potential:** Can it expand or adapt to broader contexts or markets?
+6. **Ethical & Sustainable Edge:** Does it use eco-friendly, cruelty-free, or socially responsible methods?
 
 ---
 
-### 3. ✅ Self-Check Checklist:
-⬜ Did you name the exact commercial standard rather than saying 'traditional methods'?  
-⬜ Is the superiority mechanistic (e.g. kinetic stability, receptor affinity) rather than marketing hype?  
-⬜ Is there a quantified target metric?  
-⬜ Does your USP directly align with your Ansoff quadrant (Market Penetration vs. Product Development)?
+### 2. 💡 Guiding Socratic Questions:
+1. Which 2–4 aspects above are strongest for {tool_label}? *(You don't need all 6—fill only what is relevant!)*
+2. For **Technical Advantage**, what exact existing benchmark are you outperforming, and by what measurable metric?
+3. How do your checked USP aspects support the **single Ansoff quadrant** you selected below the table?
 
-👉 **Next Step:** Fill the bracket slots with your project data in the USP card of Step 1, or share your draft here for Socratic feedback!"""
+👉 **Next Step:** Check and fill the relevant rows in the USP Table in Phase 3 — your summary statement will auto-compile below it!"""
 
             actions = [
-                {"label": "Jump to USP Card in Editor", "icon": "⭐", "onClickJs": "jumpToEditorSection('card-section-usp')"},
-                {"label": "Review Ansoff Matrix", "icon": "📊", "onClickJs": "jumpToEditorSection('card-section-ansoff')"}
+                {"label": "Jump to USP Table in Phase 3", "icon": "⭐", "onClickJs": "jumpToEditorSection('card-section-usp')"},
+                {"label": "Review Ansoff Matrix (Phase 3)", "icon": "📊", "onClickJs": "jumpToEditorSection('card-section-6-ansoff')"}
             ]
             suggestions = [
-                {"text": "💡 How to avoid the strawman competitor trap?", "prompt": "how to avoid strawman competitor in my biotechnology proposal"},
-                {"text": "📊 How does my USP connect to the Ansoff Matrix?", "prompt": "how to choose between Market Penetration and Product Development in Ansoff"}
+                {"text": "📊 Which Ansoff quadrant fits my project?", "prompt": "how to choose the single relevant Ansoff quadrant and state risks"},
+                {"text": "⚖️ Check my draft against the 85-mark rubric", "prompt": "how will my proposal be graded"}
             ]
 
         else: # proposal_blueprint or general ghostwrite request
@@ -2538,6 +2532,63 @@ What citation or reference would you like to format or audit right now? Paste yo
         }
 
     # BT301 ROUTE: Course Guide Navigator & Chapter Lookup
+    elif is_rubric_audit_intent:
+        thinking_steps.append("Running live BT_301 85-mark rubric audit on student's current draft.")
+        try:
+            from .audit_rules import calculate_full_rubric_audit
+            audit = calculate_full_rubric_audit(context if isinstance(context, dict) else {})
+        except Exception:
+            audit = {"raw_total": 0.0, "gpa_score": 0.0, "breakdown": {}}
+
+        bd = audit.get("breakdown", {})
+        raw_85 = audit.get("raw_total", 0.0)
+        gpa_10 = audit.get("gpa_score", 0.0)
+        abs_words = len((context.get("abstract") or "").split()) if isinstance(context, dict) else 0
+
+        def _sc(key: str, mx: float) -> str:
+            val = bd.get(key, {}).get("score", 0.0)
+            icon = "✅" if val >= mx * 0.75 else ("⚠️" if val > 0 else "⬜")
+            return f"{icon} **{val:.1f} / {mx:.0f}**"
+
+        reply = f"""### ⚖️ Live BT_301 Rubric & Integrity Diagnostic
+**Estimated Score:** `{raw_85:.1f} / 85.0` &rarr; **`{gpa_10:.1f} / 10.0 GPA`** *(Scaled = Original / 85 &times; 10)*
+
+| Criterion | Weight | Live Status | Key Requirement |
+| :--- | :---: | :---: | :--- |
+| **1. Title** | 2% | {_sc('title', 2.0)} | Concise &amp; descriptive (All or none) |
+| **2. Abstract** | 5% | {_sc('abstract', 5.0)} | **200–300 words** (Currently: {abs_words}w) |
+| **3. Background** | 20% | {_sc('background', 20.0)} | Problem, Lit, Gap, Aim &amp; Objectives |
+| **4. Methodology** | 15% | {_sc('methodology', 15.0)} | Accurate, logical flow, future tense |
+| **5. Expected Outcomes** | 10% | {_sc('expected_outcomes', 10.0)} | Results match methods (5%) + **Figures (5%)** |
+| **6. Ansoff &amp; USPs** | 5% | {_sc('competitive_advantage', 5.0)} | Single quadrant + risks (2.5%) + USP table (2.5%) |
+| **7. SWOT &amp; PESTEL** | 10% | {_sc('swot_pestel', 10.0)} | 4 SWOT + 6 PESTEL sections |
+| **8. Time Plan** | 5% | {_sc('time_plan', 5.0)} | Gantt chart steps, estimates, format |
+| **9. Budget** | 5% | {_sc('budget', 5.0)} | Consumables, Incentives, Utilities, Equipment, Total |
+| **10. References** | 5% | {_sc('references', 5.0)} | Relevant, **&le;5 yrs back**, style, order, in-text |
+| **11. Structure** | 3% | {_sc('structure', 3.0)} | Grammar, future tense methods, structure |
+
+---
+
+🛡️ **Academic Integrity Thresholds:**
+- **Accepted Plagiarism:** **&le; 25%**
+- **Accepted AI-Generated Text:** **&le; 20%**"""
+
+        actions = [
+            {"label": "Jump to Pre-Submit Checklist", "icon": "📋", "onClickJs": "jumpToEditorSection('card-bt301-rubric-checklist')"},
+            {"label": "Check USP Table (Phase 3)", "icon": "⭐", "onClickJs": "jumpToEditorSection('card-section-usp')"}
+        ]
+        suggestions = [
+            {"text": "✍️ How do I write a 200–300 word abstract?", "prompt": "how to write abstract"},
+            {"text": "⭐ Help me fill the 6-aspect USP table", "prompt": "how to write a usp"}
+        ]
+        return {
+            "reply": reply,
+            "actions": actions,
+            "suggestions": suggestions,
+            "thinking": thinking_steps,
+            "concept": "bt301_rubric_audit"
+        }
+
     elif is_guide_direct:
         thinking_steps.append("Identified BT301 Complete Course Guide Navigation Query.")
         ch_match = re.search(r'chapter\s*(\d+)', lower)
