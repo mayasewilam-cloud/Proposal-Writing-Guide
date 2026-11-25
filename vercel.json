@@ -1,33 +1,3 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/agent/api/(.*)",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/bt301_guide_data.js",
-      "destination": "/bt301_guide_data.js"
-    },
-    {
-      "source": "/detectr_aqua_figure2.png",
-      "destination": "/detectr_aqua_figure2.png"
-    },
-    {
-      "source": "/data/(.*)",
-      "destination": "/data/$1"
-    },
-    {
-      "source": "/static/(.*)",
-      "destination": "/static/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.py"
-    }
-  ]
+  "version": 2
 }
