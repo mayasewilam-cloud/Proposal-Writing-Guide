@@ -2072,8 +2072,13 @@ def _sync_team_workspace_metadata(db: Dict[str, Any], team: Dict[str, Any]) -> D
     """
     tid = team["team_id"]
     wpath = _workspace_path(tid)
+    safe_tid = re.sub(r"[^a-zA-Z0-9_\-\.]", "_", tid.strip().upper())
     ws: Dict[str, Any] = {}
-    if os.path.exists(wpath):
+    if is_blob_enabled():
+        blob_ws = blob_get_json(f"team_workspaces/{safe_tid}.json")
+        if isinstance(blob_ws, dict) and blob_ws:
+            ws = blob_ws
+    if not ws and os.path.exists(wpath):
         try:
             with open(wpath, "r", encoding="utf-8") as f:
                 ws = json.load(f)
@@ -2157,6 +2162,8 @@ def _sync_team_workspace_metadata(db: Dict[str, Any], team: Dict[str, Any]) -> D
 
     with open(wpath, "w", encoding="utf-8") as f:
         json.dump(ws, f, indent=2, ensure_ascii=False)
+    if is_blob_enabled():
+        blob_put_json(f"team_workspaces/{safe_tid}.json", ws)
 
     return ws
 
@@ -2301,6 +2308,9 @@ def update_team_workspace(
         wpath = _workspace_path(clean_tid)
         with open(wpath, "w", encoding="utf-8") as f:
             json.dump(ws, f, indent=2, ensure_ascii=False)
+        if is_blob_enabled():
+            safe_tid = re.sub(r"[^a-zA-Z0-9_\-\.]", "_", clean_tid.strip().upper())
+            blob_put_json(f"team_workspaces/{safe_tid}.json", ws)
 
         tm["updated_at"] = _now_str()
         _save_db(db)

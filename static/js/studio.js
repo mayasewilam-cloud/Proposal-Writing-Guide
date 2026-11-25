@@ -1764,6 +1764,9 @@ function scrapeAllDomInputsToProjectState() {
   }
   
   if (!projectState.ansoff) projectState.ansoff = {};
+  const ansQ = getVal("ansoff-primary-quadrant"); if (ansQ !== undefined) projectState.ansoff.selected_quadrant = ansQ;
+  const ansImp = getVal("ansoff-importance"); if (ansImp !== undefined) projectState.ansoff.importance = ansImp;
+  const ansRsk = getVal("ansoff-risks"); if (ansRsk !== undefined) projectState.ansoff.risks = ansRsk;
   const ansP = getVal("ansoff-penetration"); if (ansP !== undefined) projectState.ansoff.penetration = ansP;
   const ansPd = getVal("ansoff-prod-dev"); if (ansPd !== undefined) projectState.ansoff.prod_dev = ansPd;
   const ansM = getVal("ansoff-mkt-dev"); if (ansM !== undefined) projectState.ansoff.mkt_dev = ansM;
@@ -3627,6 +3630,9 @@ function populateFormFields() {
 
   // Section 6 Ansoff
   const ans = projectState.ansoff || {};
+  setVal("ansoff-primary-quadrant", ans.selected_quadrant || "");
+  setVal("ansoff-importance", ans.importance || "");
+  setVal("ansoff-risks", ans.risks || "");
   setVal("ansoff-penetration", ans.penetration || "");
   setVal("ansoff-prod-dev", ans.prod_dev || "");
   setVal("ansoff-mkt-dev", ans.mkt_dev || "");
@@ -3857,6 +3863,25 @@ function initFormBindings() {
   bind("ansoff-mkt-dev", v => {
     if (!projectState.ansoff) projectState.ansoff = {};
     projectState.ansoff.mkt_dev = v;
+    renderLiveManuscript();
+  });
+  const ansSel = document.getElementById("ansoff-primary-quadrant");
+  if (ansSel) {
+    ansSel.addEventListener("change", (e) => {
+      if (!projectState.ansoff) projectState.ansoff = {};
+      projectState.ansoff.selected_quadrant = e.target.value;
+      saveToStorage();
+      renderLiveManuscript();
+    });
+  }
+  bind("ansoff-importance", v => {
+    if (!projectState.ansoff) projectState.ansoff = {};
+    projectState.ansoff.importance = v;
+    renderLiveManuscript();
+  });
+  bind("ansoff-risks", v => {
+    if (!projectState.ansoff) projectState.ansoff = {};
+    projectState.ansoff.risks = v;
     renderLiveManuscript();
   });
   bind("ansoff-diversification", v => {
@@ -9365,17 +9390,15 @@ function renderQuadrantHtml() {
 // 7. Output 5: Budget Donut Chart
 // ==========================================================================
 function normalizeBudgetCategory(cat) {
-  if (!cat) return "B. Consumables & Reagents";
+  if (!cat) return "Consumables";
   const c = String(cat).trim();
   if (typeof OFFICIAL_BUDGET_CATEGORIES !== "undefined" && OFFICIAL_BUDGET_CATEGORIES.includes(c)) return c;
   const low = c.toLowerCase();
-  if (low.startsWith("a.") || low.includes("equip") || low.includes("facilit")) return "A. Equipment & Facilities";
-  if (low.startsWith("b.") || low.includes("consum") || low.includes("reagent")) return "B. Consumables & Reagents";
-  if (low.startsWith("c.") || low.includes("travel") || low.includes("field")) return "C. Travel & Field Work";
-  if (low.startsWith("d.") || low.includes("person") || low.includes("stipend")) return "D. Personnel & Student Stipends";
-  if (low.startsWith("e.") || low.includes("train") || low.includes("comput") || low.includes("software")) return "E. Training & Computational/Software";
-  if (low.startsWith("f.") || low.includes("other") || low.includes("conting")) return "F. Other Direct Costs & Contingency";
-  return "B. Consumables & Reagents";
+  if (low.startsWith("a.") || low.includes("equip") || low.includes("facilit")) return "Equipment";
+  if (low.startsWith("b.") || low.includes("consum") || low.includes("reagent")) return "Consumables";
+  if (low.startsWith("d.") || low.includes("incent") || low.includes("person") || low.includes("stipend")) return "Incentives";
+  if (low.startsWith("c.") || low.startsWith("e.") || low.startsWith("f.") || low.includes("utilit") || low.includes("travel") || low.includes("train") || low.includes("comput") || low.includes("other") || low.includes("conting")) return "Utilities";
+  return "Consumables";
 }
 
 function renderDonutHtml() {
@@ -9384,12 +9407,10 @@ function renderDonutHtml() {
     : DEFAULT_EGP_BUDGET_ITEMS;
 
   const catTotals = {
-    "A. Equipment & Facilities": 0,
-    "B. Consumables & Reagents": 0,
-    "C. Travel & Field Work": 0,
-    "D. Personnel & Student Stipends": 0,
-    "E. Training & Computational/Software": 0,
-    "F. Other Direct Costs & Contingency": 0
+    "Consumables": 0,
+    "Incentives": 0,
+    "Utilities": 0,
+    "Equipment": 0
   };
 
   let grandTotal = 0;
@@ -9402,19 +9423,17 @@ function renderDonutHtml() {
     if (catTotals[cat] !== undefined) {
       catTotals[cat] += sub;
     } else {
-      catTotals["B. Consumables & Reagents"] += sub;
+      catTotals["Consumables"] += sub;
     }
   });
 
   if (grandTotal <= 0) grandTotal = 202000;
 
   const catColors = {
-    "A. Equipment & Facilities": "#4338ca",
-    "B. Consumables & Reagents": "#059669",
-    "C. Travel & Field Work": "#d97706",
-    "D. Personnel & Student Stipends": "#2563eb",
-    "E. Training & Computational/Software": "#7c3aed",
-    "F. Other Direct Costs & Contingency": "#e11d48"
+    "Consumables": "#059669",
+    "Incentives": "#2563eb",
+    "Utilities": "#d97706",
+    "Equipment": "#4338ca"
   };
 
   const cx = 140, cy = 140, rOuter = 110, rInner = 65;
@@ -10645,6 +10664,9 @@ function applyCloudDraftToWorkspace(draft) {
 
   // Section 6 Ansoff
   const ans = projectState.ansoff || {};
+  setVal("ansoff-primary-quadrant", ans.selected_quadrant || "");
+  setVal("ansoff-importance", ans.importance || "");
+  setVal("ansoff-risks", ans.risks || "");
   setVal("ansoff-penetration", ans.penetration || "");
   setVal("ansoff-prod-dev", ans.prod_dev || "");
   setVal("ansoff-mkt-dev", ans.mkt_dev || "");
@@ -13198,22 +13220,19 @@ function initAnsoffMatrix() {
 
 // 9. Section 9.2 Budget in Egyptian Pounds (EGP)
 const OFFICIAL_BUDGET_CATEGORIES = [
-  "A. Equipment & Facilities",
-  "B. Consumables & Reagents",
-  "C. Travel & Field Work",
-  "D. Personnel & Student Stipends",
-  "E. Training & Computational/Software",
-  "F. Other Direct Costs & Contingency"
+  "Consumables",
+  "Incentives",
+  "Utilities",
+  "Equipment"
 ];
 
 const DEFAULT_EGP_BUDGET_ITEMS = [
-  { desc: "Custom Primers, Oligos & Gene Synthesis", category: "B. Consumables & Reagents", justification: "PCR amplification & target construct cloning verification", qty: 1, unit_cost: 25000 },
-  { desc: "High-Fidelity Polymerases & Restriction Enzymes", category: "B. Consumables & Reagents", justification: "High-fidelity amplicon generation and restriction verification", qty: 2, unit_cost: 18000 },
-  { desc: "Sanger Sequencing & Plasmid Verification Services", category: "B. Consumables & Reagents", justification: "Sequence confirmation across biological replicates", qty: 1, unit_cost: 22000 },
-  { desc: "Core Facility Shared Equipment Bench Access (HPLC & Spectrophotometry)", category: "A. Equipment & Facilities", justification: "High-precision endpoint quantification across replicates", qty: 1, unit_cost: 45000 },
-  { desc: "Student Research Assistant Stipends (3 students x 12,000 EGP)", category: "D. Personnel & Student Stipends", justification: "Technical laboratory support for assay execution & triplicates", qty: 3, unit_cost: 12000 },
-  { desc: "Bioinformatics Cloud Compute & Structural Modeling Software", category: "E. Training & Computational/Software", justification: "In silico construct modeling & statistical regression analysis", qty: 1, unit_cost: 15000 },
-  { desc: "Unforeseen Experimental Contingency & Waste Disposal (5%)", category: "F. Other Direct Costs & Contingency", justification: "Consumable buffer replenishment and biohazard disposal compliance", qty: 1, unit_cost: 15000 }
+  { desc: "Custom Primers, Oligos & Gene Synthesis", category: "Consumables", justification: "PCR amplification & target construct cloning verification", qty: 1, unit_cost: 25000 },
+  { desc: "High-Fidelity Polymerases & Restriction Enzymes", category: "Consumables", justification: "High-fidelity amplicon generation and restriction verification", qty: 2, unit_cost: 18000 },
+  { desc: "Sanger Sequencing & Plasmid Verification Services", category: "Consumables", justification: "Sequence confirmation across biological replicates", qty: 1, unit_cost: 22000 },
+  { desc: "Core Facility Shared Equipment Bench Access (HPLC & Spectrophotometry)", category: "Equipment", justification: "High-precision endpoint quantification across replicates", qty: 1, unit_cost: 45000 },
+  { desc: "Student Research Assistant Stipends (3 students x 12,000 EGP)", category: "Incentives", justification: "Technical laboratory support for assay execution & triplicates", qty: 3, unit_cost: 12000 },
+  { desc: "Bioinformatics Cloud Compute, Lab Utilities & Biohazard Disposal", category: "Utilities", justification: "In silico modeling, lab power/water, and waste disposal compliance", qty: 1, unit_cost: 15000 }
 ];
 
 function initBudgetEGP() {
@@ -13226,7 +13245,7 @@ function initBudgetEGP() {
   if (btnAdd && !btnAdd._wired) {
     btnAdd._wired = true;
     btnAdd.addEventListener("click", () => {
-      projectState.budget_egp_items.push({ desc: "", category: "B. Consumables & Reagents", qty: 1, unit_cost: 0 });
+      projectState.budget_egp_items.push({ desc: "", category: "Consumables", qty: 1, unit_cost: 0 });
       saveToStorage();
       renderBudgetEGPTable();
     });
@@ -13301,8 +13320,8 @@ window.recalculateEgpBudget = function() {
   if (breakdownEl) {
     breakdownEl.innerHTML = OFFICIAL_BUDGET_CATEGORIES.map(c => {
       const amt = catTotals[c] || 0;
-      const letter = c.slice(0, 2);
-      return `<span style="display:inline-block; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:4px; padding:3px 8px; font-size:0.75rem; margin-right:6px; margin-bottom:4px;"><strong>${letter}</strong> ${amt.toLocaleString('en-US')} EGP</span>`;
+      const label = c;
+      return `<span style="display:inline-block; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:4px; padding:3px 8px; font-size:0.75rem; margin-right:6px; margin-bottom:4px;"><strong>${label}:</strong> ${amt.toLocaleString('en-US')} EGP</span>`;
     }).join("");
   }
 
@@ -13389,8 +13408,8 @@ function renderBudgetEGPTable() {
   if (breakdownEl) {
     breakdownEl.innerHTML = OFFICIAL_BUDGET_CATEGORIES.map(c => {
       const amt = catTotals[c] || 0;
-      const letter = c.slice(0, 2);
-      return `<span style="display:inline-block; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:4px; padding:3px 8px; font-size:0.75rem; margin-right:6px; margin-bottom:4px;"><strong>${letter}</strong> ${amt.toLocaleString('en-US')} EGP</span>`;
+      const label = c;
+      return `<span style="display:inline-block; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:4px; padding:3px 8px; font-size:0.75rem; margin-right:6px; margin-bottom:4px;"><strong>${label}:</strong> ${amt.toLocaleString('en-US')} EGP</span>`;
     }).join("");
   }
 

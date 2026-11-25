@@ -1,0 +1,13 @@
+.git
+__pycache__
+*.pyc
+backups
+backups_*
+scratch
+docs
+REPORTS
+PILOT_PACKAGE
+tests
+.env
+.env.*
+!.env.example

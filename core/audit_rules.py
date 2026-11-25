@@ -1147,15 +1147,15 @@ def calculate_full_rubric_audit(proposal_data: Dict[str, Any]) -> Dict[str, Any]
     # Overall GPA and Raw Total
     if is_basic_science:
         # In Basic Science Track, Domain C is not applicable
-        raw_total = (
+        raw_total = round(
             title_res["score"] +
             abstract_res["score"] +
             funnel_res["score"] +
             method_res["score"] +
             outcomes_total +
-            aims_res["score"] +
             refs_score +
-            structure_score
+            structure_score,
+            1,
         )
         max_possible = 60.0
         scaled_score_85 = round((raw_total / max_possible) * 85.0, 1)
