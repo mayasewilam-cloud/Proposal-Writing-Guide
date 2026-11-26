@@ -1,9 +1,9 @@
 """
-Lightweight Vercel Blob Storage adapter for BioWriter Studio.
+Vercel Blob Storage adapter for BioWriter Studio.
 
-Automatically activates when BLOB_READ_WRITE_TOKEN is configured in the
-environment (e.g., on Vercel Serverless). Falls back cleanly to local/tmp
-filesystem storage when running locally or in unit tests.
+Uses the official `vercel.blob.sync` SDK when installed (on Vercel), with a
+lightweight `requests` fallback. Automatically activates when
+BLOB_READ_WRITE_TOKEN is configured in the environment.
 """
 
 import json
@@ -12,6 +12,11 @@ import sys
 import time
 from typing import Any, Dict, List, Optional
 import requests
+
+try:
+    from vercel.blob import sync as _vblob
+except Exception:
+    _vblob = None
 
 BLOB_API_BASE = "https://blob.vercel-storage.com"
 BLOB_API_VERSION = "12"
@@ -44,6 +49,20 @@ def blob_list_prefix(prefix: str, timeout: float = 10.0) -> List[Dict[str, Any]]
     if not is_blob_enabled():
         return []
     full_prefix = _namespaced(prefix)
+    if _vblob is not None:
+        try:
+            items = list(_vblob.query_blobs(prefix=full_prefix))
+            return [
+                {
+                    "pathname": getattr(b, "pathname", ""),
+                    "url": getattr(b, "url", ""),
+                    "uploadedAt": str(getattr(b, "uploaded_at", "")),
+                }
+                for b in items
+            ]
+        except Exception as e:
+            LAST_BLOB_DIAG["sdk_list_err"] = str(e)
+            print(f"[blob_store] SDK LIST exception: {e}", file=sys.stderr)
     try:
         resp = requests.get(
             BLOB_API_BASE,
@@ -54,9 +73,10 @@ def blob_list_prefix(prefix: str, timeout: float = 10.0) -> List[Dict[str, Any]]
         if resp.ok:
             payload = resp.json()
             return payload.get("blobs", []) if isinstance(payload, dict) else []
-        print(f"[blob_store] LIST failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
+        LAST_BLOB_DIAG["list_status"] = resp.status_code
+        LAST_BLOB_DIAG["list_body"] = resp.text[:200]
     except Exception as e:
-        print(f"[blob_store] LIST exception: {e}", file=sys.stderr)
+        LAST_BLOB_DIAG["list_exception"] = str(e)
     return []
 
 
@@ -87,10 +107,8 @@ def blob_get_json(pathname: str, timeout: float = 10.0) -> Optional[Any]:
         if resp.ok:
             return resp.json()
         LAST_BLOB_DIAG["get_body"] = resp.text[:250]
-        print(f"[blob_store] GET {full_path} failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
     except Exception as e:
         LAST_BLOB_DIAG["get_exception"] = str(e)
-        print(f"[blob_store] GET {full_path} exception: {e}", file=sys.stderr)
     return None
 
 
@@ -100,6 +118,23 @@ def blob_put_json(pathname: str, data: Any, timeout: float = 15.0) -> bool:
         return False
     full_path = _namespaced(pathname)
     body = json.dumps(data, indent=2, ensure_ascii=False).encode("utf-8")
+
+    if _vblob is not None:
+        for access_mode in ("private", "public"):
+            try:
+                _vblob.put_blob(
+                    full_path,
+                    body,
+                    access=access_mode,
+                    content_type="application/json",
+                    add_random_suffix=False,
+                    allow_overwrite=True,
+                )
+                return True
+            except Exception as e:
+                LAST_BLOB_DIAG[f"sdk_put_{access_mode}_err"] = str(e)[:250]
+                print(f"[blob_store] SDK PUT ({access_mode}) exception: {e}", file=sys.stderr)
+
     url = f"{BLOB_API_BASE}/{full_path}"
     base_headers = {
         **_auth_headers(),
@@ -108,17 +143,15 @@ def blob_put_json(pathname: str, data: Any, timeout: float = 15.0) -> bool:
         "x-add-random-suffix": "0",
         "x-allow-overwrite": "1",
     }
-    for extra in ({"x-vercel-blob-access": "private"}, {"x-vercel-blob-access": "public"}, {}):
+    for extra in ({"x-access": "private"}, {"x-access": "public"}, {}):
         try:
             resp = requests.put(url, data=body, headers={**base_headers, **extra}, timeout=timeout)
             LAST_BLOB_DIAG["put_status"] = resp.status_code
             LAST_BLOB_DIAG["put_body"] = resp.text[:250]
             if resp.ok:
                 return True
-            print(f"[blob_store] PUT {full_path} ({extra or 'default'}) failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
         except Exception as e:
             LAST_BLOB_DIAG["put_exception"] = str(e)
-            print(f"[blob_store] PUT {full_path} exception: {e}", file=sys.stderr)
     return False
 
 
@@ -131,6 +164,12 @@ def blob_delete(pathname: str, timeout: float = 10.0) -> bool:
     urls = [b.get("url") for b in blobs if b.get("pathname") == full_path and b.get("url")]
     if not urls:
         return False
+    if _vblob is not None:
+        try:
+            _vblob.delete_blob(urls)
+            return True
+        except Exception as e:
+            print(f"[blob_store] SDK DELETE exception: {e}", file=sys.stderr)
     try:
         resp = requests.post(
             f"{BLOB_API_BASE}/delete",
@@ -146,6 +185,5 @@ def blob_delete(pathname: str, timeout: float = 10.0) -> bool:
                 timeout=timeout,
             )
         return resp.ok
-    except Exception as e:
-        print(f"[blob_store] DELETE {full_path} exception: {e}", file=sys.stderr)
+    except Exception:
         return False
