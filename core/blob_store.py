@@ -8,10 +8,13 @@ filesystem storage when running locally or in unit tests.
 
 import json
 import os
+import sys
+import time
 from typing import Any, Dict, List, Optional
 import requests
 
 BLOB_API_BASE = "https://blob.vercel-storage.com"
+BLOB_API_VERSION = "7"
 BLOB_NAMESPACE = "biowriter"
 
 
@@ -22,7 +25,10 @@ def is_blob_enabled() -> bool:
 
 def _auth_headers() -> Dict[str, str]:
     token = os.environ.get("BLOB_READ_WRITE_TOKEN", "").strip()
-    return {"Authorization": f"Bearer {token}"}
+    return {
+        "Authorization": f"Bearer {token}",
+        "x-api-version": BLOB_API_VERSION,
+    }
 
 
 def _namespaced(pathname: str) -> str:
@@ -47,8 +53,9 @@ def blob_list_prefix(prefix: str, timeout: float = 10.0) -> List[Dict[str, Any]]
         if resp.ok:
             payload = resp.json()
             return payload.get("blobs", []) if isinstance(payload, dict) else []
-    except Exception:
-        pass
+        print(f"[blob_store] LIST failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
+    except Exception as e:
+        print(f"[blob_store] LIST exception: {e}", file=sys.stderr)
     return []
 
 
@@ -65,14 +72,21 @@ def blob_get_json(pathname: str, timeout: float = 10.0) -> Optional[Any]:
     url = matches[0].get("url")
     if not url:
         return None
+    sep = "&" if "?" in url else "?"
+    fresh_url = f"{url}{sep}cb={int(time.time() * 1000)}"
     try:
-        resp = requests.get(url, headers=_auth_headers(), timeout=timeout)
+        resp = requests.get(
+            fresh_url,
+            headers={**_auth_headers(), "Cache-Control": "no-cache"},
+            timeout=timeout,
+        )
         if not resp.ok:
-            resp = requests.get(url, timeout=timeout)
+            resp = requests.get(fresh_url, headers={"Cache-Control": "no-cache"}, timeout=timeout)
         if resp.ok:
             return resp.json()
-    except Exception:
-        pass
+        print(f"[blob_store] GET {full_path} failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
+    except Exception as e:
+        print(f"[blob_store] GET {full_path} exception: {e}", file=sys.stderr)
     return None
 
 
@@ -83,20 +97,21 @@ def blob_put_json(pathname: str, data: Any, timeout: float = 15.0) -> bool:
     full_path = _namespaced(pathname)
     body = json.dumps(data, indent=2, ensure_ascii=False).encode("utf-8")
     url = f"{BLOB_API_BASE}/{full_path}"
-    for access_mode in ("private", "public"):
-        headers = {
-            **_auth_headers(),
-            "Content-Type": "application/json",
-            "x-add-random-suffix": "0",
-            "x-allow-overwrite": "1",
-            "x-access": access_mode,
-        }
+    base_headers = {
+        **_auth_headers(),
+        "Content-Type": "application/json",
+        "x-content-type": "application/json",
+        "x-add-random-suffix": "0",
+        "x-allow-overwrite": "1",
+    }
+    for extra in ({}, {"x-access": "public"}, {"x-access": "private"}):
         try:
-            resp = requests.put(url, data=body, headers=headers, timeout=timeout)
+            resp = requests.put(url, data=body, headers={**base_headers, **extra}, timeout=timeout)
             if resp.ok:
                 return True
-        except Exception:
-            pass
+            print(f"[blob_store] PUT {full_path} ({extra or 'default'}) failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
+        except Exception as e:
+            print(f"[blob_store] PUT {full_path} exception: {e}", file=sys.stderr)
     return False
 
 
@@ -124,5 +139,6 @@ def blob_delete(pathname: str, timeout: float = 10.0) -> bool:
                 timeout=timeout,
             )
         return resp.ok
-    except Exception:
+    except Exception as e:
+        print(f"[blob_store] DELETE {full_path} exception: {e}", file=sys.stderr)
         return False
