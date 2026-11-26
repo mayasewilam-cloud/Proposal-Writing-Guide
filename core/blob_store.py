@@ -14,8 +14,9 @@ from typing import Any, Dict, List, Optional
 import requests
 
 BLOB_API_BASE = "https://blob.vercel-storage.com"
-BLOB_API_VERSION = "7"
+BLOB_API_VERSION = "12"
 BLOB_NAMESPACE = "biowriter"
+LAST_BLOB_DIAG: Dict[str, Any] = {}
 
 
 def is_blob_enabled() -> bool:
@@ -107,10 +108,13 @@ def blob_put_json(pathname: str, data: Any, timeout: float = 15.0) -> bool:
     for extra in ({}, {"x-access": "public"}, {"x-access": "private"}):
         try:
             resp = requests.put(url, data=body, headers={**base_headers, **extra}, timeout=timeout)
+            LAST_BLOB_DIAG["put_status"] = resp.status_code
+            LAST_BLOB_DIAG["put_body"] = resp.text[:250]
             if resp.ok:
                 return True
             print(f"[blob_store] PUT {full_path} ({extra or 'default'}) failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
         except Exception as e:
+            LAST_BLOB_DIAG["put_exception"] = str(e)
             print(f"[blob_store] PUT {full_path} exception: {e}", file=sys.stderr)
     return False
 

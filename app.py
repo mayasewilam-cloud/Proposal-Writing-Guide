@@ -265,7 +265,7 @@ def universal_api_cors_preflight(subpath):
 @app.route("/api/health", methods=["GET"])
 def api_health_check():
     """Lightweight health & storage diagnostics (never exposes secret values)."""
-    from core.blob_store import is_blob_enabled, blob_put_json, blob_get_json
+    from core.blob_store import is_blob_enabled, blob_put_json, blob_get_json, LAST_BLOB_DIAG
     blob_on = is_blob_enabled()
     blob_rw_ok = None
     if blob_on:
@@ -273,13 +273,15 @@ def api_health_check():
             ok_put = blob_put_json("_healthcheck.json", {"ok": True})
             got = blob_get_json("_healthcheck.json") if ok_put else None
             blob_rw_ok = bool(ok_put and isinstance(got, dict) and got.get("ok") is True)
-        except Exception:
+        except Exception as e:
+            LAST_BLOB_DIAG["health_exc"] = str(e)
             blob_rw_ok = False
     return jsonify({
         "status": "ok",
         "vercel": bool(os.environ.get("VERCEL")),
         "blob_enabled": blob_on,
         "blob_rw_ok": blob_rw_ok,
+        "blob_diag": LAST_BLOB_DIAG if blob_on and not blob_rw_ok else None,
     })
 
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
