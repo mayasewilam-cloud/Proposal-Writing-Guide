@@ -83,10 +83,13 @@ def blob_get_json(pathname: str, timeout: float = 10.0) -> Optional[Any]:
         )
         if not resp.ok:
             resp = requests.get(fresh_url, headers={"Cache-Control": "no-cache"}, timeout=timeout)
+        LAST_BLOB_DIAG["get_status"] = resp.status_code
         if resp.ok:
             return resp.json()
+        LAST_BLOB_DIAG["get_body"] = resp.text[:250]
         print(f"[blob_store] GET {full_path} failed ({resp.status_code}): {resp.text[:200]}", file=sys.stderr)
     except Exception as e:
+        LAST_BLOB_DIAG["get_exception"] = str(e)
         print(f"[blob_store] GET {full_path} exception: {e}", file=sys.stderr)
     return None
 
@@ -105,7 +108,7 @@ def blob_put_json(pathname: str, data: Any, timeout: float = 15.0) -> bool:
         "x-add-random-suffix": "0",
         "x-allow-overwrite": "1",
     }
-    for extra in ({}, {"x-access": "public"}, {"x-access": "private"}):
+    for extra in ({"x-vercel-blob-access": "private"}, {"x-vercel-blob-access": "public"}, {}):
         try:
             resp = requests.put(url, data=body, headers={**base_headers, **extra}, timeout=timeout)
             LAST_BLOB_DIAG["put_status"] = resp.status_code
