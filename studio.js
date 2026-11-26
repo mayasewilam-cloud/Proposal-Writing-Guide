@@ -2347,10 +2347,13 @@ let serverSyncTimeout = null;
 function triggerServerSyncDebounced() {
   if (serverSyncTimeout) clearTimeout(serverSyncTimeout);
   serverSyncTimeout = setTimeout(() => {
-    if (projectState.student_id && projectState.student_id.trim()) {
+    if (isStaticEnvironment()) return;
+    if (currentAuthUser && !currentAuthUser.is_guest && currentAuthUser.student_id) {
+      saveStudentDraftToServer(false);
+    } else if (projectState.student_id && projectState.student_id.trim()) {
       syncDraftToServer(false);
     }
-  }, 3000);
+  }, 2000);
 }
 
 async function syncDraftToServer(showNotification = true) {
@@ -3757,6 +3760,7 @@ function initFormBindings() {
         callback(e.target.value);
         saveToStorage();
         updateLiveScoreDebounced();
+        triggerServerSyncDebounced();
       });
     }
   };
@@ -3879,6 +3883,7 @@ function initFormBindings() {
       if (!projectState.ansoff) projectState.ansoff = {};
       projectState.ansoff.selected_quadrant = e.target.value;
       saveToStorage();
+      triggerServerSyncDebounced();
       renderLiveManuscript();
     });
   }
@@ -3996,6 +4001,7 @@ function initFormBindings() {
       if (uspsEl) uspsEl.value = compiled;
     }
     saveToStorage();
+    triggerServerSyncDebounced();
     if (typeof renderLiveManuscript === "function") renderLiveManuscript();
   };
   Object.keys(USP_ASPECT_LABELS).forEach(k => {
